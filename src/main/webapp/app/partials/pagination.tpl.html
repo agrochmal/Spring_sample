@@ -1,0 +1,30 @@
+<div>
+    <div class="col-md-2">
+    </div>
+    <div class="col-md-10 margin-top50">
+        <div style="width: 7%; display: inline-block;">
+            <select id="inputPageSize" class="form-control input-sm" ng-model="currentPageSize" ng-init="currentPageSize='10'">
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="50">50</option>
+            </select>
+        </div>
+        <div style="width: 15%;display: inline-block;">
+            <small>ogłoszeń na stronie</small>
+        </div>
+        <nav style="float:right; display: inline-block;">
+            <ul class="pagination">
+                <li ng-class="{disabled: paginationCmd.noPrev()}">
+                    <a href="" ng-click="paginationCmd.selectPrevious()">Poprzednia</a>
+                </li>
+                <li ng-repeat="page in pages"
+                    ng-class="{active: paginationCmd.isActive(page)}">
+                    <a href="" ng-click="paginationCmd.selectPage(page)">{{page}}</a>
+                </li>
+                <li ng-class="{disabled: paginationCmd.noNext()}">
+                    <a href="" ng-click="paginationCmd.selectNext()">Następna</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>

@@ -1,0 +1,38 @@
+<div class="modal-dialog" ng-controller="SendMailController">
+	<div class="modal-content">
+		<div class="modal-header" style="background-color:#14369b">
+			<button class="close" data-dismiss="modal" type="button">
+				<span aria-hidden="true">zamknij ×</span>
+			</button>
+			<span class="login-title">Napisz prywatną wiadomość</span>
+		</div>
+		<div class="modal-body">
+
+			<span ng-show="sendCommand.isSent">
+				Wiadomość została wysłana
+			</span>
+
+			<form role="form" novalidate>
+				<div class="form-group">
+					<input id="fromAddress" class="form-control" placeholder="Nadawca" type="text" name="fromAddress" ng-model="sendCommand.message.sender" ng-autofocus>
+				</div>
+				<div class="form-group">
+					<input id="toAddress" class="form-control" placeholder="Odbiorca" type="text" name="toAddress" ng-model="sendCommand.message.receipt">
+				</div>
+				<div class="form-group">
+					<input id="msgTitle" class="form-control" placeholder="Tytuł wiadomości" type="text" name="msgTitle" ng-model="sendCommand.message.title">
+				</div>
+
+				<div class="form-group">
+						<ng-editor id="msgContent" name="msgContent" model-name="sendCommand.message.content" rows="6" required></ng-editor>
+						<div class="error-container" ng-show="advertForm.$submitted || advertForm.description.$touched">
+							<small ng-show="advertForm.description.$error.required"> Wpisz treść wiadomości</small>
+						</div>
+				</div>
+			</form>
+		</div>
+		<div class="modal-footer">
+			<button class="btn action-btn" type="submit" ng-click="sendCommand.send()"> Wyślij wiadomość </button>
+		</div>
+	</div>
+</div>

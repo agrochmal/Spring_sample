@@ -1,0 +1,12 @@
+1. return ISO 9601 data time for objects
+2. zwracac dla advert tylko podane pola... ?fields=id,tytul,data dodania
+3. implement href links for first, last, next, prev for pagination -> HATEOS
+4. implement concurrency by ETag
+5. Obsluga bledow
+
+{
+    status: 500,
+    message:'Internar server error',
+    developerMessage: 'exception'
+}
+

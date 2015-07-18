@@ -1,0 +1,41 @@
+
+<ng-navigation-bar shift="90"></ng-navigation-bar>
+
+<div class="page-search page-top">
+
+	<div class="row">
+		<div class="col-md-12">
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-12">
+			<p ng-show="totalElements>0" class="search-p1">Znaleziono dla Ciebie {{totalElements}} ogłoszeń !</p>
+			<p ng-show="totalElements==0" class="search-p1">Przykro nam. Nie ma ogłoszeń spełniających Twoje kryteria !</p>
+			<ul class="search-list">
+				<li ng-repeat="advert in adverts" class="thumbnail">
+					<div class="row" ng-show="hasRole('admin')">
+						<div class="pull-right">
+							<a href="" ng-click="delete(advert.id)" class="btn btn-xs btn-default"  title="delete"><span class="glyphicon glyphicon-trash"></span></a>
+							<a href="#!/edit/{{book.id}}" class="btn btn-xs btn-default" title="edit"><span class="glyphicon glyphicon-pencil"></span></a>
+						</div>
+					</div>
+				    <div class="row">
+					   <a href="#/adverts/{{advert.id}}" class="thumb"><img ng-src="./app/images/thumb.jpg"></a>
+					   <a class="title" href="#/adverts/{{advert.id}}">{{advert.title}}</a>
+					   <p>{{advert.description}}</p>
+				    </div>
+				    <div class="row">
+					   <div class="search-left">
+				  		 <span>Gdzie: {{advert.locationName}}</span>
+				  	   </div>
+				       <div class="search-right">
+						   <span>Data dodania: {{advert.creationDate | date:'dd-MM-yyyy'}}</span>
+				       </div>
+				    </div>
+				</li>
+			</ul>
+		</div>
+		<ng-pagination num-pages="totalPages" current-page="currentPage" select-page-fn="loadPage(currentPage,currentPageSize)"></ng-pagination>
+	</div>
+</div>

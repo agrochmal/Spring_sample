@@ -1,0 +1,11 @@
+<h1><b> Dear ${userMessage.receipt} </b></h1>
+
+
+You got the question from <b>Demo</b> portal:
+
+${userMessage.content}
+
+
+
+Best regards,
+${userMessage.sender}

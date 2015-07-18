@@ -1,0 +1,112 @@
+<div class="modal-dialog" ng-controller="LoginController">
+	<div class="modal-content">
+		<div class="modal-header" style="background-color:#14369b">
+			<button class="close" data-dismiss="modal" type="button">
+				<span aria-hidden="true">zamknij ×</span>
+			</button>
+			<span class="login-title">Zarejestruj się w serwisie</span>
+		</div>
+		<div class="modal-body">
+			<form name="userForm" novalidate>
+				<div class="form-group">
+					<label class="control-label" for="inputUsername">Adres e-mail<span class="asterix"> *</span></label>
+					<input type="text" class="form-control" id="inputUsername" placeholder="Adres e-mail" name="username" ng-model="login.register.user.username" ng-model-options="{ updateOn: 'blur' }" ng-autofocus ng-validate-email ng-unique-email required>
+					<div class="error-container" ng-show="userForm.$submitted || userForm.username.$touched">
+						<small ng-show="userForm.username.$error.required">
+							Podaj adres e-mail
+						</small>
+					</div>
+					<div class="error-container" ng-show="userForm.username.$dirty">
+						<small ng-show="userForm.username.$error.email">
+							Podaj prawidłowy adres e-mail, np. joe@example.com
+						</small>
+					</div>
+					<div class="error-container" ng-show="userForm.username.$dirty">
+						<small ng-show="userForm.username.$error.unique">
+							Istnieje już konto z takim adresem
+						</small>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label" for="inputPassword">Hasło<span class="asterix"> *</span></label>
+					<input type="password" id="inputPassword" name="password" placeholder="Hasło" class="form-control" ng-model="login.register.user.password" ng-model-options="{ updateOn: 'blur' }" ng-validate-password required>
+					<div class="error-container" ng-show="userForm.$submitted || userForm.password.$touched">
+						<small ng-show="userForm.password.$error.required">
+							Podaj hasło
+						</small>
+					</div>
+					<div class="error-container" ng-show="userForm.password.$dirty">
+						<small ng-show="userForm.password.$error.password">
+							Hasło powinno mieć conajmniej 8 znaków
+						</small>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label" for="confirmPassword">Powtórz hasło<span class="asterix"> *</span></label>
+					<input id="confirmPassword" type="password" class="form-control" placeholder="Powtórz hasło" name="confirmPassword" ng-model="confirmPassword" ng-model-options="{ updateOn: 'blur' }" ng-validate-equals="login.register.user.password" required>
+
+					<div class="error-container" ng-show="userForm.$submitted || userForm.confirmPassword.$touched">
+						<small ng-show="userForm.confirmPassword.$error.required">
+							Powtórz hasło
+						</small>
+					</div>
+					<div class="error-container" ng-show="userForm.confirmPassword.$dirty">
+						<small ng-show="userForm.confirmPassword.$error.equal">
+							Hasła nie są identyczne
+						</small>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label" for="inputName">Imię i nazwisko<span class="asterix"> *</span></label>
+					<input type="text" class="form-control" id="inputName" placeholder="Imię i nazwisko" name="name" ng-model="login.register.user.name" ng-model-options="{ updateOn: 'blur' }" required>
+					<div class="error-container" ng-show="userForm.$submitted || userForm.name.$touched">
+						<small ng-show="userForm.name.$error.required">
+							Podaj imię i nazwisko
+						</small>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label" for="inputLocation">Twoja lokalizacja<span class="asterix"> *</span></label>
+					<input type="text" class="form-control" id="inputLocation" name="location" placeholder="Lokalizacja"
+						   ng-model="login.register.user.location" ng-model-options="{ updateOn: 'blur' }"
+						   ng-autocomplete="login.register.user.location" details="login.register.autoComplete.details" options="login.register.autoComplete.options"
+						   placeholder="Wpisz miasto i województwo" required>
+
+					<div class="error-container" ng-show="userForm.$submitted || userForm.location.$touched">
+						<small ng-show="userForm.location.$error.required">
+							Podaj swoją lokalizację
+						</small>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label" for="inputPhone">Numer telefonu<span class="asterix"> *</span></label>
+					<input type="text" class="form-control" id="inputPhone" name="phone" placeholder="Telefon" ng-model="login.register.user.phone" ng-model-options="{ updateOn: 'blur' }" ng-validate-number required>
+					<div class="error-container" ng-show="userForm.$submitted || userForm.phone.$touched">
+						<small ng-show="userForm.phone.$error.required">
+							Podaj numer telefonu
+						</small>
+					</div>
+					<div class="error-container" ng-show="userForm.phone.$dirty">
+						<small ng-show="userForm.phone.$error.number">
+							Podaj prawidłowy numer telefonu
+						</small>
+					</div>
+				</div>
+				<div class="modal-footer">
+
+					<div class="login-register-checkbox">
+						<input class="login-checkbox" type="checkbox" name="terms" required="">
+						<span class="label-checkbox">Akceptuję regulamin</span>
+						<div class="error-container" ng-show="userForm.$submitted || userForm.terms.$touched">
+							<small ng-show="userForm.phone.$error.required">
+								Akceptacja regulaminu jest wymagana !
+							</small>
+						</div>
+					</div>
+
+					<button class="btn action-btn" type="submit" ng-click="login.register.save($event)"> Zarejestruj się </button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

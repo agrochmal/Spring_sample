@@ -1,0 +1,102 @@
+
+<ng-navigation-bar shift="90"></ng-navigation-bar>
+
+<div class="container page-top" style="padding-top: 70px;">
+	<form name='advertForm' class="form-horizontal" role="form" novalidate>
+
+		<h3>Tutaj zamieść treść ogłoszenia</h3>
+
+		<div class="panel panel-new">
+			<div class="panel-body">
+				<div class="form-group margin-top30">
+					<label for="inputTitle" class="col-sm-2 control-label">Tytuł ogłoszenia<span class="asterix"> *</span></label>
+					<div class="col-sm-7">
+						<input type="text" id="inputTitle" name="title" class="form-control" placeholder="Tytuł" ng-model="saveCommand.advert.title" ng-model-options="{ updateOn: 'blur' }" required ng-autofocus>
+						<div class="error-container" ng-show="advertForm.$submitted || advertForm.title.$touched">
+							<small ng-show="advertForm.title.$error.required"> Podaj tytuł ogłoszenia </small>
+						</div>
+					</div>
+				</div>
+				<div class="form-group margin-top30">
+					<label for="description" class="col-sm-2 control-label">Opis<span class="asterix"> *</span></label>
+					<div class="col-sm-10">
+						<ng-editor id="description" name="description" model-name="saveCommand.advert.description"  rows="10" required></ng-editor>
+						<div class="error-container" ng-show="advertForm.$submitted || advertForm.description.$touched">
+							<small ng-show="advertForm.description.$error.required"> Podaj opis </small>
+						</div>
+					</div>
+				</div>
+				<div class="form-group margin-top30">
+					<label for="inputLocation" class="col-sm-2 control-label">Podaj lokalizację<span class="asterix"> *</span></label>
+					<div class="col-sm-7">
+						<input type="text" class="form-control" id="inputLocation"
+							name="locationName" ng-autocomplete="saveCommand.advert.locationName" ng-model="saveCommand.advert.locationName" ng-model-options="{ updateOn: 'blur' }"
+							details="saveCommand.autoComplete.details" options="saveCommand.autoComplete.options"
+							placeholder="Wpisz miasto i województwo" required>
+						<div class="error-container" ng-show="advertForm.$submitted || advertForm.locationName.$touched">
+							<small ng-show="advertForm.locationName.$error.required">Podaj swoją lokalizację </small>
+						</div>
+					</div>
+				</div>
+				<div class="form-group margin-top30">
+					<label for="endDate" class="col-sm-2 control-label">Data wygaśnięcia</label>
+					<div class="col-sm-3">
+						<p class="input-group" style="margin-bottom: 0px;">
+							<input type="text" class="form-control datepicker" id="endDate"
+								ng-model="saveCommand.advert.endDate" ng-model-options="{ updateOn: 'blur' }"
+								datepicker-popup="{{format}}" is-open="opened" min-date="minDate" datepicker-options="dateOptions" close-text="Close" />
+							<span class="input-group-btn">
+								<button type="button" class="btn btn-default" ng-click="open($event)">
+									<i class="glyphicon glyphicon-calendar"></i>
+								</button>
+							</span>
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<h3>Podaj swoje dane kontaktowe</h3>
+
+		<div class="panel panel-new">
+			<div class="panel-body">
+				<div class="form-group margin-top30">
+					<label for="inputName" class="col-sm-2 control-label">Imię i nazwisko</label>
+					<div class="col-sm-3">
+						<input type="text" class="form-control" placeholder="Imię i nazwisko" id="inputName" ng-model="saveCommand.advert.contact" ng-model-options="{ updateOn: 'blur' }">
+					</div>
+				</div>
+				<div class="form-group margin-top30">
+					<label for="inputPhone" class="col-sm-2 control-label">Numer telefonu<span class="asterix"> *</span></label>
+					<div class="col-sm-3">
+						<input type="text" id="inputPhone" placeholder="Telefon" name="phone" class="form-control" ng-model="saveCommand.advert.phone" ng-model-options="{ updateOn: 'blur' }" ng-validate-number required>
+						<div class="error-container" ng-show="advertForm.$submitted || advertForm.phone.$touched">
+							<small ng-show="advertForm.phone.$error.required"> Podaj numer telefonu </small>
+						</div>
+						<div class="error-container" ng-show="advertForm.phone.$dirty">
+							<small ng-show="advertForm.phone.$error.number">
+								Podaj prawidłowy numer telefonu
+							</small>
+						</div>
+					</div>
+				</div>
+				<div class="form-group margin-top30">
+					<label for="inputEmail" class="col-sm-2 control-label">Adres e-mail</label>
+					<div class="col-sm-3">
+						<input type="text" class="form-control" name="email" placeholder="Adres e-mail" id="inputEmail" ng-model="saveCommand.advert.email" ng-model-options="{ updateOn: 'blur' }" ng-validate-email>
+						<div class="error-container" ng-show="advertForm.email.$invalid && advertForm.email.$dirty">
+							<small ng-show="advertForm.email.$error.email">
+								Podaj prawidłowy adres e-mail, np. joe@example.com
+							</small>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="form-group margin-top10">
+			<div class="col-sm-12">
+				<button type="submit" class="btn action-btn header-button-right" ng-click="saveCommand.save()">Dodaj do listy ogłoszeń</button>
+			</div>
+		</div>
+	</form>
+</div>

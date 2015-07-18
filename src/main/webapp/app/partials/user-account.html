@@ -1,0 +1,68 @@
+
+<ng-navigation-bar shift="90"></ng-navigation-bar>
+
+<div class="container page-top" style="padding-top: 70px;">
+	<h3>Zarządzaj swoim kontem</h3>
+	<div class="panel panel-info">
+		<div class="panel-body">
+		   <form name='userForm' class="form-horizontal" role="form" novalidate>
+			    <div class="col-sm-2 header-button-right">
+					<button type="button" class="btn action-btn" data-toggle="button" ng-click="editCommand.enableDisable()">Edytuj <span class="glyphicon glyphicon-pencil"></span></button>
+			    </div>
+				<div class="form-group">
+					<label for="inputName" class="col-sm-2 control-label">Adres e-mail</label>
+					<div class="col-sm-3">
+						<input type="text" class="form-control" id="inputEmail" ng-model="editCommand.user.username" disabled>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="inputEmail" class="col-sm-2 control-label">Imię i nazwisko</label>
+					<div class="col-sm-3">
+						<input type="text" class="form-control" id="inputName" ng-model="editCommand.user.name" ng-disabled="editCommand.isEditable">
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="inputEmail" class="col-sm-2 control-label">Lokalizacja</label>
+					<div class="col-sm-3">
+						<input type="text" class="form-control" id="inputLocation" ng-model="editCommand.user.location" ng-disabled="editCommand.isEditable">
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="inputEmail" class="col-sm-2 control-label">Numer telefonu</label>
+					<div class="col-sm-3">
+						<input type="text" class="form-control" id="inputPhone" ng-model="editCommand.user.phone" ng-disabled="editCommand.isEditable">
+					</div>
+				</div>
+			  <div class="form-group margin-top30">
+			    <div class="col-sm-2 header-button-right">
+			      <button class="btn action-btn" ng-click="editCommand.save()" > Zapisz zmiany </button>
+			    </div>
+			  </div>
+			</form>
+		</div>
+	</div>
+	<h3>Twoje dotychczasowe ogłoszenia</h3>
+	<table class="table">
+		<thead>
+		<tr>
+			<th>#</th>
+			<th>Tytuł</th>
+			<th>Data dodania</th>
+			<th>Aktywne</th>
+			<th>Zarządzaj ogłoszeniami</th>
+		</tr>
+		</thead>
+		<tbody>
+		<tr ng-repeat="advert in advertGrid.model" ng-controller="AccountAdvertController">
+			<th scope="row">{{$index + 1}}</th>
+			<td> {{ advert.title }} </td>
+			<td> {{ advert.creationDate | date:'dd-MM-yyyy' }}</td>
+			<td> <input type="checkbox" name="active-checkbox" ng-model="advert.active" ng-switch-checkbox> </td>
+			<td>
+				<button type="button" class="btn action-btn" ng-click="advertGrid.edit()">Edytuj <span class="glyphicon glyphicon-pencil"></span></button>
+				<button type="button" class="btn action-btn" ng-click="advertGrid.delete(advert.id)">Usuń <span class="glyphicon glyphicon-pencil"></span></button>
+			</td>
+		</tr>
+		</tbody>
+	</table>
+</div>

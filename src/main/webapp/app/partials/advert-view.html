@@ -1,0 +1,49 @@
+
+<ng-navigation-bar shift="96"></ng-navigation-bar>
+
+<div class="container">
+   <div class="row">
+       <div class="col-md-12">
+           <h2 style="text-align: left"> {{advert.title}} </h2>
+           <small>Data dodania: {{advert.creationDate | date:'dd-MM-yyyy'}}</small>
+       </div>
+   </div>
+   <div class="row">
+       <div class="col-md-7">
+           <div class="gallery">
+               <img ng-src="app/images/thumb.jpg" width="300px" height="300px">
+           </div>
+           <div class="advert-paragrahp">
+             <p>{{advert.description}}</p>
+           </div>
+       </div>
+       <div class="col-md-5">
+           <div>
+               <h3> Szukaj nas w {{advert.locationName}} </h3>
+               <br>
+               <br>
+               <map center="{{advert.latitude}},{{advert.longitude}}" zoom="9">
+                   <info-window id="1" position="{{advert.latitude}},{{advert.longitude}}" visible="true">
+                       <div ng-non-bindable="">
+                           Tutaj!
+                       </div>
+                   </info-window>
+               </map>
+           </div>
+           <div class="advert-address">
+
+               <ul class="list-unstyled">
+                   <li> <button type="submit" class="btn action-btn" data-toggle="modal" data-target="#sendEmailModal">Napisz wiadomość</button></li>
+                   <li> <span class="glyphicon glyphicon-phone" aria-hidden="true"></span> <strong><abbr title="Phone">&nbsp;&nbsp;Tel:</abbr>{{advert.phone}}</strong>  </li>
+                   <li> <span class="glyphicon glyphicon-user" aria-hidden="true"></span> <strong>&nbsp;&nbsp;{{advert.contact}}</strong> </li>
+               </ul>
+
+               <!-- modal send e-mail page-->
+               <div class="modal fade" id="sendEmailModal" tabindex="-1" role="dialog" ng-modal>
+                   <div ng-include="'app/partials/sendEmail.tpl.html'"></div>
+               </div>
+
+           </div>
+       </div>
+   </div>
+</div>
