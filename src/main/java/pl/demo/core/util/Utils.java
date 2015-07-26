@@ -2,6 +2,9 @@ package pl.demo.core.util;
 
 import org.springframework.validation.BindingResult;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+
 public final class Utils {
 
 	private Utils(){
@@ -17,5 +20,15 @@ public final class Utils {
 			t ->  str.append(t.getDefaultMessage()).append("\n")
 		);
 		return str.toString();
+	}
+
+	public static URI createURI(final String path){
+		final URI uri;
+		try {
+			uri = new URI(path);
+		} catch (URISyntaxException ex) {
+			throw new RuntimeException(ex);
+		}
+		return uri;
 	}
 }

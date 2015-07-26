@@ -17,7 +17,6 @@ import pl.demo.core.util.Utils;
 import javax.validation.Valid;
 import java.io.Serializable;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -28,11 +27,12 @@ import java.util.Optional;
  */
 public abstract class AbstractCRUDResource<PK extends Serializable, E extends BaseEntity> {
 
+    private static final String RESOURCE_PATH="/resources/";
     private static final String HEADER_ETAG = "ETag";
 
-    private CRUDService<PK, E> crudService;
+    private final CRUDService<PK, E> crudService;
 
-    public AbstractCRUDResource(CRUDService<PK, E> crudService){
+    public AbstractCRUDResource(final CRUDService<PK, E> crudService){
         this.crudService = crudService;
     }
 
@@ -46,7 +46,7 @@ public abstract class AbstractCRUDResource<PK extends Serializable, E extends Ba
     protected ResponseEntity<?> getResources(){
         final Collection<E> collection = this.crudService.findAll();
         if(null==collection) {
-            throw new ResourceNotFoundException("Resources not found");
+            throw new ResourceNotFoundException();
         }
         return ResponseEntity.ok().body(collection);
     }
@@ -63,7 +63,7 @@ public abstract class AbstractCRUDResource<PK extends Serializable, E extends Ba
     protected ResponseEntity<?> getResourceById(@PathVariable final PK id){
         final E entity = this.crudService.findOne(id);
         if(null==entity) {
-            throw new ResourceNotFoundException("Resource not found");
+            throw new ResourceNotFoundException();
         }
         return ResponseEntity.ok().header(HEADER_ETAG, String.valueOf(entity.hashCode())).body(entity);
     }
@@ -87,7 +87,6 @@ public abstract class AbstractCRUDResource<PK extends Serializable, E extends Ba
      * @param bindingResult
      * @return status 204 No Content
      */
-
     @RequestMapping(value="{id}",
             method = RequestMethod.PUT)
     public ResponseEntity<?> editResource(@PathVariable final PK id,
@@ -111,39 +110,32 @@ public abstract class AbstractCRUDResource<PK extends Serializable, E extends Ba
 
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<?> save(@Valid @RequestBody final E entity, final BindingResult bindingResult) {
-
         if(bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(Utils.createErrorMessage(bindingResult));
         }
         return Optional.ofNullable(crudService.save(entity))
                 .map(t -> {
-                            final URI uri;
-                            try {
-                                uri = new URI("/resources/" + t.getId());
-                            } catch (URISyntaxException ex) {
-                                throw new RuntimeException(ex);
-                            }
-                            return ResponseEntity.created(uri).build();
-                        }
+                            final URI uri = Utils.createURI(RESOURCE_PATH.concat(t.getId().toString()));
+                            return ResponseEntity.created(uri).build();}
                 ).orElseGet(() -> ResponseEntity.noContent().build());
     }
 
     /*  Common exception handling   */
 
     @ExceptionHandler(EmptyResultDataAccessException.class)
-    public ResponseEntity<?> handleEmptyResultDataAccessException(EmptyResultDataAccessException ex) {
+    public ResponseEntity<?> handleEmptyResultDataAccessException(final EmptyResultDataAccessException ex) {
         return ResponseEntity.notFound().build();
     }
 
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<?> handleResourceNotFoundException(ResourceNotFoundException ex) {
+    public ResponseEntity<?> handleResourceNotFoundException(final ResourceNotFoundException ex) {
         return ResponseEntity.notFound().build();
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
-    String handleException(MethodArgumentNotValidException ex) {
+    String handleException(final MethodArgumentNotValidException ex) {
         final List<FieldError> fieldErrors = ex.getBindingResult().getFieldErrors();
         final List<ObjectError> globalErrors = ex.getBindingResult().getGlobalErrors();
         final List<String> errors = new ArrayList<>(fieldErrors.size() + globalErrors.size());

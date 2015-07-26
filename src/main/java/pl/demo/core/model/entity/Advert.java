@@ -1,23 +1,20 @@
 package pl.demo.core.model.entity;
 
-import java.io.Serializable;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
-
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-
 import org.apache.solr.analysis.LowerCaseFilterFactory;
 import org.apache.solr.analysis.StandardTokenizerFactory;
 import org.apache.solr.analysis.StempelPolishStemFilterFactory;
-
 import org.hibernate.search.annotations.*;
 import org.hibernate.search.annotations.Index;
 import org.hibernate.search.spatial.Coordinates;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
+import pl.demo.core.util.EntityUtils;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
+import java.util.*;
 
 import static pl.demo.core.model.entity.ModelConstans.TEXT_LENGTH_80;
 
@@ -27,13 +24,13 @@ import static pl.demo.core.model.entity.ModelConstans.TEXT_LENGTH_80;
 
 @Spatial
 @Indexed(index="Adverts")
-@AnalyzerDef(name = "customanalyzer",
-		tokenizer = @TokenizerDef(factory = StandardTokenizerFactory.class),
-		filters = {
-				@TokenFilterDef(factory = LowerCaseFilterFactory.class),
-				@TokenFilterDef(factory = StempelPolishStemFilterFactory.class)
+@AnalyzerDef(name="customanalyzer",
+		tokenizer=@TokenizerDef(factory=StandardTokenizerFactory.class),
+		filters={
+				@TokenFilterDef(factory=LowerCaseFilterFactory.class),
+				@TokenFilterDef(factory=StempelPolishStemFilterFactory.class)
 		})
-public class Advert extends BaseEntity implements Serializable, Coordinates, Serialization {
+public class Advert extends BaseEntity implements Serializable, Searchable, Coordinates, Serialization {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -210,7 +207,7 @@ public class Advert extends BaseEntity implements Serializable, Coordinates, Ser
 	public void flatToSerialization(){
 		this.setComments(null);
 		this.setUser(null);
-		//TO-DO smart tools by reflection
+		EntityUtils.setFieldValues(this, EntityUtils.PERSISTANCE_ANNOTATION_NAMES);
 	}
 
 	@Override
