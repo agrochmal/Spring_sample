@@ -22,33 +22,35 @@ import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
+import static pl.demo.core.model.entity.ModelConstans.TEXT_LENGTH_80;
+
 @Entity
 @Table(name = "users")
 public class User extends BaseEntity{
 
 	@NotNull
-	@Length(max=80)
+	@Length(max=TEXT_LENGTH_80)
 
-	@Column(unique = true, length = 80, nullable = false)
+	@Column(unique=true, length=TEXT_LENGTH_80, nullable=false)
 	private String username;
 
-	@Length(max=80)
+	@Length(max=TEXT_LENGTH_80)
 
-	@Column(length = 80, nullable = false)
+	@Column(length=TEXT_LENGTH_80, nullable=false)
 	private String password;
 
 	private String name;
 
 	@NotNull
-	@Column(nullable = false)
+	@Column(nullable=false)
 	private String location;
 
 	@NotNull
 
-	@Column(nullable = false)
+	@Column(nullable=false)
 	private String phone;
 
-	@Column(nullable = false)
+	@Column(nullable=false)
 	private Double lat = 0d;
 
 	@Column(nullable = false)

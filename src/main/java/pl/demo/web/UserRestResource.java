@@ -127,7 +127,7 @@ public class UserRestResource extends AbstractCRUDResource<String, User>{
 
 	public ResponseEntity<Collection<Advert>> findUserAdverts(@PathVariable String username){
 
-		Collection<Advert> allEntries = advertService.findByUserName(username);
+		Collection<Advert> allEntries = advertService.findByUserName();
 		allEntries.forEach(t->t.setUser(null));
 
 		return new ResponseEntity<>(allEntries, HttpStatus.OK);

@@ -2,24 +2,28 @@ package pl.demo.core.service;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+
+import java.io.Serializable;
 import java.util.Collection;
 
 /**
  * Created by Robert on 12.01.15.
  */
-public interface CRUDService<PK, Entity> {
+public interface CRUDService<PK extends Serializable, E> {
 
-    default Collection<Entity> findAll(){
+    default Collection<E> findAll(){
         return null;
     }
 
-    default Page<Entity> findAll(Pageable pageable){
+    default Page<E> findAll(Pageable pageable){
         return null;
     }
 
-    Entity findOne(PK id);
+    E findOne(PK id);
+
     void delete(PK id);
-    void edit(Entity entity);
-    Entity save(Entity entity);
 
+    void edit(E entity);
+
+    E save(E entity);
 }

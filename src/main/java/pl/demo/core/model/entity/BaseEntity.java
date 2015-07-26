@@ -11,8 +11,7 @@ import javax.persistence.MappedSuperclass;
 @MappedSuperclass
 public abstract class BaseEntity {
 
-	@JsonIgnoreProperties(ignoreUnknown = true)
-
+	@JsonIgnoreProperties(ignoreUnknown=true)
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="id")

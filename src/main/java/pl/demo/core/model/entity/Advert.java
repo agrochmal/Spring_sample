@@ -19,6 +19,8 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import static pl.demo.core.model.entity.ModelConstans.TEXT_LENGTH_80;
+
 
 @Entity
 @Table(name = "adverts")
@@ -31,32 +33,32 @@ import org.hibernate.validator.constraints.NotEmpty;
 				@TokenFilterDef(factory = LowerCaseFilterFactory.class),
 				@TokenFilterDef(factory = StempelPolishStemFilterFactory.class)
 		})
-public class Advert extends BaseEntity implements Serializable, Coordinates {
+public class Advert extends BaseEntity implements Serializable, Coordinates, Serialization {
 
 	private static final long serialVersionUID = 1L;
 	
 	@NotEmpty
-	@Length(max=80)
+	@Length(max=TEXT_LENGTH_80)
 
 	@Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
 	@Analyzer(definition = "customanalyzer")
 
-	@Column(length = 80, nullable = false)
+	@Column(length=TEXT_LENGTH_80, nullable=false)
 	private String title;
 
-	@Field(index= Index.YES, analyze= Analyze.YES, store= Store.NO)
+	@Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
 	@Analyzer(definition = "customanalyzer")
 
 	@Lob
 	@Column(name="description", columnDefinition="CLOB NOT NULL", table="adverts")
 	private String description;
 
-	@Column(nullable = false)
+	@Column(nullable=false)
 	private Boolean active = Boolean.TRUE;
 	
 	@NotEmpty
-	@Length(max=80)
-	@Column(length = 80, nullable = false)
+	@Length(max=TEXT_LENGTH_80)
+	@Column(length=TEXT_LENGTH_80, nullable=false)
 	private String locationName;
 	
 	@Column(nullable = false)
@@ -64,19 +66,19 @@ public class Advert extends BaseEntity implements Serializable, Coordinates {
 	
 	private Date endDate;
 
-	@Length(max=80)
+	@Length(max=TEXT_LENGTH_80)
 
-	@Column(length = 80)
+	@Column(length=TEXT_LENGTH_80)
 	private String contact;
 	
 	@NotEmpty
-	@Length(max=80)
-	@Column(length = 80, nullable = false)
+	@Length(max=TEXT_LENGTH_80)
+	@Column(length=TEXT_LENGTH_80, nullable = false)
 	private String phone;
 
 	@Email
-	@Length(max=80)
-	@Column(length = 80)
+	@Length(max=TEXT_LENGTH_80)
+	@Column(length=TEXT_LENGTH_80)
 	private String email;
 	
 	@NotNull
@@ -95,25 +97,6 @@ public class Advert extends BaseEntity implements Serializable, Coordinates {
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
 	@JoinColumn(name = "comment_advert_id", nullable = false)
 	private Set<Comment> comments = new HashSet<>();
-
-	public Advert(){
-	}
-
-	public Advert(Long id, String title, String description, Boolean active, String locationName, Date endDate, String contact, Double latitude, Date creationDate, String phone, String email, Double longitude, User user) {
-		this.id =id;
-		this.title = title;
-		this.description = description;
-		this.active = active;
-		this.locationName = locationName;
-		this.endDate = endDate;
-		this.contact = contact;
-		this.latitude = latitude;
-		this.creationDate = creationDate;
-		this.phone = phone;
-		this.email = email;
-		this.longitude = longitude;
-		this.user = user;
-	}
 
 	public String getTitle() {
 		return title;
@@ -224,6 +207,13 @@ public class Advert extends BaseEntity implements Serializable, Coordinates {
 	}
 
 	@Override
+	public void flatToSerialization(){
+		this.setComments(null);
+		this.setUser(null);
+		//TO-DO smart tools by reflection
+	}
+
+	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
@@ -243,7 +233,6 @@ public class Advert extends BaseEntity implements Serializable, Coordinates {
 		if (longitude != null ? !longitude.equals(advert.longitude) : advert.longitude != null) return false;
 		if (phone != null ? !phone.equals(advert.phone) : advert.phone != null) return false;
 		if (title != null ? !title.equals(advert.title) : advert.title != null) return false;
-		if (user != null ? !user.equals(advert.user) : advert.user != null) return false;
 
 		return true;
 	}
@@ -261,7 +250,6 @@ public class Advert extends BaseEntity implements Serializable, Coordinates {
 		result = 31 * result + (email != null ? email.hashCode() : 0);
 		result = 31 * result + (latitude != null ? latitude.hashCode() : 0);
 		result = 31 * result + (longitude != null ? longitude.hashCode() : 0);
-		result = 31 * result + (user != null ? user.hashCode() : 0);
 		return result;
 	}
 }

@@ -2,12 +2,13 @@ package pl.demo.core.model.entity;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-import pl.demo.core.model.entity.Advert;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Date;
+
+import static pl.demo.core.model.entity.ModelConstans.TEXT_LENGTH_25;
+import static pl.demo.core.model.entity.ModelConstans.TEXT_LENGTH_250;
 
 /**
  * Created by Robert on 22.02.15.
@@ -24,7 +25,7 @@ public class Comment extends BaseEntity implements Comparable<Comment> {
     private Date dateCreated;
     private String text;
 
-    @Size(min = 1, max = 100)
+    @Size(min=1, max=TEXT_LENGTH_250)
     @Column(nullable = false)
     public String getName() {
         return name;
@@ -34,7 +35,7 @@ public class Comment extends BaseEntity implements Comparable<Comment> {
         this.name = name;
     }
 
-    @Size(min = 1, max = 100)
+    @Size(min=1, max=TEXT_LENGTH_250)
     public String getEmail() {
         return email;
     }
@@ -43,7 +44,7 @@ public class Comment extends BaseEntity implements Comparable<Comment> {
         this.email = email;
     }
 
-    @Size(max = 250)
+    @Size(max=TEXT_LENGTH_250)
     public String getWeb() {
         return web;
     }
@@ -52,7 +53,7 @@ public class Comment extends BaseEntity implements Comparable<Comment> {
         this.web = web;
     }
 
-    @Size(max = 20)
+    @Size(max=TEXT_LENGTH_25)
     @Column(name="ip_addr")
     public String getIpAddr() {
         return ipAddr;

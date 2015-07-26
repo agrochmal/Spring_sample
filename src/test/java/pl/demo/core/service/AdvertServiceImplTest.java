@@ -4,7 +4,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import pl.demo.core.model.entity.Advert;
@@ -27,7 +26,7 @@ public class AdvertServiceImplTest {
 
     @Before
     public void setUp() throws Exception {
-        testSubject = new AdvertServiceImpl(advertRepo, searchService, userService, mailService);
+        testSubject = new AdvertServiceImpl(advertRepo, genericRepository, searchService, userService, mailService);
     }
 
     @After
