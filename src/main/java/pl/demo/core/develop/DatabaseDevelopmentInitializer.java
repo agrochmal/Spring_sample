@@ -35,18 +35,8 @@ public class DatabaseDevelopmentInitializer {
   private RoleNameRepository roleNameRepository;
   @Autowired
   private AdvertRepository advertRepository;
-
   @Autowired
   private PasswordEncoder passwordEncoder;
-
-
-  public DatabaseDevelopmentInitializer() {
-     /* try {
-       FileUtils.deleteDirectory(new File("C:\\indexes"));
-      } catch (IOException e) {
-          e.printStackTrace();
-      }*/
-  }
 
   @PostConstruct
   private void init() {

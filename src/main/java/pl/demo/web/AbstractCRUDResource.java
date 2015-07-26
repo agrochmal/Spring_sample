@@ -15,6 +15,7 @@ import pl.demo.core.service.CRUDService;
 import pl.demo.core.util.Utils;
 
 import javax.validation.Valid;
+import java.io.Serializable;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -25,13 +26,13 @@ import java.util.Optional;
 /**
  * Created by Robert on 09.12.14.
  */
-public abstract class AbstractCRUDResource<PK, Entity extends BaseEntity> {
+public abstract class AbstractCRUDResource<PK extends Serializable, E extends BaseEntity> {
 
     private static final String HEADER_ETAG = "ETag";
 
-    private CRUDService<PK, Entity> crudService;
+    private CRUDService<PK, E> crudService;
 
-    public AbstractCRUDResource(CRUDService<PK, Entity> crudService){
+    public AbstractCRUDResource(CRUDService<PK, E> crudService){
         this.crudService = crudService;
     }
 
@@ -42,12 +43,11 @@ public abstract class AbstractCRUDResource<PK, Entity extends BaseEntity> {
 
     @RequestMapping(method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
-
     protected ResponseEntity<?> getResources(){
-        final Collection<Entity> collection = this.crudService.findAll();
-        if(null==collection)
+        final Collection<E> collection = this.crudService.findAll();
+        if(null==collection) {
             throw new ResourceNotFoundException("Resources not found");
-
+        }
         return ResponseEntity.ok().body(collection);
     }
 
@@ -60,12 +60,11 @@ public abstract class AbstractCRUDResource<PK, Entity extends BaseEntity> {
     @RequestMapping(value="{id}",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
-
-    protected ResponseEntity<?> getResourceById(@PathVariable PK id){
-        final Entity entity = this.crudService.findOne(id);
-        if(null==entity)
+    protected ResponseEntity<?> getResourceById(@PathVariable final PK id){
+        final E entity = this.crudService.findOne(id);
+        if(null==entity) {
             throw new ResourceNotFoundException("Resource not found");
-
+        }
         return ResponseEntity.ok().header(HEADER_ETAG, String.valueOf(entity.hashCode())).body(entity);
     }
 
@@ -77,11 +76,8 @@ public abstract class AbstractCRUDResource<PK, Entity extends BaseEntity> {
 
     @RequestMapping(value="{id}",
             method = RequestMethod.DELETE)
-
-    protected ResponseEntity<?> deleteResource(@PathVariable PK id){
-
+    protected ResponseEntity<?> deleteResource(@PathVariable final PK id){
         crudService.delete(id);
-
         return ResponseEntity.noContent().build();
     }
 
@@ -94,17 +90,14 @@ public abstract class AbstractCRUDResource<PK, Entity extends BaseEntity> {
 
     @RequestMapping(value="{id}",
             method = RequestMethod.PUT)
-
-    public ResponseEntity<?> editResource(@PathVariable PK id,
-                                          @Valid @RequestBody Entity entity,
-                                          @RequestHeader HttpHeaders headers,
-                                          BindingResult bindingResult){
-
-        if(bindingResult.hasErrors())
+    public ResponseEntity<?> editResource(@PathVariable final PK id,
+                                          @Valid @RequestBody final E entity,
+                                          @RequestHeader final HttpHeaders headers,
+                                          final BindingResult bindingResult){
+        if(bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(Utils.createErrorMessage(bindingResult));
-
+        }
         crudService.edit(entity);
-
         return ResponseEntity.noContent().build();
     }
 
@@ -117,15 +110,14 @@ public abstract class AbstractCRUDResource<PK, Entity extends BaseEntity> {
      */
 
     @RequestMapping(method = RequestMethod.POST)
+    public ResponseEntity<?> save(@Valid @RequestBody final E entity, final BindingResult bindingResult) {
 
-    public ResponseEntity<?> save(@Valid @RequestBody Entity entity, BindingResult bindingResult) {
-
-        if(bindingResult.hasErrors())
+        if(bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(Utils.createErrorMessage(bindingResult));
-
+        }
         return Optional.ofNullable(crudService.save(entity))
                 .map(t -> {
-                            URI uri = null;
+                            final URI uri;
                             try {
                                 uri = new URI("/resources/" + t.getId());
                             } catch (URISyntaxException ex) {
@@ -140,13 +132,11 @@ public abstract class AbstractCRUDResource<PK, Entity extends BaseEntity> {
 
     @ExceptionHandler(EmptyResultDataAccessException.class)
     public ResponseEntity<?> handleEmptyResultDataAccessException(EmptyResultDataAccessException ex) {
-
         return ResponseEntity.notFound().build();
     }
 
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<?> handleResourceNotFoundException(ResourceNotFoundException ex) {
-
         return ResponseEntity.notFound().build();
     }
 
@@ -154,15 +144,15 @@ public abstract class AbstractCRUDResource<PK, Entity extends BaseEntity> {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
     String handleException(MethodArgumentNotValidException ex) {
-        List<FieldError> fieldErrors = ex.getBindingResult().getFieldErrors();
-        List<ObjectError> globalErrors = ex.getBindingResult().getGlobalErrors();
-        List<String> errors = new ArrayList<>(fieldErrors.size() + globalErrors.size());
+        final List<FieldError> fieldErrors = ex.getBindingResult().getFieldErrors();
+        final List<ObjectError> globalErrors = ex.getBindingResult().getGlobalErrors();
+        final List<String> errors = new ArrayList<>(fieldErrors.size() + globalErrors.size());
         String error;
-        for (FieldError fieldError : fieldErrors) {
+        for (final FieldError fieldError : fieldErrors) {
             error = fieldError.getField() + ", " + fieldError.getDefaultMessage();
             errors.add(error);
         }
-        for (ObjectError objectError : globalErrors) {
+        for (final ObjectError objectError : globalErrors) {
             error = objectError.getObjectName() + ", " + objectError.getDefaultMessage();
             errors.add(error);
         }

@@ -9,14 +9,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import pl.demo.core.model.entity.Advert;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
-public interface AdvertRepository extends JpaRepository<Advert, Long> {
+public interface AdvertRepository extends JpaRepository<Advert, Long>{
 
 	@Query("SELECT a FROM Advert a WHERE a.user.id = :id")
 	Collection<Advert> findByUserId(@Param("id") Long userId);
 
 	Collection<Advert> findByActive(Boolean active);
+
 	Page<Advert> findByActive(Boolean active, Pageable pageable);
 }

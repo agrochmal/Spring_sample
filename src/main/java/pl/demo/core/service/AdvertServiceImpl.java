@@ -9,85 +9,86 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 import pl.demo.core.model.entity.Comment;
+import pl.demo.core.model.repo.GenericRepository;
 import pl.demo.web.dto.EMailDTO;
 import pl.demo.web.dto.SearchCriteriaDTO;
 import pl.demo.core.model.entity.Advert;
 import pl.demo.core.model.repo.AdvertRepository;
 import pl.demo.core.model.entity.User;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
 @Component("advertService")
-@Transactional(readOnly = true)
-public class AdvertServiceImpl implements AdvertService{
-
-	@PersistenceContext
-	private EntityManager entityManager;
+@Transactional(readOnly=true)
+public class AdvertServiceImpl implements AdvertService {
 
 	private final static int SHORT_DESCRIPTION_LENGTH = 255;
 
 	private final AdvertRepository advertRepo;
+	private final GenericRepository<Advert> genericRepository;
 	private final SearchService searchService;
 	private final UserService userService;
 	private final MailService mailService;
 
-
 	@Autowired
-	public AdvertServiceImpl(AdvertRepository advertRepo, SearchService searchService, UserService userService, MailService mailService){
+	public AdvertServiceImpl(final AdvertRepository advertRepo, final GenericRepository<Advert> genericRepository, final SearchService searchService, final UserService userService, final MailService mailService){
 		this.advertRepo = advertRepo;
+		this.genericRepository = genericRepository;
 		this.searchService = searchService;
 		this.userService = userService;
 		this.mailService = mailService;
 	}
 
 	@Override
-	public Advert findOne(Long id) {
-
-		Advert stored = advertRepo.findOne(id);
-		return new Advert(stored.getId(), stored.getTitle(),stored.getDescription(),stored.getActive(),
-				stored.getLocationName(), stored.getEndDate(), stored.getContact(), stored.getLatitude(), stored.getCreationDate(), stored.getPhone(), stored.getEmail(), stored.getLongitude(), null);
+	public Advert findOne(final Long id) {
+		Assert.notNull(id, "Advert id is required");
+		final Advert advert = advertRepo.findOne(id);
+		Assert.state(null != advert, "Advert doesn't exist in db");
+		genericRepository.detach(advert);
+		advert.flatToSerialization();
+		return advert;
 	}
 
 	@Override
 	@Transactional(readOnly = false)
 	public void delete(Long id) {
+		Assert.notNull(id,  "Advert id is required");
 		this.advertRepo.delete(id);
 	}
 
 	@Override
 	@Transactional(readOnly = false)
-	public void edit(Advert advert) {
-		throw new RuntimeException("Not supported yet");
+	public void edit(final Advert advert) {
+		throw new RuntimeException("Method is not supported yet");
 	}
 
 	@Override
 	@Transactional(readOnly = false)
-	public Advert save(Advert advert) {
-		User loggedUser = userService.getLoggedUser();
-		if(null != loggedUser)
+	public Advert save(final Advert advert) {
+		Assert.notNull(advert, "Advert is required");
+		final User loggedUser = userService.getLoggedUser();
+		if(null != loggedUser) {
 			advert.setUser(loggedUser);
+		}
 		return advertRepo.save(advert);
 	}
 
 	@Override
-	public Page<Advert> findAll(Pageable pageable) {
+	public Page<Advert> findAll(final Pageable pageable) {
 		return findBySearchCriteria(null, pageable);
 	}
 
-	public Collection<Advert> findByUserName(String username){
-		Long userId = userService.getLoggedUserDetails().getId();
-		Collection<Advert> allEntries = advertRepo.findByUserId(userId);
+	public Collection<Advert> findByUserName(){
+		final Long userId = userService.getLoggedUserDetails().getId();
+		final Collection<Advert> allEntries = advertRepo.findByUserId(userId);
 		return allEntries;
 	}
 
 	public Advert createNew() {
-		
 		return Optional.ofNullable( userService.getLoggedUser() )
 				.map(t->
 				{
-					Advert advert = new Advert();
+					final Advert advert = new Advert();
 					advert.setLocationName(t.getLocation());
 					advert.setContact(t.getName());
 					advert.setPhone(t.getPhone());
@@ -99,42 +100,52 @@ public class AdvertServiceImpl implements AdvertService{
 				.orElse(new Advert());
 	}
 
-	public Page<Advert> findBySearchCriteria(SearchCriteriaDTO searchCriteriaDTO, Pageable pageable) {
+	public Page<Advert> findBySearchCriteria(final SearchCriteriaDTO searchCriteriaDTO, final Pageable pageable) {
 
-		Page<Advert> adverts;
-		if(null== searchCriteriaDTO || searchCriteriaDTO.isEmpty())
+		final Page<Advert> adverts;
+		if(null== searchCriteriaDTO || searchCriteriaDTO.isEmpty()) {
 			adverts = advertRepo.findByActive(Boolean.TRUE, pageable);
-		else
-			adverts =  searchService.select(searchCriteriaDTO, pageable);
+		}
+		else {
+			adverts = searchService.select(searchCriteriaDTO, pageable);
+		}
 
-		List<Advert> modified =	adverts.getContent()
+		final List<Advert> shortAdverts=adverts.getContent()
 				.stream()
 				.map(t -> {
 					String desc = t.getDescription();
-					if (Objects.nonNull(desc) && desc.length() > SHORT_DESCRIPTION_LENGTH)
+					if (Objects.nonNull(desc)
+							&& desc.length() > SHORT_DESCRIPTION_LENGTH) {
 						desc = desc.substring(0, SHORT_DESCRIPTION_LENGTH).concat("...");
-					return new
-							Advert(t.getId(), t.getTitle(), desc,null, t.getLocationName(), null, null, null, t.getCreationDate(), null, null, null, null);
+					}
+					genericRepository.detach(t);
+					t.flatToSerialization();
+					return t;
 				}).collect(Collectors.toList());
 
-		return new PageImpl(modified, pageable, adverts.getTotalElements());
+		return new PageImpl(shortAdverts, pageable, adverts.getTotalElements());
 	}
 
 	@Transactional(readOnly = false)
-	public void updateActive(Long id, Boolean status) {
-		Advert advert = advertRepo.findOne(id);
+	public void updateActive(final Long id, final Boolean status) {
+		Assert.notNull(id, "Advert is required");
+		final Advert advert = advertRepo.findOne(id);
+		Assert.state(null != advert, "Advert doesn't exist in db");
 		advert.setActive(status);
 		advertRepo.save(advert);
 	}
 
-	public void sendMail(EMailDTO eMailDTO) {
+	public void sendMail(final EMailDTO eMailDTO) {
+		Assert.notNull(eMailDTO, "Email data is required");
 		this.mailService.sendMail(eMailDTO);
 	}
 
 	@Transactional(readOnly = false)
-	public void postComment(Long advertId, Comment comment){
-
-		Advert advert = advertRepo.findOne(advertId);
+	public void postComment(final Long advertId, final Comment comment){
+		Assert.notNull(advertId, "Advert is required");
+		Assert.notNull(comment, "Comment is required");
+		final Advert advert = advertRepo.findOne(advertId);
+		Assert.state(null!=advert, "Advert doesn't exist in db");
 		advert.addComment(comment);
 		advertRepo.save(advert);
 	}

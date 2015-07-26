@@ -7,6 +7,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.velocity.VelocityEngineUtils;
+import org.springframework.util.Assert;
 import pl.demo.web.dto.EMailDTO;
 
 import javax.mail.MessagingException;
@@ -22,7 +23,7 @@ import java.util.Map;
 @Service
 public class MailService {
 
-    private static final String templatePath = "/velocity/message.vm";
+    private static final String TEMPLATE_PATH = "/velocity/message.vm";
 
     @Autowired
     private JavaMailSender mailSender;
@@ -31,22 +32,20 @@ public class MailService {
     private VelocityEngine velocityEngine;
 
     @Async
-    public void sendMail(EMailDTO emailDTO){
-
-        MimeMessage mimeMsg = mailSender.createMimeMessage();
-        Map<String, Object> model = new HashMap<>();
+    public void sendMail(final EMailDTO emailDTO){
+        Assert.notNull(emailDTO, "Email data is required");
+        final MimeMessage mimeMsg = mailSender.createMimeMessage();
+        final Map<String, Object> model = new HashMap<>();
         model.put("userMessage", emailDTO);
-        String text = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, templatePath, model);
-        text = text.replaceAll("\n", "<br>");
+        final String text = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, TEMPLATE_PATH, model)
+                .replaceAll("\n", "<br>");
         try{
-            MimeMessageHelper helper = new MimeMessageHelper(mimeMsg);
+            final MimeMessageHelper helper = new MimeMessageHelper(mimeMsg);
             helper.setSubject(emailDTO.getTitle());
             helper.setTo(emailDTO.getReceipt());
             helper.setFrom(emailDTO.getSender());
-
             helper.setSentDate(new Date());
             helper.setText(text, true);
-
             mailSender.send(mimeMsg);
 
         } catch (MessagingException e) {

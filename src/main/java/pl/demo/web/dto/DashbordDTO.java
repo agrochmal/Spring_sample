@@ -3,29 +3,21 @@ package pl.demo.web.dto;
 /**
  * Created by Robert on 29.12.14.
  */
-public class DashbordDTO {
+public final class DashbordDTO {
 
-    private Long users;
-    private Long adverts;
+    private final long users;
+    private final long adverts;
 
-    public DashbordDTO(Long users, Long adverts){
+    public DashbordDTO(final long users, final long adverts){
         this.users=users;
         this.adverts=adverts;
     }
 
-    public Long getUsers() {
+    public long getUsers() {
         return users;
     }
 
-    public void setUsers(Long users) {
-        this.users = users;
-    }
-
-    public Long getAdverts() {
+    public long getAdverts() {
         return adverts;
-    }
-
-    public void setAdverts(Long adverts) {
-        this.adverts = adverts;
     }
 }

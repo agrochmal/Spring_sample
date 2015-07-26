@@ -20,10 +20,10 @@ import javax.validation.Valid;
 @RequestMapping("/adverts")
 public class AdvertRestResource extends AbstractCRUDResource<Long, Advert> {
 
-    private AdvertService advertService;
+    private final AdvertService advertService;
 
     @Autowired
-    public AdvertRestResource(AdvertService advertService) {
+    public AdvertRestResource(final AdvertService advertService) {
         super(advertService);
         this.advertService = advertService;
     }
@@ -40,7 +40,7 @@ public class AdvertRestResource extends AbstractCRUDResource<Long, Advert> {
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
 
-    public ResponseEntity<?> search(SearchCriteriaDTO searchCriteriaDTO, Pageable pageable) {
+    public ResponseEntity<?> search(final SearchCriteriaDTO searchCriteriaDTO, final Pageable pageable) {
 
         return ResponseEntity
                 .ok()
@@ -53,36 +53,30 @@ public class AdvertRestResource extends AbstractCRUDResource<Long, Advert> {
     @RequestMapping(value = "/{id}/status",
             method = RequestMethod.POST)
 
-    public ResponseEntity<?> updatePartially(@PathVariable("id") Long id, @RequestParam(value="status") String status) {
-
+    public ResponseEntity<?> updatePartially(@PathVariable("id") final Long id, @RequestParam(value="status") final String status) {
         advertService.updateActive(id, Boolean.valueOf(status));
-
         return ResponseEntity.noContent().build();
     }
 
     @RequestMapping(value = "/{id}/email",
             method = RequestMethod.POST)
 
-    public ResponseEntity<?> sendEmail(@PathVariable("id") Long id, @Valid @RequestBody EMailDTO email, BindingResult bindingResult) {
-
-        if(bindingResult.hasErrors())
+    public ResponseEntity<?> sendEmail(@PathVariable("id") final Long id, @Valid @RequestBody final EMailDTO email, final BindingResult bindingResult) {
+        if(bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(Utils.createErrorMessage(bindingResult));
-
-        this.advertService.sendMail(email);
-
+        }
+        advertService.sendMail(email);
         return ResponseEntity.noContent().build();
     }
 
     @RequestMapping(value = "/{id}/comment",
             method = RequestMethod.POST)
 
-    public ResponseEntity<?> postComment(@PathVariable("id") Long id, @Valid @RequestBody Comment comment, BindingResult bindingResult) {
-
-        if(bindingResult.hasErrors())
+    public ResponseEntity<?> postComment(@PathVariable("id") final Long id, @Valid @RequestBody final Comment comment, final BindingResult bindingResult) {
+        if(bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(Utils.createErrorMessage(bindingResult));
-
-        this.advertService.postComment(id, comment);
-
+        }
+        advertService.postComment(id, comment);
         return ResponseEntity.noContent().build();
     }
 }

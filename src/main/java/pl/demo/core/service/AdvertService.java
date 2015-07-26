@@ -12,25 +12,25 @@ import java.util.Collection;
 
 public interface AdvertService extends CRUDService<Long, Advert> {
 
-	public Advert findOne(Long id);
+	Advert findOne(Long id);
 
-	public void delete(Long id);
+	void delete(Long id);
 
-	public void edit(Advert advert);
+	void edit(Advert advert);
 
-	public Advert save(Advert advert);
+	Advert save(Advert advert);
 
-	public Page<Advert> findAll(Pageable pageable);
+	Page<Advert> findAll(Pageable pageable);
 
-	public Collection<Advert> findByUserName(String username);
+	Collection<Advert> findByUserName();
 
-	public Advert createNew();
+	Advert createNew();
 
-	public Page<Advert> findBySearchCriteria(SearchCriteriaDTO searchCriteriaDTO, Pageable pageable);
+	Page<Advert> findBySearchCriteria(SearchCriteriaDTO searchCriteriaDTO, Pageable pageable);
 
-	public void updateActive(Long id, Boolean status);
+	void updateActive(Long id, Boolean status);
 
-	public void sendMail(EMailDTO eMailDTO);
+	void sendMail(EMailDTO eMailDTO);
 
-	public void postComment(Long advertId, Comment comment);
+	void postComment(Long advertId, Comment comment);
 }

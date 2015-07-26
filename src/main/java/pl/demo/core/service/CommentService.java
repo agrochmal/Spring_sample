@@ -1,5 +1,6 @@
 package pl.demo.core.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.demo.core.model.entity.Comment;
 import pl.demo.core.util.PlainTextFilter;
@@ -12,9 +13,16 @@ import java.util.Date;
 @Service
 public class CommentService {
 
-   // @Inject private CommentMailSender mailSender;
+    private final PlainTextFilter plainTextFilter;
 
-    public void postComment(Comment comment) {
+    @Autowired
+    public CommentService(final PlainTextFilter plainTextFilter) {
+        this.plainTextFilter = plainTextFilter;
+    }
+
+    // @Inject private CommentMailSender mailSender;
+
+    public void postComment(final Comment comment) {
 
         prepareComment(comment);
 
@@ -22,9 +30,8 @@ public class CommentService {
        // mailSender.sendNotificationEmail(comment);
     }
 
-    private void prepareComment(Comment comment) {
+    private void prepareComment(final Comment comment) {
         comment.setDateCreated(new Date());
-        PlainTextFilter textFilter = new PlainTextFilter();
-        comment.setText(textFilter.escapeHtml(comment.getText()));
+        comment.setText(plainTextFilter.escapeHtml(comment.getText()));
     }
 }

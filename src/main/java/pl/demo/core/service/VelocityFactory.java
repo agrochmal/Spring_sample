@@ -9,7 +9,7 @@ import java.util.Properties;
 /**
  * Created by Robert on 21.02.15.
  */
-public class VelocityFactory extends AbstractFactoryBean<VelocityEngine> {
+public final class VelocityFactory extends AbstractFactoryBean<VelocityEngine> {
 
     @Override
     public Class<?> getObjectType() {
@@ -18,9 +18,9 @@ public class VelocityFactory extends AbstractFactoryBean<VelocityEngine> {
 
     @Override
     protected VelocityEngine createInstance() throws Exception {
-        VelocityEngineFactory factory = new VelocityEngineFactory();
+        final VelocityEngineFactory factory = new VelocityEngineFactory();
         factory.setOverrideLogging(false);
-        Properties props = new Properties();
+        final Properties props = new Properties();
         props.put("resource.loader", "class");
         props.put("class.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
         factory.setVelocityProperties(props);
