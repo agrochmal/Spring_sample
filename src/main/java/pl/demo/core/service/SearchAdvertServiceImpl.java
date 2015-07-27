@@ -22,7 +22,7 @@ import java.util.List;
  * Created by Robert on 2014-12-03.
  */
 @Service
-public class SearchServiceImpl implements SearchService{
+public class SearchAdvertServiceImpl implements SearchAdvertService {
 
     @Autowired
     private EntityManagerFactory entityManagerFactory;

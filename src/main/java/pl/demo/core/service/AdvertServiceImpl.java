@@ -29,12 +29,12 @@ public class AdvertServiceImpl implements AdvertService {
 
 	private final AdvertRepository advertRepo;
 	private final GenericRepository<Advert> genericRepository;
-	private final SearchServiceImpl searchService;
+	private final SearchAdvertService searchService;
 	private final UserService userService;
 	private final MailServiceImpl mailService;
 
 	@Autowired
-	public AdvertServiceImpl(final AdvertRepository advertRepo, final GenericRepository<Advert> genericRepository, final SearchServiceImpl searchService, final UserService userService, final MailServiceImpl mailService){
+	public AdvertServiceImpl(final AdvertRepository advertRepo, final GenericRepository<Advert> genericRepository, final SearchAdvertService searchService, final UserService userService, final MailServiceImpl mailService){
 		this.advertRepo = advertRepo;
 		this.genericRepository = genericRepository;
 		this.searchService = searchService;
@@ -52,21 +52,18 @@ public class AdvertServiceImpl implements AdvertService {
 		return advert;
 	}
 
-	@Override
-	@Transactional(readOnly = false)
+	@Override @Transactional(readOnly = false)
 	public void delete(Long id) {
 		Assert.notNull(id,  "Advert id is required");
 		this.advertRepo.delete(id);
 	}
 
-	@Override
-	@Transactional(readOnly = false)
+	@Override @Transactional(readOnly = false)
 	public void edit(final Advert advert) {
 		throw new RuntimeException("Method is not supported yet");
 	}
 
-	@Override
-	@Transactional(readOnly = false)
+	@Override @Transactional(readOnly = false)
 	public Advert save(final Advert advert) {
 		Assert.notNull(advert, "Advert is required");
 		final User loggedUser = userService.getLoggedUser();
@@ -81,11 +78,13 @@ public class AdvertServiceImpl implements AdvertService {
 		return findBySearchCriteria(null, pageable);
 	}
 
+	@Override
 	public Collection<Advert> findByUserName(){
 		final Long userId = userService.getLoggedUserDetails().getId();
 		return advertRepo.findByUserId(userId);
 	}
 
+	@Override
 	public Advert createNew() {
 		return Optional.ofNullable( userService.getLoggedUser() )
 				.map(t->
@@ -102,6 +101,7 @@ public class AdvertServiceImpl implements AdvertService {
 				.orElse(new Advert());
 	}
 
+	@Override
 	public Page<Advert> findBySearchCriteria(final SearchCriteriaDTO searchCriteriaDTO, final Pageable pageable) {
 
 		final Page<Advert> adverts;
@@ -127,7 +127,7 @@ public class AdvertServiceImpl implements AdvertService {
 		return new PageImpl(shortAdverts, pageable, adverts.getTotalElements());
 	}
 
-	@Transactional(readOnly = false)
+	@Override @Transactional(readOnly = false)
 	public void updateActive(final Long id, final Boolean status) {
 		Assert.notNull(id, "Advert is required");
 		final Advert advert = advertRepo.findOne(id);
@@ -136,12 +136,13 @@ public class AdvertServiceImpl implements AdvertService {
 		advertRepo.save(advert);
 	}
 
+	@Override
 	public void sendMail(final EMailDTO eMailDTO) {
 		Assert.notNull(eMailDTO, "Email data is required");
 		this.mailService.sendMail(eMailDTO);
 	}
 
-	@Transactional(readOnly = false)
+	@Override @Transactional(readOnly = false)
 	public void postComment(final Long advertId, final Comment comment){
 		Assert.notNull(advertId, "Advert is required");
 		Assert.notNull(comment, "Comment is required");

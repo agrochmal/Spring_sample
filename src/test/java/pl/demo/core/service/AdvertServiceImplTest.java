@@ -21,7 +21,7 @@ public class AdvertServiceImplTest {
     private AdvertServiceImpl testSubject;
 
     @Mock private AdvertRepository advertRepo;
-    @Mock private SearchServiceImpl searchService;
+    @Mock private SearchAdvertService searchService;
     @Mock private UserService userService;
     @Mock private MailServiceImpl mailService;
     @Mock private GenericRepository genericRepository;

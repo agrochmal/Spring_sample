@@ -49,14 +49,12 @@ public class UserServiceImpl implements UserService {
 		return user;
 	}
 
-	@Override
-	@Transactional(readOnly = false)
+	@Override @Transactional(readOnly = false)
 	public void delete(String username) {
 		throw new RuntimeException("Not supported yet!");
 	}
 
-	@Override
-	@Transactional(readOnly=false)
+	@Override @Transactional(readOnly=false)
 	public void edit(final User user) {
 		Assert.notNull(user, "User is required");
 		final User existing = userRepository.findByUsername(user.getUsername());
@@ -67,8 +65,7 @@ public class UserServiceImpl implements UserService {
 		userRepository.save(existing);
 	}
 
-	@Override
-	@Transactional(readOnly=false)
+	@Override @Transactional(readOnly=false)
 	public User save (final User user){
 		Assert.notNull(user, "User is required");
 		user.setPassword( passwordEncoder.encode(user.getPassword()) );

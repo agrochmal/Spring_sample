@@ -8,6 +8,6 @@ import pl.demo.web.dto.SearchCriteriaDTO;
 /**
  * Created by robertsikora on 27.07.15.
  */
-public interface SearchService {
+public interface SearchAdvertService {
     Page<Advert> searchAdverts(SearchCriteriaDTO searchCriteriaDTO, Pageable pageable);
 }
