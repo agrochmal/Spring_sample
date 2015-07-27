@@ -13,18 +13,19 @@ import pl.demo.core.model.repo.UserRepository;
 
 @Service
 @Transactional(readOnly=true)
-public class DashbordService {
+public class DashboardServiceImpl implements DashboardService{
 
     private final AdvertRepository advertRepo;
     private final UserRepository userRepo;
 
     @Autowired
-    public DashbordService(final AdvertRepository advertRepo, final UserRepository userRepo) {
+    public DashboardServiceImpl(final AdvertRepository advertRepo, final UserRepository userRepo) {
         this.advertRepo = advertRepo;
         this.userRepo = userRepo;
     }
 
-    public DashbordDTO getData() {
+    @Override
+    public DashbordDTO buildDashboard() {
         final long userCount = advertRepo.findByActive(Boolean.TRUE).size();
         final long advertCount = userRepo.count();
         return new DashbordDTO(userCount, advertCount);
