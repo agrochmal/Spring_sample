@@ -7,10 +7,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import pl.demo.core.service.DashboardService;
-import pl.demo.web.dto.DashbordDTO;
+import pl.demo.web.dto.DashboardDTO;
 
 @RestController
-@RequestMapping("/dashbord")
+@RequestMapping("/dashboard")
 public class MainRestResource {
 
     @Autowired
@@ -19,7 +19,7 @@ public class MainRestResource {
     @RequestMapping(method = RequestMethod.GET,
             produces = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
 
-    public ResponseEntity<DashbordDTO> getDashbordData(){
+    public ResponseEntity<DashboardDTO> getDashbordData(){
         return new ResponseEntity<>(this.dashboardService.buildDashboard(), HttpStatus.OK);
     }
 }

@@ -3,7 +3,7 @@
  * All app controllers
  */
 angular.module('app.controlles', [])
-.controller('MainController', function($scope, DashbordService, SearchService, AdvertService, $location) {
+.controller('MainController', function($scope, DashboardService, SearchService, AdvertService, $location) {
 
 	init();
 
