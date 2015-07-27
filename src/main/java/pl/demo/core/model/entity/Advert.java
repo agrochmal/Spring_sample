@@ -30,7 +30,7 @@ import static pl.demo.core.model.entity.ModelConstans.TEXT_LENGTH_80;
 				@TokenFilterDef(factory=LowerCaseFilterFactory.class),
 				@TokenFilterDef(factory=StempelPolishStemFilterFactory.class)
 		})
-public class Advert extends BaseEntity implements Serializable, Searchable, Coordinates, Serialization {
+public class Advert extends BaseEntity implements Serializable, Searchable, Coordinates, FlatableEntity {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -204,10 +204,8 @@ public class Advert extends BaseEntity implements Serializable, Searchable, Coor
 	}
 
 	@Override
-	public void flatToSerialization(){
-		this.setComments(null);
-		this.setUser(null);
-		EntityUtils.setFieldValues(this, EntityUtils.PERSISTANCE_ANNOTATION_NAMES);
+	public void flatEntity(){
+		EntityUtils.setFieldValues(this, null, EntityUtils.ANNOTATIONS);
 	}
 
 	@Override

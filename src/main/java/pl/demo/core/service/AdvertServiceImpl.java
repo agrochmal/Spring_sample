@@ -45,7 +45,7 @@ public class AdvertServiceImpl implements AdvertService {
 		final Advert advert = advertRepo.findOne(id);
 		Assert.state(null != advert, "Advert doesn't exist in db");
 		genericRepository.detach(advert);
-		advert.flatToSerialization();
+		advert.flatEntity();
 		return advert;
 	}
 
@@ -119,7 +119,7 @@ public class AdvertServiceImpl implements AdvertService {
 						desc = desc.substring(0, SHORT_DESCRIPTION_LENGTH).concat("...");
 					}
 					genericRepository.detach(t);
-					t.flatToSerialization();
+					t.flatEntity();
 					return t;
 				}).collect(Collectors.toList());
 
