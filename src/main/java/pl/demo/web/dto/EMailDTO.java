@@ -5,6 +5,8 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.constraints.Size;
 
+import static pl.demo.core.model.entity.ModelConstans.TEXT_LENGTH_5_000;
+
 /**
  * Created by Robert on 08.02.15.
  */
@@ -22,7 +24,7 @@ public class EMailDTO {
     private String title;
 
     @NotEmpty
-    @Size(max=5_000)
+    @Size(max=TEXT_LENGTH_5_000)
     private String content;
 
     public String getSender() {

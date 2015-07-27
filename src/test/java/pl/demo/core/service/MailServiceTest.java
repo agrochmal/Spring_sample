@@ -1,7 +1,6 @@
 package pl.demo.core.service;
 
 import org.apache.velocity.app.VelocityEngine;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -9,7 +8,6 @@ import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.test.util.ReflectionTestUtils;
 import pl.demo.web.dto.EMailDTO;
@@ -17,10 +15,8 @@ import pl.demo.web.dto.EMailDTO;
 import javax.mail.Address;
 import javax.mail.Session;
 import javax.mail.internet.MimeMessage;
-
 import java.util.Properties;
 
-import static org.junit.Assert.*;
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.verify;
@@ -29,13 +25,13 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class MailServiceTest {
 
-    private MailService testSubject;
+    private MailServiceImpl testSubject;
     @Mock private JavaMailSender mailSender;
     @Mock private VelocityEngine velocityEngine;
 
     @Before
     public void setUp() throws Exception {
-        this.testSubject = new MailService();
+        this.testSubject = new MailServiceImpl();
 
         ReflectionTestUtils.setField(this.testSubject, "mailSender", mailSender);
         ReflectionTestUtils.setField(this.testSubject, "velocityEngine", velocityEngine);

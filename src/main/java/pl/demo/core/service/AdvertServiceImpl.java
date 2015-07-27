@@ -1,8 +1,5 @@
 package pl.demo.core.service;
 
-import java.util.*;
-import java.util.stream.Collectors;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -10,13 +7,19 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import pl.demo.core.model.entity.Advert;
 import pl.demo.core.model.entity.Comment;
+import pl.demo.core.model.entity.User;
+import pl.demo.core.model.repo.AdvertRepository;
 import pl.demo.core.model.repo.GenericRepository;
 import pl.demo.web.dto.EMailDTO;
 import pl.demo.web.dto.SearchCriteriaDTO;
-import pl.demo.core.model.entity.Advert;
-import pl.demo.core.model.repo.AdvertRepository;
-import pl.demo.core.model.entity.User;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Component("advertService")
 @Transactional(readOnly=true)
@@ -26,12 +29,12 @@ public class AdvertServiceImpl implements AdvertService {
 
 	private final AdvertRepository advertRepo;
 	private final GenericRepository<Advert> genericRepository;
-	private final SearchService searchService;
+	private final SearchServiceImpl searchService;
 	private final UserService userService;
-	private final MailService mailService;
+	private final MailServiceImpl mailService;
 
 	@Autowired
-	public AdvertServiceImpl(final AdvertRepository advertRepo, final GenericRepository<Advert> genericRepository, final SearchService searchService, final UserService userService, final MailService mailService){
+	public AdvertServiceImpl(final AdvertRepository advertRepo, final GenericRepository<Advert> genericRepository, final SearchServiceImpl searchService, final UserService userService, final MailServiceImpl mailService){
 		this.advertRepo = advertRepo;
 		this.genericRepository = genericRepository;
 		this.searchService = searchService;
@@ -80,8 +83,7 @@ public class AdvertServiceImpl implements AdvertService {
 
 	public Collection<Advert> findByUserName(){
 		final Long userId = userService.getLoggedUserDetails().getId();
-		final Collection<Advert> allEntries = advertRepo.findByUserId(userId);
-		return allEntries;
+		return advertRepo.findByUserId(userId);
 	}
 
 	public Advert createNew() {
@@ -103,11 +105,10 @@ public class AdvertServiceImpl implements AdvertService {
 	public Page<Advert> findBySearchCriteria(final SearchCriteriaDTO searchCriteriaDTO, final Pageable pageable) {
 
 		final Page<Advert> adverts;
-		if(null== searchCriteriaDTO || searchCriteriaDTO.isEmpty()) {
+		if(null==searchCriteriaDTO || searchCriteriaDTO.isEmpty()) {
 			adverts = advertRepo.findByActive(Boolean.TRUE, pageable);
-		}
-		else {
-			adverts = searchService.select(searchCriteriaDTO, pageable);
+		} else {
+			adverts = searchService.searchAdverts(searchCriteriaDTO, pageable);
 		}
 
 		final List<Advert> shortAdverts=adverts.getContent()

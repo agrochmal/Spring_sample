@@ -14,10 +14,11 @@ import pl.demo.core.util.EntityUtils;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.*;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import static pl.demo.core.model.entity.ModelConstans.TEXT_LENGTH_80;
-
 
 @Entity
 @Table(name = "adverts")

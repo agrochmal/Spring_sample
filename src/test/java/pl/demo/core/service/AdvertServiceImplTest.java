@@ -9,8 +9,9 @@ import org.mockito.runners.MockitoJUnitRunner;
 import pl.demo.core.model.entity.Advert;
 import pl.demo.core.model.entity.User;
 import pl.demo.core.model.repo.AdvertRepository;
+import pl.demo.core.model.repo.GenericRepository;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -20,9 +21,10 @@ public class AdvertServiceImplTest {
     private AdvertServiceImpl testSubject;
 
     @Mock private AdvertRepository advertRepo;
-    @Mock private SearchService searchService;
+    @Mock private SearchServiceImpl searchService;
     @Mock private UserService userService;
-    @Mock private MailService mailService;
+    @Mock private MailServiceImpl mailService;
+    @Mock private GenericRepository genericRepository;
 
     @Before
     public void setUp() throws Exception {
