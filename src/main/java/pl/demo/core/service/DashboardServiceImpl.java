@@ -3,9 +3,9 @@ package pl.demo.core.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.demo.web.dto.DashboardDTO;
 import pl.demo.core.model.repo.AdvertRepository;
 import pl.demo.core.model.repo.UserRepository;
+import pl.demo.web.dto.DashboardDTO;
 
 /**
  * Created by Robert on 29.12.14.
@@ -26,8 +26,8 @@ public class DashboardServiceImpl implements DashboardService{
 
     @Override
     public DashboardDTO buildDashboard() {
-        final long userCount = advertRepo.findByActive(Boolean.TRUE).size();
-        final long advertCount = userRepo.count();
+        final long userCount = userRepo.count();
+        final long advertCount = advertRepo.findByActive(Boolean.TRUE).size();
         return new DashboardDTO(userCount, advertCount);
     }
 }

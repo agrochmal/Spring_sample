@@ -14,11 +14,9 @@ import java.util.Map;
 /**
  * Created by Robert on 30.12.14.
  */
-public interface UserService extends UserDetailsService, CRUDService<String, User> {
+public interface UserService extends UserDetailsService, CRUDService<Long, User> {
 
     UserDetails authenticate(String username, String password);
-
-    void logout();
 
     /**
      * Heavyweight method to get logged authentication.

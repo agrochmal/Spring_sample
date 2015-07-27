@@ -15,46 +15,30 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import pl.demo.core.model.entity.AuthenticationUserDetails;
 import pl.demo.core.model.entity.User;
-import pl.demo.core.model.repo.GenericRepository;
 import pl.demo.core.model.repo.RoleRepository;
 import pl.demo.core.model.repo.UserRepository;
 
 @Service
 @Transactional(readOnly = true)
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl extends CRUDServiceImpl<Long, User> implements UserService {
 
 	private final RoleRepository roleRepository;
 	private final UserRepository userRepository;
 	private final PasswordEncoder passwordEncoder;
-	private final GenericRepository<User> genericRepository;
 
 	@Autowired
 	@Qualifier("authenticationManager")
 	private AuthenticationManager authManager;
 
 	@Autowired
-	private UserServiceImpl(final RoleRepository roleRepository, final GenericRepository genericRepository, final UserRepository userRepository, final PasswordEncoder passwordEncoder){
+	private UserServiceImpl(final RoleRepository roleRepository, final UserRepository userRepository, final PasswordEncoder passwordEncoder){
+		super(userRepository);
 		this.roleRepository = roleRepository;
 		this.userRepository = userRepository;
 		this.passwordEncoder = passwordEncoder;
-		this.genericRepository = genericRepository;
 	}
 
 	@Override
-	public User findOne(final String username) {
-		Assert.notNull(username, "Username is required");
-		User user = userRepository.findByUsername(username);
-		Assert.state(null!=user, "User doesn't exist in db");
-		genericRepository.detach(user);
-		return user;
-	}
-
-	@Override @Transactional(readOnly = false)
-	public void delete(String username) {
-		throw new RuntimeException("Not supported yet!");
-	}
-
-	@Override @Transactional(readOnly=false)
 	public void edit(final User user) {
 		Assert.notNull(user, "User is required");
 		final User existing = userRepository.findByUsername(user.getUsername());
@@ -65,18 +49,17 @@ public class UserServiceImpl implements UserService {
 		userRepository.save(existing);
 	}
 
-	@Override @Transactional(readOnly=false)
+	@Override
 	public User save (final User user){
 		Assert.notNull(user, "User is required");
 		user.setPassword( passwordEncoder.encode(user.getPassword()) );
 		user.addRole(roleRepository.findByRoleName("user"));
-		return userRepository.save(user);
+		return super.save(user);
 	}
 
 	/*
 		Releated to security
 	 */
-
 	@Override
 	public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
 		Assert.notNull(username, "Username is required");
@@ -95,11 +78,6 @@ public class UserServiceImpl implements UserService {
 		final Authentication authentication = authManager.authenticate(authenticationToken);
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		return loadUserByUsername(username);
-	}
-
-	@Override
-	public void logout() {
-		SecurityContextHolder.getContext().setAuthentication(null);
 	}
 
 	@Override

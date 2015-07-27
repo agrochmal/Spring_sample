@@ -25,7 +25,7 @@ angular.module('app.controlles', [])
 			$scope.addSlide();
 		}
 
-		DashbordService.get(function (dashbord) {
+		DashboardService.get(function (dashbord) {
 			$scope.users = dashbord.users;
 			$scope.adverts = dashbord.adverts;
 		});

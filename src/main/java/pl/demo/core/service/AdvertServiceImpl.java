@@ -11,7 +11,6 @@ import pl.demo.core.model.entity.Advert;
 import pl.demo.core.model.entity.Comment;
 import pl.demo.core.model.entity.User;
 import pl.demo.core.model.repo.AdvertRepository;
-import pl.demo.core.model.repo.GenericRepository;
 import pl.demo.web.dto.EMailDTO;
 import pl.demo.web.dto.SearchCriteriaDTO;
 
@@ -23,54 +22,31 @@ import java.util.stream.Collectors;
 
 @Component("advertService")
 @Transactional(readOnly=true)
-public class AdvertServiceImpl implements AdvertService {
+public class AdvertServiceImpl extends CRUDServiceImpl<Long, Advert> implements AdvertService {
 
 	private final static int SHORT_DESCRIPTION_LENGTH = 255;
 
 	private final AdvertRepository advertRepo;
-	private final GenericRepository<Advert> genericRepository;
 	private final SearchAdvertService searchService;
 	private final UserService userService;
-	private final MailServiceImpl mailService;
+	private final MailService mailService;
 
 	@Autowired
-	public AdvertServiceImpl(final AdvertRepository advertRepo, final GenericRepository<Advert> genericRepository, final SearchAdvertService searchService, final UserService userService, final MailServiceImpl mailService){
+	public AdvertServiceImpl(final AdvertRepository advertRepo, final SearchAdvertService searchService, final UserService userService, final MailService mailService){
+		super(advertRepo);
 		this.advertRepo = advertRepo;
-		this.genericRepository = genericRepository;
 		this.searchService = searchService;
 		this.userService = userService;
 		this.mailService = mailService;
 	}
 
 	@Override
-	public Advert findOne(final Long id) {
-		Assert.notNull(id, "Advert id is required");
-		final Advert advert = advertRepo.findOne(id);
-		Assert.state(null != advert, "Advert doesn't exist in db");
-		genericRepository.detach(advert);
-		advert.flatEntity();
-		return advert;
-	}
-
-	@Override @Transactional(readOnly = false)
-	public void delete(Long id) {
-		Assert.notNull(id,  "Advert id is required");
-		this.advertRepo.delete(id);
-	}
-
-	@Override @Transactional(readOnly = false)
-	public void edit(final Advert advert) {
-		throw new RuntimeException("Method is not supported yet");
-	}
-
-	@Override @Transactional(readOnly = false)
 	public Advert save(final Advert advert) {
-		Assert.notNull(advert, "Advert is required");
 		final User loggedUser = userService.getLoggedUser();
 		if(null != loggedUser) {
 			advert.setUser(loggedUser);
 		}
-		return advertRepo.save(advert);
+		return super.save(advert);
 	}
 
 	@Override
@@ -119,7 +95,7 @@ public class AdvertServiceImpl implements AdvertService {
 							&& desc.length() > SHORT_DESCRIPTION_LENGTH) {
 						desc = desc.substring(0, SHORT_DESCRIPTION_LENGTH).concat("...");
 					}
-					genericRepository.detach(t);
+					getGenericRepository().detach(t);
 					t.flatEntity();
 					return t;
 				}).collect(Collectors.toList());
@@ -127,7 +103,7 @@ public class AdvertServiceImpl implements AdvertService {
 		return new PageImpl(shortAdverts, pageable, adverts.getTotalElements());
 	}
 
-	@Override @Transactional(readOnly = false)
+	@Override
 	public void updateActive(final Long id, final Boolean status) {
 		Assert.notNull(id, "Advert is required");
 		final Advert advert = advertRepo.findOne(id);
@@ -142,7 +118,7 @@ public class AdvertServiceImpl implements AdvertService {
 		this.mailService.sendMail(eMailDTO);
 	}
 
-	@Override @Transactional(readOnly = false)
+	@Override
 	public void postComment(final Long advertId, final Comment comment){
 		Assert.notNull(advertId, "Advert is required");
 		Assert.notNull(comment, "Comment is required");
