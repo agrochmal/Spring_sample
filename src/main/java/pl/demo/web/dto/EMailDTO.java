@@ -1,5 +1,8 @@
 package pl.demo.web.dto;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -57,5 +60,41 @@ public class EMailDTO {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass()) return false;
+
+        EMailDTO eMailDTO = (EMailDTO) o;
+
+        return new EqualsBuilder()
+                .append(sender, eMailDTO.sender)
+                .append(receipt, eMailDTO.receipt)
+                .append(title, eMailDTO.title)
+                .append(content, eMailDTO.content)
+                .isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder(17, 37)
+                .append(sender)
+                .append(receipt)
+                .append(title)
+                .append(content)
+                .toHashCode();
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .append("sender", sender)
+                .append("receipt", receipt)
+                .append("title", title)
+                .append("content", content)
+                .toString();
     }
 }

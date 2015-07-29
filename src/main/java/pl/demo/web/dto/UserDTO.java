@@ -1,5 +1,9 @@
 package pl.demo.web.dto;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
+
 import java.util.Map;
 
 public class UserDTO {
@@ -57,5 +61,44 @@ public class UserDTO {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+
+		if (o == null || getClass() != o.getClass()) return false;
+
+		UserDTO userDTO = (UserDTO) o;
+
+		return new EqualsBuilder()
+				.append(username, userDTO.username)
+				.append(name, userDTO.name)
+				.append(location, userDTO.location)
+				.append(phone, userDTO.phone)
+				.append(roles, userDTO.roles)
+				.isEquals();
+	}
+
+	@Override
+	public int hashCode() {
+		return new HashCodeBuilder(17, 37)
+				.append(username)
+				.append(name)
+				.append(location)
+				.append(phone)
+				.append(roles)
+				.toHashCode();
+	}
+
+	@Override
+	public String toString() {
+		return new ToStringBuilder(this)
+				.append("username", username)
+				.append("name", name)
+				.append("location", location)
+				.append("phone", phone)
+				.append("roles", roles)
+				.toString();
 	}
 }

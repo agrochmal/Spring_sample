@@ -4,11 +4,6 @@
 	xsi:schemaLocation="
 			http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
 
-    <!--
-        com.sun.mail.smtp.SMTPSendFailedException: 554 5.7.1 Sender address rejected.
-        In case of many providers (like "o2.pl") means that only account owner (like "user@o2.pl") is allowed as the message sender.
-    -->
-
     <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
         <property name="host" value="poczta.interia.pl" />
         <property name="port" value="587" />

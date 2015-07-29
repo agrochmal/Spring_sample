@@ -19,7 +19,7 @@ import pl.demo.core.model.repo.RoleRepository;
 import pl.demo.core.model.repo.UserRepository;
 
 @Service
-@Transactional(readOnly = true)
+@Transactional(readOnly=true)
 public class UserServiceImpl extends CRUDServiceImpl<Long, User> implements UserService {
 
 	private final RoleRepository roleRepository;

@@ -2,6 +2,7 @@ package pl.demo.core.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import pl.demo.core.model.entity.BaseEntity;
 import pl.demo.core.model.entity.FlatableEntity;
@@ -25,7 +26,7 @@ public abstract class CRUDServiceImpl<PK extends Serializable, E extends BaseEnt
     public E findOne(PK id) {
         Assert.notNull(id, "Entity id is required");
         final E entity = getJpaRepository().findOne(id);
-        Assert.state(null != entity, "Advert doesn't exist in db");
+        Assert.state(null != entity, "Entity doesn't exist in db");
         getGenericRepository().detach(entity);
         Assert.state(entity instanceof FlatableEntity, "Entity must implement FlatableEntity interface!");
         ((FlatableEntity)entity).flatEntity();
@@ -33,31 +34,29 @@ public abstract class CRUDServiceImpl<PK extends Serializable, E extends BaseEnt
     }
 
     @Override
+    @Transactional(readOnly=false)
     public void delete(PK id) {
         Assert.notNull(id, "Entity id is required");
         getJpaRepository().delete(id);
     }
 
     @Override
+    @Transactional(readOnly=false)
     public void edit(E entity) {
     }
 
     @Override
+    @Transactional(readOnly=false)
     public E save(E entity) {
         Assert.notNull(entity, "Entity is required");
         return getJpaRepository().save(entity);
     }
 
-
-    public JpaRepository<E, PK> getJpaRepository() {
+    protected JpaRepository<E, PK> getJpaRepository() {
         return jpaRepository;
     }
 
-    public void setJpaRepository(JpaRepository<E, PK> jpaRepository) {
-        this.jpaRepository = jpaRepository;
-    }
-
-    public GenericRepository<E> getGenericRepository() {
+    protected GenericRepository<E> getGenericRepository() {
         return genericRepository;
     }
 

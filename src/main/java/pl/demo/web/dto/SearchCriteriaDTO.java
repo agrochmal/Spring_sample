@@ -1,5 +1,9 @@
 package pl.demo.web.dto;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
+
 import java.util.Objects;
 
 /**
@@ -56,6 +60,42 @@ public class SearchCriteriaDTO {
 
     public boolean hasKeyword(){
         return !(Objects.isNull(keyWords) || "".equals(keyWords));
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass()) return false;
+
+        SearchCriteriaDTO that = (SearchCriteriaDTO) o;
+
+        return new EqualsBuilder()
+                .append(keyWords, that.keyWords)
+                .append(locLatitude, that.locLatitude)
+                .append(locLongitude, that.locLongitude)
+                .append(locRadius, that.locRadius)
+                .isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder(17, 37)
+                .append(keyWords)
+                .append(locLatitude)
+                .append(locLongitude)
+                .append(locRadius)
+                .toHashCode();
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .append("keyWords", keyWords)
+                .append("locLatitude", locLatitude)
+                .append("locLongitude", locLongitude)
+                .append("locRadius", locRadius)
+                .toString();
     }
 }
 

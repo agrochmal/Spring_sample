@@ -5,7 +5,6 @@ import org.springframework.util.Assert;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.Collection;
@@ -38,15 +37,10 @@ public final class EntityUtils {
                                       final Collection<Class> fieldAnnotations){
         Assert.notNull(target, "Pass target object to the method");
         Assert.notNull(fieldAnnotations, "Pass annotations to the method");
-        Field[] classFields = target.getClass().getDeclaredFields();
-        for(final Field field : classFields){
-            final Annotation[] annotations = field.getAnnotations();
-            for (final Annotation annotation : annotations) {
-                if(fieldAnnotations.contains(annotation.annotationType())) {
-                    setFieldValue(field, target, value);
-                }
-            }
-
-        }
+        Arrays.stream(target.getClass().getDeclaredFields()).forEach(
+            t -> Arrays.stream(t.getAnnotations()).
+                    filter(z->fieldAnnotations.contains(z)).
+                    forEach(x->setFieldValue(t, target, value))
+        );
     }
 }
