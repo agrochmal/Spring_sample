@@ -1,21 +1,20 @@
 package pl.demo.core.develop;
 
-import javax.annotation.PostConstruct;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-
 import pl.demo.core.model.entity.Advert;
-import pl.demo.core.model.repo.AdvertRepository;
 import pl.demo.core.model.entity.Role;
 import pl.demo.core.model.entity.RoleName;
 import pl.demo.core.model.entity.User;
+import pl.demo.core.model.repo.AdvertRepository;
 import pl.demo.core.model.repo.RoleNameRepository;
 import pl.demo.core.model.repo.RoleRepository;
 import pl.demo.core.model.repo.UserRepository;
 
+import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -38,9 +37,20 @@ public class DatabaseDevelopmentInitializer {
   @Autowired
   private PasswordEncoder passwordEncoder;
 
+  private @Value("${develop.init-users}") boolean initUsers;
+
+  private @Value("${develop.init-adverts}") boolean initAdverts;
+
   @PostConstruct
   private void init() {
-    initUsers();
+      if(initUsers) {
+          initUsers();
+      }
+      if(initAdverts){
+          for(int i=0; i<4;i++){
+              initAdverts(i, null);
+          }
+      }
   }
 
   private void initUsers() {
@@ -77,9 +87,6 @@ public class DatabaseDevelopmentInitializer {
       adminUser.addRole(roleForAdmin);
       userRepository.save(adminUser);
     }
-
-    for(int i=0; i<2;i++)
-      initAdverts(i, adminUser);
   }
 
   private void initAdverts(int nr, User adminUser){
