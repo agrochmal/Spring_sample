@@ -1,5 +1,6 @@
 package pl.demo.core.service;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -16,7 +17,6 @@ import pl.demo.web.dto.SearchCriteriaDTO;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -91,11 +91,12 @@ public class AdvertServiceImpl extends CRUDServiceImpl<Long, Advert> implements 
 				.stream()
 				.map(t -> {
 					String desc = t.getDescription();
-					if (Objects.nonNull(desc)
+					if (StringUtils.isNotBlank(desc)
 							&& desc.length() > SHORT_DESCRIPTION_LENGTH) {
 						desc = desc.substring(0, SHORT_DESCRIPTION_LENGTH).concat("...");
 					}
 					getGenericRepository().detach(t);
+					t.setDescription(desc);
 					t.flatEntity();
 					return t;
 				}).collect(Collectors.toList());

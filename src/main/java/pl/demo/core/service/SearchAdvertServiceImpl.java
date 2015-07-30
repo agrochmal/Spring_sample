@@ -123,8 +123,6 @@ public class SearchAdvertServiceImpl implements SearchAdvertService {
 
         public Page<T> build(){
 
-            validate();
-
             return new Page<T>() {
                 @Override
                 public int getTotalPages() {
@@ -201,10 +199,6 @@ public class SearchAdvertServiceImpl implements SearchAdvertService {
                     return null;
                 }
             };
-        }
-
-        private void validate(){
-            Assert.state(null!=result && result.size() != total, "Inconsistent data!");
         }
     }
 }

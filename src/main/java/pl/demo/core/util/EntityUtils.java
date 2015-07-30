@@ -37,10 +37,13 @@ public final class EntityUtils {
                                       final Collection<Class> fieldAnnotations){
         Assert.notNull(target, "Pass target object to the method");
         Assert.notNull(fieldAnnotations, "Pass annotations to the method");
+
         Arrays.stream(target.getClass().getDeclaredFields()).forEach(
-            t -> Arrays.stream(t.getAnnotations()).
-                    filter(z->fieldAnnotations.contains(z)).
-                    forEach(x->setFieldValue(t, target, value))
+            t -> Arrays.stream(t.getAnnotations()).forEach(a->{
+                if(fieldAnnotations.contains(a.annotationType())){
+                    setFieldValue(t, target, value);
+                }
+            })
         );
     }
 }
