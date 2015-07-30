@@ -1,5 +1,8 @@
 package pl.demo.core.model.entity;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.solr.analysis.LowerCaseFilterFactory;
 import org.apache.solr.analysis.StandardTokenizerFactory;
 import org.apache.solr.analysis.StempelPolishStemFilterFactory;
@@ -212,40 +215,63 @@ public class Advert extends BaseEntity implements Serializable, Searchable, Coor
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
+
 		if (o == null || getClass() != o.getClass()) return false;
 
 		Advert advert = (Advert) o;
 
-		if (active != null ? !active.equals(advert.active) : advert.active != null) return false;
-		if (contact != null ? !contact.equals(advert.contact) : advert.contact != null) return false;
-		if (creationDate != null ? !creationDate.equals(advert.creationDate) : advert.creationDate != null)
-			return false;
-		if (description != null ? !description.equals(advert.description) : advert.description != null) return false;
-		if (email != null ? !email.equals(advert.email) : advert.email != null) return false;
-		if (endDate != null ? !endDate.equals(advert.endDate) : advert.endDate != null) return false;
-		if (latitude != null ? !latitude.equals(advert.latitude) : advert.latitude != null) return false;
-		if (locationName != null ? !locationName.equals(advert.locationName) : advert.locationName != null)
-			return false;
-		if (longitude != null ? !longitude.equals(advert.longitude) : advert.longitude != null) return false;
-		if (phone != null ? !phone.equals(advert.phone) : advert.phone != null) return false;
-		if (title != null ? !title.equals(advert.title) : advert.title != null) return false;
-
-		return true;
+		return new EqualsBuilder()
+				.append(title, advert.title)
+				.append(description, advert.description)
+				.append(active, advert.active)
+				.append(locationName, advert.locationName)
+				.append(creationDate, advert.creationDate)
+				.append(endDate, advert.endDate)
+				.append(contact, advert.contact)
+				.append(phone, advert.phone)
+				.append(email, advert.email)
+				.append(latitude, advert.latitude)
+				.append(longitude, advert.longitude)
+				.append(user, advert.user)
+				.append(comments, advert.comments)
+				.isEquals();
 	}
 
 	@Override
 	public int hashCode() {
-		int result = title != null ? title.hashCode() : 0;
-		result = 31 * result + (description != null ? description.hashCode() : 0);
-		result = 31 * result + (active != null ? active.hashCode() : 0);
-		result = 31 * result + (locationName != null ? locationName.hashCode() : 0);
-		result = 31 * result + (creationDate != null ? creationDate.hashCode() : 0);
-		result = 31 * result + (endDate != null ? endDate.hashCode() : 0);
-		result = 31 * result + (contact != null ? contact.hashCode() : 0);
-		result = 31 * result + (phone != null ? phone.hashCode() : 0);
-		result = 31 * result + (email != null ? email.hashCode() : 0);
-		result = 31 * result + (latitude != null ? latitude.hashCode() : 0);
-		result = 31 * result + (longitude != null ? longitude.hashCode() : 0);
-		return result;
+		return new HashCodeBuilder(17, 37)
+				.append(title)
+				.append(description)
+				.append(active)
+				.append(locationName)
+				.append(creationDate)
+				.append(endDate)
+				.append(contact)
+				.append(phone)
+				.append(email)
+				.append(latitude)
+				.append(longitude)
+				.append(user)
+				.append(comments)
+				.toHashCode();
+	}
+
+	@Override
+	public String toString() {
+		return new ToStringBuilder(this)
+				.append("title", title)
+				.append("description", description)
+				.append("active", active)
+				.append("locationName", locationName)
+				.append("creationDate", creationDate)
+				.append("endDate", endDate)
+				.append("contact", contact)
+				.append("phone", phone)
+				.append("email", email)
+				.append("latitude", latitude)
+				.append("longitude", longitude)
+				.append("user", user)
+				.append("comments", comments)
+				.toString();
 	}
 }

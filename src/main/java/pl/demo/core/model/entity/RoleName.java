@@ -1,9 +1,13 @@
 package pl.demo.core.model.entity;
 
-import java.io.Serializable;
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import java.io.Serializable;
 
 import static pl.demo.core.model.entity.ModelConstans.TEXT_LENGTH_80;
 
@@ -29,10 +33,31 @@ public class RoleName extends BaseEntity implements Serializable {
   public void setName(String name) {
     this.name = name;
   }
-  
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+
+    if (o == null || getClass() != o.getClass()) return false;
+
+    RoleName roleName = (RoleName) o;
+
+    return new EqualsBuilder()
+            .append(name, roleName.name)
+            .isEquals();
+  }
+
+  @Override
+  public int hashCode() {
+    return new HashCodeBuilder(17, 37)
+            .append(name)
+            .toHashCode();
+  }
+
   @Override
   public String toString() {
-    return name;
+    return new ToStringBuilder(this)
+            .append("name", name)
+            .toString();
   }
-  
 }

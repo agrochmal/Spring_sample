@@ -1,12 +1,9 @@
 package pl.demo.core.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.apache.commons.lang.builder.ToStringBuilder;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 
 @MappedSuperclass
 public abstract class BaseEntity {
@@ -24,7 +21,11 @@ public abstract class BaseEntity {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
-	//TO-DO	add timestamp
 
+	@Override
+	public String toString() {
+		return new ToStringBuilder(this)
+				.append("id", id)
+				.toString();
+	}
 }

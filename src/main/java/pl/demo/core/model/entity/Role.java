@@ -1,11 +1,11 @@
 package pl.demo.core.model.entity;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
+
+import javax.persistence.*;
 import java.io.Serializable;
-import javax.persistence.Entity;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
 
 @Entity
 @Table(name = "roles")
@@ -34,4 +34,30 @@ public class Role extends BaseEntity implements Serializable {
     this.roleName = roleName;
   }
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+
+    if (o == null || getClass() != o.getClass()) return false;
+
+    Role role = (Role) o;
+
+    return new EqualsBuilder()
+            .append(roleName, role.roleName)
+            .isEquals();
+  }
+
+  @Override
+  public int hashCode() {
+    return new HashCodeBuilder(17, 37)
+            .append(roleName)
+            .toHashCode();
+  }
+
+  @Override
+  public String toString() {
+    return new ToStringBuilder(this)
+            .append("roleName", roleName)
+            .toString();
+  }
 }

@@ -1,27 +1,21 @@
 package pl.demo.core.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.hibernate.validator.constraints.Length;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import pl.demo.core.util.EntityUtils;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.hibernate.validator.constraints.Length;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import pl.demo.core.util.EntityUtils;
 
 import static pl.demo.core.model.entity.ModelConstans.TEXT_LENGTH_80;
 
@@ -176,30 +170,51 @@ public class User extends BaseEntity implements FlatableEntity {
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
+
 		if (o == null || getClass() != o.getClass()) return false;
 
 		User user = (User) o;
 
-		if (lat != null ? !lat.equals(user.lat) : user.lat != null) return false;
-		if (lng != null ? !lng.equals(user.lng) : user.lng != null) return false;
-		if (location != null ? !location.equals(user.location) : user.location != null) return false;
-		if (name != null ? !name.equals(user.name) : user.name != null) return false;
-		if (password != null ? !password.equals(user.password) : user.password != null) return false;
-		if (phone != null ? !phone.equals(user.phone) : user.phone != null) return false;
-		if (username != null ? !username.equals(user.username) : user.username != null) return false;
-
-		return true;
+		return new EqualsBuilder()
+				.append(username, user.username)
+				.append(password, user.password)
+				.append(name, user.name)
+				.append(location, user.location)
+				.append(phone, user.phone)
+				.append(lat, user.lat)
+				.append(lng, user.lng)
+				.append(roles, user.roles)
+				.append(adverts, user.adverts)
+				.isEquals();
 	}
 
 	@Override
 	public int hashCode() {
-		int result = username != null ? username.hashCode() : 0;
-		result = 31 * result + (password != null ? password.hashCode() : 0);
-		result = 31 * result + (name != null ? name.hashCode() : 0);
-		result = 31 * result + (location != null ? location.hashCode() : 0);
-		result = 31 * result + (phone != null ? phone.hashCode() : 0);
-		result = 31 * result + (lat != null ? lat.hashCode() : 0);
-		result = 31 * result + (lng != null ? lng.hashCode() : 0);
-		return result;
+		return new HashCodeBuilder(17, 37)
+				.append(username)
+				.append(password)
+				.append(name)
+				.append(location)
+				.append(phone)
+				.append(lat)
+				.append(lng)
+				.append(roles)
+				.append(adverts)
+				.toHashCode();
+	}
+
+	@Override
+	public String toString() {
+		return new ToStringBuilder(this)
+				.append("username", username)
+				.append("password", password)
+				.append("name", name)
+				.append("location", location)
+				.append("phone", phone)
+				.append("lat", lat)
+				.append("lng", lng)
+				.append("roles", roles)
+				.append("adverts", adverts)
+				.toString();
 	}
 }
