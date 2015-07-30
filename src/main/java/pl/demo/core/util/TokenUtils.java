@@ -1,13 +1,18 @@
 package pl.demo.core.util;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-
+import com.google.common.base.Throwables;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.codec.Hex;
 import org.springframework.util.StringUtils;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 public final class TokenUtils {
+
+	private final static Logger logger = LoggerFactory.getLogger(TokenUtils.class);
 
 	private static final String OBFUSCATE_KEY = "12dfR45At612GAn09";
 	private static final long TOKEN_TIME_VALIDITY_MS = 1000L * 60 * 5;	// 5 minutes
@@ -52,11 +57,12 @@ public final class TokenUtils {
 		signatureBuilder.append(":");
 		signatureBuilder.append(OBFUSCATE_KEY);
 
-		final MessageDigest digest;
+		MessageDigest digest = null;
 		try {
 			digest = MessageDigest.getInstance("MD5");
 		} catch (NoSuchAlgorithmException e) {
-			throw new IllegalStateException("No MD5 algorithm available!");
+			logger.error("Cannot find instance for MD5", e);
+			Throwables.propagate(e);
 		}
 
 		return new String(Hex.encode(digest.digest(signatureBuilder.toString().getBytes())));

@@ -1,6 +1,9 @@
 package pl.demo.core.service;
 
+import com.google.common.base.Throwables;
 import org.apache.velocity.app.VelocityEngine;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -22,6 +25,8 @@ import java.util.Map;
 
 @Service
 public class MailServiceImpl implements MailService{
+
+    private final static Logger logger = LoggerFactory.getLogger(MailServiceImpl.class);
 
     private static final String TEMPLATE_PATH = "/velocity/email_template.vm";
 
@@ -49,7 +54,8 @@ public class MailServiceImpl implements MailService{
             mailSender.send(mimeMsg);
 
         } catch (MessagingException e) {
-            throw new RuntimeException(e);
+            logger.error("Error during sending email", e);
+            Throwables.propagate(e);
         }
     }
 }

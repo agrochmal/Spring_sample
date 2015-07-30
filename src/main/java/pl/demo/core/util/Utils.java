@@ -1,11 +1,16 @@
 package pl.demo.core.util;
 
+import com.google.common.base.Throwables;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.validation.BindingResult;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 
 public final class Utils {
+
+	private final static Logger logger = LoggerFactory.getLogger(Utils.class);
 
 	private Utils(){
 		throw new AssertionError("Cannot create object!");
@@ -23,11 +28,12 @@ public final class Utils {
 	}
 
 	public static URI createURI(final String path){
-		final URI uri;
+		URI uri=null;
 		try {
 			uri = new URI(path);
 		} catch (URISyntaxException ex) {
-			throw new RuntimeException(ex);
+			logger.error("Cannot create URI for given path:"+path, ex);
+			Throwables.propagate(ex);
 		}
 		return uri;
 	}

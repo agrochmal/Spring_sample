@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import pl.demo.core.model.entity.Comment;
 import pl.demo.core.util.PlainTextFilter;
+
 import java.util.Date;
 
 /**
@@ -26,7 +27,6 @@ public class CommentServiceImpl implements CommentService{
     public void postComment(final Comment comment) {
         Assert.notNull(comment, "Comment is required");
         prepareComment(comment);
-       // callback.post(comment);
        // mailSender.sendNotificationEmail(comment);
     }
 
