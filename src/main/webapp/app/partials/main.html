@@ -15,14 +15,14 @@
 		<span class="glyphicon glyphicon-map-marker middlesearchbox" style="width: 30px; top: 0px; padding-top: 15px; padding-left: 10px;"></span>
 		<input id="location-search" type="text" class="middlesearchbox" style="padding-left: 10px;" ng-autocomplete="searchCriteria.locationName" details="searchCommand.autoComplete.details" options="searchCommand.autoComplete.options" placeholder="Podaj lokalizację">
 		<select class="middlesearchbox" style="width:10%" ng-model="searchCommand.radius" ng-init="searchCommand.radius='10'">
-			<option value="10">10km</option>
-			<option value="20">20km</option>
-			<option value="30">30km</option>
-			<option value="50">50km</option>
-			<option value="100">100km</option>
-			<option value="200">200km</option>
-			<option value="500">500km</option>
-			<option value="-1">>500km</option>
+			<option value="10">10 km</option>
+			<option value="20">20 km</option>
+			<option value="30">30 km</option>
+			<option value="50">50 km</option>
+			<option value="100">100 km</option>
+			<option value="200">200 km</option>
+			<option value="500">500 km</option>
+			<option value="-1">>500 km</option>
 		</select>
 		<span class="input-group-btn rightsearchbox">
 		  <button id="button-search" class="btn input-lg btn-search" type="button" ng-click="searchCommand.search()">

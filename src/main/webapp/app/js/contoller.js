@@ -8,20 +8,19 @@ angular.module('app.controlles', [])
 	init();
 
 	function init() {
-		$scope.mainInterval = 3000;
+		$scope.mainInterval = 4000;
 		var slides = $scope.slides = [];
 		var nr = 1;
-
 		$scope.addSlide = function () {
 			slides.push({
 				image: 'app/images/' + nr + '.jpeg',
-				text: ['deatils', 'deatils', 'deatils'][slides.length % 3] + ' ' +
-				['.................', '.............', '..............'][slides.length % 3]
+				text: ['deatils 111111111', 'deatils 22222222'][slides.length % 2] + ' ' +
+				['.................', '.............', '..............'][slides.length % 2]
 			});
 			nr++;
 		};
 
-		for (var i = 0; i < 3; i++) {
+		for (var i = 0; i < 2; i++) {
 			$scope.addSlide();
 		}
 
@@ -282,11 +281,13 @@ angular.module('app.controlles', [])
 		},
 		isSent:false,
 		send: function() {
-			$http.post('api/adverts/1/email', this.message).
-				success(function(data, status, headers, config) {
-					console.log('E-mail was sent');
-					$scope.sendCommand.isSent=true;
-				});
+			if ($scope.emailForm.$valid) {
+				$http.post('api/adverts/1/email', this.message).
+					success(function (data, status, headers, config) {
+						console.log('E-mail was sent');
+						$scope.sendCommand.isSent = true;
+					});
+			}
 		}
 	};
 

@@ -31,17 +31,15 @@ public class AdvertServiceImpl extends CRUDServiceImpl<Long, Advert>
 	private final SearchAdvertService searchService;
 	private final UserService userService;
 	private final MailService mailService;
-	private final CommentService commentService;
 
 	@Autowired
 	public AdvertServiceImpl(final AdvertRepository advertRepo, final SearchAdvertService searchService,
-							 final UserService userService, final MailService mailService, final CommentService commentService){
+							 final UserService userService, final MailService mailService){
 		super(advertRepo);
 		this.advertRepo = advertRepo;
 		this.searchService = searchService;
 		this.userService = userService;
 		this.mailService = mailService;
-		this.commentService = commentService;
 	}
 
 	@Override
@@ -72,8 +70,7 @@ public class AdvertServiceImpl extends CRUDServiceImpl<Long, Advert>
 	@Override
 	public Advert createNew() {
 		return Optional.ofNullable( userService.getLoggedUser() )
-				.map(t->
-				{
+				.map(t-> {
 					final Advert advert = new Advert();
 					advert.setLocationName(t.getLocation());
 					advert.setContact(t.getName());
@@ -114,12 +111,12 @@ public class AdvertServiceImpl extends CRUDServiceImpl<Long, Advert>
 
 	@Override
 	@Transactional(readOnly=false)
-	public void updateActiveStatus(final Long id, final Boolean status) {
-		Assert.notNull(id, "Advert is required");
-		final Advert advert = advertRepo.findOne(id);
-		Assert.state(null != advert, "Advert doesn't exist in db");
-		advert.setActive(status);
-		advertRepo.save(advert);
+	public void updateActiveStatus(final Long advertId, final Boolean status) {
+		Assert.notNull(advertId, "Advert is required");
+		final Advert dbAdvert = advertRepo.findOne(advertId);
+		Assert.state(null != dbAdvert, "Advert doesn't exist in db");
+		dbAdvert.setActive(status);
+		super.save(dbAdvert);
 	}
 
 	@Override

@@ -12,27 +12,47 @@
 				Wiadomość została wysłana
 			</span>
 
-			<form role="form" novalidate>
+			<form role="form" name="emailForm" novalidate>
 				<div class="form-group">
-					<input id="fromAddress" class="form-control" placeholder="Nadawca" type="text" name="fromAddress" ng-model="sendCommand.message.sender" ng-autofocus>
+					<label class="control-label" for="fromAddress">Nadawca<span class="asterix"> *</span></label>
+					<input id="fromAddress" class="form-control" placeholder="Nadawca" type="text" name="fromAddress" ng-model="sendCommand.message.sender" ng-autofocus required>
+					<div class="error-container" ng-show="emailForm.$submitted || emailForm.fromAddress.$touched">
+						<small ng-show="emailForm.fromAddress.$error.required">
+							Podaj adres e-mail
+						</small>
+					</div>
 				</div>
 				<div class="form-group">
-					<input id="toAddress" class="form-control" placeholder="Odbiorca" type="text" name="toAddress" ng-model="sendCommand.message.receipt">
+					<label class="control-label" for="toAddress">Odbiorca<span class="asterix"> *</span></label>
+					<input id="toAddress" class="form-control" placeholder="Odbiorca" type="text" name="toAddress" ng-model="sendCommand.message.receipt" required>
+					<div class="error-container" ng-show="emailForm.$submitted || emailForm.toAddress.$touched">
+						<small ng-show="emailForm.toAddress.$error.required">
+							Podaj adres e-mail
+						</small>
+					</div>
 				</div>
 				<div class="form-group">
-					<input id="msgTitle" class="form-control" placeholder="Tytuł wiadomości" type="text" name="msgTitle" ng-model="sendCommand.message.title">
+					<label class="control-label" for="msgTitle">Tytuł<span class="asterix"> *</span></label>
+					<input id="msgTitle" class="form-control" placeholder="Tytuł wiadomości" type="text" name="msgTitle" ng-model="sendCommand.message.title" required>
+					<div class="error-container" ng-show="emailForm.$submitted || emailForm.msgTitle.$touched">
+						<small ng-show="emailForm.msgTitle.$error.required">
+							Podaj tytuł
+						</small>
+					</div>
 				</div>
 
 				<div class="form-group">
-						<ng-editor id="msgContent" name="msgContent" model-name="sendCommand.message.content" rows="6" required></ng-editor>
-						<div class="error-container" ng-show="advertForm.$submitted || advertForm.description.$touched">
-							<small ng-show="advertForm.description.$error.required"> Wpisz treść wiadomości</small>
-						</div>
+					<label class="control-label" for="msgContent" >Treść wiadomości<span class="asterix"> *</span></label>
+					<ng-editor id="msgContent" name="msgContent" model-name="sendCommand.message.content" rows="6" required></ng-editor>
+					<div class="error-container" ng-show="emailForm.$submitted || emailForm.msgContent.$touched">
+						<small ng-show="emailForm.msgContent.$error.required"> Wpisz treść wiadomości</small>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button class="btn action-btn" type="submit" ng-click="sendCommand.send()"> Wyślij wiadomość </button>
 				</div>
 			</form>
 		</div>
-		<div class="modal-footer">
-			<button class="btn action-btn" type="submit" ng-click="sendCommand.send()"> Wyślij wiadomość </button>
-		</div>
+		<
 	</div>
 </div>
