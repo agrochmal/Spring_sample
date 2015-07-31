@@ -27,7 +27,7 @@ public class DashboardServiceImpl implements DashboardService{
     @Override
     public DashboardDTO buildDashboard() {
         final long userCount = userRepo.count();
-        final long advertCount = advertRepo.findByActive(Boolean.TRUE).size();
+        final long advertCount = advertRepo.count();
         return new DashboardDTO(userCount, advertCount);
     }
 }

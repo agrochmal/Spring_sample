@@ -72,7 +72,8 @@ public class DatabaseDevelopmentInitializer {
       plainUser.setLocation("Rzeszów");
       plainUser.setName("Robert Sikora");
       plainUser.setPhone("123 456 789");
-      // plain user has only user role
+      plainUser.setLat(50.0411867d);
+      plainUser.setLng(21.999119599999972d);
       plainUser.addRole(roleForUser);
       userRepository.save(plainUser);
 
@@ -81,6 +82,8 @@ public class DatabaseDevelopmentInitializer {
       adminUser.setLocation("Rzeszów");
       adminUser.setName("Robert Sikora");
       adminUser.setPhone("661 333 222");
+      adminUser.setLat(50.0411867d);
+      adminUser.setLng(21.999119599999972d);
       roleForAdmin = roleRepository.save(roleForAdmin);
 
       adminUser.addRole(roleForUser);

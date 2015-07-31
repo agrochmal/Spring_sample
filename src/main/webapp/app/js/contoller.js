@@ -149,9 +149,12 @@ angular.module('app.controlles', [])
 		},
 		save: function() {
 			if ($scope.advertForm.$valid) {
-				$scope.saveCommand.advert.latitude = this.autoComplete.getLatitude();
-				$scope.saveCommand.advert.longitude = this.autoComplete.getLongitude();
-
+				if ($scope.saveCommand.advert.latitude===0) {
+					$scope.saveCommand.advert.latitude = this.autoComplete.getLatitude();
+				}
+				if ($scope.saveCommand.advert.longitude===0) {
+					$scope.saveCommand.advert.longitude = this.autoComplete.getLongitude();
+				}
 				$scope.saveCommand.advert.$save(function() {
 					$location.path('/');
 				});
@@ -179,6 +182,7 @@ angular.module('app.controlles', [])
 	function init(){
 		var page = SearchService.getData();
 		page.number=1;
+		$scope.currentPage=1;
 		renderPage(page);
 	};
 

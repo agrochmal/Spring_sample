@@ -84,11 +84,11 @@ public class Advert extends BaseEntity implements Serializable, Searchable, Coor
 	
 	@NotNull
 
-	@Column(nullable = false)
+	@Column(nullable=false)
 	private Double latitude=0d;
 	
 	@NotNull
-	@Column(nullable = false)
+	@Column(nullable=false)
 	private Double longitude=0d;
 	
 	@ManyToOne(fetch=FetchType.LAZY)

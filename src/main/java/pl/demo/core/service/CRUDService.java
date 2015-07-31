@@ -2,7 +2,6 @@ package pl.demo.core.service;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.transaction.annotation.Transactional;
 import pl.demo.core.model.entity.BaseEntity;
 
 import java.io.Serializable;
@@ -23,12 +22,9 @@ public interface CRUDService<PK extends Serializable, E extends BaseEntity> {
 
     E findOne(PK id);
 
-    @Transactional(readOnly=false)
     void delete(PK id);
 
-    @Transactional(readOnly=false)
     void edit(E entity);
 
-    @Transactional(readOnly=false)
     E save(E entity);
 }

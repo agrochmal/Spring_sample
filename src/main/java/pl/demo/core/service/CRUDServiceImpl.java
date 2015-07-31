@@ -15,7 +15,7 @@ import java.io.Serializable;
  */
 public abstract class CRUDServiceImpl<PK extends Serializable, E extends BaseEntity> implements CRUDService<PK, E>{
 
-    private JpaRepository<E, PK> jpaRepository;
+    private final JpaRepository<E, PK> jpaRepository;
     private GenericRepository<E> genericRepository;
 
     public CRUDServiceImpl(final JpaRepository<E, PK> jpaRepository){

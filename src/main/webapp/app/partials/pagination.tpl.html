@@ -14,14 +14,14 @@
         </div>
         <nav style="float:right; display: inline-block;">
             <ul class="pagination">
-                <li ng-class="{disabled: paginationCmd.noPrev()}">
+                <li ng-class="{disabled:paginationCmd.noPrev()}">
                     <a href="" ng-click="paginationCmd.selectPrevious()">Poprzednia</a>
                 </li>
                 <li ng-repeat="page in pages"
-                    ng-class="{active: paginationCmd.isActive(page)}">
+                    ng-class="{active:paginationCmd.isActive(page)}">
                     <a href="" ng-click="paginationCmd.selectPage(page)">{{page}}</a>
                 </li>
-                <li ng-class="{disabled: paginationCmd.noNext()}">
+                <li ng-class="{disabled:paginationCmd.noNext()}">
                     <a href="" ng-click="paginationCmd.selectNext()">Następna</a>
                 </li>
             </ul>

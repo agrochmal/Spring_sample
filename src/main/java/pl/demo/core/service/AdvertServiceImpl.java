@@ -105,6 +105,7 @@ public class AdvertServiceImpl extends CRUDServiceImpl<Long, Advert> implements 
 	}
 
 	@Override
+	@Transactional(readOnly=false)
 	public void updateActive(final Long id, final Boolean status) {
 		Assert.notNull(id, "Advert is required");
 		final Advert advert = advertRepo.findOne(id);
@@ -120,6 +121,7 @@ public class AdvertServiceImpl extends CRUDServiceImpl<Long, Advert> implements 
 	}
 
 	@Override
+	@Transactional(readOnly=false)
 	public void postComment(final Long advertId, final Comment comment){
 		Assert.notNull(advertId, "Advert is required");
 		Assert.notNull(comment, "Comment is required");

@@ -16,6 +16,7 @@ import pl.demo.core.service.UserService;
 import pl.demo.core.util.TokenUtils;
 import pl.demo.web.dto.TokenDTO;
 import pl.demo.web.dto.UserDTO;
+import pl.demo.web.exception.ResourceNotFoundException;
 
 import javax.validation.Valid;
 import java.util.Collection;
@@ -69,6 +70,7 @@ public class UserRestResource extends AbstractCRUDResource<Long, User>{
 	@RequestMapping(value="/logged",
 			method = RequestMethod.GET,
 			produces = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
+
 	public ResponseEntity<UserDTO> getLoggedUser() {
 		final AuthenticationUserDetails user = userService.getLoggedUserDetails();
 		if(null==user) {
@@ -79,7 +81,7 @@ public class UserRestResource extends AbstractCRUDResource<Long, User>{
 	}
 
 	@Override
-	protected ResponseEntity<UserDTO> getResourceById(@PathVariable Long id){
+	public ResponseEntity<UserDTO> getResourceById(@PathVariable Long id){
 		return Optional.ofNullable(this.userService.getLoggedUser())
 				.map(t -> {     final UserDTO dto = new UserDTO(t.getUsername(), t.getName(),
 								t.getLocation(), t.getPhone(),
@@ -94,11 +96,12 @@ public class UserRestResource extends AbstractCRUDResource<Long, User>{
 	@RequestMapping(value="/unique",
 			method = RequestMethod.GET,
 			produces = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Boolean> checkUserUnique(String username) {
+
+	public ResponseEntity<Boolean> checkUserUnique(final String username) {
 
 		UserDetails existing = null;
 		try{
-			existing = userService.loadUserByUsername( username);
+			existing = userService.loadUserByUsername(username);
 		}catch(UsernameNotFoundException ex){
 
 		}

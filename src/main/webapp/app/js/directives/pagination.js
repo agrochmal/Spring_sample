@@ -60,10 +60,9 @@ angular.module('app.directives.pagination', [])
       });
 
       $scope.$watch('currentPageSize', function (newValue, oldValue) {
-
         if (oldValue != newValue) {
           $scope.currentPage = 1;
-          $scope.currentPageSize = value;
+          $scope.currentPageSize = newValue;
           $scope.selectPageFn({currentPage: $scope.currentPage, currentPageSize: $scope.currentPageSize});
          }
 
