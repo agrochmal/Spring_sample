@@ -242,7 +242,7 @@ angular.module('app.controlles', [])
 	};
 
 	function loadAdverts(){
-		UserService.getAdverts({id: $rootScope.user.name}, function(adverts){
+		UserService.getAdverts({id: $rootScope.user.id}, function(adverts){
 			$scope.advertGrid.model = adverts;
 		});
 	};

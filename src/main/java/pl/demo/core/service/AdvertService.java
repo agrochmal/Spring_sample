@@ -3,7 +3,6 @@ package pl.demo.core.service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import pl.demo.core.model.entity.Advert;
-import pl.demo.core.model.entity.Comment;
 import pl.demo.web.dto.EMailDTO;
 import pl.demo.web.dto.SearchCriteriaDTO;
 
@@ -14,15 +13,13 @@ public interface AdvertService extends CRUDService<Long, Advert> {
 
 	Page<Advert> findAll(Pageable pageable);
 
-	Collection<Advert> findByUserName();
-
-	Advert createNew();
+	Collection<Advert> findByUserId(Long id);
 
 	Page<Advert> findBySearchCriteria(SearchCriteriaDTO searchCriteriaDTO, Pageable pageable);
 
+	Advert createNew();
+
 	void sendMail(EMailDTO eMailDTO);
 
-	void updateActive(Long id, Boolean status);
-
-	void postComment(Long advertId, Comment comment);
+	void updateActiveStatus(Long id, Boolean status);
 }

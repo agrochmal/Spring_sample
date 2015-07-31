@@ -9,12 +9,12 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import pl.demo.core.model.entity.Advert;
-import pl.demo.core.model.entity.Comment;
 import pl.demo.core.model.entity.User;
 import pl.demo.core.model.repo.AdvertRepository;
 import pl.demo.web.dto.EMailDTO;
 import pl.demo.web.dto.SearchCriteriaDTO;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -22,7 +22,8 @@ import java.util.stream.Collectors;
 
 @Component("advertService")
 @Transactional(readOnly=true)
-public class AdvertServiceImpl extends CRUDServiceImpl<Long, Advert> implements AdvertService {
+public class AdvertServiceImpl extends CRUDServiceImpl<Long, Advert>
+		implements AdvertService {
 
 	private final static int SHORT_DESCRIPTION_LENGTH = 255;
 
@@ -30,18 +31,22 @@ public class AdvertServiceImpl extends CRUDServiceImpl<Long, Advert> implements 
 	private final SearchAdvertService searchService;
 	private final UserService userService;
 	private final MailService mailService;
+	private final CommentService commentService;
 
 	@Autowired
-	public AdvertServiceImpl(final AdvertRepository advertRepo, final SearchAdvertService searchService, final UserService userService, final MailService mailService){
+	public AdvertServiceImpl(final AdvertRepository advertRepo, final SearchAdvertService searchService,
+							 final UserService userService, final MailService mailService, final CommentService commentService){
 		super(advertRepo);
 		this.advertRepo = advertRepo;
 		this.searchService = searchService;
 		this.userService = userService;
 		this.mailService = mailService;
+		this.commentService = commentService;
 	}
 
 	@Override
 	public Advert save(final Advert advert) {
+		Assert.notNull(advert);
 		final User loggedUser = userService.getLoggedUser();
 		if(null != loggedUser) {
 			advert.setUser(loggedUser);
@@ -51,13 +56,17 @@ public class AdvertServiceImpl extends CRUDServiceImpl<Long, Advert> implements 
 
 	@Override
 	public Page<Advert> findAll(final Pageable pageable) {
+		Assert.notNull(pageable);
 		return findBySearchCriteria(null, pageable);
 	}
 
 	@Override
-	public Collection<Advert> findByUserName(){
-		final Long userId = userService.getLoggedUserDetails().getId();
-		return advertRepo.findByUserId(userId);
+	public Collection<Advert> findByUserId(final Long userId){
+		Assert.notNull(userId);
+		final Collection<Advert> adverts = advertRepo.findByUserId(userId);
+		final Advert[] tab = adverts.toArray(new Advert[0]);
+		unproxyEntity(tab);
+		return Arrays.asList(tab);
 	}
 
 	@Override
@@ -90,14 +99,13 @@ public class AdvertServiceImpl extends CRUDServiceImpl<Long, Advert> implements 
 		final List<Advert> shortAdverts=adverts.getContent()
 				.stream()
 				.map(t -> {
+					unproxyEntity(t);
 					String desc = t.getDescription();
 					if (StringUtils.isNotBlank(desc)
 							&& desc.length() > SHORT_DESCRIPTION_LENGTH) {
 						desc = desc.substring(0, SHORT_DESCRIPTION_LENGTH).concat("...");
 					}
-					getGenericRepository().detach(t);
 					t.setDescription(desc);
-					t.flatEntity();
 					return t;
 				}).collect(Collectors.toList());
 
@@ -106,7 +114,7 @@ public class AdvertServiceImpl extends CRUDServiceImpl<Long, Advert> implements 
 
 	@Override
 	@Transactional(readOnly=false)
-	public void updateActive(final Long id, final Boolean status) {
+	public void updateActiveStatus(final Long id, final Boolean status) {
 		Assert.notNull(id, "Advert is required");
 		final Advert advert = advertRepo.findOne(id);
 		Assert.state(null != advert, "Advert doesn't exist in db");
@@ -118,16 +126,5 @@ public class AdvertServiceImpl extends CRUDServiceImpl<Long, Advert> implements 
 	public void sendMail(final EMailDTO eMailDTO) {
 		Assert.notNull(eMailDTO, "Email data is required");
 		this.mailService.sendMail(eMailDTO);
-	}
-
-	@Override
-	@Transactional(readOnly=false)
-	public void postComment(final Long advertId, final Comment comment){
-		Assert.notNull(advertId, "Advert is required");
-		Assert.notNull(comment, "Comment is required");
-		final Advert advert = advertRepo.findOne(advertId);
-		Assert.state(null!=advert, "Advert doesn't exist in db");
-		advert.addComment(comment);
-		advertRepo.save(advert);
 	}
 }

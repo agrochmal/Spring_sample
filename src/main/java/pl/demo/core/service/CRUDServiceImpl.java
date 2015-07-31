@@ -9,6 +9,8 @@ import pl.demo.core.model.entity.FlatableEntity;
 import pl.demo.core.model.repo.GenericRepository;
 
 import java.io.Serializable;
+import java.util.Arrays;
+import java.util.Collection;
 
 /**
  * Created by robertsikora on 27.07.15.
@@ -34,10 +36,19 @@ public abstract class CRUDServiceImpl<PK extends Serializable, E extends BaseEnt
     }
 
     @Override
+    public Collection<E> findAll(){
+        final Collection<E> entities = getJpaRepository().findAll();
+        final E[] tab = (E[]) entities.toArray();
+        unproxyEntity(tab);
+        return Arrays.asList(tab);
+    }
+
+    @Override
     @Transactional(readOnly=false)
     public void delete(PK id) {
         Assert.notNull(id, "Entity id is required");
         getJpaRepository().delete(id);
+        getJpaRepository().flush();
     }
 
     @Override
@@ -49,14 +60,25 @@ public abstract class CRUDServiceImpl<PK extends Serializable, E extends BaseEnt
     @Transactional(readOnly=false)
     public E save(E entity) {
         Assert.notNull(entity, "Entity is required");
-        return getJpaRepository().save(entity);
+        E result = getJpaRepository().save(entity);
+        getJpaRepository().flush();
+        return result;
+    }
+
+    protected void unproxyEntity(E...entities){
+        Assert.notEmpty(entities);
+        for(E entity : entities) {
+            Assert.isTrue(entity instanceof FlatableEntity);
+            getGenericRepository().detach(entity);
+            ((FlatableEntity) entity).flatEntity();
+        }
     }
 
     protected JpaRepository<E, PK> getJpaRepository() {
         return jpaRepository;
     }
 
-    protected GenericRepository<E> getGenericRepository() {
+    private GenericRepository<E> getGenericRepository() {
         return genericRepository;
     }
 

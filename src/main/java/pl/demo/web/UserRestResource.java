@@ -76,14 +76,14 @@ public class UserRestResource extends AbstractCRUDResource<Long, User>{
 		if(null==user) {
 			throw new ResourceNotFoundException("User not found");
 		}
-		return new ResponseEntity<>(new UserDTO(user.getUsername(),
+		return new ResponseEntity<>(new UserDTO(user.getId(), user.getUsername(),
 									UserService.createRoleMap(user)), HttpStatus.OK );
 	}
 
 	@Override
 	public ResponseEntity<UserDTO> getResourceById(@PathVariable Long id){
 		return Optional.ofNullable(this.userService.getLoggedUser())
-				.map(t -> {     final UserDTO dto = new UserDTO(t.getUsername(), t.getName(),
+				.map(t -> {     final UserDTO dto = new UserDTO(t.getId(), t.getUsername(), t.getName(),
 								t.getLocation(), t.getPhone(),
 								UserService.createRoleMap(new AuthenticationUserDetails(t)));
 							    return new ResponseEntity<>(dto, HttpStatus.OK );
@@ -116,12 +116,11 @@ public class UserRestResource extends AbstractCRUDResource<Long, User>{
 		return new TokenDTO(TokenUtils.createToken(userService.authenticate(username, password)));
 	}
 
-	@RequestMapping(value="{username}/adverts",
+	@RequestMapping(value="{userId}/adverts",
             method = RequestMethod.GET,
             produces = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Collection<Advert>> findUserAdverts(@PathVariable String username){
-		Collection<Advert> allEntries = advertService.findByUserName();
-		allEntries.forEach(t -> t.setUser(null));
+	public ResponseEntity<Collection<Advert>> findUserAdverts(@PathVariable Long userId){
+		final Collection<Advert> allEntries = advertService.findByUserId(userId);
 		return new ResponseEntity<>(allEntries, HttpStatus.OK);
 	}
 }

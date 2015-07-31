@@ -5,10 +5,7 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.hibernate.validator.constraints.NotEmpty;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Lob;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Date;
@@ -24,39 +21,20 @@ import static pl.demo.core.model.entity.ModelConstans.TEXT_LENGTH_250;
 @Table(name = "comments")
 public class Comment extends BaseEntity implements Comparable<Comment> {
 
-    private String name;
-    private String email;
-    private String web;
+    private String nick;
     private String ipAddr;
     private Date dateCreated;
     private String text;
+    private Advert advert;
 
     @Size(min=1, max=TEXT_LENGTH_250)
     @Column(nullable = false)
-    public String getName() {
-        return name;
+    public String getNick() {
+        return nick;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @Size(min=1, max=TEXT_LENGTH_250)
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    @Size(max=TEXT_LENGTH_250)
-    public String getWeb() {
-        return web;
-    }
-
-    public void setWeb(String web) {
-        this.web = web;
+    public void setNick(String nick) {
+        this.nick = nick;
     }
 
     @Size(max=TEXT_LENGTH_25)
@@ -90,6 +68,16 @@ public class Comment extends BaseEntity implements Comparable<Comment> {
         this.text = text;
     }
 
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="advert_id")
+    public Advert getAdvert() {
+        return advert;
+    }
+
+    public void setAdvert(Advert advert) {
+        this.advert = advert;
+    }
+
     @Override
     public int compareTo(Comment o) {
         return getDateCreated().compareTo(o.getDateCreated());
@@ -104,9 +92,7 @@ public class Comment extends BaseEntity implements Comparable<Comment> {
         Comment comment = (Comment) o;
 
         return new EqualsBuilder()
-                .append(name, comment.name)
-                .append(email, comment.email)
-                .append(web, comment.web)
+                .append(nick, comment.nick)
                 .append(ipAddr, comment.ipAddr)
                 .append(dateCreated, comment.dateCreated)
                 .append(text, comment.text)
@@ -116,9 +102,7 @@ public class Comment extends BaseEntity implements Comparable<Comment> {
     @Override
     public int hashCode() {
         return new HashCodeBuilder(17, 37)
-                .append(name)
-                .append(email)
-                .append(web)
+                .append(nick)
                 .append(ipAddr)
                 .append(dateCreated)
                 .append(text)
@@ -128,9 +112,7 @@ public class Comment extends BaseEntity implements Comparable<Comment> {
     @Override
     public String toString() {
         return new ToStringBuilder(this)
-                .append("name", name)
-                .append("email", email)
-                .append("web", web)
+                .append("nick", nick)
                 .append("ipAddr", ipAddr)
                 .append("dateCreated", dateCreated)
                 .append("text", text)

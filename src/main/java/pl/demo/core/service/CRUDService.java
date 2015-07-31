@@ -12,9 +12,7 @@ import java.util.Collection;
  */
 public interface CRUDService<PK extends Serializable, E extends BaseEntity> {
 
-    default Collection<E> findAll(){
-        return null;
-    }
+    Collection<E> findAll();
 
     default Page<E> findAll(Pageable pageable){
         return null;

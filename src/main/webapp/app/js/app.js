@@ -21,7 +21,7 @@ angular.module('app', ['ngRoute','ngCookies','app.services','app.controlles',
 .config(['$routeProvider', '$locationProvider', '$httpProvider', function($routeProvider, $locationProvider, $httpProvider) {
 			
 		 $routeProvider.
-		  when('/main', {
+		   when('/main', {
 			  templateUrl: 'app/partials/main.html',
 			  controller: 'MainController'
 		   }).
@@ -42,7 +42,7 @@ angular.module('app', ['ngRoute','ngCookies','app.services','app.controlles',
 					 }
 				 }
 			}).
-			 when('/adverts/:id', {
+		    when('/adverts/:id', {
 			   templateUrl: 'app/partials/advert-view.html',
 			   controller: 'AdvertViewController',
 			    resolve: {

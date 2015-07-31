@@ -11,10 +11,12 @@ public final class DashboardDTO {
 
     private final long users;
     private final long adverts;
+    private final long comments;
 
-    public DashboardDTO(final long users, final long adverts){
+    public DashboardDTO(final long users, final long adverts, final long comments){
         this.users=users;
         this.adverts=adverts;
+        this.comments=comments;
     }
 
     public long getUsers() {

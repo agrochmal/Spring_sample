@@ -7,14 +7,16 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import java.util.Map;
 
 public class UserDTO {
-	
+
+	private Long id;
 	private String username;
 	private String name;
 	private String location;
 	private String phone;
 	private Map<String, Boolean> roles;
 
-	public UserDTO(String username, String name, String location, String phone, Map<String, Boolean> roles) {
+	public UserDTO(Long id, String username, String name, String location, String phone, Map<String, Boolean> roles) {
+		this.setId(id);
 		this.setUsername(username);
 		this.setName(name);
 		this.setLocation(location);
@@ -22,9 +24,18 @@ public class UserDTO {
 		this.roles = roles;
 	}
 
-	public UserDTO(String userName, Map<String, Boolean> roles) {
+	public UserDTO(Long id, String userName, Map<String, Boolean> roles) {
+		this.setId(id);
 		this.setName(userName);
 		this.roles = roles;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getName() {

@@ -183,8 +183,6 @@ public class User extends BaseEntity implements FlatableEntity {
 				.append(phone, user.phone)
 				.append(lat, user.lat)
 				.append(lng, user.lng)
-				.append(roles, user.roles)
-				.append(adverts, user.adverts)
 				.isEquals();
 	}
 
@@ -198,8 +196,6 @@ public class User extends BaseEntity implements FlatableEntity {
 				.append(phone)
 				.append(lat)
 				.append(lng)
-				.append(roles)
-				.append(adverts)
 				.toHashCode();
 	}
 
@@ -213,8 +209,6 @@ public class User extends BaseEntity implements FlatableEntity {
 				.append("phone", phone)
 				.append("lat", lat)
 				.append("lng", lng)
-				.append("roles", roles)
-				.append("adverts", adverts)
 				.toString();
 	}
 }

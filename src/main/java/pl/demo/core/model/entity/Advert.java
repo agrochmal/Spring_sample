@@ -232,8 +232,6 @@ public class Advert extends BaseEntity implements Serializable, Searchable, Coor
 				.append(email, advert.email)
 				.append(latitude, advert.latitude)
 				.append(longitude, advert.longitude)
-				.append(user, advert.user)
-				.append(comments, advert.comments)
 				.isEquals();
 	}
 
@@ -251,8 +249,6 @@ public class Advert extends BaseEntity implements Serializable, Searchable, Coor
 				.append(email)
 				.append(latitude)
 				.append(longitude)
-				.append(user)
-				.append(comments)
 				.toHashCode();
 	}
 
@@ -270,8 +266,6 @@ public class Advert extends BaseEntity implements Serializable, Searchable, Coor
 				.append("email", email)
 				.append("latitude", latitude)
 				.append("longitude", longitude)
-				.append("user", user)
-				.append("comments", comments)
 				.toString();
 	}
 }
