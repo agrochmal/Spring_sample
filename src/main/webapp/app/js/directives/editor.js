@@ -13,7 +13,7 @@ angular.module('app.directives.editor', [])
       var charLimit = attrs.charLimit || 5000;
 
       var htmlText = '<div> <textarea id="editor" class="form-control" name="'+ name +'" ng-model="'+ modelName +'" rows="'+ rows +'"' + required +'></textarea> '+
-                     '<small><span id="left_char" style="font-weight: bold;">'+ charLimit +'</span> znakow pozostalo </small> </div>';
+                     '<small><span id="left_char" style="font-weight: bold;">'+ charLimit +'</span> znaków pozostalo </small> </div>';
       return htmlText;
     },
     link: function(scope, element, attrs, ngModelCtrl) {

@@ -4,36 +4,44 @@
 			<button class="close" data-dismiss="modal" type="button">
 				<span aria-hidden="true">zamknij ×</span>
 			</button>
-			<span class="login-title">Napisz prywatną wiadomość</span>
+			<span class="login-title">Wyślij wiadomość</span>
 		</div>
 		<div class="modal-body">
-
 			<span ng-show="sendCommand.isSent">
 				Wiadomość została wysłana
 			</span>
-
 			<form role="form" name="emailForm" novalidate>
 				<div class="form-group">
 					<label class="control-label" for="fromAddress">Nadawca<span class="asterix"> *</span></label>
-					<input id="fromAddress" class="form-control" placeholder="Nadawca" type="text" name="fromAddress" ng-model="sendCommand.message.sender" ng-autofocus required>
+					<input id="fromAddress" class="form-control" placeholder="Nadawca" type="text" name="fromAddress" ng-model="sendCommand.message.sender" ng-model-options="{ updateOn: 'blur' }" ng-autofocus ng-validate-email required>
 					<div class="error-container" ng-show="emailForm.$submitted || emailForm.fromAddress.$touched">
 						<small ng-show="emailForm.fromAddress.$error.required">
 							Podaj adres e-mail
 						</small>
 					</div>
+					<div class="error-container" ng-show="emailForm.fromAddress.$dirty">
+						<small ng-show="emailForm.fromAddress.$error.email">
+							Podaj prawidłowy adres e-mail, np. robertsikora@example.com
+						</small>
+					</div>
 				</div>
 				<div class="form-group">
 					<label class="control-label" for="toAddress">Odbiorca<span class="asterix"> *</span></label>
-					<input id="toAddress" class="form-control" placeholder="Odbiorca" type="text" name="toAddress" ng-model="sendCommand.message.receipt" required>
+					<input id="toAddress" class="form-control" placeholder="Odbiorca" type="text" name="toAddress" ng-model="sendCommand.message.receipt" ng-model-options="{ updateOn: 'blur' }" ng-validate-email required>
 					<div class="error-container" ng-show="emailForm.$submitted || emailForm.toAddress.$touched">
 						<small ng-show="emailForm.toAddress.$error.required">
 							Podaj adres e-mail
 						</small>
 					</div>
+					<div class="error-container" ng-show="emailForm.toAddress.$dirty">
+						<small ng-show="emailForm.toAddress.$error.email">
+							Podaj prawidłowy adres e-mail, np. robertsikora@example.com
+						</small>
+					</div>
 				</div>
 				<div class="form-group">
 					<label class="control-label" for="msgTitle">Tytuł<span class="asterix"> *</span></label>
-					<input id="msgTitle" class="form-control" placeholder="Tytuł wiadomości" type="text" name="msgTitle" ng-model="sendCommand.message.title" required>
+					<input id="msgTitle" class="form-control" placeholder="Tytuł wiadomości" type="text" name="msgTitle" ng-model="sendCommand.message.title" ng-model-options="{ updateOn: 'blur' }" required>
 					<div class="error-container" ng-show="emailForm.$submitted || emailForm.msgTitle.$touched">
 						<small ng-show="emailForm.msgTitle.$error.required">
 							Podaj tytuł
@@ -53,6 +61,5 @@
 				</div>
 			</form>
 		</div>
-		<
 	</div>
 </div>

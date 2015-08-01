@@ -1,11 +1,19 @@
-<h1><b> Dear ${userMessage.receipt} </b></h1>
+<h1><b> Cześć ${userMessage.receipt} !</b></h1>
 
 
-You got the question from <b>Demo</b> portal:
+
+Zadano Ci pytanie na stronie <b>Demo</b>:
 
 ${userMessage.content}
 
 
 
-Best regards,
-${userMessage.sender}
+
+Proszę wyślij swoją odpowiedź na ${userMessage.sender}
+
+
+
+
+
+Pozdrowienia,
+Demo team

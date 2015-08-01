@@ -6,29 +6,28 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Date;
 
 import static pl.demo.core.model.entity.ModelConstans.TEXT_LENGTH_25;
-import static pl.demo.core.model.entity.ModelConstans.TEXT_LENGTH_250;
 
 /**
  * Created by Robert on 22.02.15.
  */
 
 @Entity
-@Table(name = "comments")
+@Table(name="comments")
 public class Comment extends BaseEntity implements Comparable<Comment> {
 
     private String nick;
     private String ipAddr;
     private Date dateCreated;
     private String text;
+
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="advert_id")
     private Advert advert;
 
-    @Size(min=1, max=TEXT_LENGTH_250)
-    @Column(nullable = false)
     public String getNick() {
         return nick;
     }
@@ -47,7 +46,6 @@ public class Comment extends BaseEntity implements Comparable<Comment> {
         this.ipAddr = ipAddr;
     }
 
-    @NotNull
     @Column(name="date_created", nullable = false)
     public Date getDateCreated() {
         return dateCreated;
@@ -68,8 +66,6 @@ public class Comment extends BaseEntity implements Comparable<Comment> {
         this.text = text;
     }
 
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="advert_id")
     public Advert getAdvert() {
         return advert;
     }

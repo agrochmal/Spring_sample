@@ -95,9 +95,9 @@ public class Advert extends BaseEntity implements Serializable, Searchable, Coor
     @JoinColumn(name="user_id")
 	private User user;
 
-	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-	@JoinColumn(name = "comment_advert_id", nullable = false)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "advert")
 	private Set<Comment> comments = new HashSet<>();
+
 
 	public String getTitle() {
 		return title;

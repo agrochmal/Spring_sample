@@ -6,25 +6,6 @@
 
 angular.module('app.directives.switchCheckbox', [])
     .directive('ngSwitchCheckbox', function() {
-    /*return {
-        restrict: 'A',
-        scope: {
-            state: '='
-        },
-        link: function(scope, element) {
-
-            element.bootstrapSwitch('state', scope.state);
-
-           // scope.$watch(['advert.state','advertGrid.model.state'], function() {
-           //     console.log('asd');
-            //});
-
-            scope.$watch('element.state', function() {
-                console.log('asd');
-            });
-        }
-    };*/
-
         return {
             restrict: 'A',
             require: '?ngModel',

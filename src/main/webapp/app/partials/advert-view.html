@@ -1,4 +1,3 @@
-
 <ng-navigation-bar shift="96"></ng-navigation-bar>
 
 <div class="container">
@@ -22,7 +21,7 @@
                <h3> Szukaj nas w {{advert.locationName}} </h3>
                <br>
                <br>
-               <map center="{{advert.latitude}},{{advert.longitude}}" zoom="9">
+               <map center="{{advert.latitude}},{{advert.longitude}}" zoom="11" ng-show="initialized">
                    <info-window id="1" position="{{advert.latitude}},{{advert.longitude}}" visible="true">
                        <div ng-non-bindable="">
                            Tutaj!
@@ -31,19 +30,21 @@
                </map>
            </div>
            <div class="advert-address">
-
                <ul class="list-unstyled">
-                   <li> <button type="submit" class="btn action-btn" data-toggle="modal" data-target="#sendEmailModal">Napisz wiadomość</button></li>
+                   <li> <button type="submit" class="btn action-btn" data-toggle="modal" data-target="#sendEmailModal">Wyślij wiadomość</button></li>
                    <li> <span class="glyphicon glyphicon-phone" aria-hidden="true"></span> <strong><abbr title="Phone">&nbsp;&nbsp;Tel:</abbr>{{advert.phone}}</strong>  </li>
                    <li> <span class="glyphicon glyphicon-user" aria-hidden="true"></span> <strong>&nbsp;&nbsp;{{advert.contact}}</strong> </li>
                </ul>
-
                <!-- modal send e-mail page-->
                <div class="modal fade" id="sendEmailModal" tabindex="-1" role="dialog" ng-modal>
                    <div ng-include="'app/partials/sendEmail.tpl.html'"></div>
                </div>
-
            </div>
        </div>
    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div ng-include="'app/partials/advert-comment.tpl.html'"></div>
+        </div>
+    </div>
 </div>

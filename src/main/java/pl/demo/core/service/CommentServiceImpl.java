@@ -15,6 +15,8 @@ import pl.demo.web.dto.EMailDTO;
 import java.util.Collection;
 import java.util.Date;
 
+import static pl.demo.core.service.MailServiceImpl.COMMENT_TEMPLATE;
+
 /**
  * Created by Robert on 22.02.15.
  */
@@ -24,7 +26,6 @@ import java.util.Date;
 public class CommentServiceImpl extends CRUDServiceImpl<Long, Comment>
         implements CommentService{
 
-    private final static String SENDER_EMAIL="demo";
     private @Value("${comment.receipt-email}") String receipt_email;
 
     private final PlainTextFilter plainTextFilter;
@@ -58,8 +59,8 @@ public class CommentServiceImpl extends CRUDServiceImpl<Long, Comment>
         eMailDTO.setTitle("New comment added");
         eMailDTO.setContent(comment.getText());
         eMailDTO.setReceipt(receipt_email);
-        eMailDTO.setSender(SENDER_EMAIL);
-        mailService.sendMail(eMailDTO);
+        eMailDTO.setSender(receipt_email);
+        mailService.sendMail(eMailDTO, COMMENT_TEMPLATE);
     }
 
     @Override

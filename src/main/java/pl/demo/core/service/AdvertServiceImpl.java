@@ -20,6 +20,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static pl.demo.core.service.MailServiceImpl.EMAIL_TEMPLATE;
+
 @Component("advertService")
 @Transactional(readOnly=true)
 public class AdvertServiceImpl extends CRUDServiceImpl<Long, Advert>
@@ -122,6 +124,6 @@ public class AdvertServiceImpl extends CRUDServiceImpl<Long, Advert>
 	@Override
 	public void sendMail(final EMailDTO eMailDTO) {
 		Assert.notNull(eMailDTO, "Email data is required");
-		this.mailService.sendMail(eMailDTO);
+		this.mailService.sendMail(eMailDTO, EMAIL_TEMPLATE);
 	}
 }

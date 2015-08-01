@@ -269,6 +269,7 @@ angular.module('app.controlles', [])
 .controller('AdvertViewController', function($scope, advert){
     //from resolver
 	$scope.advert = advert;
+	$scope.initialized=true;
 })
 .controller('SendMailController', function($scope, $http){
 
@@ -280,12 +281,13 @@ angular.module('app.controlles', [])
 			content:''
 		},
 		isSent:false,
-		send: function() {
+		send: function($event) {
 			if ($scope.emailForm.$valid) {
 				$http.post('api/adverts/1/email', this.message).
 					success(function (data, status, headers, config) {
 						console.log('E-mail was sent');
 						$scope.sendCommand.isSent = true;
+						$scope.dismiss($event);
 					});
 			}
 		}
@@ -302,6 +304,22 @@ angular.module('app.controlles', [])
 		}
 	);
 
+})
+.controller('CommentController', function($scope, $http){
+		$scope.sendCommand = {
+			comment : {
+				text:'',
+				nick:''
+			},
+			postComment: function($event) {
+				$http.post('api/comments/advert/1', this.comment).
+					success(function (data, status, headers, config) {
+						console.log('Post comment');
+						$scope.sendCommand.isSent = true;
+						$scope.dismiss($event);
+					});
+			}
+		};
 })
 
 

@@ -28,7 +28,8 @@ public class MailServiceImpl implements MailService{
 
     private final static Logger logger = LoggerFactory.getLogger(MailServiceImpl.class);
 
-    private static final String TEMPLATE_PATH = "/velocity/email_template.vm";
+    public static final String EMAIL_TEMPLATE = "/velocity/email_template.vm";
+    public static final String COMMENT_TEMPLATE = "/velocity/comment_template.vm";
 
     @Autowired
     private JavaMailSender mailSender;
@@ -37,12 +38,12 @@ public class MailServiceImpl implements MailService{
     private VelocityEngine velocityEngine;
 
     @Override @Async
-    public void sendMail(final EMailDTO emailDTO){
+    public void sendMail(final EMailDTO emailDTO, final String template){
         Assert.notNull(emailDTO, "Email data is required");
         final MimeMessage mimeMsg = mailSender.createMimeMessage();
         final Map<String, Object> model = new HashMap<>();
         model.put("userMessage", emailDTO);
-        final String text = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, TEMPLATE_PATH, model)
+        final String text = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, template, model)
                 .replaceAll("\n", "<br>");
         try{
             final MimeMessageHelper helper = new MimeMessageHelper(mimeMsg);
