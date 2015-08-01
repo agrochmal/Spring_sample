@@ -9,6 +9,7 @@ import pl.demo.core.model.entity.Comment;
 import pl.demo.core.service.CommentService;
 import pl.demo.core.util.Utils;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @RestController
@@ -26,10 +27,10 @@ public class CommentRestResource extends AbstractCRUDResource<Long, Comment> {
     @RequestMapping(value = "/advert/{id}",
             method = RequestMethod.POST)
 
-    public ResponseEntity<?> postComment(@PathVariable("id") final Long id, @Valid @RequestBody final Comment comment, final BindingResult bindingResult) {
-        if(bindingResult.hasErrors()) {
-            return ResponseEntity.badRequest().body(Utils.createErrorMessage(bindingResult));
-        }
+    public ResponseEntity<?> postComment(@PathVariable("id") final Long id, @Valid @RequestBody final Comment comment,
+                                         final BindingResult bindingResult, final HttpServletRequest httpServletRequest) {
+        validateRequest(bindingResult);
+        comment.setIpAddr(Utils.getIpAdress(httpServletRequest));
         commentService.postComment(id, comment);
         return ResponseEntity.noContent().build();
     }

@@ -9,7 +9,6 @@ import pl.demo.core.model.entity.FlatableEntity;
 import pl.demo.core.model.repo.GenericRepository;
 
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.Collection;
 
 /**
@@ -31,16 +30,15 @@ public abstract class CRUDServiceImpl<PK extends Serializable, E extends BaseEnt
         Assert.state(null != entity, "Entity doesn't exist in db");
         getGenericRepository().detach(entity);
         Assert.state(entity instanceof FlatableEntity, "Entity must implement FlatableEntity interface!");
-        ((FlatableEntity)entity).flatEntity();
+        entity.flatEntity();
         return entity;
     }
 
     @Override
     public Collection<E> findAll(){
         final Collection<E> entities = getJpaRepository().findAll();
-        final E[] tab = (E[]) entities.toArray();
-        unproxyEntity(tab);
-        return Arrays.asList(tab);
+        unproxyEntity(entities);
+        return entities;
     }
 
     @Override
@@ -66,11 +64,18 @@ public abstract class CRUDServiceImpl<PK extends Serializable, E extends BaseEnt
     }
 
     protected void unproxyEntity(E...entities){
-        Assert.notEmpty(entities);
         for(E entity : entities) {
             Assert.isTrue(entity instanceof FlatableEntity);
             getGenericRepository().detach(entity);
-            ((FlatableEntity) entity).flatEntity();
+            entity.flatEntity();
+        }
+    }
+
+    protected void unproxyEntity(Collection<E> collection){
+        for(E entity : collection) {
+            Assert.isTrue(entity instanceof FlatableEntity);
+            getGenericRepository().detach(entity);
+            entity.flatEntity();
         }
     }
 

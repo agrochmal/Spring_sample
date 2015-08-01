@@ -9,6 +9,7 @@ import pl.demo.core.model.entity.BaseEntity;
 import pl.demo.core.service.CRUDService;
 import pl.demo.core.util.Utils;
 import pl.demo.web.exception.ResourceNotFoundException;
+import pl.demo.web.exception.ValidationRequestException;
 
 import javax.validation.Valid;
 import java.io.Serializable;
@@ -83,13 +84,11 @@ public abstract class AbstractCRUDResource<PK extends Serializable, E extends Ba
      */
     @RequestMapping(value="{id}",
             method = RequestMethod.PUT)
-    public ResponseEntity<?> editResource(@PathVariable final PK id,
+    protected ResponseEntity<?> editResource(@PathVariable final PK id,
                                           @Valid @RequestBody final E entity,
                                           @RequestHeader final HttpHeaders headers,
                                           final BindingResult bindingResult){
-        if(bindingResult.hasErrors()) {
-            return ResponseEntity.badRequest().body(Utils.createErrorMessage(bindingResult));
-        }
+        validateRequest(bindingResult);
         crudService.edit(entity);
         return ResponseEntity.noContent().build();
     }
@@ -103,14 +102,19 @@ public abstract class AbstractCRUDResource<PK extends Serializable, E extends Ba
      */
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<?> save(@Valid @RequestBody final E entity, final BindingResult bindingResult) {
-        if(bindingResult.hasErrors()) {
-            return ResponseEntity.badRequest().body(Utils.createErrorMessage(bindingResult));
-        }
+    protected ResponseEntity<?> save(@Valid @RequestBody final E entity, final BindingResult bindingResult) {
+        validateRequest(bindingResult);
         return Optional.ofNullable(crudService.save(entity))
                 .map(t -> {
                             final URI uri = Utils.createURI(RESOURCE_PATH.concat(t.getId().toString()));
-                            return ResponseEntity.created(uri).build();}
+                            return ResponseEntity.created(uri).build();
+                        }
                 ).orElseGet(() -> ResponseEntity.noContent().build());
+    }
+
+    protected void validateRequest(final BindingResult bindingResult){
+        if(bindingResult.hasErrors()) {
+            throw new ValidationRequestException(Utils.createErrorMessage(bindingResult));
+        }
     }
 }

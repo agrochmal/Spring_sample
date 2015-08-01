@@ -2,11 +2,12 @@ package pl.demo.core.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.apache.commons.lang.builder.ToStringBuilder;
+import pl.demo.core.util.EntityUtils;
 
 import javax.persistence.*;
 
 @MappedSuperclass
-public abstract class BaseEntity {
+public abstract class BaseEntity implements FlatableEntity{
 
 	@JsonIgnoreProperties(ignoreUnknown=true)
 	@Id
@@ -27,5 +28,10 @@ public abstract class BaseEntity {
 		return new ToStringBuilder(this)
 				.append("id", id)
 				.toString();
+	}
+
+	@Override
+	public void flatEntity() {
+		EntityUtils.setFieldValues(this, null, EntityUtils.ANNOTATIONS);
 	}
 }

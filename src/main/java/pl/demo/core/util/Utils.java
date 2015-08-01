@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.validation.BindingResult;
 
+import javax.servlet.http.HttpServletRequest;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -36,5 +37,13 @@ public final class Utils {
 			Throwables.propagate(ex);
 		}
 		return uri;
+	}
+
+	public static String getIpAdress(final HttpServletRequest httpServletRequest){
+		String ipAddress = httpServletRequest.getHeader("X-FORWARDED-FOR");
+		if (ipAddress == null) {
+			ipAddress = httpServletRequest.getRemoteAddr();
+		}
+		return ipAddress;
 	}
 }

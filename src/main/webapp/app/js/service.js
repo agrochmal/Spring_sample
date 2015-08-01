@@ -98,3 +98,15 @@ angular.module('app.services', ['ngResource'])
 .factory('DashboardService', function($resource) {
 	return $resource('api/dashboard');
 })
+.factory('CommentService', function($resource) {
+	return $resource('api/comments/:action/:id',
+		{
+			id: '@id',
+			action: "@action"
+		},
+		{
+			postComment: {method:"POST", params: {id:"@id", action:"advert"}, isArray: false},
+			getComments: {method:"GET", params: {id:"@id", action:"advert"}, isArray: true}
+		}
+	);
+});

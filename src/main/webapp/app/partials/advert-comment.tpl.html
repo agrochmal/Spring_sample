@@ -8,7 +8,7 @@
                             <ng-editor id="comment" name="comment" model-name="sendCommand.comment.text" rows="4" required></ng-editor>
                         </div>
                         <div class="form-group">
-                            <input id="nick" class="form-control" placeholder="Nick" type="text" name="nick" ng-model="sendCommand.comment.nick" ng-model-options="{ updateOn: 'blur' }">
+                            <input id="nick" class="form-control" placeholder="nick" type="text" name="nick" ng-model="sendCommand.comment.nick" ng-model-options="{ updateOn: 'blur' }">
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -18,6 +18,9 @@
             </div>
             <div class="row">
                 <div class="col-md-8">
+                    <li ng-repeat="comment in commentGrid.model">
+                    xxxx
+                    </li>
                 </div>
             </div>
         </accordion-group>

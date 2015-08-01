@@ -1,12 +1,10 @@
 package pl.demo.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.validation.BindingResult;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 import pl.demo.core.model.entity.Advert;
 import pl.demo.core.model.entity.AuthenticationUserDetails;
@@ -18,9 +16,7 @@ import pl.demo.web.dto.TokenDTO;
 import pl.demo.web.dto.UserDTO;
 import pl.demo.web.exception.ResourceNotFoundException;
 
-import javax.validation.Valid;
 import java.util.Collection;
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -37,47 +33,15 @@ public class UserRestResource extends AbstractCRUDResource<Long, User>{
 		this.advertService = advertService;
 	}
 
-	@Override
-	public ResponseEntity<?> editResource(@PathVariable Long id,
-										  @Valid @RequestBody User user,
-										  @RequestHeader HttpHeaders headers,
-										  BindingResult bindingResult){
-		//Concurency access to common resource
-		final List<String> etgs = headers.getIfNoneMatch();
-		if(etgs.size()>0){
-			User currentUser = userService.findOne(user.getId());
-			if(null != currentUser){
-				int userHash = currentUser.hashCode();
-				if(etgs.get(0).equals(String.valueOf(userHash)))
-					return ResponseEntity.status(HttpStatus.PRECONDITION_FAILED).build();
-			}
-		}
-		return super.editResource(id, user, headers, bindingResult);
-	}
-
-	@Override
-	public ResponseEntity<?> save(@Valid @RequestBody User user, BindingResult bindingResult) {
-		try{
-			if(null != userService.loadUserByUsername( user.getUsername() ) ) {
-				bindingResult.reject("User already exist");
-			}
-		}catch(UsernameNotFoundException ex){
-
-		}
-		return super.save(user, bindingResult);
-	}
-
 	@RequestMapping(value="/logged",
 			method = RequestMethod.GET,
 			produces = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
 
 	public ResponseEntity<UserDTO> getLoggedUser() {
 		final AuthenticationUserDetails user = userService.getLoggedUserDetails();
-		if(null==user) {
-			throw new ResourceNotFoundException("User not found");
-		}
+		Assert.notNull(user);
 		return new ResponseEntity<>(new UserDTO(user.getId(), user.getUsername(),
-									UserService.createRoleMap(user)), HttpStatus.OK );
+				UserService.createRoleMap(user)), HttpStatus.OK);
 	}
 
 	@Override
@@ -98,13 +62,7 @@ public class UserRestResource extends AbstractCRUDResource<Long, User>{
 			produces = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
 
 	public ResponseEntity<Boolean> checkUserUnique(final String username) {
-
-		UserDetails existing = null;
-		try{
-			existing = userService.loadUserByUsername(username);
-		}catch(UsernameNotFoundException ex){
-
-		}
+		final UserDetails existing = userService.loadUserByUsername(username);
 		return Optional.ofNullable(existing)
 				.map(user -> new ResponseEntity<>(Boolean.FALSE, HttpStatus.OK))
 				.orElse(new ResponseEntity<>(Boolean.TRUE, HttpStatus.OK));

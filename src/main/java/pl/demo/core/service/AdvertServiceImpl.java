@@ -14,7 +14,6 @@ import pl.demo.core.model.repo.AdvertRepository;
 import pl.demo.web.dto.EMailDTO;
 import pl.demo.web.dto.SearchCriteriaDTO;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -64,9 +63,8 @@ public class AdvertServiceImpl extends CRUDServiceImpl<Long, Advert>
 	public Collection<Advert> findByUserId(final Long userId){
 		Assert.notNull(userId);
 		final Collection<Advert> adverts = advertRepo.findByUserId(userId);
-		final Advert[] tab = adverts.toArray(new Advert[0]);
-		unproxyEntity(tab);
-		return Arrays.asList(tab);
+		unproxyEntity(adverts);
+		return adverts;
 	}
 
 	@Override

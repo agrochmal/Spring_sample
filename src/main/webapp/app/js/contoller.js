@@ -25,12 +25,11 @@ angular.module('app.controlles', [])
 		}
 
 		DashboardService.get(function (dashbord) {
-			$scope.users = dashbord.users;
-			$scope.adverts = dashbord.adverts;
-		});
-	};
+			$scope.dashbord = dashbord;
 
-	$scope.searchCommand = {
+		});
+	}
+		$scope.searchCommand = {
 		keyword: '',
 		radius:'',
 		autoComplete: {
@@ -117,8 +116,8 @@ angular.module('app.controlles', [])
 
 	function init() {
 		$scope.login.register.user = new UserService();
-	};
-})
+	}
+	})
 .controller('AdvertCreateController', function($scope, $rootScope, $location, AdvertService) {
 
    $scope.example = true;
@@ -172,8 +171,8 @@ angular.module('app.controlles', [])
 		AdvertService.createNew(function(advert){
 			$scope.saveCommand.advert = advert;
 		});
-	};
-})
+	}
+	})
 .controller('AllAdvertView', function($scope, SearchService, AdvertService) {
 
 	init();
@@ -183,15 +182,13 @@ angular.module('app.controlles', [])
 		page.number=1;
 		$scope.currentPage=1;
 		renderPage(page);
-	};
-
-	function renderPage(page) {
+	}
+		function renderPage(page) {
 		$scope.adverts = page.content;
 		$scope.totalElements = page.totalElements;
 		$scope.totalPages = page.totalPages;
-	};
-
-	$scope.loadPage = function(currentPage, currentPageSize){
+	}
+		$scope.loadPage = function(currentPage, currentPageSize){
 		var searchCriteria = SearchService.getSearchCriteria();
 		SearchService.search(searchCriteria, currentPage, currentPageSize)
 			.success( function (page) {
@@ -238,41 +235,34 @@ angular.module('app.controlles', [])
 		//from resolver
 		$scope.editCommand.user = user;
 		loadAdverts();
-	};
-
-	function loadAdverts(){
+	}
+		function loadAdverts(){
 		UserService.getAdverts({id: $rootScope.user.id}, function(adverts){
 			$scope.advertGrid.model = adverts;
 		});
-	};
-
-})
+	}
+	})
 .controller('AccountAdvertController', function($scope, AdvertService, $http) {
-
-		$scope.$watch('advert.active', function (newValue, oldValue, scope) {
-			if (newValue != oldValue) {
-				console.log(newValue);
-				$http.post('api/adverts/'+scope.advert.id+'/status',
-					$.param({status:newValue}),
-					{
-						headers: {
-							'Content-Type': 'application/x-www-form-urlencoded'
-						}
+	$scope.$watch('advert.active', function (newValue, oldValue, scope) {
+		if (newValue != oldValue) {
+			console.log(newValue);
+			$http.post('api/adverts/'+scope.advert.id+'/status',
+				$.param({status:newValue}), {
+					headers: {
+						'Content-Type': 'application/x-www-form-urlencoded'
 					}
-				).success(function(data, status, headers, config) {
-						console.log('State updated');
-				});
-			}
-		});
-
+				}
+			).success(function(data, status, headers, config) {
+					console.log('State updated');
+			});
+		}
+	});
 })
 .controller('AdvertViewController', function($scope, advert){
-    //from resolver
 	$scope.advert = advert;
 	$scope.initialized=true;
 })
 .controller('SendMailController', function($scope, $http){
-
 	$scope.sendCommand = {
 		message : {
 			sender:'',
@@ -305,21 +295,37 @@ angular.module('app.controlles', [])
 	);
 
 })
-.controller('CommentController', function($scope, $http){
-		$scope.sendCommand = {
-			comment : {
-				text:'',
-				nick:''
-			},
-			postComment: function($event) {
-				$http.post('api/comments/advert/1', this.comment).
-					success(function (data, status, headers, config) {
-						console.log('Post comment');
-						$scope.sendCommand.isSent = true;
-						$scope.dismiss($event);
-					});
-			}
-		};
-})
+.controller('CommentController', function($scope, CommentService){
+
+	$scope.commentGrid = {
+		model : null,
+		edit: function() {},
+		delete: function() {}
+	};
+
+	init();
+	function init() {
+		loadComments();
+	}
+
+	function loadComments(){
+		CommentService.getComments({id:$scope.advert.id}, function(comments){
+			$scope.commentGrid.model = comments;
+		});
+	}
+
+	$scope.sendCommand = {
+		comment : {
+			text:'',
+			nick:''
+		},
+		postComment: function() {
+			CommentService.postComment({id:$scope.advert.id,}, $scope.sendCommand.comment, function(res){
+				console.log('Post comment');
+				loadComments();
+			});
+		}
+	};
+});
 
 

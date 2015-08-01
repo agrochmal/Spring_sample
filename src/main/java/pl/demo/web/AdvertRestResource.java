@@ -9,7 +9,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.demo.core.model.entity.Advert;
 import pl.demo.core.service.AdvertService;
-import pl.demo.core.util.Utils;
 import pl.demo.web.dto.EMailDTO;
 import pl.demo.web.dto.SearchCriteriaDTO;
 
@@ -56,9 +55,7 @@ public class AdvertRestResource extends AbstractCRUDResource<Long, Advert> {
             method = RequestMethod.POST)
 
     public ResponseEntity<?> sendEmail(@PathVariable("id") final Long id, @Valid @RequestBody final EMailDTO email, final BindingResult bindingResult) {
-        if(bindingResult.hasErrors()) {
-            return ResponseEntity.badRequest().body(Utils.createErrorMessage(bindingResult));
-        }
+        validateRequest(bindingResult);
         advertService.sendMail(email);
         return ResponseEntity.noContent().build();
     }

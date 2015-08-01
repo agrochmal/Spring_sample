@@ -27,6 +27,10 @@ public final class DashboardDTO {
         return adverts;
     }
 
+    public long getComments() {
+        return comments;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import pl.demo.web.exception.ErrorEntity;
 import pl.demo.web.exception.ResourceNotFoundException;
+import pl.demo.web.exception.ValidationRequestException;
 
 
 /**
@@ -18,6 +19,11 @@ import pl.demo.web.exception.ResourceNotFoundException;
 public class ErrorController {
 
     private final static Logger logger = LoggerFactory.getLogger(ErrorController.class);
+
+    @ExceptionHandler(ValidationRequestException.class)
+    public ResponseEntity<?> handleValidationRequestException(final ValidationRequestException ex) {
+        return ResponseEntity.badRequest().body(ex.getMessage());
+    }
 
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<?> handleResourceNotFoundException(final ResourceNotFoundException ex) {

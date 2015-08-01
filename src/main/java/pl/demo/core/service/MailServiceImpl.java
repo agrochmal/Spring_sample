@@ -5,6 +5,7 @@ import org.apache.velocity.app.VelocityEngine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
@@ -31,6 +32,8 @@ public class MailServiceImpl implements MailService{
     public static final String EMAIL_TEMPLATE = "/velocity/email_template.vm";
     public static final String COMMENT_TEMPLATE = "/velocity/comment_template.vm";
 
+    private @Value("${mail.enable}") Boolean emailEnable;
+
     @Autowired
     private JavaMailSender mailSender;
 
@@ -39,6 +42,9 @@ public class MailServiceImpl implements MailService{
 
     @Override @Async
     public void sendMail(final EMailDTO emailDTO, final String template){
+        if(!emailEnable){
+            return;
+        }
         Assert.notNull(emailDTO, "Email data is required");
         final MimeMessage mimeMsg = mailSender.createMimeMessage();
         final Map<String, Object> model = new HashMap<>();

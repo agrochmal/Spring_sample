@@ -7,7 +7,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import pl.demo.core.util.EntityUtils;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -21,7 +20,7 @@ import static pl.demo.core.model.entity.ModelConstans.TEXT_LENGTH_80;
 
 @Entity
 @Table(name = "users")
-public class User extends BaseEntity implements FlatableEntity {
+public class User extends BaseEntity {
 
 	@NotNull
 	@Length(max=TEXT_LENGTH_80)
@@ -160,11 +159,6 @@ public class User extends BaseEntity implements FlatableEntity {
 
 	public void setPassword(String password) {
 		this.password = password;
-	}
-
-	@Override
-	public void flatEntity(){
-		EntityUtils.setFieldValues(this, null, EntityUtils.ANNOTATIONS);
 	}
 
 	@Override

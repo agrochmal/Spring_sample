@@ -12,7 +12,6 @@ import org.hibernate.search.spatial.Coordinates;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
-import pl.demo.core.util.EntityUtils;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -34,7 +33,7 @@ import static pl.demo.core.model.entity.ModelConstans.TEXT_LENGTH_80;
 				@TokenFilterDef(factory=LowerCaseFilterFactory.class),
 				@TokenFilterDef(factory=StempelPolishStemFilterFactory.class)
 		})
-public class Advert extends BaseEntity implements Serializable, Searchable, Coordinates, FlatableEntity {
+public class Advert extends BaseEntity implements Serializable, Searchable, Coordinates {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -205,11 +204,6 @@ public class Advert extends BaseEntity implements Serializable, Searchable, Coor
 
 	public void addComment(Comment comment){
 		this.comments.add(comment);
-	}
-
-	@Override
-	public void flatEntity(){
-		EntityUtils.setFieldValues(this, null, EntityUtils.ANNOTATIONS);
 	}
 
 	@Override

@@ -56,7 +56,7 @@ public class CommentServiceImpl extends CRUDServiceImpl<Long, Comment>
         getJpaRepository().save(comment);
 
         final EMailDTO eMailDTO = new EMailDTO();
-        eMailDTO.setTitle("New comment added");
+        eMailDTO.setTitle("Dodano nowy komentarz");
         eMailDTO.setContent(comment.getText());
         eMailDTO.setReceipt(receipt_email);
         eMailDTO.setSender(receipt_email);
@@ -66,7 +66,9 @@ public class CommentServiceImpl extends CRUDServiceImpl<Long, Comment>
     @Override
     public Collection<Comment> findByAdvert(Long advertId) {
         Assert.notNull(advertId, "Advert id is required");
-        return commentRepository.findByAdvert(advertId);
+        final Collection<Comment> comments = commentRepository.findByAdvertId(advertId);
+        unproxyEntity(comments);
+        return comments;
     }
 
     private void prepareComment(final Comment comment) {
