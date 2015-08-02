@@ -317,13 +317,20 @@ angular.module('app.controlles', [])
 	$scope.sendCommand = {
 		comment : {
 			text:'',
-			nick:''
+			nick:'',
+			rate:'1'
 		},
 		postComment: function() {
 			CommentService.postComment({id:$scope.advert.id,}, $scope.sendCommand.comment, function(res){
 				console.log('Post comment');
+				$scope.sendCommand.clearModel();
 				loadComments();
 			});
+		},
+		clearModel:function(){
+			$scope.sendCommand.comment.text='';
+			$scope.sendCommand.comment.nick='';
+			$scope.sendCommand.comment.rate='1';
 		}
 	};
 });

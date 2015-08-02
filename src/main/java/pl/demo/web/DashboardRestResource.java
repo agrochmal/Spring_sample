@@ -11,15 +11,24 @@ import pl.demo.web.dto.DashboardDTO;
 
 @RestController
 @RequestMapping("/dashboard")
-public class MainRestResource {
+public class DashboardRestResource {
 
     @Autowired
     private DashboardService dashboardService;
 
-    @RequestMapping(method = RequestMethod.GET,
+    @RequestMapping(value="/statistic",
+            method = RequestMethod.GET,
             produces = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
 
-    public ResponseEntity<DashboardDTO> getDashbordData(){
+    public ResponseEntity<DashboardDTO> getDashboardData(){
         return new ResponseEntity<>(this.dashboardService.buildDashboard(), HttpStatus.OK);
+    }
+
+    @RequestMapping(value="/top4",
+            method = RequestMethod.GET,
+            produces = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
+
+    public ResponseEntity<?> getDashboardTop4(){
+        return new ResponseEntity<>(this.dashboardService.findTop4(), HttpStatus.OK);
     }
 }

@@ -32,7 +32,6 @@ public class AdvertServiceImpl extends CRUDServiceImpl<Long, Advert>
 	private final SearchAdvertService searchService;
 	private final UserService userService;
 	private final MailService mailService;
-
 	@Autowired
 	public AdvertServiceImpl(final AdvertRepository advertRepo, final SearchAdvertService searchService,
 							 final UserService userService, final MailService mailService){

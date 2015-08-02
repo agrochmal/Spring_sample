@@ -55,6 +55,10 @@ public class CommentServiceImpl extends CRUDServiceImpl<Long, Comment>
         comment.setAdvert(dbAdvert);
         getJpaRepository().save(comment);
 
+        final float rate = commentRepository.findRateByAdvertId(advertId);
+        dbAdvert.setRate(rate);
+        advertRepository.save(dbAdvert);
+
         final EMailDTO eMailDTO = new EMailDTO();
         eMailDTO.setTitle("Dodano nowy komentarz");
         eMailDTO.setContent(comment.getText());
@@ -66,13 +70,13 @@ public class CommentServiceImpl extends CRUDServiceImpl<Long, Comment>
     @Override
     public Collection<Comment> findByAdvert(Long advertId) {
         Assert.notNull(advertId, "Advert id is required");
-        final Collection<Comment> comments = commentRepository.findByAdvertId(advertId);
+        final Collection<Comment> comments = commentRepository.findByAdvertIdOrderByDateDesc(advertId);
         unproxyEntity(comments);
         return comments;
     }
 
     private void prepareComment(final Comment comment) {
-        comment.setDateCreated(new Date());
+        comment.setDate(new Date());
         comment.setText(plainTextFilter.escapeHtml(comment.getText()));
     }
 }

@@ -1,13 +1,10 @@
-
 <ng-navigation-bar shift="90"></ng-navigation-bar>
 
 <div class="page-search page-top">
-
 	<div class="row">
 		<div class="col-md-12">
 		</div>
 	</div>
-
 	<div class="row">
 		<div class="col-md-12">
 			<p ng-show="totalElements>0" class="search-p1">Znaleziono dla Ciebie {{totalElements}} ogłoszeń !</p>
@@ -20,9 +17,9 @@
 							<a href="#!/edit/{{book.id}}" class="btn btn-xs btn-default" title="edit"><span class="glyphicon glyphicon-pencil"></span></a>
 						</div>
 					</div>
-				    <div class="row">
+				    <div class="row" style="margin-left:0px;margin-right:0px;">
 					   <a href="#/adverts/{{advert.id}}" class="thumb"><img class="img-thumbnail" ng-src="./app/images/thumb.jpg"></a>
-					   <a class="title" href="#/adverts/{{advert.id}}">{{advert.title}}</a>
+					   <a class="title" href="#/adverts/{{advert.id}}">{{advert.title}}</a> <span class="pull-right font-15">Ocena: {{advert.rate}}</span>
 					   <p>{{advert.description}}</p>
 				    </div>
 				    <div class="row">

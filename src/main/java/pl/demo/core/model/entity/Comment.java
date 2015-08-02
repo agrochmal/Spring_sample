@@ -6,6 +6,8 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 import java.util.Date;
 
@@ -17,12 +19,13 @@ import static pl.demo.core.model.entity.ModelConstans.TEXT_LENGTH_25;
 
 @Entity
 @Table(name="comments")
-public class Comment extends BaseEntity implements Comparable<Comment> {
+public class Comment extends BaseEntity {
 
     private String nick;
     private String ipAddr;
-    private Date dateCreated;
+    private Date date;
     private String text;
+    private Integer rate;
 
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="advert_id")
@@ -46,13 +49,13 @@ public class Comment extends BaseEntity implements Comparable<Comment> {
         this.ipAddr = ipAddr;
     }
 
-    @Column(name="date_created", nullable = false)
-    public Date getDateCreated() {
-        return dateCreated;
+    @Column(name="date", nullable = false)
+    public Date getDate() {
+        return date;
     }
 
-    public void setDateCreated(Date dateCreated) {
-        this.dateCreated = dateCreated;
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     @NotEmpty
@@ -74,9 +77,14 @@ public class Comment extends BaseEntity implements Comparable<Comment> {
         this.advert = advert;
     }
 
-    @Override
-    public int compareTo(Comment o) {
-        return getDateCreated().compareTo(o.getDateCreated());
+    @Min(1)
+    @Max(10)
+    public Integer getRate() {
+        return rate;
+    }
+
+    public void setRate(Integer rate) {
+        this.rate = rate;
     }
 
     @Override
@@ -90,7 +98,7 @@ public class Comment extends BaseEntity implements Comparable<Comment> {
         return new EqualsBuilder()
                 .append(nick, comment.nick)
                 .append(ipAddr, comment.ipAddr)
-                .append(dateCreated, comment.dateCreated)
+                .append(date, comment.date)
                 .append(text, comment.text)
                 .isEquals();
     }
@@ -100,7 +108,7 @@ public class Comment extends BaseEntity implements Comparable<Comment> {
         return new HashCodeBuilder(17, 37)
                 .append(nick)
                 .append(ipAddr)
-                .append(dateCreated)
+                .append(date)
                 .append(text)
                 .toHashCode();
     }
@@ -110,7 +118,7 @@ public class Comment extends BaseEntity implements Comparable<Comment> {
         return new ToStringBuilder(this)
                 .append("nick", nick)
                 .append("ipAddr", ipAddr)
-                .append("dateCreated", dateCreated)
+                .append("dateCreated", date)
                 .append("text", text)
                 .toString();
     }

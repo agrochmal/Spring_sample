@@ -96,7 +96,7 @@ angular.module('app.services', ['ngResource'])
 	}
 )
 .factory('DashboardService', function($resource) {
-	return $resource('api/dashboard');
+	return $resource('api/dashboard/statistic'); //TO-DO
 })
 .factory('CommentService', function($resource) {
 	return $resource('api/comments/:action/:id',

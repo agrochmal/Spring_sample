@@ -4,7 +4,7 @@
  *  Angular main file
  */
 
-angular.module('app', ['ngRoute','ngCookies','app.services','app.controlles',
+angular.module('app', ['ngRoute','ngCookies','ngSanitize','app.services','app.controlles',
 	'app.directives.validation',
 	'app.directives.autocomplete',
 	'app.directives.autofocus',

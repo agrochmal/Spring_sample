@@ -294,6 +294,10 @@ h3{
     float:left;
 }
 
+.comment-list {
+    list-style: outside none none;
+}
+
 .search-list {
 
     list-style: outside none none;
@@ -554,5 +558,6 @@ input.login-checkbox {
 
     li{margin-top: 30px; margin-bottom: 30px; margin-left: 150px;}
 }
+
 
 

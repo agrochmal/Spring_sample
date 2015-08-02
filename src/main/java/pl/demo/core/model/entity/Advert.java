@@ -94,6 +94,8 @@ public class Advert extends BaseEntity implements Serializable, Searchable, Coor
     @JoinColumn(name="user_id")
 	private User user;
 
+	private Float rate;
+
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "advert")
 	private Set<Comment> comments = new HashSet<>();
 
@@ -192,6 +194,14 @@ public class Advert extends BaseEntity implements Serializable, Searchable, Coor
 
 	public void setActive(Boolean isActive) {
 		this.active = isActive;
+	}
+
+	public Float getRate() {
+		return rate;
+	}
+
+	public void setRate(Float rate) {
+		this.rate = rate;
 	}
 
 	public Set<Comment> getComments() {
