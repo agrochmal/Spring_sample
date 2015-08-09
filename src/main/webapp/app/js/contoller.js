@@ -66,17 +66,22 @@ angular.module('app.controlles', [])
 	$scope.login = {
 		rememberMe: false,
 		login: function($event) {
-			LoginService.authenticate($.param({username: $scope.username, password: $scope.password}), function(authenticationResult) {
-				var authToken = authenticationResult.token;
-				$rootScope.authToken = authToken;
-				if ($scope.login.rememberMe) {
-					$cookieStore.put('authToken', authToken);
-				}
-				LoginService.getLogged(function(user) {
-					$rootScope.user = user;
-					$scope.dismiss($event);
+			if ($scope.loginForm.$valid) {
+				LoginService.authenticate($.param({
+					username: $scope.username,
+					password: $scope.password
+				}), function (authenticationResult) {
+					var authToken = authenticationResult.token;
+					$rootScope.authToken = authToken;
+					if ($scope.login.rememberMe) {
+						$cookieStore.put('authToken', authToken);
+					}
+					LoginService.getLogged(function (user) {
+						$rootScope.user = user;
+						$scope.dismiss($event);
+					});
 				});
-			});
+			}
 		},
 		register: {
 			user: null,
@@ -257,7 +262,16 @@ angular.module('app.controlles', [])
 })
 .controller('AdvertViewController', function($scope, advert){
 	$scope.advert = advert;
-	$scope.initialized=true;
+	advert.$promise.then(
+		function(answer) {
+			$scope.navigationBarTitle = answer.title;
+			$scope.navigationBarPhone= answer.phone;
+			$scope.initialized=true;
+		},
+		function(error) {
+			console.log(error);
+		}
+	);
 })
 .controller('SendMailController', function($scope, $http){
 	$scope.sendCommand = {
@@ -306,9 +320,18 @@ angular.module('app.controlles', [])
 	}
 
 	function loadComments(){
-		CommentService.getComments({id:$scope.advert.id}, function(comments){
-			$scope.commentGrid.model = comments;
-		});
+		$scope.advert.$promise.then(
+			function(answer) {
+				CommentService.getComments({id:answer.id}, function(comments){
+					$scope.commentGrid.model = comments;
+				});
+			},
+			function(error) {
+				console.log(error);
+			}
+		);
+
+
 	}
 
 	$scope.sendCommand = {

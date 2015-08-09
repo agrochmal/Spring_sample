@@ -7,8 +7,8 @@
 	</div>
 	<div class="row">
 		<div class="col-md-12">
-			<p ng-show="totalElements>0" class="search-p1">Znaleziono dla Ciebie {{totalElements}} ogłoszeń !</p>
-			<p ng-show="totalElements==0" class="search-p1">Przykro nam. Nie ma ogłoszeń spełniających Twoje kryteria !</p>
+			<p ng-show="totalElements>0" class="search-p1 blue-text">Znaleziono dla Ciebie {{totalElements}} ogłoszeń !</p>
+			<p ng-show="totalElements==0" class="search-p1 blue-text">Przykro nam. Nie ma ogłoszeń spełniających Twoje kryteria !</p>
 			<ul class="search-list">
 				<li ng-repeat="advert in adverts" class="thumbnail">
 					<div class="row" ng-show="hasRole('admin')">
@@ -19,9 +19,9 @@
 					</div>
 				    <div style="margin-left:0px;margin-right:0px;">
 					   <a href="#/adverts/{{advert.id}}" class="thumb"><img class="img-thumbnail" ng-src="./app/images/thumb.jpg"></a>
-					   <a class="title" href="#/adverts/{{advert.id}}">{{advert.title}}</a> <span class="pull-right rate">Ocena: {{advert.rate}}</span>
-					   <p>{{advert.description}}</p>
-						<div class="location">
+					   <a class="title" href="#/adverts/{{advert.id}}">{{advert.title}}</a> <span class="pull-right blue-text">Ocena: {{advert.rate}}</span>
+					   <p class="grey-text">{{ advert.description | limitTo: 100 }}{{advert.description.length > 100 ? '...' : ''}}</p>
+						<div class="grey-text">
 							<div class="pull-right">
 								<div><span class="glyphicon glyphicon-map-marker"></span> {{advert.locationName}}</div>
 								<div><span class="glyphicon glyphicon-time"></span> {{advert.creationDate | date:'dd-MM-yyyy'}}</div>

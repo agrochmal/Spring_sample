@@ -14,12 +14,12 @@ angular.module('app.directives.navigationBar', [])
          //   },
             link: function(scope, element) {
                 $(document).scroll(function() {
-                    if ($(this).scrollTop() > 96) {
+                    if ($(this).scrollTop() > 85) {
                         element.css({"position" : 'fixed', "top" : 0 });
-                        scope.$apply('showLoginPanel=true');
+                        scope.$apply('showNavigationBar=true');
                     } else {
                         element.css({ "position" : 'relative', "top" : 0 });
-                        scope.$apply('showLoginPanel=false');
+                        scope.$apply('showNavigationBar=false');
                     }
                 });
             }

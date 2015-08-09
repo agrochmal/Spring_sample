@@ -2,15 +2,16 @@
 	<div class="modal-content">
 		<div class="modal-header" style="background-color:#14369b">
 			<button class="close" data-dismiss="modal" type="button">
-				<span aria-hidden="true">zamknij ×</span>
+				<span aria-hidden="true">Zamknij ×</span>
 			</button>
-			<span class="login-title">Zarejestruj się w serwisie</span>
+			<span class="login-title">Rejestracja</span>
 		</div>
 		<div class="modal-body">
 			<form name="userForm" novalidate>
 				<div class="form-group">
 					<label class="control-label" for="inputUsername">Adres e-mail<span class="asterix"> *</span></label>
-					<input type="text" class="form-control" id="inputUsername" placeholder="Adres e-mail" name="username" ng-model="login.register.user.username" ng-model-options="{ updateOn: 'blur' }" ng-autofocus ng-validate-email ng-unique-email required>
+					<input type="text" class="form-control" id="inputUsername" placeholder="Adres e-mail" name="username" ng-model="login.register.user.username" ng-model-options="{ updateOn: 'blur' }"
+						   ng-autofocus ng-validate-email ng-unique-email required ng-autoclick target-id="button-register">
 					<div class="error-container" ng-show="userForm.$submitted || userForm.username.$touched">
 						<small ng-show="userForm.username.$error.required">
 							Podaj adres e-mail
@@ -29,7 +30,8 @@
 				</div>
 				<div class="form-group">
 					<label class="control-label" for="inputPassword">Hasło<span class="asterix"> *</span></label>
-					<input type="password" id="inputPassword" name="password" placeholder="Hasło" class="form-control" ng-model="login.register.user.password" ng-model-options="{ updateOn: 'blur' }" ng-validate-password required>
+					<input type="password" id="inputPassword" name="password" placeholder="Hasło" class="form-control"
+						   ng-model="login.register.user.password" ng-model-options="{ updateOn: 'blur' }" ng-validate-password required ng-autoclick target-id="button-register">
 					<div class="error-container" ng-show="userForm.$submitted || userForm.password.$touched">
 						<small ng-show="userForm.password.$error.required">
 							Podaj hasło
@@ -43,8 +45,8 @@
 				</div>
 				<div class="form-group">
 					<label class="control-label" for="confirmPassword">Powtórz hasło<span class="asterix"> *</span></label>
-					<input id="confirmPassword" type="password" class="form-control" placeholder="Powtórz hasło" name="confirmPassword" ng-model="confirmPassword" ng-model-options="{ updateOn: 'blur' }" ng-validate-equals="login.register.user.password" required>
-
+					<input id="confirmPassword" type="password" class="form-control" placeholder="Powtórz hasło" name="confirmPassword" ng-model="confirmPassword" ng-model-options="{ updateOn: 'blur' }"
+						   ng-validate-equals="login.register.user.password" required ng-autoclick target-id="button-register">
 					<div class="error-container" ng-show="userForm.$submitted || userForm.confirmPassword.$touched">
 						<small ng-show="userForm.confirmPassword.$error.required">
 							Powtórz hasło
@@ -58,7 +60,8 @@
 				</div>
 				<div class="form-group">
 					<label class="control-label" for="inputName">Imię i nazwisko<span class="asterix"> *</span></label>
-					<input type="text" class="form-control" id="inputName" placeholder="Imię i nazwisko" name="name" ng-model="login.register.user.name" ng-model-options="{ updateOn: 'blur' }" required>
+					<input type="text" class="form-control" id="inputName" placeholder="Imię i nazwisko" name="name"
+						   ng-model="login.register.user.name" ng-model-options="{ updateOn: 'blur' }" required ng-autoclick target-id="button-register">
 					<div class="error-container" ng-show="userForm.$submitted || userForm.name.$touched">
 						<small ng-show="userForm.name.$error.required">
 							Podaj imię i nazwisko
@@ -70,8 +73,7 @@
 					<input type="text" class="form-control" id="inputLocation" name="location" placeholder="Lokalizacja"
 						   ng-model="login.register.user.location" ng-model-options="{ updateOn: 'blur' }"
 						   ng-autocomplete="login.register.user.location" details="login.register.autoComplete.details" options="login.register.autoComplete.options"
-						   placeholder="Wpisz miasto i województwo" required>
-
+						   placeholder="Wpisz miasto i województwo" required ng-autoclick target-id="button-register">
 					<div class="error-container" ng-show="userForm.$submitted || userForm.location.$touched">
 						<small ng-show="userForm.location.$error.required">
 							Podaj swoją lokalizację
@@ -80,7 +82,8 @@
 				</div>
 				<div class="form-group">
 					<label class="control-label" for="inputPhone">Numer telefonu<span class="asterix"> *</span></label>
-					<input type="text" class="form-control" id="inputPhone" name="phone" placeholder="Telefon" ng-model="login.register.user.phone" ng-model-options="{ updateOn: 'blur' }" ng-validate-number required>
+					<input type="text" class="form-control" id="inputPhone" name="phone" placeholder="Telefon" ng-model="login.register.user.phone"
+						   ng-model-options="{ updateOn: 'blur' }" ng-validate-number required ng-autoclick target-id="button-register">
 					<div class="error-container" ng-show="userForm.$submitted || userForm.phone.$touched">
 						<small ng-show="userForm.phone.$error.required">
 							Podaj numer telefonu
@@ -93,9 +96,8 @@
 					</div>
 				</div>
 				<div class="modal-footer">
-
 					<div class="login-register-checkbox">
-						<input class="login-checkbox" type="checkbox" name="terms" required="">
+						<input class="login-checkbox" type="checkbox" name="terms" required ng-autoclick target-id="button-register">
 						<span class="label-checkbox">Akceptuję regulamin</span>
 						<div class="error-container" ng-show="userForm.$submitted || userForm.terms.$touched">
 							<small ng-show="userForm.phone.$error.required">
@@ -103,8 +105,7 @@
 							</small>
 						</div>
 					</div>
-
-					<button class="btn action-btn" type="submit" ng-click="login.register.save($event)"> Zarejestruj się </button>
+					<button id="button-register" class="btn action-btn" type="submit" ng-click="login.register.save($event)"> Zarejestruj się </button>
 				</div>
 			</form>
 		</div>

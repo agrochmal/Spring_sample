@@ -1,9 +1,7 @@
 package pl.demo.core.service;
 
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,9 +13,7 @@ import pl.demo.web.dto.EMailDTO;
 import pl.demo.web.dto.SearchCriteriaDTO;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static pl.demo.core.service.MailServiceImpl.EMAIL_TEMPLATE;
 
@@ -25,8 +21,6 @@ import static pl.demo.core.service.MailServiceImpl.EMAIL_TEMPLATE;
 @Transactional(readOnly=true)
 public class AdvertServiceImpl extends CRUDServiceImpl<Long, Advert>
 		implements AdvertService {
-
-	private final static int SHORT_DESCRIPTION_LENGTH = 50;
 
 	private final AdvertRepository advertRepo;
 	private final SearchAdvertService searchService;
@@ -69,17 +63,17 @@ public class AdvertServiceImpl extends CRUDServiceImpl<Long, Advert>
 	@Override
 	public Advert createNew() {
 		return Optional.ofNullable( userService.getLoggedUser() )
-				.map(t-> {
-					final Advert advert = new Advert();
-					advert.setLocationName(t.getLocation());
-					advert.setContact(t.getName());
-					advert.setPhone(t.getPhone());
-					advert.setEmail(t.getUsername());
-					advert.setLatitude(t.getLat());
-					advert.setLongitude(t.getLng());
-					return advert;
-				})
-				.orElse(new Advert());
+			.map(t-> {
+				final Advert advert = new Advert();
+				advert.setLocationName(t.getLocation());
+				advert.setContact(t.getName());
+				advert.setPhone(t.getPhone());
+				advert.setEmail(t.getUsername());
+				advert.setLatitude(t.getLat());
+				advert.setLongitude(t.getLng());
+				return advert;
+			})
+			.orElse(new Advert());
 	}
 
 	@Override
@@ -91,21 +85,8 @@ public class AdvertServiceImpl extends CRUDServiceImpl<Long, Advert>
 		} else {
 			adverts = searchService.searchAdverts(searchCriteriaDTO, pageable);
 		}
-
-		final List<Advert> shortAdverts=adverts.getContent()
-				.stream()
-				.map(t -> {
-					unproxyEntity(t);
-					String desc = t.getDescription();
-					if (StringUtils.isNotBlank(desc)
-							&& desc.length() > SHORT_DESCRIPTION_LENGTH) {
-						desc = desc.substring(0, SHORT_DESCRIPTION_LENGTH).concat("...");
-					}
-					t.setDescription(desc);
-					return t;
-				}).collect(Collectors.toList());
-
-		return new PageImpl(shortAdverts, pageable, adverts.getTotalElements());
+		adverts.getContent().stream().forEach(t->unproxyEntity(t));
+		return adverts;
 	}
 
 	@Override

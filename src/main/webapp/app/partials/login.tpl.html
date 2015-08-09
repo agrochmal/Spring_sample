@@ -2,28 +2,40 @@
 	<div class="modal-content">
 		<div class="modal-header" style="background-color:#14369b">
 			<button class="close" data-dismiss="modal" type="button">
-				<span aria-hidden="true">zamknij ×</span>
+				<span aria-hidden="true">Zamknij ×</span>
 			</button>
-			<span class="login-title">Zaloguj się do serwisu</span>
+			<span class="login-title">Logowanie</span>
 		</div>
 		<div class="modal-body">
-			<form role="form" novalidate>
+			<form name="loginForm" novalidate>
 				<div class="form-group">
 					<label class="control-label" for="username">Adres e-mail</label>
-					<input id="username" class="form-control" placeholder="Adres e-mail" type="text" name="username" ng-model="username" ng-autofocus>
+					<input id="username" class="form-control" placeholder="Adres e-mail" type="text" name="username"
+						   ng-model="username" ng-autofocus ng-autoclick target-id="button-login" required>
+					<div class="error-container" ng-show="loginForm.$submitted || loginForm.username.$touched">
+						<small ng-show="loginForm.username.$error.required">
+							Podaj adres e-mail
+						</small>
+					</div>
 				</div>
 				<div class="form-group">
 					<label class="control-label" for="password">Hasło</label>
-					<input id="password" class="form-control" placeholder="Hasło" type="password" name="password" ng-model="password">
+					<input id="password" class="form-control" placeholder="Hasło" type="password" name="password"
+						   ng-model="password" ng-autoclick target-id="button-login" required>
+					<div class="error-container" ng-show="loginForm.$submitted || loginForm.password.$touched">
+						<small ng-show="loginForm.password.$error.required">
+							Podaj hasło
+						</small>
+					</div>
 				</div>
 				<div class="login-register-checkbox">
 					<input class="login-checkbox" type="checkbox" ng-model="login.rememberMe" name="rememberMe">
 					<span class="label-checkbox">Zapamiętaj mnie</span>
 				</div>
+				<div class="modal-footer">
+					<button id="button-login" class="btn action-btn" type="submit" ng-click="login.login($event)">Zaloguj >></button>
+				</div>
 			</form>
-		</div>
-		<div class="modal-footer">
-			<button class="btn action-btn" type="submit" ng-click="login.login($event)">Zaloguj >></button>
 		</div>
 	</div>
 </div>

@@ -37,5 +37,4 @@
 	<bean class="org.springframework.data.web.config.HateoasAwareSpringDataWebConfiguration" />
 
 	<tx:annotation-driven transaction-manager="transactionManager"/>
-
 </beans>

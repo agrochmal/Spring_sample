@@ -69,6 +69,14 @@ label {
   text-shadow: 0 2px 2px black;
 }
 
+.navigation-bar-text{
+  color: #fff !important;
+  font-family: "Lato","Open Sans",Helvetica,Arial,sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  text-shadow: 0 2px 2px black;
+}
+
 .action-btn {
   background-color: #f44c4c;
   font-size: 16px;
@@ -86,7 +94,7 @@ label {
 
 .navigation-bar {
   background: none repeat scroll 0 0 #000070;
-  height: 120px;
+  height: 150px;
   padding-left: 50px;
   padding-right: 50px;
   padding-top: 30px;
@@ -480,7 +488,7 @@ input.login-checkbox {
   margin-bottom: 30px;
   margin-left: 150px; }
 
-.rate {
+.blue-text {
   display: inline-block;
   font-size: 21px !important;
   min-width: 100px;
@@ -490,9 +498,9 @@ input.login-checkbox {
   white-space: nowrap;
 }
 
-.location{
+.grey-text{
   color: #a1a1a1;
-  font-size: 18px !important;
+  font-size: 16px !important;
 }
 
 
