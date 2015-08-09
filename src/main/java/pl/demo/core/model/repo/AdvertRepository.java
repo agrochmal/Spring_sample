@@ -8,7 +8,6 @@ import org.springframework.data.repository.query.Param;
 import pl.demo.core.model.entity.Advert;
 
 import java.util.Collection;
-import java.util.List;
 
 public interface AdvertRepository extends JpaRepository<Advert, Long>{
 
@@ -19,5 +18,5 @@ public interface AdvertRepository extends JpaRepository<Advert, Long>{
 
 	Long countByActive(Boolean active);
 
-	Collection<Advert>  findByAdvertIdIn(List<Long> advertIdList);
+	//Collection<Advert> findByAdvertIdIn(List<Long> advertIdList);
 }

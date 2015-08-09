@@ -74,7 +74,6 @@ angular.module('app.controlles', [])
 				}
 				LoginService.getLogged(function(user) {
 					$rootScope.user = user;
-					$location.path("/");
 					$scope.dismiss($event);
 				});
 			});
@@ -101,10 +100,8 @@ angular.module('app.controlles', [])
 					$scope.login.register.user.lng = this.autoComplete.getLongitude();
 
 					$scope.login.register.user.$save(function($event) {
-						$location.path('/');
 						$scope.dismiss($event);
 					});
-
 				} else {
 					scrollTop();
 				}

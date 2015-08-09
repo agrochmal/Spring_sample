@@ -4,22 +4,22 @@
 'use strict';
 
 angular.module('app.directives.navigationBar', [])
-    .directive('ngNavigationBar', function() {
+    .directive('ngNavigationBar', function($rootScope) {
         return {
             restrict:'E',
             replace:true,
             templateUrl:'app/partials/navigation-bar.tpl.html',
-            scope: {
-                shift: '='
-            },
-            link: function($scope, element) {
+            //  scope: {
+         //       shift: '='
+         //   },
+            link: function(scope, element) {
                 $(document).scroll(function() {
-                    if ($(this).scrollTop() > $scope.shift) {
+                    if ($(this).scrollTop() > 96) {
                         element.css({"position" : 'fixed', "top" : 0 });
-                        $scope.showButton=true;
+                        scope.$apply('showLoginPanel=true');
                     } else {
                         element.css({ "position" : 'relative', "top" : 0 });
-                        $scope.showButton=false;
+                        scope.$apply('showLoginPanel=false');
                     }
                 });
             }

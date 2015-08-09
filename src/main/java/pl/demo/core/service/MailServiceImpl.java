@@ -40,7 +40,8 @@ public class MailServiceImpl implements MailService{
     @Autowired
     private VelocityEngine velocityEngine;
 
-    @Override @Async
+    @Override
+    @Async
     public void sendMail(final EMailDTO emailDTO, final String template){
         if(!emailEnable){
             return;

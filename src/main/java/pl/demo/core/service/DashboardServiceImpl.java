@@ -42,8 +42,7 @@ public class DashboardServiceImpl implements DashboardService{
     @Override
     public Collection<Advert> findTop4() {
         final Collection<Object> comments = commentRepository.findTop4();
-
-        final Collection<Advert> adverts = advertRepository.findByAdvertIdIn(null);
+        final Collection<Advert> adverts =null;// advertRepository.findByAdvertIdIn(null);
         return adverts;
     }
 }

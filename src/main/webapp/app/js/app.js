@@ -15,8 +15,10 @@ angular.module('app', ['ngRoute','ngCookies','ngSanitize','app.services','app.co
 	'app.directives.pagination',
 	'app.directives.navigationBar',
 	'app.directives.switchCheckbox',
+	'app.directives.loginPanel',
 	'ngMap',
-	'ui.bootstrap'])
+	'ui.bootstrap',
+	'flow'])
 
 .config(['$routeProvider', '$locationProvider', '$httpProvider', function($routeProvider, $locationProvider, $httpProvider) {
 			

@@ -1,0 +1,20 @@
+<ul class="list-inline">
+    <li>
+        <span ng-hide="user">
+            <a class="register-btn" data-toggle="modal" data-target="#registerModal"> Zarejestruj się </a>
+        </span>
+    </li>
+    <li>
+        <span ng-hide="user">
+            <a class="register-btn" data-toggle="modal" data-target="#loginModal"> Zaloguj się </a>
+        </span>
+        <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown" ng-show="user">
+                <a href="" class="dropdown-toggle register-btn" data-toggle="dropdown"><span ng-bind="user.name"></span><b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                    <li><a ng-click="logout()"><span class="glyphicon glyphicon-off"></span> Wyloguj </a></li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+</ul>

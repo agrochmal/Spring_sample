@@ -26,7 +26,7 @@ import static pl.demo.core.service.MailServiceImpl.EMAIL_TEMPLATE;
 public class AdvertServiceImpl extends CRUDServiceImpl<Long, Advert>
 		implements AdvertService {
 
-	private final static int SHORT_DESCRIPTION_LENGTH = 255;
+	private final static int SHORT_DESCRIPTION_LENGTH = 50;
 
 	private final AdvertRepository advertRepo;
 	private final SearchAdvertService searchService;

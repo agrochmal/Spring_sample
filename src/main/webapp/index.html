@@ -3,9 +3,9 @@
 <head>
     <meta charset="ISO-8859-2">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="author" content="Robert Sikora">
     <title>Demo</title>
 	<link href="app/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="app/bower_components/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css" rel="stylesheet">
@@ -13,44 +13,23 @@
 </head>
 <body ng-cloak>
 	<div id="wrapper-header">
-		<div id="header">
-			<div class="row">
-			  <div class="col-sm-8">
-			  	<a href="#/main" class="logo pull-left">
-					<span class="logo_big"> Demo </span> <span class="logo_small"> by Sikora SOFTWARE </span>
-			  	</a>
-			  </div>
-				<div class="pull-right">
-				<ul class="list-inline margin-top20">
-					<li>
-						<span ng-hide="user">
-							<a class="register-btn" data-toggle="modal" data-target="#registerModal"> Zarejestruj się </a>
-						</span>
-					</li>
-					<li>
-						<span ng-hide="user">
-							<a class="register-btn" data-toggle="modal" data-target="#loginModal"> Zaloguj się </a>
-						</span>
-						<ul class="nav navbar-nav navbar-right">
-							<li class="dropdown" ng-show="user">
-								<a href="" class="dropdown-toggle" data-toggle="dropdown"><span ng-bind="user.name"></span><b class="caret"></b></a>
-								<ul class="dropdown-menu">
-									<li><a ng-click="logout()"><span class="glyphicon glyphicon-off"></span> Wyloguj </a></li>
-								</ul>
-							</li>
-						</ul>
-					</li>
-				</ul>
-				</div>
-			</div>
-			<!-- modal Login page-->
-			<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" ng-modal>
-				<div ng-include="'app/partials/login.tpl.html'"></div>
-			</div>
-			<!-- modal New user page-->
-			<div  class="modal fade" id="registerModal" tabindex="-1" role="dialog" ng-modal>
-				<div ng-include="'app/partials/register.tpl.html'"></div>
-			</div>
+		<div class="row">
+		  <div class="pull-left">
+			<a href="#/main" class="logo pull-left">
+				<span class="logo_big"> Demo </span> <span class="logo_small"> by Sikora SOFTWARE </span>
+			</a>
+		  </div>
+		  <div class="pull-right margin-top20">
+			<ng-login-panel></ng-login-panel>
+		  </div>
+		</div>
+		<!-- modal Login page-->
+		<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" ng-modal>
+			<div ng-include="'app/partials/login.tpl.html'"></div>
+		</div>
+		<!-- modal New user page-->
+		<div  class="modal fade" id="registerModal" tabindex="-1" role="dialog" ng-modal>
+			<div ng-include="'app/partials/register.tpl.html'"></div>
 		</div>
 	</div>
     <div ng-view></div>
@@ -87,6 +66,7 @@
 	<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=false"></script>
 	<script src="app/bower_components/ngmap/build/scripts/ng-map.min.js"></script>
 	<script src="app/bower_components/angular-sanitize/angular-sanitize.js"></script>
+	<script src="app/bower_components/ng-flow/dist/ng-flow-standalone.min.js"></script>
 	<script src="app/js/utils.min.js"></script>
 	<script src="app/js/config.min.js"></script>
 	<script src="app/js/service.js"></script>
@@ -102,6 +82,7 @@
 	<script src="app/js/directives/pagination.js"></script>
 	<script src="app/js/directives/switchCheckbox.js"></script>
 	<script src="app/js/directives/navigationBar.js"></script>
+	<script src="app/js/directives/loginPanel.js"></script>
 	<script src="app/js/app.js"></script>
 </body>
 </html>

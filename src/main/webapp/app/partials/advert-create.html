@@ -88,6 +88,23 @@
 				</div>
 			</div>
 		</div>
+
+		<div class="ng-scope" flow-file-added="!!{png:1,gif:1,jpg:1,jpeg:1}[$file.getExtension()]" flow-files-submitted="$flow.upload()" flow-init="">
+			<div class="drop" ng-class="dropClass" flow-drop="">
+				<span class="btn btn-default" flow-btn="">
+				Upload Image
+				<input type="file" style="visibility: hidden; position: absolute;" multiple="multiple">
+				</span>
+				<span class="btn btn-default ng-hide" ng-show="$flow.supportDirectory" flow-directory="" flow-btn="">
+				<b>OR</b>
+				Drag And Drop your images here
+			</div>
+			<br>
+			<div>
+				<div class="clear"></div>
+			</div>
+		</div>
+
 		<div class="form-group margin-top10">
 			<div class="col-sm-12">
 				<button type="submit" class="btn action-btn header-button-right" ng-click="saveCommand.save()">Dodaj ogłoszenie</button>

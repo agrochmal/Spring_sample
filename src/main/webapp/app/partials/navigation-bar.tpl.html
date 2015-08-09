@@ -1,5 +1,12 @@
 <div id="navigation-bar" class="navigation-bar">
-    <a href="#/main">
-        <button class="btn action-btn"><< Wróć</button>
-    </a>
+    <div class="row">
+        <div class="pull-right" ng-show="showLoginPanel">
+            <ng-login-panel></ng-login-panel>
+        </div>
+        <div class="pull-left">
+            <a href="#/main">
+                <button class="btn action-btn"><< Wróć</button>
+            </a>
+        </div>
+    </div>
 </div>

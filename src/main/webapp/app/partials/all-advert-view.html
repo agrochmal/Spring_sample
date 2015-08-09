@@ -17,22 +17,24 @@
 							<a href="#!/edit/{{book.id}}" class="btn btn-xs btn-default" title="edit"><span class="glyphicon glyphicon-pencil"></span></a>
 						</div>
 					</div>
-				    <div class="row" style="margin-left:0px;margin-right:0px;">
+				    <div style="margin-left:0px;margin-right:0px;">
 					   <a href="#/adverts/{{advert.id}}" class="thumb"><img class="img-thumbnail" ng-src="./app/images/thumb.jpg"></a>
-					   <a class="title" href="#/adverts/{{advert.id}}">{{advert.title}}</a> <span class="pull-right font-15">Ocena: {{advert.rate}}</span>
+					   <a class="title" href="#/adverts/{{advert.id}}">{{advert.title}}</a> <span class="pull-right rate">Ocena: {{advert.rate}}</span>
 					   <p>{{advert.description}}</p>
-				    </div>
-				    <div class="row">
-					   <div class="search-left">
-				  		 <span>Gdzie: {{advert.locationName}}</span>
-				  	   </div>
-				       <div class="search-right">
-						   <span>Data dodania: {{advert.creationDate | date:'dd-MM-yyyy'}}</span>
-				       </div>
+						<div class="location">
+							<div class="pull-right">
+								<div><span class="glyphicon glyphicon-map-marker"></span> {{advert.locationName}}</div>
+								<div><span class="glyphicon glyphicon-time"></span> {{advert.creationDate | date:'dd-MM-yyyy'}}</div>
+							</div>
+						</div>
 				    </div>
 				</li>
 			</ul>
 		</div>
+		</div>
+	</br>
+	</br>
+
 		<ng-pagination num-pages="totalPages" current-page="currentPage" select-page-fn="loadPage(currentPage,currentPageSize)"></ng-pagination>
 	</div>
 </div>

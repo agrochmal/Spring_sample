@@ -21,6 +21,7 @@ angular.module('app.directives.pagination', [])
 
         selectPage : function (page) {
           if (!this.isActive(page)) {
+            scrollTop();
             $scope.currentPage = page;
             $scope.selectPageFn({ currentPage: $scope.currentPage, currentPageSize: $scope.currentPageSize });
           }
@@ -36,12 +37,14 @@ angular.module('app.directives.pagination', [])
 
         selectNext : function () {
           if (!this.noNext()) {
+            scrollTop();
             this.selectPage($scope.currentPage + 1);
           }
         },
 
         selectPrevious : function () {
           if (!this.noPrev()) {
+            scrollTop();
             this.selectPage($scope.currentPage - 1);
           }
         }
@@ -61,6 +64,7 @@ angular.module('app.directives.pagination', [])
 
       $scope.$watch('currentPageSize', function (newValue, oldValue) {
         if (oldValue != newValue) {
+          scrollTop();
           $scope.currentPage = 1;
           $scope.currentPageSize = newValue;
           $scope.selectPageFn({currentPage: $scope.currentPage, currentPageSize: $scope.currentPageSize});

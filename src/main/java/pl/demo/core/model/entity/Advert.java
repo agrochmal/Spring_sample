@@ -94,7 +94,7 @@ public class Advert extends BaseEntity implements Serializable, Searchable, Coor
     @JoinColumn(name="user_id")
 	private User user;
 
-	private Float rate;
+	private Float rate=1.0f;
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "advert")
 	private Set<Comment> comments = new HashSet<>();
