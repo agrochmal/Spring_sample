@@ -96,14 +96,18 @@
 					</div>
 				</div>
 				<div class="modal-footer">
-					<div class="login-register-checkbox">
+					<!--<div class="login-register-checkbox">
 						<input class="login-checkbox" type="checkbox" name="terms" required ng-autoclick target-id="button-register">
 						<span class="label-checkbox">Akceptuję regulamin</span>
 						<div class="error-container" ng-show="userForm.$submitted || userForm.terms.$touched">
-							<small ng-show="userForm.phone.$error.required">
+							<small ng-show="userForm.terms.$error.required">
 								Akceptacja regulaminu jest wymagana !
 							</small>
 						</div>
+					</div>-->
+					<div class="login-register-checkbox">
+						<input class="login-checkbox" type="checkbox" name="autologin" ng-model="login.register.autologin">
+						<span class="label-checkbox">Auto-logowanie</span>
 					</div>
 					<button id="button-register" class="btn action-btn" type="submit" ng-click="login.register.save($event)"> Zarejestruj się </button>
 				</div>

@@ -3,7 +3,7 @@ package pl.demo.web;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 import pl.demo.core.model.entity.Advert;
@@ -62,10 +62,12 @@ public class UserRestResource extends AbstractCRUDResource<Long, User>{
 			produces = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
 
 	public ResponseEntity<Boolean> checkUserUnique(final String username) {
-		final UserDetails existing = userService.loadUserByUsername(username);
-		return Optional.ofNullable(existing)
-				.map(user -> new ResponseEntity<>(Boolean.FALSE, HttpStatus.OK))
-				.orElse(new ResponseEntity<>(Boolean.TRUE, HttpStatus.OK));
+		try {
+			userService.loadUserByUsername(username);
+		}catch (UsernameNotFoundException ex){
+			return new ResponseEntity<>(Boolean.TRUE, HttpStatus.OK);
+		}
+		return new ResponseEntity<>(Boolean.FALSE, HttpStatus.OK);
 	}
 
 	@RequestMapping(value="/authenticate",

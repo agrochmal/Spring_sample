@@ -63,28 +63,33 @@ angular.module('app.controlles', [])
 })
 .controller('LoginController', function($scope, $rootScope, $location, $cookieStore, LoginService, UserService) {
 
+	function login(event, username,password) {
+		LoginService.authenticate($.param({
+			username: username,
+			password: password
+		}), function (authenticationResult) {
+			var authToken = authenticationResult.token;
+			$rootScope.authToken = authToken;
+			if ($scope.login.rememberMe) {
+				$cookieStore.put('authToken', authToken);
+			}
+			LoginService.getLogged(function (user) {
+				$rootScope.user = user;
+				$scope.dismiss(event);
+			});
+		});
+	}
+
 	$scope.login = {
 		rememberMe: false,
 		login: function($event) {
 			if ($scope.loginForm.$valid) {
-				LoginService.authenticate($.param({
-					username: $scope.username,
-					password: $scope.password
-				}), function (authenticationResult) {
-					var authToken = authenticationResult.token;
-					$rootScope.authToken = authToken;
-					if ($scope.login.rememberMe) {
-						$cookieStore.put('authToken', authToken);
-					}
-					LoginService.getLogged(function (user) {
-						$rootScope.user = user;
-						$scope.dismiss($event);
-					});
-				});
+				login($event, $scope.username, $scope.password);
 			}
 		},
 		register: {
 			user: null,
+			autologin:false,
 			autoComplete: {
 				details: null,
 				options: {country: 'pl', types: '(cities)'},
@@ -106,6 +111,9 @@ angular.module('app.controlles', [])
 
 					$scope.login.register.user.$save(function($event) {
 						$scope.dismiss($event);
+						if($scope.login.register.autologin){
+							login($event, $scope.login.register.user.username, $scope.login.register.user.password);
+						}
 					});
 				} else {
 					scrollTop();

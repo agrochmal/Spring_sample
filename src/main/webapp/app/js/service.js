@@ -9,14 +9,13 @@ angular.module('app.services', ['ngResource'])
 	return $resource('api/users/:action', {},
 			{
 				authenticate: {
-					method: 'POST',
-					params: {'action' : 'authenticate'},
-					headers : {'Content-Type': 'application/x-www-form-urlencoded'}
+					method:'POST',
+					params:{'action':'authenticate'},
+					headers:{'Content-Type':'application/x-www-form-urlencoded'}
 				},
-
 				getLogged:{
-					method: 'GET',
-					params: {'action' : 'logged'}
+					method:'GET',
+					params:{'action':'logged'}
 				}
 			}
 	);
@@ -45,7 +44,6 @@ angular.module('app.services', ['ngResource'])
 	}
 )
 .factory('AdvertService', function($resource) {
-	
 	return $resource('api/adverts/:action:id', 
 			{
 		    	id: '@id',
@@ -59,10 +57,8 @@ angular.module('app.services', ['ngResource'])
 	);
 })
 .factory('SearchService', function($http){
-
 		var data = [];
 		var searchCriteria;
-
 		return {
 			search: function(_searchCriteria, _page, _size){
 				if(_page>0)
