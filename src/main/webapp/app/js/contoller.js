@@ -29,36 +29,37 @@ angular.module('app.controlles', [])
 
 		});
 	}
-		$scope.searchCommand = {
-		keyword: '',
-		radius:'',
-		autoComplete: {
-			details: null,
-			options: {country: 'pl', types: '(cities)'},
-			getLatitude: function() {
-				if(null == this.details)
-					return '';
-				return this.details.geometry.location.lat();
-			},
-			getLongitude: function() {
-				if(null == this.details)
-					return '';
-				return this.details.geometry.location.lng();
-			}
+
+	$scope.searchCommand = {
+	keyword: '',
+	radius:'',
+	autoComplete: {
+		details: null,
+		options: {country: 'pl', types: '(cities)'},
+		getLatitude: function() {
+			if(null == this.details)
+				return '';
+			return this.details.geometry.location.lat();
 		},
-		getSearchCriteria: function(){
-			return {'keyWords' : this.keyword, 'locLatitude': this.autoComplete.getLatitude() ,
-				'locLongitude': this.autoComplete.getLongitude(), 'locRadius': this.radius}
-		},
-		search: function(){
-			var searchCriteria = this.getSearchCriteria();
-			SearchService.search(searchCriteria, 1, 10)
-				.success( function (result) {
-					SearchService.setResult(searchCriteria, result);
-					$location.path('/search');
-				}
-			);
+		getLongitude: function() {
+			if(null == this.details)
+				return '';
+			return this.details.geometry.location.lng();
 		}
+	},
+	getSearchCriteria: function(){
+		return {'keyWords' : this.keyword, 'locLatitude': this.autoComplete.getLatitude() ,
+			'locLongitude': this.autoComplete.getLongitude(), 'locRadius': this.radius}
+	},
+	search: function(){
+		var searchCriteria = this.getSearchCriteria();
+		SearchService.search(searchCriteria, 1, 10)
+			.success( function (result) {
+				SearchService.setResult(searchCriteria, result);
+				$location.path('/search');
+			}
+		);
+	}
 	};
 })
 .controller('LoginController', function($scope, $rootScope, $location, $cookieStore, LoginService, UserService, Alertify) {
@@ -129,11 +130,10 @@ angular.module('app.controlles', [])
 	function init() {
 		$scope.login.register.user = new UserService();
 	}
-	})
+})
 .controller('AdvertCreateController', function($scope, $rootScope, $location, AdvertService, Alertify) {
 
    $scope.example = true;
-
 	//datepicker
 	$scope.open = function($event) {
 		$event.preventDefault();
@@ -185,7 +185,7 @@ angular.module('app.controlles', [])
 			$scope.saveCommand.advert = advert;
 		});
 	}
-	})
+})
 .controller('AllAdvertView', function($scope, SearchService, AdvertService) {
 
 	init();
@@ -215,7 +215,7 @@ angular.module('app.controlles', [])
 	};
 
 })
-.controller('UserAccountController', function($scope, $rootScope, user, UserService, AdvertService) {
+.controller('UserAccountController', function($scope, $rootScope, user, UserService, AdvertService, Alertify) {
 
 	$scope.editCommand = {
 		user : null,
@@ -226,6 +226,7 @@ angular.module('app.controlles', [])
 		save: function() {
 			this.user.roles =[];
 			UserService.update({id: this.user.username}, this.user, function(res){
+				Alertify.success('Dane uzytkownia zaktualizaowane');
 				$scope.editCommand.user = UserService.get({id: $route.current.params.id});
 			});
 		}
@@ -255,7 +256,7 @@ angular.module('app.controlles', [])
 		});
 	}
 	})
-.controller('AccountAdvertController', function($scope, AdvertService, $http) {
+.controller('AccountAdvertController', function($scope, $http, AdvertService, Alertify) {
 	$scope.$watch('advert.active', function (newValue, oldValue, scope) {
 		if (newValue != oldValue) {
 			console.log(newValue);
@@ -266,7 +267,8 @@ angular.module('app.controlles', [])
 					}
 				}
 			).success(function(data, status, headers, config) {
-					console.log('State updated');
+				Alertify.success('Zmieniono status ogloszenia');
+				console.log('State updated');
 			});
 		}
 	});
@@ -284,7 +286,7 @@ angular.module('app.controlles', [])
 		}
 	);
 })
-.controller('SendMailController', function($scope, $http){
+.controller('SendMailController', function($scope, $http, Alertify){
 	$scope.sendCommand = {
 		message : {
 			sender:'',
@@ -297,6 +299,7 @@ angular.module('app.controlles', [])
 			if ($scope.emailForm.$valid) {
 				$http.post('api/adverts/1/email', this.message).
 					success(function (data, status, headers, config) {
+						Alertify.success('Wyslano e-mail');
 						console.log('E-mail was sent');
 						$scope.sendCommand.isSent = true;
 						$scope.dismiss($event);
