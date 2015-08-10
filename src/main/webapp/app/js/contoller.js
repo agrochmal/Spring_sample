@@ -61,7 +61,7 @@ angular.module('app.controlles', [])
 		}
 	};
 })
-.controller('LoginController', function($scope, $rootScope, $location, $cookieStore, LoginService, UserService) {
+.controller('LoginController', function($scope, $rootScope, $location, $cookieStore, LoginService, UserService, Alertify) {
 
 	function login(event, username,password) {
 		LoginService.authenticate($.param({
@@ -74,6 +74,7 @@ angular.module('app.controlles', [])
 				$cookieStore.put('authToken', authToken);
 			}
 			LoginService.getLogged(function (user) {
+				Alertify.success('Zalogowano');
 				$rootScope.user = user;
 				$scope.dismiss(event);
 			});
@@ -110,6 +111,7 @@ angular.module('app.controlles', [])
 					$scope.login.register.user.lng = this.autoComplete.getLongitude();
 
 					$scope.login.register.user.$save(function($event) {
+						Alertify.success('Zarejstrowano');
 						$scope.dismiss($event);
 						if($scope.login.register.autologin){
 							login($event, $scope.login.register.user.username, $scope.login.register.user.password);
@@ -128,7 +130,7 @@ angular.module('app.controlles', [])
 		$scope.login.register.user = new UserService();
 	}
 	})
-.controller('AdvertCreateController', function($scope, $rootScope, $location, AdvertService) {
+.controller('AdvertCreateController', function($scope, $rootScope, $location, AdvertService, Alertify) {
 
    $scope.example = true;
 
@@ -164,6 +166,7 @@ angular.module('app.controlles', [])
 					$scope.saveCommand.advert.longitude = this.autoComplete.getLongitude();
 				}
 				$scope.saveCommand.advert.$save(function() {
+					Alertify.success('Dodano nowe ogloszenie');
 					$location.path('/');
 				});
 

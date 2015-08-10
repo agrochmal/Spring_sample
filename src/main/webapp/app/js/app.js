@@ -18,9 +18,10 @@ angular.module('app', ['ngRoute','ngCookies','ngSanitize','app.services','app.co
 	'app.directives.loginPanel',
 	'ngMap',
 	'ui.bootstrap',
-	'flow'])
+	'flow',
+	'Alertify'])
 
-.config(['$routeProvider', '$locationProvider', '$httpProvider', function($routeProvider, $locationProvider, $httpProvider) {
+.config(['$routeProvider', '$locationProvider', '$httpProvider', function($routeProvider, $locationProvider, $httpProvider, Alertify) {
 			
 		 $routeProvider.
 		   when('/main', {
@@ -70,8 +71,10 @@ angular.module('app', ['ngRoute','ngCookies','ngSanitize','app.services','app.co
 			        		var url = config.url;
 			      			//Unauthorized
 			        		if (status == 401) {
+								Alertify.error('Nieprawidłowe dane logowania');
 			        			$location.path( "/main" );
 			        		} else {
+								Alertify.error('Poważny błąd serwera');
 			        			$rootScope.error = method + " on " + url + " failed with status " + status;
 			        		}
 			              
