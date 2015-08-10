@@ -317,7 +317,7 @@ angular.module('app.controlles', [])
 	);
 
 })
-.controller('CommentController', function($scope, CommentService){
+.controller('CommentController', function($scope, CommentService, Alertify){
 
 	$scope.commentGrid = {
 		model : null,
@@ -353,6 +353,7 @@ angular.module('app.controlles', [])
 		},
 		postComment: function() {
 			CommentService.postComment({id:$scope.advert.id,}, $scope.sendCommand.comment, function(res){
+				Alertify.success('Dodano nowy komentarz');
 				console.log('Post comment');
 				$scope.sendCommand.clearModel();
 				loadComments();

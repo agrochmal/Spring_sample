@@ -21,7 +21,7 @@ angular.module('app', ['ngRoute','ngCookies','ngSanitize','app.services','app.co
 	'flow',
 	'Alertify'])
 
-.config(['$routeProvider', '$locationProvider', '$httpProvider', function($routeProvider, $locationProvider, $httpProvider, Alertify) {
+.config(['$routeProvider', '$locationProvider', '$httpProvider', function($routeProvider, $locationProvider, $httpProvider) {
 			
 		 $routeProvider.
 		   when('/main', {
@@ -62,22 +62,22 @@ angular.module('app', ['ngRoute','ngCookies','ngSanitize','app.services','app.co
 			
 			/* Register error provider that shows message on failed requests or redirects to login page on
 			 * unauthenticated requests */
-		    $httpProvider.interceptors.push(['$q', '$rootScope', '$location', function ($q, $rootScope, $location) {
+		    $httpProvider.interceptors.push(['$q', '$rootScope', '$location', '$injector', function ($q, $rootScope, $location, $injector) {
 			        return {
 			        	'responseError': function(rejection) {
 			        		var status = rejection.status;
 			        		var config = rejection.config;
 			        		var method = config.method;
 			        		var url = config.url;
+							var alertify = $injector.get('Alertify');
 			      			//Unauthorized
 			        		if (status == 401) {
-								Alertify.error('Nieprawidłowe dane logowania');
+								alertify.error('Nieprawidlowe dane logowania');
 			        			$location.path( "/main" );
 			        		} else {
-								Alertify.error('Poważny błąd serwera');
+								alertify.error('Powazny blad serwera');
 			        			$rootScope.error = method + " on " + url + " failed with status " + status;
 			        		}
-			              
 			        		return $q.reject(rejection);
 			        	}
 			        };
