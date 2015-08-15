@@ -1,6 +1,6 @@
 <ng-navigation-bar shift="96" showLoginPanel="true"></ng-navigation-bar>
 
-<div class="container">
+<div class="create-new-container">
    <div class="row">
        <div class="col-md-12">
            <h2 style="text-align: left;color: #337ab7"> {{advert.title}} </h2>
@@ -18,24 +18,38 @@
        </div>
        <div class="col-md-5">
            <div>
-               <h3 class="grey-text"> Szukaj nas w {{advert.locationName}} </h3>
-               <br>
                <div ng-if="initialized">
-                   <map center="{{advert.latitude}}, {{advert.longitude}}" zoom="11">
-                       <info-window id="1" position="{{advert.latitude}}, {{advert.longitude}}" visible="true">
-                           <div ng-non-bindable="">
-                               tu jesteśmy
-                           </div>
-                       </info-window>
-                   </map>
+                   <div class="panel">
+                       <div class="heading">
+                           <span class="icon mif-location-city"></span>
+                           <span class="title">{{advert.locationName}}</span>
+                       </div>
+                       <div class="content">
+                           <map center="{{advert.latitude}}, {{advert.longitude}}" zoom="11">
+                               <info-window id="1" position="{{advert.latitude}}, {{advert.longitude}}" visible="true">
+                                   <div ng-non-bindable="">
+                                       tu jesteśmy
+                                   </div>
+                               </info-window>
+                           </map>
+                       </div>
+                   </div>
                </div>
            </div>
            <div class="advert-address">
-               <ul class="list-unstyled">
-                   <li> <button type="submit" class="btn action-btn" data-toggle="modal" data-target="#sendEmailModal">Wyślij wiadomość</button></li>
-                   <li> <span class="glyphicon glyphicon-phone" aria-hidden="true"></span> <strong><abbr title="Phone">&nbsp;&nbsp;Tel:</abbr>{{advert.phone}}</strong>  </li>
-                   <li> <span class="glyphicon glyphicon-user" aria-hidden="true"></span> <strong>&nbsp;&nbsp;{{advert.contact}}</strong> </li>
-               </ul>
+               <div class="panel">
+                   <div class="heading">
+                       <span class="icon mif-contacts-mail"></span>
+                       <span class="title">Kontakt</span>
+                   </div>
+                   <div class="content">
+                       <ul class="list-unstyled">
+                           <li> <span class="glyphicon glyphicon-phone" aria-hidden="true"></span> <strong><abbr title="Phone">&nbsp;&nbsp;Telefon:&nbsp;&nbsp;</abbr>{{advert.phone}}</strong>  </li>
+                           <li> <span class="glyphicon glyphicon-user" aria-hidden="true"></span> <strong>&nbsp;&nbsp;{{advert.contact}}</strong> </li>
+                           <li> <button type="submit" class="btn action-btn" data-toggle="modal" data-target="#sendEmailModal">Wyślij wiadomość</button></li>
+                       </ul>
+                   </div>
+               </div>
                <!-- modal send e-mail page-->
                <div class="modal fade" id="sendEmailModal" tabindex="-1" role="dialog" ng-modal>
                    <div ng-include="'app/partials/sendEmail.tpl.html'"></div>
