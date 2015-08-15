@@ -32,56 +32,38 @@
 <div class="mean-header font-white">
 	<h2> Korzystaj z serwisu na kilka sposobów </h2>
 </div>
-<div id="main" class="main-container margin-top50">
-	<p class="p1">  Tutaj możesz dodaj lub znaleźć interesujące Cię ogłoszenie. To jest i zawsze będzie za darmo ! </p>
-	<div class="row">
-	  <div class="col-sm-4">
-	    <div class="tile">
-			<div class="dummy"></div>
-			<a ng-href="" ng-click="searchCommand.search()" class="thumbnail color-blue">
-				<img src="http://www.itprojekt.it/wp-content/uploads/2013/08/solution1.png">
-			</a>
-		</div>
-	  </div>
-	  <div class="col-sm-4">
-		<div class="tile">
-			<div class="dummy"></div>
-			<a ng-href="#/new" class="thumbnail color-lime">
-				<img src="http://www.itprojekt.it/wp-content/uploads/2013/08/solution3.png">
-			</a>
-		</div>
-	  </div>
-	  <div class="col-sm-4">
-		<div class="tile">
-			<div class="dummy"></div>
-			<a ng-href="#/users/{{user.id}}" class="thumbnail color-orange">
-				<img src="http://www.itprojekt.it/wp-content/uploads/2013/08/solution2.png">
-			</a>
-		</div>
-	   </div>
+<div id="main" class="main-container margin-top100" style="padding-left: 50px;">
+	<h2>  Tutaj możesz dodać lub znaleźć interesujące Cię ogłoszenie </h2>
+	<div class="tile-container margin-top100">
+		<a class="tile-large bg-indigo fg-white" data-role="tile" ng-click="searchCommand.search()" style="opacity: 1; transform: scale(1); transition: all 0.3s ease 0s;">
+			<div class="tile-content iconic">
+				<span class="icon mif-list2"></span>
+			</div>
+			<div class="tile-content">
+				<div class="padding10">
+					<p class="tertiary-text fg-white no-margin">Znajdz interesujące Cię zlecenie. Dzięki wielu kryteriom wyszukiwania możesz dowolnie przeszukiwać bazę naszych ogłoszeń i znaleźć ogłoszenie
+						w pełni spełniąjce Twoje wymagania</p>
+				</div>
+			</div>
+			<span class="tile-label">Szukam zlecenia</span>
+		</a>
+
+		<a class="tile-large bg-darkBlue fg-white" data-role="tile" ng-href="#/new" style="opacity: 1; transform: scale(1); transition: all 0.3s ease 0s;">
+			<div class="tile-content iconic">
+				<span class="icon mif-plus"></span>
+			</div>
+			<span class="tile-label">Chcę dodać zlecenie</span>
+		</a>
+
+		<a class="tile-large bg-steel fg-white" data-role="tile" ng-href="#/users/{{user.id}}" style="opacity: 1; transform: scale(1); transition: all 0.3s ease 0s;">
+			<div class="tile-content iconic">
+				<span class="icon mif-4x  mif-users"></span>
+				<span class="tile-label">Moje Konto</span>
+			</div>
+		</a>
+
 	</div>
-	<div class="row">
-	  <div class="col-sm-4">
-	    <h3>Szukam zlecenia</h3>
-		<p class="p2">
-			Znajdz interesujące Cię zlecenie. Dzięki wielu kryteriom wyszukiwania możesz dowolnie przeszukiwać bazę naszych ogłoszeń i znaleźć ogłoszenie
-			w pełni spełniąjce Twoje wymagania.
-		</p>
-	  </div>
-	  <div class="col-sm-4">
-	    <h3>Chcę dodać zlecenie</h3>
-		<p class="p2">
-			Tutaj możesz dodać swoje zlecenie. Przy dodawaniu zlecenia umieść jak najwięcej szczegołów w opisie. Pomoże to poźniej w wycenie. Rownież
-			możesz wzbogacic swoje ogłoszenie poprzez dodanie zdjęc.
-		</p>
-	  </div>
-	  <div class="col-sm-4">
-	    <h3>Moje konto</h3>
-		<p class="p2">
-			Zarzadząj swoim kontem. Tutaj możesz zmienić swoje dane kontaktowe ale rownież swoje hasło.
-		</p>
-	  </div>
-	</div> 
+
 </div>
 <!--
 <div class="margin-top100">

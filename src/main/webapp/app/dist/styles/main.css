@@ -134,9 +134,6 @@ form .error-container {
   font-size: 16px;
   font-weight: 600; }
 
-.dummy {
-  margin-top: 100%; }
-
 #main .thumbnail {
   position: absolute;
   top: 15px;
@@ -152,11 +149,15 @@ form .error-container {
   text-align: center; }
 
 .main-container {
-  width: 80%;
+  width: 90%;
   max-width: 1100px;
-  margin: 0 auto;
-  padding-left: 5%;
-  padding-right: 5%; }
+  margin: 0 auto;}
+
+.create-new-container{
+  width: 90%;
+  margin-left:auto;
+  margin-right:auto;
+}
 
 .color-teal {
   background: none repeat scroll 0 0 #00ABA9 !important; }
@@ -184,14 +185,6 @@ form .error-container {
 
 .font-white {
   color: #fff; }
-
-.tile a:hover, .tile a:active, .tile a:focus {
-  opacity: .8;
-  text-decoration: none;
-  border-width: 0px;
-  color: #fff;
-  font-size: 20px;
-  text-align: center; }
 
 h2 {
   font-size: 40px;
