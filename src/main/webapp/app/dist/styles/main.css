@@ -8,6 +8,8 @@ html, body {
   min-height: 100%;
   padding: 0;
   width: 100%;
+  box-sizing: border-box;
+  border-collapse: collapse;
 }
 
 
@@ -97,7 +99,7 @@ label {
   height: 150px;
   padding-left: 50px;
   padding-right: 50px;
-  padding-top: 30px;
+  padding-top: 10px;
   width: 100%;
   z-index: 1001; }
 
@@ -149,9 +151,9 @@ form .error-container {
   text-align: center; }
 
 .main-container {
-  width: 90%;
-  max-width: 1100px;
-  margin: 0 auto;}
+  margin: 0 auto;
+  width: 960px;
+}
 
 .create-new-container{
   width: 90%;
@@ -475,6 +477,14 @@ input.login-checkbox {
 .list-inline li {
   cursor: pointer;
   cursor: hand; }
+
+.unstyled{
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  cursor: pointer;
+  cursor: hand;
+}
 
 .list-unstyled li {
   margin-top: 30px;

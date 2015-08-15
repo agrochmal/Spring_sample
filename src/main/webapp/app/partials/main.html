@@ -9,7 +9,7 @@
       </slide>
     </carousel>
 	<div class="searchbox">
-		<input id="keywords-search" type="text" class="leftsearchbox" style="padding-left:10px;" ng-model="searchCommand.keyword" placeholder="Czego szukasz ?" ng-autofocus ng-autoclick target-id="button-search">
+		<input id="keywords-search" type="text" class="leftsearchbox" style="padding-left:10px;" ng-model="searchCommand.keyword" placeholder="Czego szukasz ?" ng-autoclick target-id="button-search">
 		<span class="glyphicon glyphicon-map-marker middlesearchbox" style="width: 30px; top: 0px; padding-top: 15px; padding-left: 10px;"></span>
 		<input id="location-search" type="text" class="middlesearchbox" style="padding-left: 10px;" ng-autocomplete="searchCriteria.locationName" details="searchCommand.autoComplete.details" options="searchCommand.autoComplete.options" placeholder="Podaj lokalizację">
 		<select class="middlesearchbox" style="width:10%" ng-model="searchCommand.radius" ng-init="searchCommand.radius='10'">
@@ -32,9 +32,9 @@
 <div class="mean-header font-white">
 	<h2> Korzystaj z serwisu na kilka sposobów </h2>
 </div>
-<div id="main" class="main-container margin-top100" style="padding-left: 50px;">
+<div id="main" class="main-container page-content">
 	<h2>  Tutaj możesz dodać lub znaleźć interesujące Cię ogłoszenie </h2>
-	<div class="tile-container margin-top100">
+	<div class="tile-container">
 		<a class="tile-large bg-indigo fg-white" data-role="tile" ng-click="searchCommand.search()" style="opacity: 1; transform: scale(1); transition: all 0.3s ease 0s;">
 			<div class="tile-content iconic">
 				<span class="icon mif-list2"></span>
@@ -47,7 +47,6 @@
 			</div>
 			<span class="tile-label">Szukam zlecenia</span>
 		</a>
-
 		<a class="tile-large bg-darkBlue fg-white" data-role="tile" ng-href="#/new" style="opacity: 1; transform: scale(1); transition: all 0.3s ease 0s;">
 			<div class="tile-content iconic">
 				<span class="icon mif-plus"></span>
@@ -57,7 +56,7 @@
 
 		<a class="tile-large bg-steel fg-white" data-role="tile" ng-href="#/users/{{user.id}}" style="opacity: 1; transform: scale(1); transition: all 0.3s ease 0s;">
 			<div class="tile-content iconic">
-				<span class="icon mif-4x  mif-users"></span>
+				<span class="icon mif-4x  mif-profile"></span>
 				<span class="tile-label">Moje Konto</span>
 			</div>
 		</a>
@@ -65,49 +64,9 @@
 	</div>
 
 </div>
-<!--
 <div class="margin-top100">
-	<h2> Top 4</h2>
 	<div class="row">
-		<div class="col-sm-6">
-			<div class="thumbnail pull-right" style="height:70%;width:250px">
-				<img ng-src="./app/images/thumb.jpg">
-				<div class="caption">
-					<h3><a>Thumbnail label</a></h3>
-				</div>
-			</div>
-		</div>
-		<div class="col-sm-6">
-			<div class="thumbnail pull-left" style="height:70%;width:250px">
-				<img ng-src="./app/images/thumb.jpg">
-				<div class="caption">
-					<h3><a>Thumbnail label</a></h3>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-sm-6">
-			<div class="thumbnail pull-right" style="height:70%;width:250px">
-				<img ng-src="./app/images/thumb.jpg">
-				<div class="caption">
-					<h3><a>Thumbnail label</a></h3>
-				</div>
-			</div>
-		</div>
-		<div class="col-sm-6">
-			<div class="thumbnail pull-left" style="height:70%;width:250px">
-				<img ng-src="./app/images/thumb.jpg">
-				<div class="caption">
-					<h3><a>Thumbnail label</a></h3>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>-->
-<div class="margin-top100">
-	<h2> Strona w liczbach </h2>
-	<div class="row">
+		<h2> Strona w liczbach </h2>
 		<div class="col-sm-6">
 			<h3>Dodanych ogłoszeń</h3>
 			</br>

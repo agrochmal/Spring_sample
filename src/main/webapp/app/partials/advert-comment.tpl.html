@@ -1,36 +1,35 @@
-<div ng-controller="CommentController">
-    <accordion close-others="oneAtATime">
-        <accordion-group heading="Komentarze" is-open="true" is-disabled="false">
-            <div class="row">
-                <form role="form" name="commentForm" novalidate>
-                    <div class="col-md-6">
-                        <rating ng-model="sendCommand.comment.rate" max="10" readonly="isReadonly" on-hover="hoveringOver(value)" on-leave="overStar=null"></rating><b><i>Ocena:</i> {{sendCommand.comment.rate}}</b>
-                        <div class="form-group">
-                            <ng-editor id="comment" name="comment" model-name="sendCommand.comment.text" rows="4" required></ng-editor>
-                        </div>
-                        <div class="form-group">
-                            <input id="nick" class="form-control" placeholder="nick" type="text" name="nick" ng-model="sendCommand.comment.nick" ng-model-options="{ updateOn: 'blur' }">
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <button class="btn action-btn" type="submit" ng-click="sendCommand.postComment()"> Dodaj <span class="glyphicon glyphicon-plus"></span></button>
-                    </div>
-                </form>
-            </div>
-            <div class="row">
-                <div class="col-md-8">
-                    <ul class="comment-list">
-                        <li ng-repeat="comment in commentGrid.model">
-                            <div class="row margin-top50">
-                                <div class="pull-right font-10"><rating ng-model="comment.rate" max="10" readonly="true" on-hover="hoveringOver(value)"></rating><b><i>Ocena:</i> {{comment.rate}}</b></div>
-                                <div class="well" style="margin-bottom:0px;font-size:12px" ng-bind-html="comment.text"></div>
-                                <div class="pull-left"><span class="font-10">nick: {{comment.nick}} ip: {{comment.ipAddr}}</span></div>
-                                <div class="pull-right"><span class="font-10">dodano: {{comment.date| date:'dd-MM-yyyy'}}</span></div>
-                            </div>
-                        </li>
-                    </ul>
+<div class="panel" ng-controller="CommentController">
+    <div class="heading" style="height:50px;">
+        <span class="icon mif-bubbles"></span>
+        <span class="title">Komentarze
+        <button class="btn action-btn pull-right" type="submit" ng-click="sendCommand.postComment()" style="margin-right:10px;"> Dodaj <span class="glyphicon glyphicon-plus"></span></button>
+    </span>
+    </div>
+    <div class="row">
+        <form role="form" name="commentForm" novalidate>
+            <div class="col-md-6" style="margin-left: 20px;">
+                <rating ng-model="sendCommand.comment.rate" max="10" readonly="isReadonly" on-hover="hoveringOver(value)" on-leave="overStar=null"></rating><b><i>Ocena:</i> {{sendCommand.comment.rate}}</b>
+                <div class="form-group">
+                    <ng-editor id="comment" name="comment" model-name="sendCommand.comment.text" rows="4" required></ng-editor>
+                </div>
+                <div class="form-group">
+                    <input id="nick" class="form-control" placeholder="nick" type="text" name="nick" ng-model="sendCommand.comment.nick" ng-model-options="{ updateOn: 'blur' }">
                 </div>
             </div>
-        </accordion-group>
-    </accordion>
+        </form>
+    </div>
+    <div class="row">
+        <div class="col-md-8">
+            <ul class="comment-list">
+                <li ng-repeat="comment in commentGrid.model">
+                    <div class="row margin-top50">
+                        <div class="pull-right font-10"><rating ng-model="comment.rate" max="10" readonly="true" on-hover="hoveringOver(value)"></rating><b><i>Ocena:</i> {{comment.rate}}</b></div>
+                        <div class="well" style="margin-bottom:0px;font-size:12px" ng-bind-html="comment.text"></div>
+                        <div class="pull-left"><span class="font-10">nick: {{comment.nick}} ip: {{comment.ipAddr}}</span></div>
+                        <div class="pull-right"><span class="font-10">dodano: {{comment.date| date:'dd-MM-yyyy'}}</span></div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
 </div>

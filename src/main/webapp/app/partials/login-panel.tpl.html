@@ -1,11 +1,7 @@
-<ul class="list-inline">
-    <li>
+<ul class="unstyled">
+    <li style="margin-bottom:15px;">
         <span ng-hide="user">
-            <a class="register-btn" data-toggle="modal" data-target="#registerModal"> Zarejestruj się </a>
-        </span>
-    </li>
-    <li>
-        <span ng-hide="user">
+            <span class="mif-enter"></span>
             <a class="register-btn" data-toggle="modal" data-target="#loginModal"> Zaloguj się </a>
         </span>
         <ul class="nav navbar-nav navbar-right">
@@ -16,5 +12,11 @@
                 </ul>
             </li>
         </ul>
+    </li>
+    <li>
+        <span ng-hide="user">
+            <span class="mif-user-plus"></span>
+            <a class="register-btn" data-toggle="modal" data-target="#registerModal"> Zarejestruj się </a>
+        </span>
     </li>
 </ul>
