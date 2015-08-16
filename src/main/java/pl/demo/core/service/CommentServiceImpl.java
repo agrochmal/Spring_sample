@@ -59,12 +59,7 @@ public class CommentServiceImpl extends CRUDServiceImpl<Long, Comment>
         dbAdvert.setRate(rate);
         advertRepository.save(dbAdvert);
 
-        final EMailDTO eMailDTO = new EMailDTO();
-        eMailDTO.setTitle("Dodano nowy komentarz");
-        eMailDTO.setContent(comment.getText());
-        eMailDTO.setReceipt(receipt_email);
-        eMailDTO.setSender(receipt_email);
-        mailService.sendMail(eMailDTO, COMMENT_TEMPLATE);
+        sendEmail(comment);
     }
 
     @Override
@@ -78,5 +73,14 @@ public class CommentServiceImpl extends CRUDServiceImpl<Long, Comment>
     private void prepareComment(final Comment comment) {
         comment.setDate(new Date());
         comment.setText(plainTextFilter.escapeHtml(comment.getText()));
+    }
+
+    private void sendEmail(final Comment comment){
+        final EMailDTO eMailDTO = new EMailDTO();
+        eMailDTO.setTitle("Dodano nowy komentarz");
+        eMailDTO.setContent(comment.getText());
+        eMailDTO.setReceipt(receipt_email);
+        eMailDTO.setSender(receipt_email);
+        mailService.sendMail(eMailDTO, COMMENT_TEMPLATE);
     }
 }

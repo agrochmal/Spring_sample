@@ -24,7 +24,7 @@ public abstract class CRUDServiceImpl<PK extends Serializable, E extends BaseEnt
     }
 
     @Override
-    public E findOne(PK id) {
+    public E findOne(final PK id) {
         Assert.notNull(id, "Entity id is required");
         final E entity = getJpaRepository().findOne(id);
         Assert.state(null != entity, "Entity doesn't exist in db");
@@ -43,7 +43,7 @@ public abstract class CRUDServiceImpl<PK extends Serializable, E extends BaseEnt
 
     @Override
     @Transactional(readOnly=false)
-    public void delete(PK id) {
+    public void delete(final PK id) {
         Assert.notNull(id, "Entity id is required");
         getJpaRepository().delete(id);
         getJpaRepository().flush();
@@ -51,28 +51,28 @@ public abstract class CRUDServiceImpl<PK extends Serializable, E extends BaseEnt
 
     @Override
     @Transactional(readOnly=false)
-    public void edit(E entity) {
+    public void edit(final E entity) {
     }
 
     @Override
     @Transactional(readOnly=false)
-    public E save(E entity) {
+    public E save(final E entity) {
         Assert.notNull(entity, "Entity is required");
-        E result = getJpaRepository().save(entity);
+        final E result = getJpaRepository().save(entity);
         getJpaRepository().flush();
         return result;
     }
 
-    protected void unproxyEntity(E...entities){
-        for(E entity : entities) {
+    protected void unproxyEntity(final E...entities){
+        for(final E entity : entities) {
             Assert.isTrue(entity instanceof FlatableEntity);
             getGenericRepository().detach(entity);
             entity.flatEntity();
         }
     }
 
-    protected void unproxyEntity(Collection<E> collection){
-        for(E entity : collection) {
+    protected void unproxyEntity(final Collection<E> collection){
+        for(final E entity : collection) {
             Assert.isTrue(entity instanceof FlatableEntity);
             getGenericRepository().detach(entity);
             entity.flatEntity();

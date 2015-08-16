@@ -15,7 +15,7 @@ public class AuthenticationUserDetails implements UserDetails, Serializable {
     private final String password;
     private final Collection<? extends GrantedAuthority> grantedAuthorities;
 
-    public AuthenticationUserDetails(User user) {
+    public AuthenticationUserDetails(final User user) {
         this.id = user.getId();
         this.username = user.getUsername();
         this.password = user.getPassword();

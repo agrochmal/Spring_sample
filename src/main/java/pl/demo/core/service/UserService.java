@@ -1,8 +1,6 @@
 package pl.demo.core.service;
 
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import pl.demo.core.model.entity.AuthenticationUserDetails;
@@ -28,25 +26,9 @@ public interface UserService extends UserDetailsService, CRUDService<Long, User>
      */
     AuthenticationUserDetails getLoggedUserDetails();
 
-
-    public static boolean isAdmin() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Object principal = authentication.getPrincipal();
-        if (principal instanceof String && (principal).equals("anonymousUser"))
-            return false;
-
-        UserDetails userDetails = (UserDetails) principal;
-        for (GrantedAuthority authority : userDetails.getAuthorities()) {
-            if (authority.toString().equals("admin")) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public static Map<String, Boolean> createRoleMap(UserDetails userDetails) {
-        Map<String, Boolean> roles = new HashMap<>();
-        for (GrantedAuthority authority : userDetails.getAuthorities()) {
+    static Map<String, Boolean> createRoleMap(UserDetails userDetails) {
+        final Map<String, Boolean> roles = new HashMap<>();
+        for (final GrantedAuthority authority : userDetails.getAuthorities()) {
             roles.put(authority.getAuthority(), Boolean.TRUE);
         }
         return roles;

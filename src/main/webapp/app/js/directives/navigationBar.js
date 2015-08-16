@@ -14,7 +14,7 @@ angular.module('app.directives.navigationBar', [])
          //   },
             link: function(scope, element) {
                 $(document).scroll(function() {
-                    if ($(this).scrollTop() > 105) {
+                    if ($(this).scrollTop() > 155) {
                         element.css({"position" : 'fixed', "top" : 0 });
                         scope.$apply('showNavigationBar=true');
                     } else {

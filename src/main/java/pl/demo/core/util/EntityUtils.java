@@ -1,8 +1,7 @@
 package pl.demo.core.util;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
+import org.springframework.util.ReflectionUtils;
 
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
@@ -17,8 +16,6 @@ import java.util.Collections;
  */
 public final class EntityUtils {
 
-    private final static Logger logger = LoggerFactory.getLogger(EntityUtils.class);
-
     public final static Collection<Class> ANNOTATIONS =
             Collections.unmodifiableList(Arrays.asList(OneToMany.class, ManyToOne.class, ManyToMany.class));
 
@@ -29,12 +26,8 @@ public final class EntityUtils {
     public static void setFieldValue(final Field field, final Object target, final Object value){
         Assert.notNull(field, "Pass field to the method");
         Assert.notNull(target, "Pass target object to the method");
-        field.setAccessible(true);
-        try {
-            field.set(target, value);
-        } catch (IllegalAccessException e) {
-            logger.error("Cannot set value for field:"+field.getName(), e);
-        }
+        ReflectionUtils.makeAccessible(field);
+        ReflectionUtils.setField(field, target, value);
     }
 
     public static void setFieldValues(final Object target, final Object value,

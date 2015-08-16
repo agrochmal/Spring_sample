@@ -50,8 +50,7 @@ public class MailServiceImpl implements MailService{
         final MimeMessage mimeMsg = mailSender.createMimeMessage();
         final Map<String, Object> model = new HashMap<>();
         model.put("userMessage", emailDTO);
-        final String text = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, template, model)
-                .replaceAll("\n", "<br>");
+        final String text = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, template, model).replaceAll("\n", "<br>");
         try{
             final MimeMessageHelper helper = new MimeMessageHelper(mimeMsg);
             helper.setSubject(emailDTO.getTitle());

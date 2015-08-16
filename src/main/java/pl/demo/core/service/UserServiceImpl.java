@@ -105,6 +105,8 @@ public class UserServiceImpl extends CRUDServiceImpl<Long, User> implements User
 	}
 
 	private boolean isAuthenticated(final Authentication authentication) {
-		return authentication != null && !(authentication instanceof AnonymousAuthenticationToken) && authentication.isAuthenticated();
+		return authentication != null
+				&& !(authentication instanceof AnonymousAuthenticationToken)
+				&& authentication.isAuthenticated();
 	}
 }

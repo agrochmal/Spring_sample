@@ -8,7 +8,7 @@ angular.module('app.controlles', [])
 	init();
 
 	function init() {
-		$scope.mainInterval = 4000;
+		$scope.mainInterval = 5*1000;
 		var slides = $scope.slides = [];
 		var nr = 1;
 		$scope.addSlide = function () {

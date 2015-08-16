@@ -39,7 +39,7 @@ public class SearchAdvertServiceImpl implements SearchAdvertService {
             em.getTransaction().begin();
 
             final QueryBuilder qb = fullTextEntityManager.getSearchFactory().buildQueryBuilder().forEntity(Advert.class).get();
-            final BooleanQuery bq = new CreateriaBuilder(searchCriteriaDTO, qb)
+            final BooleanQuery bq = new CriteriaBuilder(searchCriteriaDTO, qb)
                     .applyLocationCreateria()
                     .applyKeywordCreateria()
                     .build();
@@ -60,19 +60,19 @@ public class SearchAdvertServiceImpl implements SearchAdvertService {
         }
     }
 
-    private static final class CreateriaBuilder{
+    private static final class CriteriaBuilder{
 
         private final SearchCriteriaDTO searchCriteriaDTO;
         private final QueryBuilder qb;
         private Query locationQuery = null;
         private Query keywordQuery = null;
 
-        public CreateriaBuilder(final SearchCriteriaDTO searchCriteriaDTO, final QueryBuilder qb) {
+        public CriteriaBuilder(final SearchCriteriaDTO searchCriteriaDTO, final QueryBuilder qb) {
             this.searchCriteriaDTO = searchCriteriaDTO;
             this.qb = qb;
         }
 
-        public CreateriaBuilder applyKeywordCreateria(){
+        public CriteriaBuilder applyKeywordCreateria(){
             if (searchCriteriaDTO.hasKeyword()) {
                 keywordQuery = qb
                         .keyword()
@@ -83,7 +83,7 @@ public class SearchAdvertServiceImpl implements SearchAdvertService {
             return this;
         }
 
-        public CreateriaBuilder applyLocationCreateria(){
+        public CriteriaBuilder applyLocationCreateria(){
             if (searchCriteriaDTO.hasLocation()) {
                 final double radius = searchCriteriaDTO.getLocRadius();
                 locationQuery = qb.spatial()

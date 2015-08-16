@@ -17,7 +17,7 @@ public class GenericRepositoryImpl<T extends BaseEntity> implements GenericRepos
     private EntityManager entityManager;
 
     @Override
-    public void detach(T entity) {
+    public void detach(final T entity) {
         entityManager.detach(entity);
     }
 }

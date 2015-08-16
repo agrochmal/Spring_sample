@@ -19,7 +19,7 @@ public abstract class BaseEntity implements FlatableEntity{
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(final Long id) {
 		this.id = id;
 	}
 

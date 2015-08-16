@@ -62,7 +62,7 @@ public class AdvertServiceImpl extends CRUDServiceImpl<Long, Advert>
 
 	@Override
 	public Advert createNew() {
-		return Optional.ofNullable( userService.getLoggedUser() )
+		return Optional.ofNullable(userService.getLoggedUser())
 			.map(t-> {
 				final Advert advert = new Advert();
 				advert.setLocationName(t.getLocation());
@@ -78,7 +78,6 @@ public class AdvertServiceImpl extends CRUDServiceImpl<Long, Advert>
 
 	@Override
 	public Page<Advert> findBySearchCriteria(final SearchCriteriaDTO searchCriteriaDTO, final Pageable pageable) {
-
 		final Page<Advert> adverts;
 		if(null==searchCriteriaDTO || searchCriteriaDTO.isEmpty()) {
 			adverts = advertRepo.findByActive(Boolean.TRUE, pageable);
