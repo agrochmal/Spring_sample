@@ -39,19 +39,25 @@ public class UserRestResource extends AbstractCRUDResource<Long, User>{
 
 	public ResponseEntity<UserDTO> getLoggedUser() {
 		final AuthenticationUserDetails user = userService.getLoggedUserDetails();
-		Assert.notNull(user);
-		return new ResponseEntity<>(new UserDTO(user.getId(), user.getUsername(),
-				UserService.createRoleMap(user)), HttpStatus.OK);
+		Assert.state(null!=user);
+		return new ResponseEntity<>(UserDTO.UserDTOBuilder.anUserDTO()
+				.withId(user.getId())
+				.withUsername(user.getUsername())
+				.withRoles(UserService.createRoleMap(user)).build(), HttpStatus.OK);
 	}
 
 	@Override
 	public ResponseEntity<UserDTO> getResourceById(@PathVariable Long id){
 		return Optional.ofNullable(this.userService.getLoggedUser())
-				.map(t -> {     final UserDTO dto = new UserDTO(t.getId(), t.getUsername(), t.getName(),
-								t.getLocation(), t.getPhone(),
-								UserService.createRoleMap(new AuthenticationUserDetails(t)));
-							    return new ResponseEntity<>(dto, HttpStatus.OK );
-						  }
+				.map(t -> {
+							final UserDTO dto = UserDTO.UserDTOBuilder.anUserDTO()
+									.withId(t.getId())
+									.withUsername(t.getUsername())
+									.withName(t.getName())
+									.withLocation(t.getLocation())
+									.withPhone(t.getPhone())
+									.withRoles(UserService.createRoleMap(new AuthenticationUserDetails(t))).build();
+							return new ResponseEntity<>(dto, HttpStatus.OK );}
 				).orElseGet(() -> {
 					throw new ResourceNotFoundException("User not found");
 				});

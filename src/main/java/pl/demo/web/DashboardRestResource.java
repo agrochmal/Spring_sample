@@ -13,7 +13,6 @@ import pl.demo.web.dto.DashboardDTO;
 @RequestMapping("/dashboard")
 public class DashboardRestResource {
 
-    @Autowired
     private DashboardService dashboardService;
 
     @RequestMapping(value="/statistic",
@@ -21,14 +20,16 @@ public class DashboardRestResource {
             produces = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
 
     public ResponseEntity<DashboardDTO> getDashboardData(){
-        return new ResponseEntity<>(this.dashboardService.buildDashboard(), HttpStatus.OK);
+        return new ResponseEntity<>(this.getDashboardService().buildDashboard(), HttpStatus.OK);
     }
 
-    @RequestMapping(value="/top4",
-            method = RequestMethod.GET,
-            produces = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
 
-    public ResponseEntity<?> getDashboardTop4(){
-        return new ResponseEntity<>(this.dashboardService.findTop4(), HttpStatus.OK);
+    public DashboardService getDashboardService() {
+        return dashboardService;
+    }
+
+    @Autowired
+    public void setDashboardService(DashboardService dashboardService) {
+        this.dashboardService = dashboardService;
     }
 }

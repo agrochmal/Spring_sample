@@ -15,21 +15,6 @@ public class UserDTO {
 	private String phone;
 	private Map<String, Boolean> roles;
 
-	public UserDTO(Long id, String username, String name, String location, String phone, Map<String, Boolean> roles) {
-		this.setId(id);
-		this.setUsername(username);
-		this.setName(name);
-		this.setLocation(location);
-		this.setPhone(phone);
-		this.roles = roles;
-	}
-
-	public UserDTO(Long id, String userName, Map<String, Boolean> roles) {
-		this.setId(id);
-		this.setName(userName);
-		this.roles = roles;
-	}
-
 	public Long getId() {
 		return id;
 	}
@@ -87,7 +72,7 @@ public class UserDTO {
 				.append(name, userDTO.name)
 				.append(location, userDTO.location)
 				.append(phone, userDTO.phone)
-				.append(roles, userDTO.roles)
+				.append(getRoles(), userDTO.getRoles())
 				.isEquals();
 	}
 
@@ -98,7 +83,7 @@ public class UserDTO {
 				.append(name)
 				.append(location)
 				.append(phone)
-				.append(roles)
+				.append(getRoles())
 				.toHashCode();
 	}
 
@@ -109,7 +94,73 @@ public class UserDTO {
 				.append("name", name)
 				.append("location", location)
 				.append("phone", phone)
-				.append("roles", roles)
+				.append("roles", getRoles())
 				.toString();
+	}
+
+	public void setRoles(Map<String, Boolean> roles) {
+		this.roles = roles;
+	}
+
+
+	public static class UserDTOBuilder {
+		private Long id;
+		private String username;
+		private String name;
+		private String location;
+		private String phone;
+		private Map<String, Boolean> roles;
+
+		private UserDTOBuilder() {
+		}
+
+		public static UserDTOBuilder anUserDTO() {
+			return new UserDTOBuilder();
+		}
+
+		public UserDTOBuilder withId(Long id) {
+			this.id = id;
+			return this;
+		}
+
+		public UserDTOBuilder withUsername(String username) {
+			this.username = username;
+			return this;
+		}
+
+		public UserDTOBuilder withName(String name) {
+			this.name = name;
+			return this;
+		}
+
+		public UserDTOBuilder withLocation(String location) {
+			this.location = location;
+			return this;
+		}
+
+		public UserDTOBuilder withPhone(String phone) {
+			this.phone = phone;
+			return this;
+		}
+
+		public UserDTOBuilder withRoles(Map<String, Boolean> roles) {
+			this.roles = roles;
+			return this;
+		}
+
+		public UserDTOBuilder but() {
+			return anUserDTO().withId(id).withUsername(username).withName(name).withLocation(location).withPhone(phone).withRoles(roles);
+		}
+
+		public UserDTO build() {
+			UserDTO userDTO = new UserDTO();
+			userDTO.setId(id);
+			userDTO.setUsername(username);
+			userDTO.setName(name);
+			userDTO.setLocation(location);
+			userDTO.setPhone(phone);
+			userDTO.setRoles(roles);
+			return userDTO;
+		}
 	}
 }

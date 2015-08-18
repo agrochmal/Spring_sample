@@ -13,7 +13,7 @@ public final class DashboardDTO {
     private final long adverts;
     private final long comments;
 
-    public DashboardDTO(final long users, final long adverts, final long comments){
+    private DashboardDTO(final long users, final long adverts, final long comments){
         this.users=users;
         this.adverts=adverts;
         this.comments=comments;
@@ -59,5 +59,43 @@ public final class DashboardDTO {
                 .append("users", users)
                 .append("adverts", adverts)
                 .toString();
+    }
+
+
+    public static class DashboardDTOBuilder {
+        private long users;
+        private long adverts;
+        private long comments;
+
+        private DashboardDTOBuilder() {
+        }
+
+        public static DashboardDTOBuilder aDashboardDTO() {
+            return new DashboardDTOBuilder();
+        }
+
+        public DashboardDTOBuilder withUsers(long users) {
+            this.users = users;
+            return this;
+        }
+
+        public DashboardDTOBuilder withAdverts(long adverts) {
+            this.adverts = adverts;
+            return this;
+        }
+
+        public DashboardDTOBuilder withComments(long comments) {
+            this.comments = comments;
+            return this;
+        }
+
+        public DashboardDTOBuilder but() {
+            return aDashboardDTO().withUsers(users).withAdverts(adverts).withComments(comments);
+        }
+
+        public DashboardDTO build() {
+            DashboardDTO dashboardDTO = new DashboardDTO(users, adverts, comments);
+            return dashboardDTO;
+        }
     }
 }
