@@ -51,7 +51,7 @@ public abstract class CRUDServiceImpl<PK extends Serializable, E extends BaseEnt
 
     @Override
     @Transactional(readOnly=false)
-    public void edit(final E entity) {
+    public void edit(final PK id, final E entity) {
     }
 
     @Override

@@ -19,6 +19,8 @@ import pl.demo.web.exception.ResourceNotFoundException;
 import java.util.Collection;
 import java.util.Optional;
 
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+
 @RestController
 @RequestMapping("/users")
 public class UserRestResource extends AbstractCRUDResource<Long, User>{
@@ -35,7 +37,7 @@ public class UserRestResource extends AbstractCRUDResource<Long, User>{
 
 	@RequestMapping(value="/logged",
 			method = RequestMethod.GET,
-			produces = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
+			produces = APPLICATION_JSON_VALUE)
 
 	public ResponseEntity<UserDTO> getLoggedUser() {
 		final AuthenticationUserDetails user = userService.getLoggedUserDetails();
@@ -49,14 +51,13 @@ public class UserRestResource extends AbstractCRUDResource<Long, User>{
 	@Override
 	public ResponseEntity<UserDTO> getResourceById(@PathVariable Long id){
 		return Optional.ofNullable(this.userService.getLoggedUser())
-				.map(t -> {
-							final UserDTO dto = UserDTO.UserDTOBuilder.anUserDTO()
-									.withId(t.getId())
-									.withUsername(t.getUsername())
-									.withName(t.getName())
-									.withLocation(t.getLocation())
-									.withPhone(t.getPhone())
-									.withRoles(UserService.createRoleMap(new AuthenticationUserDetails(t))).build();
+				.map(t -> {final UserDTO dto = UserDTO.UserDTOBuilder.anUserDTO()
+								.withId(t.getId())
+								.withUsername(t.getUsername())
+								.withName(t.getName())
+								.withLocation(t.getLocation())
+								.withPhone(t.getPhone())
+								.withRoles(UserService.createRoleMap(new AuthenticationUserDetails(t))).build();
 							return new ResponseEntity<>(dto, HttpStatus.OK );}
 				).orElseGet(() -> {
 					throw new ResourceNotFoundException("User not found");
@@ -65,7 +66,7 @@ public class UserRestResource extends AbstractCRUDResource<Long, User>{
 
 	@RequestMapping(value="/unique",
 			method = RequestMethod.GET,
-			produces = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
+			produces = APPLICATION_JSON_VALUE)
 
 	public ResponseEntity<Boolean> checkUserUnique(final String username) {
 		try {
@@ -84,7 +85,7 @@ public class UserRestResource extends AbstractCRUDResource<Long, User>{
 
 	@RequestMapping(value="{userId}/adverts",
             method = RequestMethod.GET,
-            produces = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
+            produces = APPLICATION_JSON_VALUE)
 	public ResponseEntity<Collection<Advert>> findUserAdverts(@PathVariable Long userId){
 		final Collection<Advert> allEntries = advertService.findByUserId(userId);
 		return new ResponseEntity<>(allEntries, HttpStatus.OK);

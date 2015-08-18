@@ -1,7 +1,6 @@
 package pl.demo.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -11,6 +10,8 @@ import pl.demo.core.util.Utils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
 @RequestMapping("/comments")
@@ -37,7 +38,7 @@ public class CommentRestResource extends AbstractCRUDResource<Long, Comment> {
 
     @RequestMapping(value = "/advert/{id}",
             method = RequestMethod.GET,
-            produces = MediaType.APPLICATION_JSON_VALUE)
+            produces = APPLICATION_JSON_VALUE)
 
     public ResponseEntity<?> getComments(@PathVariable("id") final Long id) {
         return ResponseEntity.ok()

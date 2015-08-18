@@ -225,7 +225,7 @@ angular.module('app.controlles', [])
 		},
 		save: function() {
 			this.user.roles =[];
-			UserService.update({id: this.user.username}, this.user, function(res){
+			UserService.update({id: this.user.id}, this.user, function(res){
 				Alertify.success('Dane uzytkownia zaktualizaowane');
 				$scope.editCommand.user = UserService.get({id: $route.current.params.id});
 			});

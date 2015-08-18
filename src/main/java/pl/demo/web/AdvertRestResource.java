@@ -3,7 +3,6 @@ package pl.demo.web;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +12,8 @@ import pl.demo.web.dto.EMailDTO;
 import pl.demo.web.dto.SearchCriteriaDTO;
 
 import javax.validation.Valid;
+
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
 @RequestMapping("/adverts")
@@ -28,7 +29,7 @@ public class AdvertRestResource extends AbstractCRUDResource<Long, Advert> {
 
     @RequestMapping(value = "/new",
             method = RequestMethod.GET,
-            produces = MediaType.APPLICATION_JSON_VALUE)
+            produces = APPLICATION_JSON_VALUE)
 
     public ResponseEntity<Advert> createNew() {
         return new ResponseEntity<>(advertService.createNew(), HttpStatus.OK);
@@ -36,7 +37,7 @@ public class AdvertRestResource extends AbstractCRUDResource<Long, Advert> {
 
     @RequestMapping(value = "/search",
             method = RequestMethod.GET,
-            produces = MediaType.APPLICATION_JSON_VALUE)
+            produces = APPLICATION_JSON_VALUE)
 
     public ResponseEntity<?> search(final SearchCriteriaDTO searchCriteriaDTO, final Pageable pageable) {
         return ResponseEntity.ok()

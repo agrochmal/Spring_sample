@@ -39,10 +39,10 @@ public class UserServiceImpl extends CRUDServiceImpl<Long, User> implements User
 	}
 
 	@Override
-	public void edit(final User user) {
+	public void edit(final Long id, final User user) {
 		Assert.notNull(user, "User is required");
-		final User existing = userRepository.findByUsername(user.getUsername());
-		Assert.state(null!=user, "User doesn't exist in db");
+		final User existing = userRepository.findOne(id);
+		Assert.state(null!=user, "User doesn't exist in db for id:"+id);
 		existing.setName(user.getName());
 		existing.setLocation(user.getLocation());
 		existing.setPhone(user.getPhone());

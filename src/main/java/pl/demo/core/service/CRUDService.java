@@ -22,7 +22,7 @@ public interface CRUDService<PK extends Serializable, E extends BaseEntity> {
 
     void delete(PK id);
 
-    void edit(E entity);
+    void edit(PK id, E entity);
 
     E save(E entity);
 }
