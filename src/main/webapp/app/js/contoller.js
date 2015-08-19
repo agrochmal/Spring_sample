@@ -368,6 +368,29 @@ angular.module('app.controlles', [])
 			$scope.sendCommand.comment.rate='1';
 		}
 	};
+})
+.controller('UploadCtrl', function ($scope) {
+	$scope.images = [];
+	$scope.processFiles = function (files) {
+		angular.forEach(files, function (flowFile, i) {
+			$scope.images[i]={};
+			var fileReader = new FileReader();
+			var image = new Image();
+			fileReader.onload = function (event) {
+				var uri = event.target.result;
+				image.src = uri;
+				image.onload = function(){
+					$scope.images[i].width = this.width;
+					$scope.images[i].height = this.height;
+					// update scope to display dimension
+					$scope.$apply();
+				};
+				$scope.images[i].uri = uri;
+			};
+			fileReader.readAsDataURL(flowFile.file);
+		});
+	};
+
 });
 
 

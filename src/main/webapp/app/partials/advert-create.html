@@ -2,9 +2,12 @@
 
 <div class="create-new-container page-top" style="padding-top: 70px;">
 	<form name='advertForm' class="form-horizontal" role="form" novalidate>
-		<h3>Tutaj zamieść treść ogłoszenia</h3>
-		<div class="panel panel-new">
-			<div class="panel-body">
+		<div class="panel">
+			<div class="heading">
+				<span class="icon mif-share"></span>
+				<span class="title">Tutaj zamieść treść ogłoszenia</span>
+			</div>
+			<div class="content">
 				<div class="form-group margin-top30">
 					<label for="inputTitle" class="col-sm-2 control-label">Tytuł ogłoszenia<span class="asterix"> *</span></label>
 					<div class="col-sm-7">
@@ -52,13 +55,19 @@
 				</div>
 			</div>
 		</div>
-		<h3>Podaj swoje dane kontaktowe</h3>
-		<div class="panel panel-new">
-			<div class="panel-body">
+		<div class="panel">
+			<div class="heading" style="z-index: 0">
+				<span class="icon mif-contacts-mail"></span>
+				<span class="title">Podaj swoje dane kontaktowe</span>
+			</div>
+			<div class="content" style="z-index: 0">
 				<div class="form-group margin-top30">
-					<label for="inputName" class="col-sm-2 control-label">Imię i nazwisko</label>
+					<label for="contact" class="col-sm-2 control-label">Imię i nazwisko<span class="asterix"> *</span></label>
 					<div class="col-sm-3">
-						<input type="text" class="form-control" placeholder="Imię i nazwisko" id="inputName" ng-model="saveCommand.advert.contact" ng-model-options="{ updateOn: 'blur' }">
+						<input type="text" class="form-control" placeholder="Imię i nazwisko" id="contact" name="contact" ng-model="saveCommand.advert.contact" ng-model-options="{ updateOn: 'blur' }" required>
+						<div class="error-container" ng-show="advertForm.$submitted || advertForm.contact.$touched">
+							<small ng-show="advertForm.contact.$error.required"> Podaj Imię i nazwisko </small>
+						</div>
 					</div>
 				</div>
 				<div class="form-group margin-top30">
@@ -88,20 +97,25 @@
 				</div>
 			</div>
 		</div>
-
-		<div class="ng-scope" flow-file-added="!!{png:1,gif:1,jpg:1,jpeg:1}[$file.getExtension()]" flow-files-submitted="$flow.upload()" flow-init="">
-			<div class="drop" ng-class="dropClass" flow-drop="">
-				<span class="btn btn-default" flow-btn="">
-				Upload Image
-				<input type="file" style="visibility: hidden; position: absolute;" multiple="multiple">
-				</span>
-				<span class="btn btn-default ng-hide" ng-show="$flow.supportDirectory" flow-directory="" flow-btn="">
-				<b>OR</b>
-				Drag And Drop your images here
-			</div>
-			<br>
-			<div>
-				<div class="clear"></div>
+		<div ng-controller="UploadCtrl">
+			<div flow-init="{target:'api/resources/upload'}"
+				 flow-name="uploader.flow"
+				 flow-files-submitted="$flow.upload()"
+				 flow-file-success="$file.msg = $message"
+				 flow-files-added="processFiles($files)">
+				<div class="panel">
+					<div class="heading" style="z-index: 0;height:50px;">
+						<span class="icon mif-camera"></span>
+						<span class="title">Dodaj zdjęcia</span>
+						<span class="btn action-btn pull-right" flow-btn style="margin-right:10px;">Wybierz zdjęcie</span>
+					</div>
+					<div class="content" style="z-index: 0">
+						<div ng-repeat="image in uploader.flow.files track by $index">
+							<span class="text">{{image.name}}&nbsp;&nbsp;&nbsp;&nbsp;</span><img class="preview" flow-img="image"/>
+							<button class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span> </button> <br>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 

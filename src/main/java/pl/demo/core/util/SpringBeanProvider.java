@@ -17,6 +17,7 @@ public class SpringBeanProvider implements ApplicationContextAware {
     public static Object getBean(final String beanName) {
         return applicationContext.getBean(beanName);
     }
+
     public void setApplicationContext(final ApplicationContext applicationContext) throws BeansException {
         SpringBeanProvider.applicationContext = applicationContext;
     }
