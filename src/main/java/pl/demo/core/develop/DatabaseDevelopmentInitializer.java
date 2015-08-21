@@ -41,13 +41,15 @@ public class DatabaseDevelopmentInitializer {
 
   private @Value("${develop.init-adverts}") boolean initAdverts;
 
+    private @Value("${develop.adverts-count}") long advertCount;
+
   @PostConstruct
   private void init() {
       if(initUsers) {
           initUsers();
       }
       if(initAdverts){
-          for(int i=0; i<4;i++){
+          for(int i=0; i<advertCount;i++){
               initAdverts(i, null);
           }
       }

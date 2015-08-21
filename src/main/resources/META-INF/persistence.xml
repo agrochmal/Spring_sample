@@ -1,14 +1,15 @@
 <persistence xmlns="http://java.sun.com/xml/ns/persistence" version="1.0">
 	
 	<!-- Main persistence for livesystem -->
-	<persistence-unit name="livesystem-persistence-main"
+	<persistence-unit name="livesystem-persistence-production"
 		transaction-type="RESOURCE_LOCAL">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		<properties>
-			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />
-			<property name="hibernate.hbm2ddl.auto" value="update"/>
-			<property name="hibernate.show_sql" value="false" />
-			<property name="hibernate.format_sql" value="false" />
+			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL82Dialect" />
+			<property name="hibernate.hbm2ddl.auto" value="create-drop"/>
+			<property name="hibernate.show_sql" value="true" />
+			<property name="hibernate.format_sql" value="true" />
+			<property name="hibernate.search.default.directory_provider" value="ram"/>
 		</properties>
 	</persistence-unit>
 	

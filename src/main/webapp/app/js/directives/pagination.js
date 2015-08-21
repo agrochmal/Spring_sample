@@ -69,7 +69,6 @@ angular.module('app.directives.pagination', [])
           $scope.currentPageSize = newValue;
           $scope.selectPageFn({currentPage: $scope.currentPage, currentPageSize: $scope.currentPageSize});
          }
-
       });
     }
   }

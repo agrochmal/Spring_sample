@@ -196,17 +196,17 @@ angular.module('app.controlles', [])
 		$scope.currentPage=1;
 		renderPage(page);
 	}
-		function renderPage(page) {
+	function renderPage(page) {
 		$scope.adverts = page.content;
 		$scope.totalElements = page.totalElements;
 		$scope.totalPages = page.totalPages;
 	}
-		$scope.loadPage = function(currentPage, currentPageSize){
+	$scope.loadPage = function(currentPage, currentPageSize){
 		var searchCriteria = SearchService.getSearchCriteria();
 		SearchService.search(searchCriteria, currentPage, currentPageSize)
-			.success( function (page) {
-				renderPage(page);
-			});
+		.success( function (page) {
+			renderPage(page);
+		});
 	};
 
 	$scope.delete=function(id) {

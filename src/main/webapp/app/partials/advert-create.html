@@ -107,7 +107,7 @@
 					<div class="heading" style="z-index: 0;height:50px;">
 						<span class="icon mif-camera"></span>
 						<span class="title">Dodaj zdjęcia</span>
-						<span class="btn action-btn pull-right" flow-btn style="margin-right:10px;">Wybierz zdjęcie</span>
+						<span class="btn action-btn pull-right" flow-btn style="margin-right:10px;padding-top:5px;padding-bottom:5px;">Wybierz zdjęcie</span>
 					</div>
 					<div class="content" style="z-index: 0">
 						<div ng-repeat="image in uploader.flow.files track by $index">
@@ -121,7 +121,7 @@
 
 		<div class="form-group margin-top10">
 			<div class="col-sm-12">
-				<button type="submit" class="btn action-btn header-button-right" ng-click="saveCommand.save()">Dodaj ogłoszenie</button>
+				<button type="submit" class="btn action-btn header-button-right" ng-click="saveCommand.save()"><span class="glyphicon glyphicon-floppy-save"></span>&nbsp;&nbsp;&nbsp;Dodaj ogłoszenie</button>
 			</div>
 		</div>
 	</form>

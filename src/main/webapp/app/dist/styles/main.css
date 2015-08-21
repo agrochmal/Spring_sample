@@ -66,7 +66,7 @@ label {
 .register-btn {
   color: #fff !important;
   font-family: "Lato", "Open Sans", Helvetica, Arial, sans-serif;
-  font-size: 18px;
+  font-size: 15px;
   font-weight: 700;
   text-shadow: 0 2px 2px black;
 }
@@ -96,7 +96,7 @@ label {
 
 .navigation-bar {
   background: none repeat scroll 0 0 #000070;
-  height: 150px;
+  height: 130px;
   padding-left: 50px;
   padding-right: 50px;
   padding-top: 10px;

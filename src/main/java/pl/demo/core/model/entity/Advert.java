@@ -50,7 +50,7 @@ public class Advert extends BaseEntity implements Serializable, Searchable, Coor
 	@Analyzer(definition = "customanalyzer")
 
 	@Lob
-	@Column(name="description", columnDefinition="CLOB NOT NULL", table="adverts")
+	@Column(name="description", columnDefinition="TEXT NOT NULL", table="adverts")
 	private String description;
 
 	@Column(nullable=false)

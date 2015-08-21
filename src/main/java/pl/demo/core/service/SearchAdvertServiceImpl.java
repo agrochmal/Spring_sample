@@ -4,6 +4,7 @@ import org.apache.lucene.search.BooleanClause;
 import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.Query;
 import org.hibernate.search.jpa.FullTextEntityManager;
+import org.hibernate.search.jpa.FullTextQuery;
 import org.hibernate.search.query.dsl.QueryBuilder;
 import org.hibernate.search.query.dsl.Unit;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,14 +44,14 @@ public class SearchAdvertServiceImpl implements SearchAdvertService {
                     .applyLocationCreateria()
                     .applyKeywordCreateria()
                     .build();
-            final javax.persistence.Query jpaQuery = fullTextEntityManager.createFullTextQuery(bq, Advert.class);
-            final int total = jpaQuery.getResultList().size();
+            final FullTextQuery fullTextQuery = fullTextEntityManager.createFullTextQuery(bq, Advert.class);
+            final int total = fullTextQuery.getResultSize();
             final int pageSize = pageable.getPageSize();
             final int pageStart = pageable.getPageNumber() * pageSize;
-            jpaQuery.setFirstResult(pageStart);
-            jpaQuery.setMaxResults(pageSize);
+            fullTextQuery.setFirstResult(pageStart);
+            fullTextQuery.setMaxResults(pageSize);
 
-            final List result = jpaQuery.getResultList();
+            final List result = fullTextQuery.getResultList();
             em.getTransaction().commit();
 
             return new PageBuilder<Advert>(result, total, pageable).build();
