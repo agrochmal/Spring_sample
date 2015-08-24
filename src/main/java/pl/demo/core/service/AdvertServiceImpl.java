@@ -80,7 +80,7 @@ public class AdvertServiceImpl extends CRUDServiceImpl<Long, Advert>
 	@Override
 	public Page<Advert> findBySearchCriteria(final SearchCriteriaDTO searchCriteriaDTO, final Pageable pageable) {
 		final Page<Advert> adverts;
-		if(null==searchCriteriaDTO || searchCriteriaDTO.isEmpty()) {
+		if(searchCriteriaDTO.isEmpty()) {
 			adverts = advertRepo.findByActive(Boolean.TRUE, pageable);
 		} else {
 			adverts = searchService.searchAdverts(searchCriteriaDTO, pageable);

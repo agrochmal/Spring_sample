@@ -25,7 +25,6 @@ public class DashboardRestResource {
         return new ResponseEntity<>(this.getDashboardService().buildDashboard(), HttpStatus.OK);
     }
 
-
     public DashboardService getDashboardService() {
         return dashboardService;
     }
