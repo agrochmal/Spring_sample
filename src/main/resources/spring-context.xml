@@ -8,5 +8,7 @@
 	<import resource="spring-config/spring-data.xml" />
 	<import resource="spring-config/spring-security.xml" />
     <import resource="spring-config/spring-mail.xml" />
+    <import resource="spring-config/spring-upload.xml" />
+    <import resource="spring-config/spring-async.xml" />
 
 </beans>

@@ -127,7 +127,7 @@ public class SearchAdvertServiceImpl implements SearchAdvertService {
             return new Page<T>() {
                 @Override
                 public int getTotalPages() {
-                    return  new Long( getTotalElements() / getSize() ).intValue() + 1;
+                    return Long.valueOf(getTotalElements()/getSize()).intValue() + 1;
                 }
 
                 @Override

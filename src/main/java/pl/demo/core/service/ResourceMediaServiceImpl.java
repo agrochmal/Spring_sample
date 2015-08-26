@@ -22,8 +22,8 @@ public class ResourceMediaServiceImpl implements ResourceMediaService{
     }
 
     @Override
-    public void uploadImage(byte[] image) {
-
+    public void uploadImage(final byte[] image) {
+        System.out.print("TO-DO");
     }
 
     @Override

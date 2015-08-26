@@ -50,7 +50,7 @@ public class AdvertServiceImpl extends CRUDServiceImpl<Long, Advert>
 	@Override
 	public Page<Advert> findAll(final Pageable pageable) {
 		Assert.notNull(pageable);
-		return findBySearchCriteria(null, pageable);
+		return findBySearchCriteria(new SearchCriteriaDTO(), pageable);
 	}
 
 	@Override

@@ -3,9 +3,13 @@ package pl.demo.core.util;
 import com.google.common.base.Throwables;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.multipart.MultipartFile;
+import pl.demo.web.exception.ValidationRequestException;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -18,9 +22,7 @@ public final class Utils {
 	}
 	
 	public static String createErrorMessage(final BindingResult bindingResult){
-		if(null == bindingResult){
-			throw new NullPointerException("Pass bindingResult to function");
-		}
+		Assert.notNull(bindingResult);
 		final StringBuilder str = new StringBuilder();
 		bindingResult.getFieldErrors().forEach(
 			t ->  str.append(t.getDefaultMessage()).append("\n")
@@ -29,6 +31,7 @@ public final class Utils {
 	}
 
 	public static URI createURI(final String path){
+		Assert.hasText(path);
 		URI uri=null;
 		try {
 			uri = new URI(path);
@@ -40,10 +43,23 @@ public final class Utils {
 	}
 
 	public static String getIpAdress(final HttpServletRequest httpServletRequest){
+		Assert.notNull(httpServletRequest);
 		String ipAddress = httpServletRequest.getHeader("X-FORWARDED-FOR");
 		if (ipAddress == null) {
 			ipAddress = httpServletRequest.getRemoteAddr();
 		}
 		return ipAddress;
+	}
+
+	public static byte[] getbytes(final MultipartFile file){
+		Assert.notNull(file);
+		byte[] bytes;
+		try {
+			bytes = file.getBytes();
+		} catch (IOException e) {
+			logger.error("Error during retrive bytes", e);
+			throw new ValidationRequestException("Cannot get bytes from uploaded image");
+		}
+		return bytes;
 	}
 }

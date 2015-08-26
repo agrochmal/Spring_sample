@@ -90,17 +90,17 @@
 						<input type="text" class="form-control" name="email" placeholder="Adres e-mail" id="inputEmail" ng-model="saveCommand.advert.email" ng-model-options="{ updateOn: 'blur' }" ng-validate-email>
 						<div class="error-container" ng-show="advertForm.email.$invalid && advertForm.email.$dirty">
 							<small ng-show="advertForm.email.$error.email">
-								Podaj prawidłowy adres e-mail, np. joe@example.com
+								Podaj prawidłowy adres e-mail, np. robertsikora@interia.pl
 							</small>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
+		<!--	 flow-files-submitted="$flow.upload()" -->
 		<div ng-controller="UploadCtrl">
 			<div flow-init="{target:'api/resources/upload'}"
 				 flow-name="uploader.flow"
-				 flow-files-submitted="$flow.upload()"
 				 flow-file-success="$file.msg = $message"
 				 flow-files-added="processFiles($files)">
 				<div class="panel">
@@ -116,12 +116,11 @@
 						</div>
 					</div>
 				</div>
-			</div>
-		</div>
-
-		<div class="form-group margin-top10">
-			<div class="col-sm-12">
-				<button type="submit" class="btn action-btn header-button-right" ng-click="saveCommand.save()"><span class="glyphicon glyphicon-floppy-save"></span>&nbsp;&nbsp;&nbsp;Dodaj ogłoszenie</button>
+				<div class="form-group margin-top10">
+					<div class="col-sm-12">
+						<button type="submit" class="btn action-btn header-button-right" ng-click="saveCommand.save($flow)"><span class="glyphicon glyphicon-floppy-save"></span>&nbsp;&nbsp;&nbsp;Dodaj ogłoszenie</button>
+					</div>
+				</div>
 			</div>
 		</div>
 	</form>

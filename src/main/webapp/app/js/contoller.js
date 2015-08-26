@@ -157,7 +157,7 @@ angular.module('app.controlles', [])
 				return this.details.geometry.location.lng();
 			}
 		},
-		save: function() {
+		save: function(flow) {
 			if ($scope.advertForm.$valid) {
 				if ($scope.saveCommand.advert.latitude===0) {
 					$scope.saveCommand.advert.latitude = this.autoComplete.getLatitude();
@@ -166,6 +166,7 @@ angular.module('app.controlles', [])
 					$scope.saveCommand.advert.longitude = this.autoComplete.getLongitude();
 				}
 				$scope.saveCommand.advert.$save(function() {
+					$scope.saveCommand.uploadImages(flow);
 					Alertify.success('Dodano nowe ogloszenie');
 					$location.path('/');
 				});
@@ -173,6 +174,9 @@ angular.module('app.controlles', [])
 			} else {
 				scrollTop();
 			}
+		},
+		uploadImages: function(flow){
+			flow.upload();
 		}
 	};
 

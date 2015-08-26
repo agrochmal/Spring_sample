@@ -1,38 +1,39 @@
 'use strict';
 /**
- * Services
+ * app services
  */
 
 angular.module('app.services', ['ngResource'])
+
 .factory('LoginService', function($resource) {
 	
-	return $resource('api/users/:action', {},
-			{
-				authenticate: {
-					method:'POST',
-					params:{'action':'authenticate'},
-					headers:{'Content-Type':'application/x-www-form-urlencoded'}
-				},
-				getLogged:{
-					method:'GET',
-					params:{'action':'logged'}
-				}
+	return $resource('api/users/:action', {}, {
+			authenticate: {
+				method:'POST',
+				params:{'action':'authenticate'},
+				headers:{'Content-Type':'application/x-www-form-urlencoded'}
+			},
+			getLogged:{
+				method:'GET',
+				params:{'action':'logged'}
 			}
+		}
 	);
 })
+
 .factory('UserService', function($resource) {
 	
 	return $resource('api/users/:id/:action', {
 			id: '@id',
 			action: "@action"
-		},
-		{
+		}, {
 			getAdverts: {method:"GET", params: {id:"@id", action:"adverts"}, isArray: true},
 			createNew: {method:"GET", params: {action:"new"}, isArray: false},
 			update: {method:'PUT', params: {id:"@id"} }
 		}
 	);
 })
+
 .factory('UniqueService', function($http){
 		return {
 			checkUniqueValue: function(username){
@@ -43,17 +44,16 @@ angular.module('app.services', ['ngResource'])
 		}
 	}
 )
+
 .factory('AdvertService', function($resource) {
-	return $resource('api/adverts/:action:id', 
-			{
-		    	id: '@id',
-		    	action: "@action"
-			},
-			{
-				delete: {method:"DELETE", params: {id:"@id"}, isArray: false},
-				createNew: {method:"GET", params: {action:"new"}, isArray: false},
-				get: {method:"GET", params: {id:"@id"}, isArray: false}
-			}			
+	return $resource('api/adverts/:action:id', {
+			id: '@id',
+			action: "@action"
+		}, {
+			delete: {method:"DELETE", params: {id:"@id"}, isArray: false},
+			createNew: {method:"GET", params: {action:"new"}, isArray: false},
+			get: {method:"GET", params: {id:"@id"}, isArray: false}
+		}
 	);
 })
 .factory('SearchService', function($http){
@@ -91,16 +91,16 @@ angular.module('app.services', ['ngResource'])
 		}
 	}
 )
+
 .factory('DashboardService', function($resource) {
 	return $resource('api/dashboard/statistic'); //TO-DO
 })
+
 .factory('CommentService', function($resource) {
-	return $resource('api/comments/:action/:id',
-		{
+	return $resource('api/comments/:action/:id', {
 			id: '@id',
 			action: "@action"
-		},
-		{
+		}, {
 			postComment: {method:"POST", params: {id:"@id", action:"advert"}, isArray: false},
 			getComments: {method:"GET", params: {id:"@id", action:"advert"}, isArray: true}
 		}
