@@ -2,6 +2,8 @@ package pl.demo.core.util;
 
 import org.springframework.util.Assert;
 import org.springframework.util.ReflectionUtils;
+import org.springframework.validation.BindingResult;
+import pl.demo.web.exception.ValidationRequestException;
 
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
@@ -42,5 +44,12 @@ public final class EntityUtils {
                     }
                 })
         );
+    }
+
+    public static void applyValidation(final BindingResult bindingResult){
+        Assert.notNull(bindingResult);
+        if(bindingResult.hasErrors()) {
+            throw new ValidationRequestException(Utils.createErrorMessage(bindingResult));
+        }
     }
 }

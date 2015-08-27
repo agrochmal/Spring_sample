@@ -18,8 +18,7 @@
 	
 	<jdbc:embedded-database id="datasource-test" type="H2"></jdbc:embedded-database>
 
-	<bean id="entityManagerFactory"
-		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
 		<property name="dataSource" ref="datasource-test" />
 		<property name="persistenceUnitName" value="livesystem-persistence-test" />
 	</bean>

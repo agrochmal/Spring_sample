@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import pl.demo.core.model.entity.BaseEntity;
 import pl.demo.core.service.CRUDService;
+import pl.demo.core.util.EntityUtils;
 import pl.demo.core.util.Utils;
 import pl.demo.web.exception.ResourceNotFoundException;
-import pl.demo.web.exception.ValidationRequestException;
 
 import javax.validation.Valid;
 import java.io.Serializable;
@@ -89,7 +89,7 @@ public abstract class AbstractCRUDResource<PK extends Serializable, E extends Ba
             method = RequestMethod.PUT)
     protected ResponseEntity<?> editResource(@PathVariable final PK id, @Valid @RequestBody final E entity,
                                           final BindingResult bindingResult){
-        validateRequest(bindingResult);
+        EntityUtils.applyValidation(bindingResult);
         crudService.edit(id, entity);
         return ResponseEntity.noContent().build();
     }
@@ -104,17 +104,11 @@ public abstract class AbstractCRUDResource<PK extends Serializable, E extends Ba
 
     @RequestMapping(method = RequestMethod.POST)
     protected ResponseEntity<?> save(@Valid @RequestBody final E entity, final BindingResult bindingResult) {
-        validateRequest(bindingResult);
+        EntityUtils.applyValidation(bindingResult);
         return Optional.ofNullable(crudService.save(entity))
                 .map(t -> {
                     final URI uriLocation = Utils.createURI(RESOURCE_PATH.concat(t.getId().toString()));
                     return ResponseEntity.created(uriLocation).build();}
                 ).orElseGet(() -> ResponseEntity.noContent().build());
-    }
-
-    protected void validateRequest(final BindingResult bindingResult){
-        if(bindingResult.hasErrors()) {
-            throw new ValidationRequestException(Utils.createErrorMessage(bindingResult));
-        }
     }
 }

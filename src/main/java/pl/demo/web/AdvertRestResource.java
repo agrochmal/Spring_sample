@@ -2,12 +2,12 @@ package pl.demo.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.demo.core.model.entity.Advert;
 import pl.demo.core.service.AdvertService;
+import pl.demo.core.util.EntityUtils;
 import pl.demo.web.dto.EMailDTO;
 import pl.demo.web.dto.SearchCriteriaDTO;
 
@@ -32,7 +32,7 @@ public class AdvertRestResource extends AbstractCRUDResource<Long, Advert> {
             produces = APPLICATION_JSON_VALUE)
 
     public ResponseEntity<Advert> createNew() {
-        return new ResponseEntity<>(advertService.createNew(), HttpStatus.OK);
+        return ResponseEntity.ok().body(advertService.createNew());
     }
 
     @RequestMapping(value = "/search",
@@ -40,8 +40,7 @@ public class AdvertRestResource extends AbstractCRUDResource<Long, Advert> {
             produces = APPLICATION_JSON_VALUE)
 
     public ResponseEntity<?> search(final SearchCriteriaDTO searchCriteriaDTO, final Pageable pageable) {
-        return ResponseEntity.ok()
-                .body(this.advertService.findBySearchCriteria(searchCriteriaDTO, pageable));
+        return ResponseEntity.ok().body(this.advertService.findBySearchCriteria(searchCriteriaDTO, pageable));
     }
 
     @RequestMapping(value = "/{id}/status",
@@ -56,7 +55,7 @@ public class AdvertRestResource extends AbstractCRUDResource<Long, Advert> {
             method = RequestMethod.POST)
 
     public ResponseEntity<?> sendEmail(@PathVariable("id") final Long id, @Valid @RequestBody final EMailDTO email, final BindingResult bindingResult) {
-        validateRequest(bindingResult);
+        EntityUtils.applyValidation(bindingResult);
         advertService.sendMail(email);
         return ResponseEntity.noContent().build();
     }

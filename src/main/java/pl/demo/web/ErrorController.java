@@ -18,21 +18,23 @@ import pl.demo.web.exception.ValidationRequestException;
 @ControllerAdvice
 public class ErrorController {
 
-    private final static Logger logger = LoggerFactory.getLogger(ErrorController.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(ErrorController.class);
 
     @ExceptionHandler(ValidationRequestException.class)
     public ResponseEntity<?> handleValidationRequestException(final ValidationRequestException ex) {
+        LOGGER.error("Validation exception occurs", ex);
         return ResponseEntity.badRequest().body(ex.getMessage());
     }
 
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<?> handleResourceNotFoundException(final ResourceNotFoundException ex) {
+        LOGGER.error("Resource not found exception occurs", ex);
         return ResponseEntity.notFound().build();
     }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<?> handleGeneralException(final Exception ex) {
-        logger.error("General exception occurs", ex);
+        LOGGER.error("General exception occurs", ex);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).
                 body(new ErrorEntity("Fatal error on server", ex.getMessage()));
     }

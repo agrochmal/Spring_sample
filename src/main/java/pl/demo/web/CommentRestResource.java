@@ -6,6 +6,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.demo.core.model.entity.Comment;
 import pl.demo.core.service.CommentService;
+import pl.demo.core.util.EntityUtils;
 import pl.demo.core.util.Utils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -30,7 +31,7 @@ public class CommentRestResource extends AbstractCRUDResource<Long, Comment> {
 
     public ResponseEntity<?> postComment(@PathVariable("id") final Long id, @Valid @RequestBody final Comment comment,
                                          final BindingResult bindingResult, final HttpServletRequest httpServletRequest) {
-        validateRequest(bindingResult);
+        EntityUtils.applyValidation(bindingResult);
         comment.setIpAddr(Utils.getIpAdress(httpServletRequest));
         commentService.postComment(id, comment);
         return ResponseEntity.noContent().build();
@@ -41,7 +42,6 @@ public class CommentRestResource extends AbstractCRUDResource<Long, Comment> {
             produces = APPLICATION_JSON_VALUE)
 
     public ResponseEntity<?> getComments(@PathVariable("id") final Long id) {
-        return ResponseEntity.ok()
-                .body(this.commentService.findByAdvert(id));
+        return ResponseEntity.ok().body(this.commentService.findByAdvert(id));
     }
 }

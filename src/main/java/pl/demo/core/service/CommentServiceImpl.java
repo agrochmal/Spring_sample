@@ -9,7 +9,7 @@ import pl.demo.core.model.entity.Advert;
 import pl.demo.core.model.entity.Comment;
 import pl.demo.core.model.repo.AdvertRepository;
 import pl.demo.core.model.repo.CommentRepository;
-import pl.demo.core.util.PlainTextFilter;
+import pl.demo.core.util.Utils;
 import pl.demo.web.dto.EMailDTO;
 
 import java.util.Collection;
@@ -28,16 +28,14 @@ public class CommentServiceImpl extends CRUDServiceImpl<Long, Comment>
 
     private @Value("${comment.receipt-email}") String receipt_email;
 
-    private final PlainTextFilter plainTextFilter;
     private final MailService mailService;
     private final CommentRepository commentRepository;
     private final AdvertRepository advertRepository;
 
     @Autowired
-    public CommentServiceImpl(final PlainTextFilter plainTextFilter, final MailService mailService,
+    public CommentServiceImpl(final MailService mailService,
                               final CommentRepository commentRepository, final AdvertRepository advertRepository) {
         super(commentRepository);
-        this.plainTextFilter = plainTextFilter;
         this.mailService = mailService;
         this.commentRepository = commentRepository;
         this.advertRepository = advertRepository;
@@ -72,7 +70,7 @@ public class CommentServiceImpl extends CRUDServiceImpl<Long, Comment>
 
     private void prepareComment(final Comment comment) {
         comment.setDate(new Date());
-        comment.setText(plainTextFilter.escapeHtml(comment.getText()));
+        comment.setText(Utils.escapeHtml(comment.getText()));
     }
 
     private void sendEmail(final Comment comment){

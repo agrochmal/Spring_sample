@@ -1,7 +1,6 @@
 package pl.demo.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,15 +21,11 @@ public class DashboardRestResource {
             produces = APPLICATION_JSON_VALUE)
 
     public ResponseEntity<DashboardDTO> getDashboardData(){
-        return new ResponseEntity<>(this.getDashboardService().buildDashboard(), HttpStatus.OK);
-    }
-
-    public DashboardService getDashboardService() {
-        return dashboardService;
+        return ResponseEntity.ok().body(dashboardService.buildDashboard());
     }
 
     @Autowired
-    public void setDashboardService(DashboardService dashboardService) {
+    public void setDashboardService(final DashboardService dashboardService) {
         this.dashboardService = dashboardService;
     }
 }

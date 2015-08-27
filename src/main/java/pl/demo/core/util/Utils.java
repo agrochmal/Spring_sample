@@ -20,6 +20,14 @@ public final class Utils {
 	private Utils(){
 		throw new AssertionError("Cannot create object!");
 	}
+
+	public static String escapeHtml(final String text) {
+		Assert.hasText(text, "Text cannot be empty!");
+		return text.replace("&", "&amp;")
+				.replace("<", "&lt;")
+				.replace(">", "&gt;")
+				.replace("\n", "<br/>");
+	}
 	
 	public static String createErrorMessage(final BindingResult bindingResult){
 		Assert.notNull(bindingResult);
