@@ -13,9 +13,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+import static pl.demo.web.EndpointConst.COMMENT.*;
 
 @RestController
-@RequestMapping("/comments")
+@RequestMapping(COMMENT_ENDPOINT)
 public class CommentRestResource extends AbstractCRUDResource<Long, Comment> {
 
     private final CommentService commentService;
@@ -26,7 +27,7 @@ public class CommentRestResource extends AbstractCRUDResource<Long, Comment> {
         this.commentService = commentService;
     }
 
-    @RequestMapping(value = "/advert/{id}",
+    @RequestMapping(value = COMMENT_NEW,
             method = RequestMethod.POST)
 
     public ResponseEntity<?> postComment(@PathVariable("id") final Long id, @Valid @RequestBody final Comment comment,
@@ -37,11 +38,11 @@ public class CommentRestResource extends AbstractCRUDResource<Long, Comment> {
         return ResponseEntity.noContent().build();
     }
 
-    @RequestMapping(value = "/advert/{id}",
+    @RequestMapping(value = COMMENT_GETALL,
             method = RequestMethod.GET,
             produces = APPLICATION_JSON_VALUE)
 
-    public ResponseEntity<?> getComments(@PathVariable("id") final Long id) {
+    public ResponseEntity<?> getAllComments(@PathVariable("id") final Long id) {
         return ResponseEntity.ok().body(this.commentService.findByAdvert(id));
     }
 }

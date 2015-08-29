@@ -59,7 +59,7 @@ public final class Utils {
 		return ipAddress;
 	}
 
-	public static byte[] getbytes(final MultipartFile file){
+	public static byte[] getBytes(final MultipartFile file){
 		Assert.notNull(file);
 		byte[] bytes;
 		try {

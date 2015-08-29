@@ -99,7 +99,9 @@
 		</div>
 		<!--	 flow-files-submitted="$flow.upload()" -->
 		<div ng-controller="UploadCtrl">
-			<div flow-init="{target:'api/resources/upload'}"
+			<div flow-init="{target:'api/resources/upload',
+						 	 testChunks:false,
+							 permanentErrors: [415, 500, 501]}"
 				 flow-name="uploader.flow"
 				 flow-file-success="$file.msg = $message"
 				 flow-files-added="processFiles($files)">

@@ -19,9 +19,10 @@ import java.util.Collection;
 import java.util.Optional;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+import static pl.demo.web.EndpointConst.USER.*;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping(USER_ENDPOINT)
 public class UserRestResource extends AbstractCRUDResource<Long, User>{
 
 	private final AdvertService advertService;
@@ -34,7 +35,7 @@ public class UserRestResource extends AbstractCRUDResource<Long, User>{
 		this.advertService = advertService;
 	}
 
-	@RequestMapping(value="/logged",
+	@RequestMapping(value = USER_GET_LOGGED,
 			method = RequestMethod.GET,
 			produces = APPLICATION_JSON_VALUE)
 
@@ -65,7 +66,7 @@ public class UserRestResource extends AbstractCRUDResource<Long, User>{
 			});
 	}
 
-	@RequestMapping(value="/unique",
+	@RequestMapping(value = USER_IS_UNIQUE,
 			method = RequestMethod.GET,
 			produces = APPLICATION_JSON_VALUE)
 
@@ -78,13 +79,13 @@ public class UserRestResource extends AbstractCRUDResource<Long, User>{
 		return ResponseEntity.ok().body(Boolean.FALSE);
 	}
 
-	@RequestMapping(value="/authenticate",
+	@RequestMapping(value = USER_AUTHENTICATE,
 			method = RequestMethod.POST)
 	public TokenDTO authenticate(@RequestParam("username") final String username, @RequestParam("password") final String password) {
 		return new TokenDTO(TokenUtils.createToken(userService.authenticate(username, password)));
 	}
 
-	@RequestMapping(value="{userId}/adverts",
+	@RequestMapping(value = USER_FIND_ADVERTS,
             method = RequestMethod.GET,
             produces = APPLICATION_JSON_VALUE)
 	public ResponseEntity<Collection<Advert>> findUserAdverts(@PathVariable final Long userId){

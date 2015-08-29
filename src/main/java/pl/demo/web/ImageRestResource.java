@@ -3,32 +3,34 @@ package pl.demo.web;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import pl.demo.core.service.ResourceMediaService;
-import pl.demo.core.util.EntityUtils;
 import pl.demo.core.util.Utils;
 import pl.demo.web.validator.ImageUploadValidator;
+
+import static pl.demo.web.EndpointConst.IMAGE.IMAGE_ENDPOINT;
+import static pl.demo.web.EndpointConst.IMAGE.IMAGE_UPLOAD;
 
 /**
  * Created by robertsikora on 26.08.15.
  */
 @RestController
-@RequestMapping("/resources")
+@RequestMapping(IMAGE_ENDPOINT)
 public class ImageRestResource{
 
     private ResourceMediaService resourceMediaService;
     private ImageUploadValidator imageUploadValidator;
 
-    @RequestMapping(value="/upload",
+    @RequestMapping(value = IMAGE_UPLOAD,
             method = RequestMethod.POST)
 
-    public ResponseEntity<?> uploadImage(final MultipartFile file, final BindingResult bindingResult){
+    public ResponseEntity<?> uploadImage(@ModelAttribute MultipartFile file, BindingResult bindingResult){
         this.imageUploadValidator.validate(file, bindingResult);
-        EntityUtils.applyValidation(bindingResult);
-        this.resourceMediaService.uploadImage(Utils.getbytes(file));
+        this.resourceMediaService.uploadImage(Utils.getBytes(file));
         return ResponseEntity.ok().build();
     }
 

@@ -9,14 +9,16 @@ import pl.demo.core.service.DashboardService;
 import pl.demo.web.dto.DashboardDTO;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+import static pl.demo.web.EndpointConst.DASHBOARD.DASHBOARD_ENDPOINT;
+import static pl.demo.web.EndpointConst.DASHBOARD.DASHBOARD_STATISTIC;
 
 @RestController
-@RequestMapping("/dashboard")
+@RequestMapping(DASHBOARD_ENDPOINT)
 public class DashboardRestResource {
 
     private DashboardService dashboardService;
 
-    @RequestMapping(value="/statistic",
+    @RequestMapping(value = DASHBOARD_STATISTIC,
             method = RequestMethod.GET,
             produces = APPLICATION_JSON_VALUE)
 
