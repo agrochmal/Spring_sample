@@ -65,15 +65,13 @@ public class AdvertServiceImpl extends CRUDServiceImpl<Long, Advert>
 	public Advert createNew() {
 		return Optional.ofNullable(userService.getLoggedUser())
 			.map(t-> {
-				final Advert advert = new Advert();
-				advert.setLocationName(t.getLocation());
-				advert.setContact(t.getName());
-				advert.setPhone(t.getPhone());
-				advert.setEmail(t.getUsername());
-				advert.setLatitude(t.getLat());
-				advert.setLongitude(t.getLng());
-				return advert;
-			})
+				 return Advert.AdvertBuilder.anAdvert()
+						.withLocationName(t.getLocation())
+						.withContact(t.getName())
+						.withPhone(t.getPhone())
+						.withEmail(t.getUsername())
+						.withLatitude(t.getLat())
+						.withLongitude(t.getLng()).build();})
 			.orElse(new Advert());
 	}
 

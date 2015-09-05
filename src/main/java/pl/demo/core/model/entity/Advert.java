@@ -272,4 +272,133 @@ public class Advert extends BaseEntity implements Serializable, Searchable, Coor
 				.append("longitude", longitude)
 				.toString();
 	}
+
+
+	public static class AdvertBuilder {
+		protected Long id;
+
+		private String title;
+
+		private String description;
+		private Boolean active = Boolean.TRUE;
+		private String locationName;
+		private Date creationDate = new Date();
+		private Date endDate;
+
+		private String contact;
+		private String phone;
+		private String email;
+
+		private Double latitude=0d;
+		private Double longitude=0d;
+		private User user;
+		private Float rate=1.0f;
+		private Set<Comment> comments = new HashSet<>();
+
+		private AdvertBuilder() {
+		}
+
+		public static AdvertBuilder anAdvert() {
+			return new AdvertBuilder();
+		}
+
+		public AdvertBuilder withTitle(String title) {
+			this.title = title;
+			return this;
+		}
+
+		public AdvertBuilder withDescription(String description) {
+			this.description = description;
+			return this;
+		}
+
+		public AdvertBuilder withActive(Boolean active) {
+			this.active = active;
+			return this;
+		}
+
+		public AdvertBuilder withLocationName(String locationName) {
+			this.locationName = locationName;
+			return this;
+		}
+
+		public AdvertBuilder withCreationDate(Date creationDate) {
+			this.creationDate = creationDate;
+			return this;
+		}
+
+		public AdvertBuilder withEndDate(Date endDate) {
+			this.endDate = endDate;
+			return this;
+		}
+
+		public AdvertBuilder withContact(String contact) {
+			this.contact = contact;
+			return this;
+		}
+
+		public AdvertBuilder withPhone(String phone) {
+			this.phone = phone;
+			return this;
+		}
+
+		public AdvertBuilder withEmail(String email) {
+			this.email = email;
+			return this;
+		}
+
+		public AdvertBuilder withLatitude(Double latitude) {
+			this.latitude = latitude;
+			return this;
+		}
+
+		public AdvertBuilder withLongitude(Double longitude) {
+			this.longitude = longitude;
+			return this;
+		}
+
+		public AdvertBuilder withUser(User user) {
+			this.user = user;
+			return this;
+		}
+
+		public AdvertBuilder withRate(Float rate) {
+			this.rate = rate;
+			return this;
+		}
+
+		public AdvertBuilder withComments(Set<Comment> comments) {
+			this.comments = comments;
+			return this;
+		}
+
+		public AdvertBuilder withId(Long id) {
+			this.id = id;
+			return this;
+		}
+
+		public AdvertBuilder but() {
+			return anAdvert().withTitle(title).withDescription(description).withActive(active).withLocationName(locationName).withCreationDate(creationDate).withEndDate(endDate).withContact(contact).withPhone(phone).withEmail(email).withLatitude(latitude).withLongitude(longitude).withUser(user).withRate(rate).withComments(comments).withId(id);
+		}
+
+		public Advert build() {
+			Advert advert = new Advert();
+			advert.setTitle(title);
+			advert.setDescription(description);
+			advert.setActive(active);
+			advert.setLocationName(locationName);
+			advert.setCreationDate(creationDate);
+			advert.setEndDate(endDate);
+			advert.setContact(contact);
+			advert.setPhone(phone);
+			advert.setEmail(email);
+			advert.setLatitude(latitude);
+			advert.setLongitude(longitude);
+			advert.setUser(user);
+			advert.setRate(rate);
+			advert.setComments(comments);
+			advert.setId(id);
+			return advert;
+		}
+	}
 }

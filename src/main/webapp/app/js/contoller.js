@@ -165,8 +165,8 @@ angular.module('app.controlles', [])
 				if ($scope.saveCommand.advert.longitude===0) {
 					$scope.saveCommand.advert.longitude = this.autoComplete.getLongitude();
 				}
-				$scope.saveCommand.advert.$save(function() {
-					$scope.saveCommand.uploadImages(flow);
+				$scope.saveCommand.advert.$save(function(data) {
+					$scope.saveCommand.uploadImages(flow, data);
 					Alertify.success('Dodano nowe ogloszenie');
 					$location.path('/');
 				});
@@ -175,7 +175,8 @@ angular.module('app.controlles', [])
 				scrollTop();
 			}
 		},
-		uploadImages: function(flow){
+		uploadImages: function(flow, advertId){
+			flow.opts.target = "/api/resources/"+advertId+"/upload";
 			flow.upload();
 		}
 	};

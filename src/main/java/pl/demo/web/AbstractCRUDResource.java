@@ -25,7 +25,6 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
  */
 public abstract class AbstractCRUDResource<PK extends Serializable, E extends BaseEntity> {
 
-    private static final String RESOURCE_PATH="/resources/";
     private static final String HEADER_ETAG = "ETag";
 
     private final CRUDService<PK, E> crudService;
@@ -107,7 +106,7 @@ public abstract class AbstractCRUDResource<PK extends Serializable, E extends Ba
         EntityUtils.applyValidation(bindingResult);
         return Optional.ofNullable(crudService.save(entity))
                 .map(t -> {
-                    final URI uriLocation = Utils.createURI(RESOURCE_PATH.concat(t.getId().toString()));
+                    final URI uriLocation = Utils.createURI(t.getId().toString());
                     return ResponseEntity.created(uriLocation).build();}
                 ).orElseGet(() -> ResponseEntity.noContent().build());
     }

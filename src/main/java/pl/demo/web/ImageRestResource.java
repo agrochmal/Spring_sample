@@ -2,8 +2,7 @@ package pl.demo.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,8 +27,8 @@ public class ImageRestResource{
     @RequestMapping(value = IMAGE_UPLOAD,
             method = RequestMethod.POST)
 
-    public ResponseEntity<?> uploadImage(@ModelAttribute MultipartFile file, BindingResult bindingResult){
-        this.imageUploadValidator.validate(file, bindingResult);
+    public ResponseEntity<?> uploadImage(@PathVariable("id") final Long id, final MultipartFile file){
+        this.imageUploadValidator.validate(file);
         this.resourceMediaService.uploadImage(Utils.getBytes(file));
         return ResponseEntity.ok().build();
     }
