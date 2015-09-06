@@ -19,7 +19,7 @@ import static pl.demo.web.EndpointConst.IMAGE.IMAGE_UPLOAD;
  */
 @RestController
 @RequestMapping(IMAGE_ENDPOINT)
-public class ImageRestResource{
+public class ImageRestResource {
 
     private ResourceMediaService resourceMediaService;
     private ImageUploadValidator imageUploadValidator;
