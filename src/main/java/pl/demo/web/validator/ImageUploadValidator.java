@@ -13,7 +13,7 @@ import pl.demo.web.exception.ValidationRequestException;
 @Component
 public class ImageUploadValidator implements Validator {
 
-    private final static long MAX_FILE_SIZE = 10 * 1024;
+    private final static long MAX_FILE_SIZE = 10_000_000;
 
     @Override
     public boolean supports(Class<?> clazz) {
@@ -30,7 +30,7 @@ public class ImageUploadValidator implements Validator {
             throw new ValidationRequestException("File is empty");
         }
         if(multipartFile.getSize() > MAX_FILE_SIZE){
-            throw new ValidationRequestException("File is too big. Max size is 10MB");
+            throw new ValidationRequestException("File is too big. Max size is 10 MB");
         }
     }
 }

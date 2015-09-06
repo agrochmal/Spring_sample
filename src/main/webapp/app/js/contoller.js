@@ -157,7 +157,7 @@ angular.module('app.controlles', [])
 				return this.details.geometry.location.lng();
 			}
 		},
-		save: function(flow) {
+		save: function() {
 			if ($scope.advertForm.$valid) {
 				if ($scope.saveCommand.advert.latitude===0) {
 					$scope.saveCommand.advert.latitude = this.autoComplete.getLatitude();
@@ -167,7 +167,6 @@ angular.module('app.controlles', [])
 				}
 				$scope.saveCommand.advert.$save(function(advert, headers) {
 					var newId = headers('Location');
-					$scope.saveCommand.uploadImages(flow, newId);
 					Alertify.success('Dodano nowe ogloszenie');
 					$location.path('/');
 				});
@@ -175,10 +174,6 @@ angular.module('app.controlles', [])
 			} else {
 				scrollTop();
 			}
-		},
-		uploadImages: function(flow, advertId){
-			flow.opts.target = "/demo/api/resources/"+advertId+"/upload";
-			flow.upload();
 		}
 	};
 
@@ -375,7 +370,7 @@ angular.module('app.controlles', [])
 		}
 	};
 })
-.controller('UploadCtrl', function ($scope) {
+.controller('UploadCtrl', function ($scope, Alertify) {
 	$scope.images = [];
 	$scope.processFiles = function (files) {
 		angular.forEach(files, function (flowFile, i) {
@@ -397,6 +392,14 @@ angular.module('app.controlles', [])
 		});
 	};
 
+	$scope.errorHandler = function($file, $message, $flow) {
+		Alertify.error($message);
+		$scope.deleteImage($file);
+	};
+
+	$scope.deleteImage = function(image){
+		image.cancel();
+	};
 });
 
 

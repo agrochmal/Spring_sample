@@ -63,25 +63,25 @@ angular.module('app', ['ngRoute','ngCookies','ngSanitize','app.services','app.co
 			/* Register error provider that shows message on failed requests or redirects to login page on
 			 * unauthenticated requests */
 		    $httpProvider.interceptors.push(['$q', '$rootScope', '$location', '$injector', function ($q, $rootScope, $location, $injector) {
-			        return {
-			        	'responseError': function(rejection) {
-			        		var status = rejection.status;
-			        		var config = rejection.config;
-			        		var method = config.method;
-			        		var url = config.url;
-							var alertify = $injector.get('Alertify');
-			      			//Unauthorized
-			        		if (status == 401) {
-								alertify.error('Nieprawidlowe dane logowania');
-			        			$location.path( "/main" );
-			        		} else {
-								alertify.error('Powazny blad serwera');
-			        			$rootScope.error = method + " on " + url + " failed with status " + status;
-			        		}
-			        		return $q.reject(rejection);
-			        	}
-			        };
-			    }
+				return {
+					'responseError': function(rejection) {
+						var status = rejection.status;
+						var config = rejection.config;
+						var method = config.method;
+						var url = config.url;
+						var alertify = $injector.get('Alertify');
+						//Unauthorized
+						if (status == 401) {
+							alertify.error('Nieprawidlowe dane logowania');
+							$location.path( "/main" );
+						} else {
+							alertify.error('Powazny blad serwera');
+							$rootScope.error = method + " on " + url + " failed with status " + status;
+						}
+						return $q.reject(rejection);
+					}
+				};
+			}
 		    ]);
 		    
 		    /* Registers auth token interceptor, auth token is either passed by header or by query parameter

@@ -30,7 +30,7 @@ class EndpointConst {
 
     final static class IMAGE{
         static final String IMAGE_ENDPOINT = "/resources";
-        static final String IMAGE_UPLOAD = "/{id}/upload";
+        static final String IMAGE_UPLOAD = "/upload";
     }
 
     final static class USER{
