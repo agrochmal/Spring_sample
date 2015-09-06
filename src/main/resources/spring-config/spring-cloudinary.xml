@@ -3,8 +3,7 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-       <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-           <property name="maxUploadSize" value="10000000"/>
+       <bean id="cloudinary" class="com.cloudinary.Cloudinary">
+         <constructor-arg name="cloudinaryUrl" value="${CLOUDINARY_URL}"/>
        </bean>
-
 </beans>

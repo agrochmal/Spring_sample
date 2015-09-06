@@ -2,10 +2,9 @@ package pl.demo.core.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.demo.core.model.entity.MediaResource;
 import pl.demo.core.service.MediaProviders.MediaProvider;
 
-import java.util.Collection;
+import java.io.IOException;
 
 /**
  * Created by robertsikora on 29.07.15.
@@ -22,17 +21,11 @@ public class ResourceMediaServiceImpl implements ResourceMediaService{
     }
 
     @Override
-    public void uploadImage(final byte[] image) {
-        System.out.print("TO-DO");
-    }
-
-    @Override
-    public String getImageUrl(MediaResource mediaResource) {
-        return null;
-    }
-
-    @Override
-    public Collection<MediaResource> getAll(Long advertId) {
-        return null;
+    public void upload(final byte[] file) {
+        try {
+            this.mediaProvider.upload(file);
+        } catch (IOException e) {
+            e.printStackTrace(); // refactor !!!
+        }
     }
 }

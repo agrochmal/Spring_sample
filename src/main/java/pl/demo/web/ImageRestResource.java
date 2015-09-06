@@ -29,7 +29,7 @@ public class ImageRestResource{
 
     public ResponseEntity<?> uploadImage(@RequestParam("file") final MultipartFile file) {
         this.imageUploadValidator.validate(file);
-        this.resourceMediaService.uploadImage(Utils.getBytes(file));
+        this.resourceMediaService.upload(Utils.getBytes(file));
         return ResponseEntity.ok().build();
     }
 
