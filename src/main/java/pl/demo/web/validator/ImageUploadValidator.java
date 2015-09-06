@@ -24,13 +24,13 @@ public class ImageUploadValidator implements Validator {
     public void validate(Object target, Errors errors) {
     }
 
-    public void validate(Object target){
+    public void validate(final Object target){
         final MultipartFile multipartFile = (MultipartFile)target;
         if(multipartFile.isEmpty()){
             throw new ValidationRequestException("File is empty");
         }
         if(multipartFile.getSize() > MAX_FILE_SIZE){
-            throw new ValidationRequestException("File too big. Max size is 10MB");
+            throw new ValidationRequestException("File is too big. Max size is 10MB");
         }
     }
 }
