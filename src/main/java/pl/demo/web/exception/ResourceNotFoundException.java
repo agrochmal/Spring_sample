@@ -1,12 +1,14 @@
 package pl.demo.web.exception;
 
+import pl.demo.MsgConst;
+
 /**
  * Created by robertsikora on 30.07.15.
  */
-public class ResourceNotFoundException extends RuntimeException {
+public class ResourceNotFoundException extends AbstractException {
 
     public ResourceNotFoundException() {
-        this("Resource not found!");
+        this(MsgConst.RESOURCE_NOT_FOUND);
     }
 
     public ResourceNotFoundException(String message) {

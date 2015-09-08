@@ -13,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import pl.demo.MsgConst;
 import pl.demo.core.model.entity.AuthenticationUserDetails;
 import pl.demo.core.model.entity.User;
 import pl.demo.core.model.repo.RoleRepository;
@@ -65,7 +66,7 @@ public class UserServiceImpl extends CRUDServiceImpl<Long, User> implements User
 		Assert.notNull(username, "Username is required");
 		final User user = userRepository.findByUsername(username);
 		if (null == user) {
-			throw new UsernameNotFoundException("The user with name: " + username + " was not found");
+			throw new UsernameNotFoundException(MsgConst.USER_NOT_FOUND);
 		}
 		return new AuthenticationUserDetails(user);
 	}

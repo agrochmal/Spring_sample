@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
+import pl.demo.MsgConst;
 import pl.demo.core.model.entity.Advert;
 import pl.demo.core.model.entity.AuthenticationUserDetails;
 import pl.demo.core.model.entity.User;
@@ -13,7 +14,6 @@ import pl.demo.core.service.UserService;
 import pl.demo.core.util.TokenUtils;
 import pl.demo.web.dto.TokenDTO;
 import pl.demo.web.dto.UserDTO;
-import pl.demo.web.exception.ResourceNotFoundException;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -62,7 +62,7 @@ public class UserRestResource extends AbstractCRUDResource<Long, User>{
 						return ResponseEntity.ok().body(dto);
 					}
 			).orElseGet(() -> {
-				throw new ResourceNotFoundException("User not found");
+				throw new UsernameNotFoundException(MsgConst.USER_NOT_FOUND);
 			});
 	}
 

@@ -1,12 +1,14 @@
 package pl.demo.web.exception;
 
+import pl.demo.MsgConst;
+
 /**
  * Created by robertsikora on 30.07.15.
  */
-public class ValidationRequestException extends RuntimeException {
+public class ValidationRequestException extends AbstractException {
 
     public ValidationRequestException() {
-        this("Validation failed!");
+        this(MsgConst.VALIDATION_FAILED);
     }
 
     public ValidationRequestException(String message) {

@@ -43,7 +43,7 @@ public abstract class AbstractCRUDResource<PK extends Serializable, E extends Ba
     protected ResponseEntity<?> getResources(){
         final Collection<E> collection = this.crudService.findAll();
         if(null == collection) {
-            throw new ResourceNotFoundException("Cannot find resources");
+            throw new ResourceNotFoundException();
         }
         return ResponseEntity.ok().body(collection);
     }
@@ -60,7 +60,7 @@ public abstract class AbstractCRUDResource<PK extends Serializable, E extends Ba
     protected ResponseEntity<?> getResourceById(@PathVariable final PK id){
         final E entity = this.crudService.findOne(id);
         if(null == entity) {
-            throw new ResourceNotFoundException("Cannot find resource id:"+id);
+            throw new ResourceNotFoundException();
         }
         return ResponseEntity.ok().header(HEADER_ETAG, String.valueOf(entity.hashCode())).body(entity);
     }

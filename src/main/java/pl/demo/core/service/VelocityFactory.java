@@ -1,11 +1,11 @@
 package pl.demo.core.service;
 
-import com.google.common.base.Throwables;
 import org.apache.velocity.app.VelocityEngine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.config.AbstractFactoryBean;
 import org.springframework.ui.velocity.VelocityEngineFactory;
+import pl.demo.web.exception.GeneralException;
 
 import java.io.IOException;
 import java.util.Properties;
@@ -15,7 +15,7 @@ import java.util.Properties;
  */
 public final class VelocityFactory extends AbstractFactoryBean<VelocityEngine> {
 
-    private final static Logger logger = LoggerFactory.getLogger(VelocityFactory.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(VelocityFactory.class);
 
     @Override
     public Class<?> getObjectType() {
@@ -33,9 +33,8 @@ public final class VelocityFactory extends AbstractFactoryBean<VelocityEngine> {
         try {
             return factory.createVelocityEngine();
         } catch (IOException e) {
-            logger.error("Error during preparing velocity engine", e);
-            Throwables.propagate(e);
+            LOGGER.error("Error during preparing velocity engine", e);
+            throw new GeneralException(e.getMessage(), e);
         }
-        return null;
     }
 }

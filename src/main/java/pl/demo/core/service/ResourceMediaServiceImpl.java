@@ -1,9 +1,12 @@
 package pl.demo.core.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import pl.demo.core.service.MediaProviders.MediaProvider;
+import pl.demo.web.exception.GeneralException;
 
 import java.io.IOException;
 
@@ -13,6 +16,8 @@ import java.io.IOException;
 
 @Service
 public class ResourceMediaServiceImpl implements ResourceMediaService{
+
+    private final static Logger LOGGER = LoggerFactory.getLogger(ResourceMediaServiceImpl.class);
 
     private final MediaProvider mediaProvider;
 
@@ -27,7 +32,8 @@ public class ResourceMediaServiceImpl implements ResourceMediaService{
         try {
             this.mediaProvider.upload(file);
         } catch (IOException e) {
-            e.printStackTrace(); // refactor !!!
+            LOGGER.error("", e);
+            throw new GeneralException(e.getMessage(), e);
         }
     }
 }

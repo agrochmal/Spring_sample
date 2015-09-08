@@ -4,9 +4,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import pl.demo.web.exception.ErrorEntity;
+import pl.demo.web.exception.GeneralException;
 import pl.demo.web.exception.ResourceNotFoundException;
 import pl.demo.web.exception.ValidationRequestException;
 
@@ -26,13 +28,13 @@ public class ErrorController {
         return ResponseEntity.badRequest().body(ex.getMessage());
     }
 
-    @ExceptionHandler(ResourceNotFoundException.class)
+    @ExceptionHandler({ResourceNotFoundException.class, UsernameNotFoundException.class})
     public ResponseEntity<?> handleResourceNotFoundException(final ResourceNotFoundException ex) {
-        LOGGER.error("Resource not found exception occurs", ex);
+        LOGGER.debug("Resource not found exception occurs", ex);
         return ResponseEntity.notFound().build();
     }
 
-    @ExceptionHandler(Exception.class)
+    @ExceptionHandler({Exception.class, GeneralException.class})
     public ResponseEntity<?> handleGeneralException(final Exception ex) {
         LOGGER.error("General exception occurs", ex);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).

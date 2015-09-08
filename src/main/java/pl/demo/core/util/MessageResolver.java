@@ -11,7 +11,7 @@ import java.util.Locale;
  * Created by robertsikora on 06.09.15.
  */
 
-@Component
+@Component("msgResolver")
 public class MessageResolver {
 
     private final static Locale PL = new Locale("pl", "PL");
