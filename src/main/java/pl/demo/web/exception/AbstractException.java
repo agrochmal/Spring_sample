@@ -10,10 +10,10 @@ import pl.demo.core.util.SpringBeanProvider;
 public class AbstractException extends RuntimeException{
 
     protected AbstractException(final String message, final Throwable cause){
-        super(message, cause);
+        super(getMessage(message), cause);
     }
 
-    protected String getMessage(final String msgCode){
+    private static String getMessage(final String msgCode){
         Assert.hasText(msgCode);
         final MessageResolver messageResolver = (MessageResolver) SpringBeanProvider.getBean("msgResolver");
         Assert.notNull(messageResolver, "Bean should exists in Spring context");

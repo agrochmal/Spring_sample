@@ -18,6 +18,7 @@ import pl.demo.core.model.entity.AuthenticationUserDetails;
 import pl.demo.core.model.entity.User;
 import pl.demo.core.model.repo.RoleRepository;
 import pl.demo.core.model.repo.UserRepository;
+import pl.demo.web.exception.ResourceNotFoundException;
 
 @Service
 @Transactional(readOnly=true)
@@ -66,7 +67,7 @@ public class UserServiceImpl extends CRUDServiceImpl<Long, User> implements User
 		Assert.notNull(username, "Username is required");
 		final User user = userRepository.findByUsername(username);
 		if (null == user) {
-			throw new UsernameNotFoundException(MsgConst.USER_NOT_FOUND);
+			throw new ResourceNotFoundException(MsgConst.USER_NOT_FOUND);
 		}
 		return new AuthenticationUserDetails(user);
 	}

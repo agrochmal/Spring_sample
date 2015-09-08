@@ -6,11 +6,11 @@ package pl.demo.web.exception;
  */
 public class GeneralException extends AbstractException {
 
-    public GeneralException(String message) {
+    public GeneralException(final String message) {
         this(message, null);
     }
 
-    public GeneralException(String message, Throwable cause) {
+    public GeneralException(final String message, final Throwable cause) {
         super(message, cause);
     }
 }

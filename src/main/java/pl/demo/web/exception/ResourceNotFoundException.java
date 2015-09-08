@@ -11,11 +11,11 @@ public class ResourceNotFoundException extends AbstractException {
         this(MsgConst.RESOURCE_NOT_FOUND);
     }
 
-    public ResourceNotFoundException(String message) {
+    public ResourceNotFoundException(final String message) {
         this(message, null);
     }
 
-    public ResourceNotFoundException(String message, Throwable cause) {
+    public ResourceNotFoundException(final String message, final Throwable cause) {
         super(message, cause);
     }
 }

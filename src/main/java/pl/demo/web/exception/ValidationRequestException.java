@@ -11,11 +11,11 @@ public class ValidationRequestException extends AbstractException {
         this(MsgConst.VALIDATION_FAILED);
     }
 
-    public ValidationRequestException(String message) {
+    public ValidationRequestException(final String message) {
         this(message, null);
     }
 
-    public ValidationRequestException(String message, Throwable cause) {
+    public ValidationRequestException(final String message, final Throwable cause) {
         super(message, cause);
     }
 }
