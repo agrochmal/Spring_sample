@@ -36,8 +36,8 @@
         <property name="basename">
             <value>classpath:messages</value>
         </property>
-
-
     </bean>
+
+    <bean id="methodValidationPostProcessor" class="org.springframework.validation.beanvalidation.MethodValidationPostProcessor"/>
 
 </beans>

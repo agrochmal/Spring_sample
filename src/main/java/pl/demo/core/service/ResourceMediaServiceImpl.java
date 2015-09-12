@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import pl.demo.core.service.MediaProviders.MediaProvider;
+import pl.demo.core.service.MediaProviders.UploadResult;
 import pl.demo.web.exception.GeneralException;
 
 import java.io.IOException;
@@ -27,10 +28,10 @@ public class ResourceMediaServiceImpl implements ResourceMediaService{
     }
 
     @Override
-    public void upload(final byte[] file) {
+    public UploadResult upload(final byte[] file) {
         Assert.notNull(file);
         try {
-            this.mediaProvider.upload(file);
+            return this.mediaProvider.upload(file);
         } catch (IOException e) {
             LOGGER.error("", e);
             throw new GeneralException(e.getMessage(), e);

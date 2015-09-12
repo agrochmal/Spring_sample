@@ -1,10 +1,13 @@
 package pl.demo.core.util;
 
 import junit.framework.TestCase;
+import org.junit.Ignore;
 import org.junit.Test;
-import org.springframework.validation.*;
+import org.springframework.validation.BeanPropertyBindingResult;
+import org.springframework.validation.BindingResult;
 import pl.demo.web.dto.TokenDTO;
 
+@Ignore
 public class UtilsTest extends TestCase {
 
     @Test

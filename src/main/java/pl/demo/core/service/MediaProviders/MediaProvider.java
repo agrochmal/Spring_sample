@@ -6,5 +6,5 @@ import java.io.IOException;
  * Created by robertsikora on 29.07.15.
  */
 public interface MediaProvider {
-    CloudinaryUploadResult upload(Object file) throws IOException;
+    UploadResult upload(Object file) throws IOException;
 }

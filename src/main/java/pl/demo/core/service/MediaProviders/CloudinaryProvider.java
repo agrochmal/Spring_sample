@@ -22,8 +22,7 @@ public class CloudinaryProvider implements MediaProvider{
     public CloudinaryUploadResult upload(final Object file) throws IOException {
         Assert.notNull(file);
         final Map uploadResult = cloudinary.uploader().upload(file, ObjectUtils.emptyMap());
-        //TO-DO convert map to object
-        return null;
+        return new CloudinaryUploadResult(uploadResult).build();
     }
 
     public void setCloudinary(final Cloudinary cloudinary) {

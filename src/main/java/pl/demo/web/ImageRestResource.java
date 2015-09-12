@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import pl.demo.core.service.MediaProviders.CloudinaryUploadResult;
 import pl.demo.core.service.ResourceMediaService;
 import pl.demo.core.util.Utils;
 import pl.demo.web.validator.ImageUploadValidator;
@@ -29,8 +30,9 @@ public class ImageRestResource {
 
     public ResponseEntity<?> uploadImage(@RequestParam("file") final MultipartFile file) {
         this.imageUploadValidator.validate(file);
-        this.resourceMediaService.upload(Utils.getBytes(file));
-        return ResponseEntity.ok().build();
+        final CloudinaryUploadResult cloudinaryUploadResult =
+                (CloudinaryUploadResult)this.resourceMediaService.upload(Utils.getBytes(file));
+        return ResponseEntity.ok(Long.valueOf(100));
     }
 
     @Autowired
