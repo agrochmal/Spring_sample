@@ -1,8 +1,8 @@
 package pl.demo.core.service.MediaProviders;
 
-import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.validation.annotation.Validated;
 
+import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.io.Serializable;
 
@@ -11,6 +11,6 @@ import java.io.Serializable;
  */
 @Validated
 public interface MediaProvider {
-    UploadResult upload(@NotEmpty Object file) throws IOException;
-    void delete(@NotEmpty Serializable id) throws IOException;
+    UploadResult upload(@NotNull Object file) throws IOException;
+    void delete(@NotNull Serializable id) throws IOException;
 }

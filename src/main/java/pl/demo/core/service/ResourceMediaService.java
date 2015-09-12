@@ -1,9 +1,9 @@
 package pl.demo.core.service;
 
-import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.validation.annotation.Validated;
 import pl.demo.core.service.MediaProviders.UploadResult;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
@@ -11,6 +11,6 @@ import java.io.Serializable;
  */
 @Validated
 public interface ResourceMediaService {
-    UploadResult upload(@NotEmpty byte[] image);
-    void delete(@NotEmpty Serializable id);
+    UploadResult upload(@NotNull byte[] image);
+    void delete(@NotNull Serializable id);
 }

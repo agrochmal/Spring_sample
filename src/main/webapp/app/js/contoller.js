@@ -370,7 +370,7 @@ angular.module('app.controlles', [])
 		}
 	};
 })
-.controller('UploadCtrl', function ($scope, Alertify) {
+.controller('UploadCtrl', function ($scope, Alertify, ImageService) {
 	$scope.images = [];
 	$scope.processFiles = function (files) {
 		angular.forEach(files, function (flowFile, i) {
@@ -397,8 +397,14 @@ angular.module('app.controlles', [])
 		$scope.deleteImage($file);
 	};
 
+	$scope.success = function($file, $message){
+		$file.publicId = $message;
+	};
+
 	$scope.deleteImage = function(image){
-		image.cancel();
+		ImageService.delete({id: image.publicId}, function(res){
+			image.cancel();
+		});
 	};
 });
 

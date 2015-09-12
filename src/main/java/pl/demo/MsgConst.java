@@ -14,4 +14,6 @@ public class MsgConst {
     public static final String FILE_EMPTY = "FILE.IS_EMPTY";
     public static final String FILE_TOO_BIG = "FILE.IS_TOO_BIG";
     public static final String USER_NOT_FOUND = "USER_NOT_FOUND";
+    public static final String CANNOT_DELETE_IMAGE = "CANNOT_DELETE_IMAGE";
+    public static final String MEDIA_PROVIDER_ISSUE = "MEDIA_PROVIDER_ISSUE";
 }

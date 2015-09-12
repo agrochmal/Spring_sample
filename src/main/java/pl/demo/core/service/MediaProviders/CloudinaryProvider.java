@@ -2,10 +2,11 @@ package pl.demo.core.service.MediaProviders;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
-import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import pl.demo.MsgConst;
+import pl.demo.web.exception.GeneralException;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -28,9 +29,12 @@ public class CloudinaryProvider implements MediaProvider{
     }
 
     @Override
-    public void delete(@NotEmpty Serializable id) throws IOException  {
+    public void delete(final Serializable id) throws IOException  {
         Assert.notNull(id);
-        cloudinary.uploader().destroy((String)id, ObjectUtils.emptyMap());
+        final Map deleteResult = cloudinary.uploader().destroy((String)id, ObjectUtils.emptyMap());
+        if(!deleteResult.getOrDefault("result", "").equals("ok")){
+            throw new GeneralException(MsgConst.CANNOT_DELETE_IMAGE);
+        }
     }
 
     public void setCloudinary(final Cloudinary cloudinary) {

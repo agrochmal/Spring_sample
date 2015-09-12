@@ -105,4 +105,13 @@ angular.module('app.services', ['ngResource'])
 			getComments: {method:"GET", params: {id:"@id", action:"advert"}, isArray: true}
 		}
 	);
+})
+
+.factory('ImageService', function($resource) {
+	return $resource('api/resources/:id', {
+			id: '@id'
+		}, {
+			delete: {method:"DELETE", params: {id:"@id"}, isArray: false}
+		}
+	);
 });

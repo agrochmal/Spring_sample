@@ -32,7 +32,7 @@ public class ImageRestResource {
     @RequestMapping(value="{id}",
             method = RequestMethod.DELETE)
 
-    public ResponseEntity deleteImage(@PathVariable String id) {
+    public ResponseEntity<?> deleteImage(@PathVariable final String id) {
         this.resourceMediaService.delete(id);
         return ResponseEntity.noContent().build();
     }

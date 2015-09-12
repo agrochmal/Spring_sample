@@ -102,9 +102,9 @@
 						 	 testChunks:false,
 							 permanentErrors: [415, 500, 501]}"
 				 flow-name="uploader.flow"
-				 flow-file-success="$file.msg = $message"
+				 flow-file-success="success($file, $message)"
 				 flow-files-added="processFiles($files)"
-				 flow-error="errorHandler($file,$message,$flow)"
+				 flow-error="errorHandler($file, $message, $flow)"
 				 flow-files-submitted="$flow.upload()">
 				<div class="panel">
 					<div class="heading" style="z-index: 0;height:50px;">
