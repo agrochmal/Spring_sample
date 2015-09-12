@@ -1,5 +1,6 @@
 package pl.demo.core.service;
 
+import org.hibernate.validator.constraints.NotEmpty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import pl.demo.core.service.MediaProviders.UploadResult;
 import pl.demo.web.exception.GeneralException;
 
 import java.io.IOException;
+import java.io.Serializable;
 
 /**
  * Created by robertsikora on 29.07.15.
@@ -32,6 +34,16 @@ public class ResourceMediaServiceImpl implements ResourceMediaService{
         Assert.notNull(file);
         try {
             return this.mediaProvider.upload(file);
+        } catch (IOException e) {
+            LOGGER.error("", e);
+            throw new GeneralException(e.getMessage(), e);
+        }
+    }
+
+    @Override
+    public void delete(@NotEmpty Serializable id) {
+        try {
+            this.mediaProvider.delete(id);
         } catch (IOException e) {
             LOGGER.error("", e);
             throw new GeneralException(e.getMessage(), e);
