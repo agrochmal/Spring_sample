@@ -7,6 +7,8 @@ import pl.demo.core.model.entity.Advert;
 import pl.demo.web.dto.EMailDTO;
 import pl.demo.web.dto.SearchCriteriaDTO;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.util.Collection;
 
@@ -16,7 +18,7 @@ public interface AdvertService extends CRUDService<Long, Advert> {
 	Page<Advert> findAll(@NotNull Pageable pageable);
 
 	@NotNull
-	Collection<Advert> findByUserId(@NotNull Long id);
+	Collection<Advert> findByUserId(@NotNull @Min(1) Long id);
 
 	@NotNull
 	Page<Advert> findBySearchCriteria(@NotNull SearchCriteriaDTO searchCriteriaDTO, @NotNull Pageable pageable);
@@ -24,7 +26,7 @@ public interface AdvertService extends CRUDService<Long, Advert> {
 	@NotNull
 	Advert createNew();
 
-	void sendMail(@NotNull EMailDTO eMailDTO);
+	void sendMail(@Valid EMailDTO eMailDTO);
 
-	void updateActiveStatus(@NotNull Long id, @NotNull Boolean status);
+	void updateActiveStatus(@NotNull @Min(1) Long id, @NotNull Boolean status);
 }

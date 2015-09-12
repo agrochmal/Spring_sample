@@ -28,15 +28,73 @@ public class CloudinaryUploadResult implements UploadResult{
     private final Map<String, String> resultMap;
 
     public CloudinaryUploadResult(final Map map){
+        Assert.notNull(map);
         this.resultMap = map;
+    }
+
+    public String getSignature(){
+        return resultMap.get(SIGNATURE);
+    }
+
+    public String getFormat(){
+        return resultMap.get(FORMAT);
+    }
+
+    public String getResourceType(){
+        return resultMap.get(RESOURCE_TYPE);
+    }
+
+    public String getCreatedAt(){
+        return resultMap.get(CREATED_AT);
+    }
+
+    public String getSecureUrl(){
+        return resultMap.get(SECURE_URL);
+    }
+
+    public String getEtag(){
+        return resultMap.get(ETAG);
+    }
+
+    public String getTags(){
+        return resultMap.get(TAGS);
+    }
+
+    public String getWidth(){
+        return resultMap.get(WIDTH);
+    }
+
+    public String getHeight(){
+        return resultMap.get(HEIGHT);
+    }
+
+    public String getType(){
+        return resultMap.get(TYPE);
+    }
+
+    public String getVersion(){
+        return resultMap.get(VERSION);
+    }
+
+    public String getUrl(){
+        return resultMap.get(URL);
+    }
+
+    public String getOrginalFilename(){
+        return resultMap.get(ORGINAL_FILENAME);
+    }
+
+    public String getBytes(){
+        return resultMap.get(BYTES);
+    }
+
+    @Override
+    public String getPublicID(){
+        return resultMap.get(PUBLIC_ID);
     }
 
     private String getValue(final String key){
         Assert.hasText(key);
         return resultMap.get(key);
-    }
-
-    public CloudinaryUploadResult build(){
-        return this;
     }
 }

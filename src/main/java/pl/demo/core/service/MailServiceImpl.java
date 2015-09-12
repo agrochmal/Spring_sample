@@ -47,6 +47,7 @@ public class MailServiceImpl implements MailService{
             return;
         }
         Assert.notNull(emailDTO, "Email data is required");
+        Assert.notNull(template);
         final MimeMessage mimeMsg = mailSender.createMimeMessage();
         final Map<String, Object> model = new HashMap<>();
         model.put("userMessage", emailDTO);
