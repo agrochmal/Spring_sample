@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.codec.Hex;
 import org.springframework.util.StringUtils;
 
+import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -65,7 +66,7 @@ public final class TokenUtils {
 			Throwables.propagate(e);
 		}
 
-		return new String(Hex.encode(digest.digest(signatureBuilder.toString().getBytes())));
+		return new String(Hex.encode(digest.digest(signatureBuilder.toString().getBytes(Charset.forName("UTF-8")))));
 	}
 
 	public static String getUsernameFromToken(final String authToken) {

@@ -29,7 +29,6 @@ public abstract class CRUDServiceImpl<PK extends Serializable, E extends BaseEnt
         final E entity = getJpaRepository().findOne(id);
         Assert.state(null != entity, "Entity doesn't exist in db");
         getGenericRepository().detach(entity);
-        Assert.state(entity instanceof FlatableEntity, "Entity must implement FlatableEntity interface!");
         entity.flatEntity();
         return entity;
     }
@@ -74,7 +73,6 @@ public abstract class CRUDServiceImpl<PK extends Serializable, E extends BaseEnt
 
     protected void unproxyEntity(final Collection<E> collection){
         for(final E entity : collection) {
-            Assert.isTrue(entity instanceof FlatableEntity);
             getGenericRepository().detach(entity);
             entity.flatEntity();
         }

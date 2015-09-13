@@ -17,6 +17,4 @@ public interface AdvertRepository extends JpaRepository<Advert, Long>{
 	Page<Advert> findByActive(Boolean active, Pageable pageable);
 
 	Long countByActive(Boolean active);
-
-	//Collection<Advert> findByAdvertIdIn(List<Long> advertIdList);
 }

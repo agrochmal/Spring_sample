@@ -18,7 +18,12 @@ public class SpringBeanProvider implements ApplicationContextAware {
         return applicationContext.getBean(beanName);
     }
 
+    @Override
     public void setApplicationContext(final ApplicationContext applicationContext) throws BeansException {
+        setAppCtx(applicationContext);
+    }
+
+    private static void setAppCtx(final ApplicationContext applicationContext){
         SpringBeanProvider.applicationContext = applicationContext;
     }
 }

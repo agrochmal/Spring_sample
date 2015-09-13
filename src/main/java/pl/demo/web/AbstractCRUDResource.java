@@ -1,6 +1,7 @@
 package pl.demo.web;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.CollectionUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -40,12 +41,13 @@ public abstract class AbstractCRUDResource<PK extends Serializable, E extends Ba
 
     @RequestMapping(method = RequestMethod.GET,
             produces = APPLICATION_JSON_VALUE)
+
     protected ResponseEntity<?> getResources(){
-        final Collection<E> collection = this.crudService.findAll();
-        if(null == collection) {
+        final Collection<E> resources = this.crudService.findAll();
+        if(CollectionUtils.isEmpty(resources)) {
             throw new ResourceNotFoundException();
         }
-        return ResponseEntity.ok().body(collection);
+        return ResponseEntity.ok().body(resources);
     }
 
     /**
@@ -57,6 +59,7 @@ public abstract class AbstractCRUDResource<PK extends Serializable, E extends Ba
     @RequestMapping(value="{id}",
             method = RequestMethod.GET,
             produces = APPLICATION_JSON_VALUE)
+
     protected ResponseEntity<?> getResourceById(@PathVariable final PK id){
         final E entity = this.crudService.findOne(id);
         if(null == entity) {
@@ -74,7 +77,11 @@ public abstract class AbstractCRUDResource<PK extends Serializable, E extends Ba
     @RequestMapping(value="{id}",
             method = RequestMethod.DELETE)
     protected ResponseEntity<?> deleteResource(@PathVariable final PK id){
-        crudService.delete(id);
+        final E entity = this.crudService.findOne(id);
+        if(null == entity) {
+            throw new ResourceNotFoundException();
+        }
+        this.crudService.delete(id);
         return ResponseEntity.noContent().build();
     }
 
@@ -89,6 +96,10 @@ public abstract class AbstractCRUDResource<PK extends Serializable, E extends Ba
     protected ResponseEntity<?> editResource(@PathVariable final PK id, @Valid @RequestBody final E entity,
                                           final BindingResult bindingResult){
         EntityUtils.applyValidation(bindingResult);
+        final E existingEntity = this.crudService.findOne(id);
+        if(null == existingEntity) {
+            throw new ResourceNotFoundException();
+        }
         crudService.edit(id, entity);
         return ResponseEntity.noContent().build();
     }
@@ -105,9 +116,9 @@ public abstract class AbstractCRUDResource<PK extends Serializable, E extends Ba
     protected ResponseEntity<?> save(@Valid @RequestBody final E entity, final BindingResult bindingResult) {
         EntityUtils.applyValidation(bindingResult);
         return Optional.ofNullable(crudService.save(entity))
-                .map(t -> {
-                    final URI uriLocation = Utils.createURI(t.getId().toString());
-                    return ResponseEntity.created(uriLocation).build();}
-                ).orElseGet(() -> ResponseEntity.noContent().build());
+            .map(t -> {
+                final URI uriLocation = Utils.createURI(t.getId().toString());
+                return ResponseEntity.created(uriLocation).build();}
+            ).orElseGet(() -> ResponseEntity.noContent().build());
     }
 }

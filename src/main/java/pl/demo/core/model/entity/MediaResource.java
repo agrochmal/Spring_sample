@@ -11,6 +11,4 @@ import javax.persistence.Table;
 @Table(name = "media_resource")
 public class MediaResource extends BaseEntity{
 
-    private String name; // ???
-
 }

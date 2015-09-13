@@ -15,7 +15,6 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -33,9 +32,7 @@ import static pl.demo.core.model.entity.ModelConstans.TEXT_LENGTH_80;
 				@TokenFilterDef(factory=LowerCaseFilterFactory.class),
 				@TokenFilterDef(factory=StempelPolishStemFilterFactory.class)
 		})
-public class Advert extends BaseEntity implements Serializable, Searchable, Coordinates {
-
-	private static final long serialVersionUID = 1L;
+public class Advert extends BaseEntity implements Searchable, Coordinates {
 	
 	@NotEmpty
 	@Length(max=TEXT_LENGTH_80)
@@ -117,11 +114,11 @@ public class Advert extends BaseEntity implements Serializable, Searchable, Coor
 	}
 
 	public Date getEndDate() {
-		return endDate;
+		return (Date) endDate.clone();
 	}
 
 	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
+		this.endDate = (Date)endDate.clone();
 	}
 
 	public String getContact() {
@@ -149,11 +146,11 @@ public class Advert extends BaseEntity implements Serializable, Searchable, Coor
 	}
 
 	public Date getCreationDate() {
-		return creationDate;
+		return (Date) creationDate.clone();
 	}
 
 	public void setCreationDate(Date creationDate) {
-		this.creationDate = creationDate;
+		this.creationDate = (Date)creationDate.clone();
 	}
 
 	public User getUser() {
@@ -323,12 +320,12 @@ public class Advert extends BaseEntity implements Serializable, Searchable, Coor
 		}
 
 		public AdvertBuilder withCreationDate(Date creationDate) {
-			this.creationDate = creationDate;
+			this.creationDate = (Date)creationDate.clone();
 			return this;
 		}
 
 		public AdvertBuilder withEndDate(Date endDate) {
-			this.endDate = endDate;
+			this.endDate = (Date)endDate.clone();
 			return this;
 		}
 
