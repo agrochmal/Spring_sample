@@ -5,9 +5,10 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import pl.demo.core.util.EntityUtils;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @MappedSuperclass
-public abstract class BaseEntity implements FlatableEntity{
+public abstract class BaseEntity implements Serializable, FlatableEntity{
 
 	@JsonIgnoreProperties(ignoreUnknown=true)
 	@Id

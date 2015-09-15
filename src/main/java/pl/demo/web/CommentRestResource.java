@@ -30,11 +30,11 @@ public class CommentRestResource extends AbstractCRUDResource<Long, Comment> {
     @RequestMapping(value = COMMENT_NEW,
             method = RequestMethod.POST)
 
-    public ResponseEntity<?> postComment(@PathVariable("id") final Long id, @Valid @RequestBody final Comment comment,
+    public ResponseEntity<?> postComment(@PathVariable("id") final Long advertId, @Valid @RequestBody final Comment comment,
                                          final BindingResult bindingResult, final HttpServletRequest httpServletRequest) {
         EntityUtils.applyValidation(bindingResult);
         comment.setIpAddr(Utils.getIpAdress(httpServletRequest));
-        commentService.postComment(id, comment);
+        commentService.postComment(advertId, comment);
         return ResponseEntity.noContent().build();
     }
 

@@ -16,7 +16,7 @@
 	</bean>
 
 	<security:authentication-manager id="authenticationManager">
-		<security:authentication-provider user-service-ref="userServiceImpl">
+		<security:authentication-provider user-service-ref="userService">
 			<security:password-encoder ref="passwordEncoder"></security:password-encoder>
 		</security:authentication-provider>
 	</security:authentication-manager>
@@ -26,11 +26,11 @@
 		authentication-manager-ref="authenticationManager">
 	<!--	<security:intercept-url pattern="/**" requires-channel="https" /> -->
 		<security:custom-filter ref="authenticationTokenProcessingFilter" position="FORM_LOGIN_FILTER" />
-		<security:intercept-url pattern="/api/user/authenticate" access="permitAll" />
-		<security:intercept-url method="GET" pattern="/api/books/**" access="hasRole('user')" />
-		<security:intercept-url method="PUT" pattern="/api/books/**" access="hasRole('admin')" />
-		<security:intercept-url method="POST" pattern="/api/books/**" access="hasRole('admin')" />
-		<security:intercept-url method="DELETE" pattern="/api/books/**" access="hasRole('admin')" />
+		<security:intercept-url pattern="/api/users/authenticate" access="permitAll" />
+	<!--	<security:intercept-url method="GET" pattern="/api/users/account/**" access="hasRole('user')" />
+		<security:intercept-url method="GET" pattern="/api/adverts/new" access="hasRole('user')" />
+		<security:intercept-url method="POST" pattern="/api/comments/advert/**" access="hasRole('user')" />
+	-->
 	</security:http>
 
 </beans>

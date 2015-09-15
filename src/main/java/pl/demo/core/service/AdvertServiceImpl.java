@@ -3,7 +3,6 @@ package pl.demo.core.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import pl.demo.core.model.entity.Advert;
@@ -17,24 +16,17 @@ import java.util.Optional;
 
 import static pl.demo.core.service.MailServiceImpl.EMAIL_TEMPLATE;
 
-@Component("advertService")
 @Transactional(readOnly=true)
 public class AdvertServiceImpl extends CRUDServiceImpl<Long, Advert>
 		implements AdvertService {
 
-	private final AdvertRepository advertRepo;
-	private final SearchAdvertService searchService;
-	private final UserService userService;
-	private final MailService mailService;
+	private SearchAdvertService searchService;
+	private UserService userService;
+	private MailService mailService;
 
-	@Autowired
-	public AdvertServiceImpl(final AdvertRepository advertRepo, final SearchAdvertService searchService,
-							 final UserService userService, final MailService mailService){
-		super(advertRepo);
-		this.advertRepo = advertRepo;
-		this.searchService = searchService;
-		this.userService = userService;
-		this.mailService = mailService;
+	@Override
+	protected Class<Advert> supportedDomainClass() {
+		return Advert.class;
 	}
 
 	@Override
@@ -56,7 +48,7 @@ public class AdvertServiceImpl extends CRUDServiceImpl<Long, Advert>
 	@Override
 	public Collection<Advert> findByUserId(final Long userId){
 		Assert.notNull(userId);
-		final Collection<Advert> adverts = advertRepo.findByUserId(userId);
+		final Collection<Advert> adverts = getAdvertRepository().findByUserId(userId);
 		unproxyEntity(adverts);
 		return adverts;
 	}
@@ -79,11 +71,11 @@ public class AdvertServiceImpl extends CRUDServiceImpl<Long, Advert>
 	public Page<Advert> findBySearchCriteria(final SearchCriteriaDTO searchCriteriaDTO, final Pageable pageable) {
 		final Page<Advert> adverts;
 		if(searchCriteriaDTO.isEmpty()) {
-			adverts = advertRepo.findByActive(Boolean.TRUE, pageable);
+			adverts = getAdvertRepository().findByActive(Boolean.TRUE, pageable);
 		} else {
 			adverts = searchService.searchAdverts(searchCriteriaDTO, pageable);
 		}
-		adverts.getContent().stream().forEach(t->unproxyEntity(t));
+		adverts.getContent().stream().forEach(t -> unproxyEntity(t));
 		return adverts;
 	}
 
@@ -91,7 +83,7 @@ public class AdvertServiceImpl extends CRUDServiceImpl<Long, Advert>
 	@Transactional(readOnly=false)
 	public void updateActiveStatus(final Long advertId, final Boolean status) {
 		Assert.notNull(advertId, "Advert is required");
-		final Advert dbAdvert = advertRepo.findOne(advertId);
+		final Advert dbAdvert = getDomainRepository().findOne(advertId);
 		Assert.state(null != dbAdvert, "Advert doesn't exist in db");
 		dbAdvert.setActive(status);
 		super.save(dbAdvert);
@@ -101,5 +93,24 @@ public class AdvertServiceImpl extends CRUDServiceImpl<Long, Advert>
 	public void sendMail(final EMailDTO eMailDTO) {
 		Assert.notNull(eMailDTO, "Email data is required");
 		this.mailService.sendMail(eMailDTO, EMAIL_TEMPLATE);
+	}
+
+	private AdvertRepository getAdvertRepository(){
+		return (AdvertRepository)getDomainRepository();
+	}
+
+	@Autowired
+	public void setSearchService(final SearchAdvertService searchService) {
+		this.searchService = searchService;
+	}
+
+	@Autowired
+	public void setUserService(final UserService userService) {
+		this.userService = userService;
+	}
+
+	@Autowired
+	public void setMailService(final MailService mailService) {
+		this.mailService = mailService;
 	}
 }

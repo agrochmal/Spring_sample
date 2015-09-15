@@ -13,7 +13,7 @@ public class AbstractException extends RuntimeException{
         super(getMessage(message), cause);
     }
 
-    private static String getMessage(final String msgCode){
+    protected static String getMessage(final String msgCode){
         Assert.hasText(msgCode);
         final MessageResolver messageResolver = (MessageResolver) SpringBeanProvider.getBean("msgResolver");
         Assert.notNull(messageResolver, "Bean should exists in Spring context");

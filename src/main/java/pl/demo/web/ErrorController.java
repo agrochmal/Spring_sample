@@ -30,7 +30,7 @@ public class ErrorController {
 
     @ExceptionHandler({ResourceNotFoundException.class, UsernameNotFoundException.class})
     public ResponseEntity<?> handleResourceNotFoundException(final ResourceNotFoundException ex) {
-        LOGGER.debug("Resource not found exception occurs", ex);
+        LOGGER.error("Resource not found exception occurs", ex);
         return ResponseEntity.notFound().build();
     }
 

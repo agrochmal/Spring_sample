@@ -36,7 +36,7 @@ angular.module('app', ['ngRoute','ngCookies','ngSanitize','app.services','app.co
 			  templateUrl: 'app/partials/all-advert-view.html',
 			  controller: 'AllAdvertView'
 			}).
-			when('/users/:id', {
+			when('/users/account/:id', {
 				templateUrl: 'app/partials/user-account.html',
 				controller: 'UserAccountController',
 				 resolve: {
@@ -72,7 +72,7 @@ angular.module('app', ['ngRoute','ngCookies','ngSanitize','app.services','app.co
 						var alertify = $injector.get('Alertify');
 						//Unauthorized
 						if (status == 401) {
-							alertify.error('Nieprawidlowe dane logowania');
+							alertify.error('Brak dostepu. Zaloguj sie');
 							$location.path( "/main" );
 						} else {
 							alertify.error('Powazny blad serwera');

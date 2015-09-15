@@ -16,17 +16,9 @@ import pl.demo.web.dto.DashboardDTO;
 @Transactional(readOnly=true)
 public class DashboardServiceImpl implements DashboardService{
 
-    private final AdvertRepository advertRepository;
-    private final UserRepository userRepo;
-    private final CommentRepository commentRepository;
-
-    @Autowired
-    public DashboardServiceImpl(final AdvertRepository advertRepo, final UserRepository userRepo,
-                                final CommentRepository commentRepository) {
-        this.advertRepository = advertRepo;
-        this.userRepo = userRepo;
-        this.commentRepository = commentRepository;
-    }
+    private AdvertRepository advertRepository;
+    private UserRepository userRepo;
+    private CommentRepository commentRepository;
 
     @Override
     public DashboardDTO buildDashboard() {
@@ -35,5 +27,20 @@ public class DashboardServiceImpl implements DashboardService{
                 .withComments(commentRepository.count())
                 .withUsers(userRepo.count())
                 .build();
+    }
+
+    @Autowired
+    public void setAdvertRepository(final AdvertRepository advertRepository) {
+        this.advertRepository = advertRepository;
+    }
+
+    @Autowired
+    public void setUserRepo(final UserRepository userRepo) {
+        this.userRepo = userRepo;
+    }
+
+    @Autowired
+    public void setCommentRepository(final CommentRepository commentRepository) {
+        this.commentRepository = commentRepository;
     }
 }

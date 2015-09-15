@@ -2,7 +2,6 @@ package pl.demo.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 import pl.demo.MsgConst;
@@ -63,8 +62,8 @@ public class UserRestResource extends AbstractCRUDResource<Long, User>{
 						return ResponseEntity.ok().body(dto);
 					}
 			).orElseGet(() -> {
-				throw new ResourceNotFoundException(MsgConst.USER_NOT_FOUND);
-			});
+					throw new ResourceNotFoundException(MsgConst.USER_NOT_FOUND);
+				});
 	}
 
 	@RequestMapping(value = USER_IS_UNIQUE,
@@ -74,7 +73,7 @@ public class UserRestResource extends AbstractCRUDResource<Long, User>{
 	public ResponseEntity<Boolean> isUserExists(final String username) {
 		try {
 			userService.loadUserByUsername(username);
-		}catch (UsernameNotFoundException ex){
+		}catch (ResourceNotFoundException ex){
 			return ResponseEntity.ok().body(Boolean.TRUE);
 		}
 		return ResponseEntity.ok().body(Boolean.FALSE);
@@ -91,5 +90,12 @@ public class UserRestResource extends AbstractCRUDResource<Long, User>{
             produces = APPLICATION_JSON_VALUE)
 	public ResponseEntity<Collection<Advert>> findUserAdverts(@PathVariable final Long userId){
 		return ResponseEntity.ok().body(advertService.findByUserId(userId));
+	}
+
+	@RequestMapping(value = ACCOUNT,
+			method = RequestMethod.GET,
+			produces = APPLICATION_JSON_VALUE)
+	public ResponseEntity<User> findUserAccount(@PathVariable final Long userId){
+		return ResponseEntity.ok().body(userService.findOne(userId));
 	}
 }

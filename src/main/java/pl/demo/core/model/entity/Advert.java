@@ -114,11 +114,16 @@ public class Advert extends BaseEntity implements Searchable, Coordinates {
 	}
 
 	public Date getEndDate() {
-		return (Date) endDate.clone();
+		if(endDate != null) {
+			return (Date) endDate.clone();
+		}
+		return null;
 	}
 
 	public void setEndDate(Date endDate) {
-		this.endDate = (Date)endDate.clone();
+		if(endDate != null) {
+			this.endDate = (Date) endDate.clone();
+		}
 	}
 
 	public String getContact() {
@@ -146,11 +151,16 @@ public class Advert extends BaseEntity implements Searchable, Coordinates {
 	}
 
 	public Date getCreationDate() {
-		return (Date) creationDate.clone();
+		if(creationDate != null) {
+			return (Date) creationDate.clone();
+		}
+		return null;
 	}
 
 	public void setCreationDate(Date creationDate) {
-		this.creationDate = (Date)creationDate.clone();
+		if(creationDate != null) {
+			this.creationDate = (Date) creationDate.clone();
+		}
 	}
 
 	public User getUser() {

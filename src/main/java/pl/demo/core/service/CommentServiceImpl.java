@@ -2,7 +2,6 @@ package pl.demo.core.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import pl.demo.core.model.entity.Advert;
@@ -21,24 +20,19 @@ import static pl.demo.core.service.MailServiceImpl.COMMENT_TEMPLATE;
  * Created by Robert on 22.02.15.
  */
 
-@Service
+
 @Transactional(readOnly=true)
 public class CommentServiceImpl extends CRUDServiceImpl<Long, Comment>
         implements CommentService{
 
     private @Value("${comment.receipt-email}") String receipt_email;
 
-    private final MailService mailService;
-    private final CommentRepository commentRepository;
-    private final AdvertRepository advertRepository;
+    private MailService mailService;
+    private AdvertRepository advertRepository;
 
-    @Autowired
-    public CommentServiceImpl(final MailService mailService,
-                              final CommentRepository commentRepository, final AdvertRepository advertRepository) {
-        super(commentRepository);
-        this.mailService = mailService;
-        this.commentRepository = commentRepository;
-        this.advertRepository = advertRepository;
+    @Override
+    protected Class<Comment> supportedDomainClass() {
+        return Comment.class;
     }
 
     @Override
@@ -51,9 +45,9 @@ public class CommentServiceImpl extends CRUDServiceImpl<Long, Comment>
         final Advert dbAdvert = advertRepository.findOne(advertId);
         Assert.state(null != dbAdvert);
         comment.setAdvert(dbAdvert);
-        getJpaRepository().save(comment);
+        getDomainRepository().save(comment);
 
-        final float rate = commentRepository.findRateByAdvertId(advertId);
+        final float rate = getCommentRepository().findRateByAdvertId(advertId);
         dbAdvert.setRate(rate);
         advertRepository.save(dbAdvert);
 
@@ -63,7 +57,7 @@ public class CommentServiceImpl extends CRUDServiceImpl<Long, Comment>
     @Override
     public Collection<Comment> findByAdvert(Long advertId) {
         Assert.notNull(advertId, "Advert id is required");
-        final Collection<Comment> comments = commentRepository.findByAdvertIdOrderByDateDesc(advertId);
+        final Collection<Comment> comments = getCommentRepository().findByAdvertIdOrderByDateDesc(advertId);
         unproxyEntity(comments);
         return comments;
     }
@@ -80,5 +74,19 @@ public class CommentServiceImpl extends CRUDServiceImpl<Long, Comment>
         eMailDTO.setReceipt(receipt_email);
         eMailDTO.setSender(receipt_email);
         mailService.sendMail(eMailDTO, COMMENT_TEMPLATE);
+    }
+
+    private CommentRepository getCommentRepository(){
+        return (CommentRepository)getDomainRepository();
+    }
+
+    @Autowired
+    public void setMailService(final MailService mailService) {
+        this.mailService = mailService;
+    }
+
+    @Autowired
+    public void setAdvertRepository(final AdvertRepository advertRepository) {
+        this.advertRepository = advertRepository;
     }
 }

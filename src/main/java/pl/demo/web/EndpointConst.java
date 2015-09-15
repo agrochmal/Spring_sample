@@ -38,5 +38,6 @@ class EndpointConst {
         static final String USER_IS_UNIQUE = "/unique";
         static final String USER_AUTHENTICATE = "/authenticate";
         static final String USER_FIND_ADVERTS = "/{userId}/adverts";
+        static final String ACCOUNT = "/account/{userId}";
     }
 }

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+       <bean id="crudService" class="pl.demo.core.service.CRUDServiceImpl" abstract="true">
+              <property name="repositoryMap">
+              <map>
+                  <entry key="pl.demo.core.model.entity.Advert" value-ref="advertRepository"/>
+                  <entry key="pl.demo.core.model.entity.User" value-ref="userRepository"/>
+                  <entry key="pl.demo.core.model.entity.Comment" value-ref="commentRepository"/>
+              </map>
+              </property>
+       </bean>
+       <bean id="advertService" class="pl.demo.core.service.AdvertServiceImpl" parent="crudService"/>
+       <bean id="commentService" class="pl.demo.core.service.CommentServiceImpl" parent="crudService"/>
+       <bean id="userService" class="pl.demo.core.service.UserServiceImpl" parent="crudService"/>
+</beans>
