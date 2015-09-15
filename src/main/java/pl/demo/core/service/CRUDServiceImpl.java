@@ -7,6 +7,7 @@ import org.springframework.util.Assert;
 import pl.demo.core.model.entity.BaseEntity;
 import pl.demo.core.model.entity.FlatableEntity;
 import pl.demo.core.model.repo.GenericRepository;
+import pl.demo.web.exception.ResourceNotFoundException;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -35,7 +36,9 @@ public abstract class CRUDServiceImpl<PK extends Serializable, E extends BaseEnt
     public E findOne(final PK id) {
         Assert.notNull(id, "Entity id is required");
         final E entity = getDomainRepository().findOne(id);
-        Assert.state(null != entity, "Entity doesn't exist in db");
+        if(entity == null){
+            throw new ResourceNotFoundException();
+        }
         getGenericRepository().detach(entity);
         entity.flatEntity();
         return entity;
@@ -52,6 +55,7 @@ public abstract class CRUDServiceImpl<PK extends Serializable, E extends BaseEnt
     @Transactional(readOnly=false)
     public void delete(final PK id) {
         Assert.notNull(id, "Entity id is required");
+        findOne(id);
         getDomainRepository().delete(id);
         getDomainRepository().flush();
     }
@@ -66,12 +70,10 @@ public abstract class CRUDServiceImpl<PK extends Serializable, E extends BaseEnt
     @Transactional(readOnly=false)
     public E save(final E entity) {
         Assert.notNull(entity, "Entity is required");
-        final E result = getDomainRepository().save(entity);
-        getDomainRepository().flush();
-        return result;
+        return getDomainRepository().saveAndFlush(entity);
     }
 
-    protected void unproxyEntity(final E...entities){
+    protected void unproxyEntity(final E... entities){
         for(final E entity : entities) {
             Assert.isTrue(entity instanceof FlatableEntity);
             getGenericRepository().detach(entity);
@@ -81,6 +83,7 @@ public abstract class CRUDServiceImpl<PK extends Serializable, E extends BaseEnt
 
     protected void unproxyEntity(final Collection<E> collection){
         for(final E entity : collection) {
+            Assert.isTrue(entity instanceof FlatableEntity);
             getGenericRepository().detach(entity);
             entity.flatEntity();
         }

@@ -14,13 +14,13 @@ import java.util.Collection;
 
 @Validated
 public interface AdvertService extends CRUDService<Long, Advert> {
-	@NotNull
+	@NotNull @Valid
 	Page<Advert> findAll(@NotNull Pageable pageable);
 
-	@NotNull
+	@NotNull @Valid
 	Collection<Advert> findByUserId(@NotNull @Min(1) Long id);
 
-	@NotNull
+	@NotNull @Valid
 	Page<Advert> findBySearchCriteria(@NotNull SearchCriteriaDTO searchCriteriaDTO, @NotNull Pageable pageable);
 
 	@NotNull

@@ -15,5 +15,6 @@ public interface CommentService extends CRUDService<Long, Comment> {
 
     void postComment(@Min(1) Long advertId, @Valid Comment comment);
 
+    @Valid
     Collection<Comment> findByAdvert(@Min(1) Long advertId);
 }

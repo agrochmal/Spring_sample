@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.demo.core.model.entity.BaseEntity;
 import pl.demo.core.service.CRUDService;
 import pl.demo.core.util.EntityUtils;
@@ -117,7 +118,9 @@ public abstract class AbstractCRUDResource<PK extends Serializable, E extends Ba
         EntityUtils.applyValidation(bindingResult);
         return Optional.ofNullable(crudService.save(entity))
             .map(t -> {
-                final URI uriLocation = Utils.createURI(t.getId().toString());
+                final String path = ServletUriComponentsBuilder.fromCurrentServletMapping().
+                        path("/{id}").buildAndExpand(t.getId()).toString();
+                final URI uriLocation = Utils.createURI(path);
                 return ResponseEntity.created(uriLocation).build();}
             ).orElseGet(() -> ResponseEntity.noContent().build());
     }

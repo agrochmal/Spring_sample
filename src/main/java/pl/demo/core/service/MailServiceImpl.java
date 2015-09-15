@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.velocity.VelocityEngineUtils;
 import org.springframework.util.Assert;
@@ -32,7 +31,7 @@ public class MailServiceImpl implements MailService{
     public static final String EMAIL_TEMPLATE = "/velocity/email_template.vm";
     public static final String COMMENT_TEMPLATE = "/velocity/comment_template.vm";
 
-    private @Value("${mail.enable}") Boolean emailEnable;
+    private @Value("${mail.enable}") Boolean emailEnabled;
 
     @Autowired
     private JavaMailSender mailSender;
@@ -41,9 +40,8 @@ public class MailServiceImpl implements MailService{
     private VelocityEngine velocityEngine;
 
     @Override
-    @Async
     public void sendMail(final EMailDTO emailDTO, final String template){
-        if(!emailEnable){
+        if(!emailEnabled){
             return;
         }
         Assert.notNull(emailDTO, "Email data is required");
