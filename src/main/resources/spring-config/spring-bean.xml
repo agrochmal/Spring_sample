@@ -9,10 +9,12 @@
                   <entry key="pl.demo.core.model.entity.Advert" value-ref="advertRepository"/>
                   <entry key="pl.demo.core.model.entity.User" value-ref="userRepository"/>
                   <entry key="pl.demo.core.model.entity.Comment" value-ref="commentRepository"/>
+                  <entry key="pl.demo.core.model.entity.MediaResource" value-ref="mediaResourceRepository"/>
               </map>
               </property>
        </bean>
        <bean id="advertService" class="pl.demo.core.service.AdvertServiceImpl" parent="crudService"/>
        <bean id="commentService" class="pl.demo.core.service.CommentServiceImpl" parent="crudService"/>
        <bean id="userService" class="pl.demo.core.service.UserServiceImpl" parent="crudService"/>
+       <bean id="resourceMediaService" class="pl.demo.core.service.ResourceMediaServiceImpl" parent="crudService"/>
 </beans>

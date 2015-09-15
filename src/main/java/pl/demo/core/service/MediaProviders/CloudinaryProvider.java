@@ -11,6 +11,7 @@ import pl.demo.web.exception.GeneralException;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Map;
+import java.util.function.Consumer;
 
 /**
  * Created by robertsikora on 29.07.15.
@@ -19,13 +20,17 @@ import java.util.Map;
 @Service
 public class CloudinaryProvider implements MediaProvider{
 
-    @Autowired
     private Cloudinary cloudinary;
 
-    public CloudinaryUploadResult upload(final Object file) throws IOException {
+    @Override
+    public CloudinaryUploadResult upload(final Object file, Consumer<UploadResult> asyncCallback) throws IOException {
         Assert.notNull(file);
         final Map uploadResult = cloudinary.uploader().upload(file, ObjectUtils.emptyMap());
-        return new CloudinaryUploadResult(uploadResult);
+        final CloudinaryUploadResult cloudinaryUploadResult = new CloudinaryUploadResult(uploadResult);
+        if(null != asyncCallback) {
+            asyncCallback.accept(cloudinaryUploadResult);
+        }
+        return cloudinaryUploadResult;
     }
 
     @Override
@@ -37,6 +42,7 @@ public class CloudinaryProvider implements MediaProvider{
         }
     }
 
+    @Autowired
     public void setCloudinary(final Cloudinary cloudinary) {
         this.cloudinary = cloudinary;
     }

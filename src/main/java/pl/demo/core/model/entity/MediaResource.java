@@ -11,4 +11,13 @@ import javax.persistence.Table;
 @Table(name = "media_resource")
 public class MediaResource extends BaseEntity{
 
+    private String publicId;
+
+    public String getPublicId() {
+        return publicId;
+    }
+
+    public void setPublicId(String publicId) {
+        this.publicId = publicId;
+    }
 }

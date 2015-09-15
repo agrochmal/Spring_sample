@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import pl.demo.core.service.MediaProviders.UploadResult;
 import pl.demo.core.service.ResourceMediaService;
 import pl.demo.core.util.Utils;
 import pl.demo.web.validator.ImageUploadValidator;
@@ -25,15 +24,15 @@ public class ImageRestResource {
 
     public ResponseEntity<?> uploadImage(@RequestParam("file") final MultipartFile file) {
         this.imageUploadValidator.validate(file);
-        final UploadResult uploadResult = this.resourceMediaService.upload(Utils.getBytes(file));
-        return ResponseEntity.ok(uploadResult.getPublicID());
+        final Long imageId = this.resourceMediaService.upload(Utils.getBytes(file));
+        return ResponseEntity.ok(imageId);
     }
 
     @RequestMapping(value="{id}",
             method = RequestMethod.DELETE)
 
-    public ResponseEntity<?> deleteImage(@PathVariable final String id) {
-        this.resourceMediaService.delete(id);
+    public ResponseEntity<?> deleteImage(@PathVariable final Long id) {
+        //this.resourceMediaService.(id);
         return ResponseEntity.noContent().build();
     }
 
