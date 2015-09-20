@@ -2,6 +2,7 @@ package pl.demo.core.service;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import pl.demo.core.model.entity.Advert;
 import pl.demo.web.dto.EMailDTO;
@@ -12,6 +13,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.util.Collection;
 
+@Transactional(readOnly = true)
 @Validated
 public interface AdvertService extends CRUDService<Long, Advert> {
 	@NotNull @Valid
@@ -20,7 +22,7 @@ public interface AdvertService extends CRUDService<Long, Advert> {
 	@NotNull @Valid
 	Collection<Advert> findByUserId(@NotNull @Min(1) Long id);
 
-	@NotNull @Valid
+	@NotNull
 	Page<Advert> findBySearchCriteria(@NotNull SearchCriteriaDTO searchCriteriaDTO, @NotNull Pageable pageable);
 
 	@NotNull

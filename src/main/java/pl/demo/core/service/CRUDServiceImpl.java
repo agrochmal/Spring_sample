@@ -1,12 +1,10 @@
 package pl.demo.core.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import pl.demo.core.aspects.DetachEntity;
 import pl.demo.core.model.entity.BaseEntity;
-import pl.demo.core.model.entity.FlatableEntity;
-import pl.demo.core.model.repo.GenericRepository;
 import pl.demo.web.exception.ResourceNotFoundException;
 
 import java.io.Serializable;
@@ -22,7 +20,6 @@ public abstract class CRUDServiceImpl<PK extends Serializable, E extends BaseEnt
         implements CRUDService<PK, E>{
 
     private Map<Class<? extends BaseEntity>, JpaRepository<E, PK>> repositoryMap;
-    private GenericRepository<E> genericRepository;
 
     protected abstract Class<E> supportedDomainClass();
 
@@ -32,6 +29,7 @@ public abstract class CRUDServiceImpl<PK extends Serializable, E extends BaseEnt
         return repository;
     }
 
+    @DetachEntity
     @Override
     public E findOne(final PK id) {
         Assert.notNull(id, "Entity id is required");
@@ -39,20 +37,17 @@ public abstract class CRUDServiceImpl<PK extends Serializable, E extends BaseEnt
         if(entity == null){
             throw new ResourceNotFoundException();
         }
-        getGenericRepository().detach(entity);
-        entity.flatEntity();
         return entity;
     }
 
+    @DetachEntity
     @Override
     public Collection<E> findAll(){
-        final Collection<E> entities = getDomainRepository().findAll();
-        unproxyEntity(entities);
-        return entities;
+        return getDomainRepository().findAll();
     }
 
+    @Transactional
     @Override
-    @Transactional(readOnly=false)
     public void delete(final PK id) {
         Assert.notNull(id, "Entity id is required");
         findOne(id);
@@ -60,42 +55,17 @@ public abstract class CRUDServiceImpl<PK extends Serializable, E extends BaseEnt
         getDomainRepository().flush();
     }
 
+    @Transactional
     @Override
-    @Transactional(readOnly=false)
     public void edit(final PK id, final E entity) {
         throw new IllegalArgumentException("Method not supported yet!");
     }
 
+    @Transactional
     @Override
-    @Transactional(readOnly=false)
     public E save(final E entity) {
         Assert.notNull(entity, "Entity is required");
         return getDomainRepository().saveAndFlush(entity);
-    }
-
-    protected void unproxyEntity(final E... entities){
-        for(final E entity : entities) {
-            Assert.isTrue(entity instanceof FlatableEntity);
-            getGenericRepository().detach(entity);
-            entity.flatEntity();
-        }
-    }
-
-    protected void unproxyEntity(final Collection<E> collection){
-        for(final E entity : collection) {
-            Assert.isTrue(entity instanceof FlatableEntity);
-            getGenericRepository().detach(entity);
-            entity.flatEntity();
-        }
-    }
-
-    private GenericRepository<E> getGenericRepository() {
-        return genericRepository;
-    }
-
-    @Autowired
-    public void setGenericRepository(GenericRepository<E> genericRepository) {
-        this.genericRepository = genericRepository;
     }
 
     public void setRepositoryMap(Map<Class<? extends BaseEntity>, JpaRepository<E, PK>> repositoryMap) {

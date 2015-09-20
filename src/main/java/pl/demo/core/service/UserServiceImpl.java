@@ -19,7 +19,6 @@ import pl.demo.core.model.repo.RoleRepository;
 import pl.demo.core.model.repo.UserRepository;
 import pl.demo.web.exception.ResourceNotFoundException;
 
-@Transactional(readOnly=true)
 public class UserServiceImpl extends CRUDServiceImpl<Long, User> implements UserService {
 
 	private RoleRepository roleRepository;
@@ -34,6 +33,7 @@ public class UserServiceImpl extends CRUDServiceImpl<Long, User> implements User
 	@Qualifier("authenticationManager")
 	private AuthenticationManager authManager;
 
+	@Transactional
 	@Override
 	public void edit(final Long id, final User user) {
 		Assert.notNull(user, "User is required");
@@ -45,6 +45,7 @@ public class UserServiceImpl extends CRUDServiceImpl<Long, User> implements User
 		getDomainRepository().save(existing);
 	}
 
+	@Transactional
 	@Override
 	public User save (final User user){
 		Assert.notNull(user, "User is required");
@@ -53,6 +54,7 @@ public class UserServiceImpl extends CRUDServiceImpl<Long, User> implements User
 		return super.save(user);
 	}
 
+	@Transactional
 	@Override
 	public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
 		Assert.notNull(username, "Username is required");

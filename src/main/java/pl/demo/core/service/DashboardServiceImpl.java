@@ -2,7 +2,6 @@ package pl.demo.core.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import pl.demo.core.model.repo.AdvertRepository;
 import pl.demo.core.model.repo.CommentRepository;
 import pl.demo.core.model.repo.UserRepository;
@@ -13,7 +12,6 @@ import pl.demo.web.dto.DashboardDTO;
  */
 
 @Service
-@Transactional(readOnly=true)
 public class DashboardServiceImpl implements DashboardService{
 
     private AdvertRepository advertRepository;

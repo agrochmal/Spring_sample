@@ -47,7 +47,7 @@ public class AdvertRestResource extends AbstractCRUDResource<Long, Advert> {
     @RequestMapping(value = ADVERT_UPDATE_STATUS,
             method = RequestMethod.POST)
 
-    public ResponseEntity<?> updateStatus(@PathVariable("id") final Long id, @RequestParam(value="status") final String status) {
+    public ResponseEntity<?> updateStatus(@PathVariable("id") final Long id, @RequestParam(value = "status") final String status) {
         advertService.updateActiveStatus(id, Boolean.valueOf(status));
         return ResponseEntity.noContent().build();
     }

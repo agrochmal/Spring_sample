@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.velocity.VelocityEngineUtils;
 import org.springframework.util.Assert;
 import pl.demo.web.dto.EMailDTO;
@@ -39,6 +40,7 @@ public class MailServiceImpl implements MailService{
     @Autowired
     private VelocityEngine velocityEngine;
 
+    @Transactional
     @Override
     public void sendMail(final EMailDTO emailDTO, final String template){
         if(!emailEnabled){

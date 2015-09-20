@@ -22,7 +22,6 @@ import java.io.Serializable;
  * Created by robertsikora on 29.07.15.
  */
 
-@Transactional
 public class ResourceMediaServiceImpl extends CRUDServiceImpl<Long, MediaResource>
         implements ResourceMediaService{
 
@@ -35,6 +34,7 @@ public class ResourceMediaServiceImpl extends CRUDServiceImpl<Long, MediaResourc
         return MediaResource.class;
     }
 
+    @Transactional
     @Override
     public Long upload(final MultipartFile file) {
         Assert.notNull(file);
@@ -68,6 +68,7 @@ public class ResourceMediaServiceImpl extends CRUDServiceImpl<Long, MediaResourc
                 withName(file.getName()).withContentType(file.getContentType()).withSize(file.getSize()).build();
     }
 
+    @Transactional
     @Override
     public void deleteImage(final Serializable id) {
         Assert.notNull(id);

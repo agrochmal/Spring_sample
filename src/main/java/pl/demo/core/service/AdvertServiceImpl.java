@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import pl.demo.core.aspects.DetachEntity;
 import pl.demo.core.model.entity.Advert;
 import pl.demo.core.model.entity.User;
 import pl.demo.core.model.repo.AdvertRepository;
@@ -16,7 +17,6 @@ import java.util.Optional;
 
 import static pl.demo.core.service.MailServiceImpl.EMAIL_TEMPLATE;
 
-@Transactional(readOnly=true)
 public class AdvertServiceImpl extends CRUDServiceImpl<Long, Advert>
 		implements AdvertService {
 
@@ -29,6 +29,7 @@ public class AdvertServiceImpl extends CRUDServiceImpl<Long, Advert>
 		return Advert.class;
 	}
 
+	@Transactional
 	@Override
 	public Advert save(final Advert advert) {
 		Assert.notNull(advert);
@@ -45,12 +46,11 @@ public class AdvertServiceImpl extends CRUDServiceImpl<Long, Advert>
 		return findBySearchCriteria(new SearchCriteriaDTO(), pageable);
 	}
 
+	@DetachEntity
 	@Override
 	public Collection<Advert> findByUserId(final Long userId){
 		Assert.notNull(userId);
-		final Collection<Advert> adverts = getAdvertRepository().findByUserId(userId);
-		unproxyEntity(adverts);
-		return adverts;
+		return getAdvertRepository().findByUserId(userId);
 	}
 
 	@Override
@@ -70,6 +70,7 @@ public class AdvertServiceImpl extends CRUDServiceImpl<Long, Advert>
 				.withLongitude(t.getLng()).build();
 	}
 
+	@DetachEntity
 	@Override
 	public Page<Advert> findBySearchCriteria(final SearchCriteriaDTO searchCriteriaDTO, final Pageable pageable) {
 		final Page<Advert> adverts;
@@ -78,12 +79,12 @@ public class AdvertServiceImpl extends CRUDServiceImpl<Long, Advert>
 		} else {
 			adverts = searchService.searchAdverts(searchCriteriaDTO, pageable);
 		}
-		adverts.getContent().stream().forEach(t -> unproxyEntity(t));
+		//adverts.getContent().stream().forEach(t -> detachAndUnproxyEntity(t));
 		return adverts;
 	}
 
+	@Transactional
 	@Override
-	@Transactional(readOnly=false)
 	public void updateActiveStatus(final Long advertId, final Boolean status) {
 		Assert.notNull(advertId, "Advert is required");
 		final Advert dbAdvert = getDomainRepository().findOne(advertId);
@@ -92,6 +93,7 @@ public class AdvertServiceImpl extends CRUDServiceImpl<Long, Advert>
 		super.save(dbAdvert);
 	}
 
+	@Transactional
 	@Override
 	public void sendMail(final EMailDTO eMailDTO) {
 		Assert.notNull(eMailDTO, "Email data is required");

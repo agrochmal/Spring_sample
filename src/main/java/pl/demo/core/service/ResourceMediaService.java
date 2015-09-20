@@ -1,5 +1,6 @@
 package pl.demo.core.service;
 
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -9,6 +10,8 @@ import java.io.Serializable;
 /**
  * Created by robertsikora on 29.07.15.
  */
+
+@Transactional(readOnly = true)
 @Validated
 public interface ResourceMediaService {
     @NotNull
