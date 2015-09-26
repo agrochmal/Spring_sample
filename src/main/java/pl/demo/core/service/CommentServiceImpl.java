@@ -22,8 +22,7 @@ import static pl.demo.core.service.MailServiceImpl.COMMENT_TEMPLATE;
  */
 
 
-public class CommentServiceImpl extends CRUDServiceImpl<Long, Comment>
-        implements CommentService{
+public class CommentServiceImpl extends CRUDServiceImpl<Long, Comment> implements CommentService{
 
     private @Value("${comment.receipt-email}") String receipt_email;
 
@@ -54,6 +53,7 @@ public class CommentServiceImpl extends CRUDServiceImpl<Long, Comment>
         sendEmail(comment);
     }
 
+    @Transactional(readOnly = true)
     @DetachEntity
     @Override
     public Collection<Comment> findByAdvert(Long advertId) {

@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.velocity.VelocityEngineUtils;
 import org.springframework.util.Assert;
 import pl.demo.web.dto.EMailDTO;
@@ -27,7 +26,7 @@ import java.util.Map;
 @Service
 public class MailServiceImpl implements MailService{
 
-    private final static Logger logger = LoggerFactory.getLogger(MailServiceImpl.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(MailServiceImpl.class);
 
     public static final String EMAIL_TEMPLATE = "/velocity/email_template.vm";
     public static final String COMMENT_TEMPLATE = "/velocity/comment_template.vm";
@@ -40,7 +39,6 @@ public class MailServiceImpl implements MailService{
     @Autowired
     private VelocityEngine velocityEngine;
 
-    @Transactional
     @Override
     public void sendMail(final EMailDTO emailDTO, final String template){
         if(!emailEnabled){
@@ -62,7 +60,7 @@ public class MailServiceImpl implements MailService{
             mailSender.send(mimeMsg);
 
         } catch (MessagingException e) {
-            logger.error("Error during sending email", e);
+            LOGGER.error("Error during sending email", e);
             Throwables.propagate(e);
         }
     }

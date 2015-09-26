@@ -3,7 +3,6 @@ package pl.demo.core.service;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.transaction.annotation.Transactional;
 import pl.demo.core.model.entity.AuthenticationUserDetails;
 import pl.demo.core.model.entity.User;
 
@@ -14,7 +13,6 @@ import java.util.Map;
  * Created by Robert on 30.12.14.
  */
 
-@Transactional(readOnly = true)
 public interface UserService extends UserDetailsService, CRUDService<Long, User> {
 
     UserDetails authenticate(String username, String password);

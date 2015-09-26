@@ -24,7 +24,7 @@ public class MessageResolver {
         return messages.getMessage(messageCode, null, PL);
     }
 
-    public void setMessages(MessageSource messages) {
+    public void setMessages(final MessageSource messages) {
         this.messages = messages;
     }
 }

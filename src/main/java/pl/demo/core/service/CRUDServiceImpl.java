@@ -16,8 +16,7 @@ import java.util.Map;
  */
 
 
-public abstract class CRUDServiceImpl<PK extends Serializable, E extends BaseEntity>
-        implements CRUDService<PK, E>{
+public abstract class CRUDServiceImpl<PK extends Serializable, E extends BaseEntity> implements CRUDService<PK, E>{
 
     private Map<Class<? extends BaseEntity>, JpaRepository<E, PK>> repositoryMap;
 
@@ -29,6 +28,7 @@ public abstract class CRUDServiceImpl<PK extends Serializable, E extends BaseEnt
         return repository;
     }
 
+    @Transactional(readOnly = true)
     @DetachEntity
     @Override
     public E findOne(final PK id) {
@@ -40,6 +40,7 @@ public abstract class CRUDServiceImpl<PK extends Serializable, E extends BaseEnt
         return entity;
     }
 
+    @Transactional(readOnly = true)
     @DetachEntity
     @Override
     public Collection<E> findAll(){

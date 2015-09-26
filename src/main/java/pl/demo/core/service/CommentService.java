@@ -1,6 +1,5 @@
 package pl.demo.core.service;
 
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import pl.demo.core.model.entity.Comment;
 
@@ -12,7 +11,6 @@ import java.util.Collection;
  * Created by robertsikora on 27.07.15.
  */
 
-@Transactional(readOnly = true)
 @Validated
 public interface CommentService extends CRUDService<Long, Comment> {
 

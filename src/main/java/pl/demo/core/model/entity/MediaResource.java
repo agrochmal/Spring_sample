@@ -4,9 +4,7 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -18,21 +16,13 @@ import javax.validation.constraints.NotNull;
 public class MediaResource extends BaseEntity{
 
     private String publicId;
-    @NotNull
-    @Column(nullable = false)
     private String name;
-
-    @NotNull
-    @Column(nullable = false)
     private String contentType;
-
-    @NotNull
-    @Column(nullable = false)
     private Long size;
-
-    @NotNull
-    @Column(nullable = false)
     private Boolean delete = Boolean.FALSE;
+    @ManyToOne(fetch= FetchType.LAZY)
+    @JoinColumn(name="advert_id")
+    private Advert advert;
 
     public String getPublicId() {
         return publicId;
@@ -42,6 +32,8 @@ public class MediaResource extends BaseEntity{
         this.publicId = publicId;
     }
 
+    @NotNull
+    @Column(nullable = false)
     public String getName() {
         return name;
     }
@@ -50,6 +42,8 @@ public class MediaResource extends BaseEntity{
         this.name = name;
     }
 
+    @NotNull
+    @Column(nullable = false)
     public String getContentType() {
         return contentType;
     }
@@ -58,12 +52,32 @@ public class MediaResource extends BaseEntity{
         this.contentType = contentType;
     }
 
+    @NotNull
+    @Column(nullable = false)
     public Long getSize() {
         return size;
     }
 
     public void setSize(Long size) {
         this.size = size;
+    }
+
+    @NotNull
+    @Column(nullable = false)
+    public Boolean getDelete() {
+        return delete;
+    }
+
+    public void setDelete(Boolean delete) {
+        this.delete = delete;
+    }
+
+    public Advert getAdvert() {
+        return advert;
+    }
+
+    public void setAdvert(Advert advert) {
+        this.advert = advert;
     }
 
     @Override
@@ -101,15 +115,6 @@ public class MediaResource extends BaseEntity{
                 .append("size", size)
                 .toString();
     }
-
-    public Boolean getDelete() {
-        return delete;
-    }
-
-    public void setDelete(Boolean delete) {
-        this.delete = delete;
-    }
-
 
     public static class MediaResourceBuilder {
         private String publicId;

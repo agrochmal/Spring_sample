@@ -93,9 +93,10 @@ public class Advert extends BaseEntity implements Searchable, Coordinates {
 
 	private Float rate=1.0f;
 
+	private String thumbUrl;
+
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "advert")
 	private Set<Comment> comments = new HashSet<>();
-
 
 	public String getTitle() {
 		return title;
@@ -211,16 +212,21 @@ public class Advert extends BaseEntity implements Searchable, Coordinates {
 		this.rate = rate;
 	}
 
+	@Transient
+	public String getThumbUrl() {
+		return thumbUrl;
+	}
+
+	public void setThumbUrl(String thumbUrl) {
+		this.thumbUrl = thumbUrl;
+	}
+
 	public Set<Comment> getComments() {
 		return comments;
 	}
 
 	public void setComments(Set<Comment> comments) {
 		this.comments = comments;
-	}
-
-	public void addComment(Comment comment){
-		this.comments.add(comment);
 	}
 
 	@Override
@@ -279,7 +285,6 @@ public class Advert extends BaseEntity implements Searchable, Coordinates {
 				.append("longitude", longitude)
 				.toString();
 	}
-
 
 	public static class AdvertBuilder {
 		protected Long id;

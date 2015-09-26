@@ -2,6 +2,7 @@ package pl.demo.core.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.demo.core.model.repo.AdvertRepository;
 import pl.demo.core.model.repo.CommentRepository;
 import pl.demo.core.model.repo.UserRepository;
@@ -18,6 +19,7 @@ public class DashboardServiceImpl implements DashboardService{
     private UserRepository userRepo;
     private CommentRepository commentRepository;
 
+    @Transactional(readOnly = true)
     @Override
     public DashboardDTO buildDashboard() {
         return DashboardDTO.DashboardDTOBuilder.aDashboardDTO()

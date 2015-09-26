@@ -11,7 +11,10 @@ import javax.persistence.LockModeType;
 public interface MediaResourceRepository extends JpaRepository<MediaResource, Long>{
 
     @Lock(LockModeType.PESSIMISTIC_WRITE)
-    @Query("select m from MediaResource m where m.id=:id")
+    @Query("SELECT m FROM MediaResource m WHERE m.id=:id")
     MediaResource findOneForUpdate(@Param("id") Long id);
+
+    @Query("SELECT m FROM MediaResource m WHERE m.advert.id=:id ORDER BY m.entryDate DESC")
+    MediaResource findFirstByAdvertOrderByEntryDateDesc(@Param("id") Long id);
 }
 

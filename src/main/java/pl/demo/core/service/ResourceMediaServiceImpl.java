@@ -3,6 +3,7 @@ package pl.demo.core.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.web.multipart.MultipartFile;
 import pl.demo.MsgConst;
@@ -11,9 +12,9 @@ import pl.demo.core.model.repo.MediaResourceRepository;
 import pl.demo.core.service.MediaProviders.MediaProvider;
 import pl.demo.core.util.SpringBeanProvider;
 import pl.demo.core.util.Utils;
+import pl.demo.web.HttpSessionContext;
 import pl.demo.web.exception.GeneralException;
 
-import javax.transaction.Transactional;
 import java.io.IOException;
 import java.io.Serializable;
 
@@ -22,11 +23,13 @@ import java.io.Serializable;
  * Created by robertsikora on 29.07.15.
  */
 
-public class ResourceMediaServiceImpl extends CRUDServiceImpl<Long, MediaResource>
-        implements ResourceMediaService{
+public class ResourceMediaServiceImpl extends CRUDServiceImpl<Long, MediaResource> implements ResourceMediaService{
 
     private final static Logger LOGGER = LoggerFactory.getLogger(ResourceMediaServiceImpl.class);
 
+    private final static String DEFAULT_IMAGE_THUMB = "./app/images/thumb.jpg";
+
+    private HttpSessionContext httpSessionContext;
     private MediaProvider mediaProvider;
 
     @Override
@@ -41,6 +44,7 @@ public class ResourceMediaServiceImpl extends CRUDServiceImpl<Long, MediaResourc
         MediaResource mediaResource;
         try {
             mediaResource = save(createMediaResource(file));
+            httpSessionContext.addResource(mediaResource.getId());
             this.mediaProvider.upload(Utils.getBytes(file),
                 t->  {
                     final ResourceMediaService resourceMediaService = (ResourceMediaService)SpringBeanProvider.getBean("resourceMediaService");
@@ -61,6 +65,21 @@ public class ResourceMediaServiceImpl extends CRUDServiceImpl<Long, MediaResourc
         if(dbMediaResource.getDelete()){
             deleteImage(dbMediaResource.getId());
         }
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public MediaResource getFirst(final Long advertId) {
+        return getMediaResourceRepository().findFirstByAdvertOrderByEntryDateDesc(advertId);
+    }
+
+    @Override
+    public String getThumb(final Serializable id) {
+        final MediaResource mediaResource = getFirst((Long)id);
+        if(null != mediaResource) {
+            return this.mediaProvider.getThumb(mediaResource.getPublicId());
+        }
+        return DEFAULT_IMAGE_THUMB;
     }
 
     private MediaResource createMediaResource(final MultipartFile file){
@@ -94,5 +113,10 @@ public class ResourceMediaServiceImpl extends CRUDServiceImpl<Long, MediaResourc
     @Autowired
     public void setMediaProvider(final MediaProvider mediaProvider) {
         this.mediaProvider = mediaProvider;
+    }
+
+    @Autowired
+    public void setHttpSessionContext(final HttpSessionContext httpSessionContext) {
+        this.httpSessionContext = httpSessionContext;
     }
 }

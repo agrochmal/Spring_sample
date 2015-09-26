@@ -167,7 +167,7 @@ angular.module('app.controlles', [])
 				}
 				$scope.saveCommand.advert.$save(function(advert, headers) {
 					var newId = headers('Location');
-					Alertify.success('Dodano nowe ogloszenie');
+					Alertify.success('Dodano nowe ogloszenie. Bedzie dostepne w serwisie za kilka minut.');
 					$location.path('/');
 				});
 

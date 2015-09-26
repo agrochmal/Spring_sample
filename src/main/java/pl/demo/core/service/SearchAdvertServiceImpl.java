@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import pl.demo.core.model.entity.Advert;
 import pl.demo.web.dto.SearchCriteriaDTO;
@@ -30,6 +31,7 @@ public class SearchAdvertServiceImpl implements SearchAdvertService {
     @Autowired
     private EntityManagerFactory entityManagerFactory;
 
+    @Transactional(readOnly = true)
     public Page<Advert> searchAdverts(final SearchCriteriaDTO searchCriteriaDTO, final Pageable pageable) {
         Assert.notNull(searchCriteriaDTO, "searchCriteriaDTO is required");
         Assert.notNull(pageable, "pageable is required");
@@ -114,7 +116,6 @@ public class SearchAdvertServiceImpl implements SearchAdvertService {
         private final List result;
         private final long total;
         private final Pageable pageable;
-
 
         private PageBuilder(final List result, final long total, final Pageable pageable) {
             this.result = result;

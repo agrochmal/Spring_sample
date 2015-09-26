@@ -1,7 +1,9 @@
 package pl.demo.core.service.MediaProviders;
 
 import com.cloudinary.Cloudinary;
+import com.cloudinary.Transformation;
 import com.cloudinary.utils.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -20,6 +22,14 @@ import java.util.function.Consumer;
 @Service
 public class CloudinaryProvider implements MediaProvider{
 
+    private final static String RESULT_VAR = "result";
+    private final static String RESULT_OK = "ok";
+
+    private final static String THUMB_FORMAT = "jpg";
+    private final static int THUMB_H = 250;
+    private final static int THUMB_W = 250;
+    private final static String THUMB_CROP = "fit";
+
     private Cloudinary cloudinary;
 
     @Override
@@ -37,9 +47,16 @@ public class CloudinaryProvider implements MediaProvider{
     public void delete(final Serializable id) throws IOException  {
         Assert.notNull(id);
         final Map deleteResult = cloudinary.uploader().destroy((String)id, ObjectUtils.emptyMap());
-        if(!deleteResult.getOrDefault("result", "").equals("ok")){
+        if(!deleteResult.getOrDefault(RESULT_VAR, StringUtils.EMPTY).equals(RESULT_OK)){
             throw new GeneralException(MsgConst.CANNOT_DELETE_IMAGE);
         }
+    }
+
+    @Override
+    public String getThumb(final Serializable id) {
+        return cloudinary.url().format(THUMB_FORMAT)
+                .transformation(new Transformation().width(THUMB_W).height(THUMB_H).crop(THUMB_CROP))
+                .generate((String)id);
     }
 
     @Autowired

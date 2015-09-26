@@ -47,9 +47,9 @@ public class UserServiceImpl extends CRUDServiceImpl<Long, User> implements User
 
 	@Transactional
 	@Override
-	public User save (final User user){
+	public User save(final User user){
 		Assert.notNull(user, "User is required");
-		user.setPassword( passwordEncoder.encode(user.getPassword()) );
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		user.addRole(roleRepository.findByRoleName("user"));
 		return super.save(user);
 	}
@@ -65,6 +65,7 @@ public class UserServiceImpl extends CRUDServiceImpl<Long, User> implements User
 		return new AuthenticationUserDetails(user);
 	}
 
+	@Transactional(readOnly = true)
 	@Override
 	public UserDetails authenticate(final String username, final String password){
 		Assert.notNull(username, "Username is required");
@@ -75,6 +76,7 @@ public class UserServiceImpl extends CRUDServiceImpl<Long, User> implements User
 		return loadUserByUsername(username);
 	}
 
+	@Transactional(readOnly = true)
 	@Override
 	public User getLoggedUser() {
 		User loggedUser = null;
@@ -88,15 +90,14 @@ public class UserServiceImpl extends CRUDServiceImpl<Long, User> implements User
 
 	@Override
 	public AuthenticationUserDetails getLoggedUserDetails() {
-		AuthenticationUserDetails loggedUserDetails = null;
 		final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if (isAuthenticated(authentication)) {
 			final Object principal = authentication.getPrincipal();
 			if (principal instanceof AuthenticationUserDetails) {
-				loggedUserDetails = ((AuthenticationUserDetails) principal);
+				return (AuthenticationUserDetails) principal;
 			}
 		}
-		return loggedUserDetails;
+		return null;
 	}
 
 	private boolean isAuthenticated(final Authentication authentication) {
