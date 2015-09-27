@@ -401,10 +401,14 @@ angular.module('app.controlles', [])
 		$file.publicId = $message;
 	};
 
-	$scope.deleteImage = function(image){
-		ImageService.delete({id: image.publicId}, function(res){
+	$scope.deleteImage = function(image) {
+		if (undefined != image.publicId) {
+		   ImageService.delete({id: image.publicId}, function (res) {
+			   image.cancel();
+		   });
+		}else{
 			image.cancel();
-		});
+		}
 	};
 });
 

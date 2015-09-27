@@ -32,15 +32,29 @@ public class CloudinaryProvider implements MediaProvider{
 
     private Cloudinary cloudinary;
 
-    @Override
-    public CloudinaryUploadResult upload(final Object file, Consumer<UploadResult> asyncCallback) throws IOException {
+    private CloudinaryUploadResult upload(final Object file, Consumer<UploadResult> asyncCallback) {
         Assert.notNull(file);
-        final Map uploadResult = cloudinary.uploader().upload(file, ObjectUtils.emptyMap());
+        Map uploadResult;
+        try {
+            uploadResult = cloudinary.uploader().upload(file, ObjectUtils.emptyMap());
+        }catch(final RuntimeException | IOException e){
+            throw new GeneralException(e.getMessage());
+        }
         final CloudinaryUploadResult cloudinaryUploadResult = new CloudinaryUploadResult(uploadResult);
         if(null != asyncCallback) {
             asyncCallback.accept(cloudinaryUploadResult);
         }
         return cloudinaryUploadResult;
+    }
+
+    @Override
+    public UploadResult uploadSync(final Object file, final Consumer<UploadResult> asyncCallback) throws IOException {
+        return upload(file, asyncCallback);
+    }
+
+    @Override
+    public UploadResult uploadAsync(final Object file, final Consumer<UploadResult> asyncCallback) throws IOException {
+        return upload(file, asyncCallback);
     }
 
     @Override

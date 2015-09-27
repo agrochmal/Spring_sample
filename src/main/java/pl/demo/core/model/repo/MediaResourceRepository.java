@@ -14,7 +14,7 @@ public interface MediaResourceRepository extends JpaRepository<MediaResource, Lo
     @Query("SELECT m FROM MediaResource m WHERE m.id=:id")
     MediaResource findOneForUpdate(@Param("id") Long id);
 
-    @Query("SELECT m FROM MediaResource m WHERE m.advert.id=:id ORDER BY m.entryDate DESC")
+    @Query("SELECT m FROM MediaResource m WHERE m.id = (select MIN(m2.id) from MediaResource m2 where m2.advert.id=:id)")
     MediaResource findFirstByAdvertOrderByEntryDateDesc(@Param("id") Long id);
 }
 

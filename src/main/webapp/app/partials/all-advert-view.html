@@ -18,12 +18,15 @@
 						</div>
 					</div>
 				    <div style="margin-left:0px;margin-right:0px;">
-					   <a href="#/adverts/{{advert.id}}" class="thumb"><img class="img-thumbnail" ng-src={{advert.thumbUrl}}></a>
+					   <a href="#/adverts/{{advert.id}}" class="thumb"><img class="img-thumbnail" ng-src={{advert.thumbUrl}} style="width: 110px; height: 120px;"></a>
 					   <a class="title" href="#/adverts/{{advert.id}}">{{advert.title}}</a> <span class="pull-right blue-text">Ocena: {{advert.rate}}</span>
 					   <p class="grey-text">{{ advert.description | limitTo: 100 }}{{advert.description.length > 100 ? '...' : ''}}</p>
 						<div class="grey-text">
 							<div class="pull-right">
 								<div><span class="glyphicon glyphicon-map-marker"></span> {{advert.locationName}}</div>
+							</div>
+							<br>
+							<div class="pull-right">
 								<div><span class="glyphicon glyphicon-time"></span> {{advert.creationDate | date:'dd-MM-yyyy'}}</div>
 							</div>
 						</div>

@@ -1,5 +1,7 @@
 package pl.demo.core.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -17,6 +19,8 @@ import java.util.Map;
 
 
 public abstract class CRUDServiceImpl<PK extends Serializable, E extends BaseEntity> implements CRUDService<PK, E>{
+
+    protected final Logger LOGGER = LoggerFactory.getLogger(getClass());
 
     private Map<Class<? extends BaseEntity>, JpaRepository<E, PK>> repositoryMap;
 

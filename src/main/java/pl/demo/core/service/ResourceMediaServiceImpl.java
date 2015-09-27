@@ -1,7 +1,5 @@
 package pl.demo.core.service;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -25,8 +23,6 @@ import java.io.Serializable;
 
 public class ResourceMediaServiceImpl extends CRUDServiceImpl<Long, MediaResource> implements ResourceMediaService{
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(ResourceMediaServiceImpl.class);
-
     private final static String DEFAULT_IMAGE_THUMB = "./app/images/thumb.jpg";
 
     private HttpSessionContext httpSessionContext;
@@ -45,11 +41,9 @@ public class ResourceMediaServiceImpl extends CRUDServiceImpl<Long, MediaResourc
         try {
             mediaResource = save(createMediaResource(file));
             httpSessionContext.addResource(mediaResource.getId());
-            this.mediaProvider.upload(Utils.getBytes(file),
-                t->  {
-                    final ResourceMediaService resourceMediaService = (ResourceMediaService)SpringBeanProvider.getBean("resourceMediaService");
-                    resourceMediaService.saveOnCallback(mediaResource.getId(), (String) t.getPublicID());
-                });
+            this.mediaProvider.uploadSync(Utils.getBytes(file),
+            t-> ((ResourceMediaService)SpringBeanProvider.getBean("resourceMediaService"))
+                    .saveOnCallback(mediaResource.getId(), (String) t.getPublicID()));
         } catch (final IOException e) {
             LOGGER.error("", e);
             throw new GeneralException(MsgConst.MEDIA_PROVIDER_ISSUE, e);
@@ -83,7 +77,7 @@ public class ResourceMediaServiceImpl extends CRUDServiceImpl<Long, MediaResourc
     }
 
     private MediaResource createMediaResource(final MultipartFile file){
-        return  MediaResource.MediaResourceBuilder.aMediaResource().
+        return MediaResource.MediaResourceBuilder.aMediaResource().
                 withName(file.getName()).withContentType(file.getContentType()).withSize(file.getSize()).build();
     }
 

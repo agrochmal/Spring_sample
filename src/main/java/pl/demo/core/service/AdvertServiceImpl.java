@@ -14,6 +14,7 @@ import pl.demo.web.HttpSessionContext;
 import pl.demo.web.dto.EMailDTO;
 import pl.demo.web.dto.SearchCriteriaDTO;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Optional;
@@ -37,17 +38,26 @@ public class AdvertServiceImpl extends CRUDServiceImpl<Long, Advert> implements 
 	@Override
 	public Advert save(final Advert advert) {
 		Assert.notNull(advert);
-		final User loggedUser = userService.getLoggedUser();
-		if(null != loggedUser) {
-			advert.setUser(loggedUser);
-		}
-		final Advert saved = super.save(advert);
-		final Iterator<Long> idIterator = httpSessionContext.getUploadedResourcesId();
-		while(idIterator.hasNext()){
-			final Long id = idIterator.next();
-			final MediaResource mediaResource = resourceMediaService.findOne(id);
-			mediaResource.setAdvert(saved);
-			resourceMediaService.save(mediaResource);
+		Advert saved;
+		try {
+			final User loggedUser = userService.getLoggedUser();
+			if (null != loggedUser) {
+				advert.setUser(loggedUser);
+			}
+			saved = super.save(advert);
+			final Iterator<Long> idIterator = httpSessionContext.getUploadedResourcesId();
+			while (idIterator.hasNext()) {
+				final Long id = idIterator.next();
+				final MediaResource mediaResource = resourceMediaService.findOne(id);
+				mediaResource.setAdvert(saved);
+				resourceMediaService.save(mediaResource);
+			}
+		}finally {
+			try {
+				httpSessionContext.close();
+			} catch (IOException e) {
+				LOGGER.error("", e);
+			}
 		}
 		return saved;
 	}

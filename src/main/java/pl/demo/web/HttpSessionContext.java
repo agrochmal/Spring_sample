@@ -5,6 +5,8 @@ import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.io.Closeable;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -16,7 +18,7 @@ import java.util.Set;
 
 @Component
 @Scope(value = WebApplicationContext.SCOPE_SESSION, proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class HttpSessionContext {
+public class HttpSessionContext implements Closeable {
 
     private Set<Long> uploadedResourcesId = Collections.emptySet();
 
@@ -29,5 +31,10 @@ public class HttpSessionContext {
 
     public Iterator<Long> getUploadedResourcesId() {
         return uploadedResourcesId.iterator();
+    }
+
+    @Override
+    public void close() throws IOException {
+        this.uploadedResourcesId.clear();
     }
 }
