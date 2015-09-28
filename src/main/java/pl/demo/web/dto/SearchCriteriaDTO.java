@@ -3,13 +3,14 @@ package pl.demo.web.dto;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
+import pl.demo.core.model.repo.fullTextSearch.SearchCriteria;
 
 import java.util.Objects;
 
 /**
  * Created by Robert on 02.12.14.
  */
-public class SearchCriteriaDTO {
+public class SearchCriteriaDTO implements SearchCriteria {
 
     private String keyWords;
     private Double locLatitude;

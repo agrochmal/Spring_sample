@@ -24,12 +24,10 @@ public class User extends BaseEntity {
 
 	@NotNull
 	@Length(max=TEXT_LENGTH_80)
-
 	@Column(unique=true, length=TEXT_LENGTH_80, nullable=false)
 	private String username;
 
 	@Length(max=TEXT_LENGTH_80)
-
 	@Column(length=TEXT_LENGTH_80, nullable=false)
 	private String password;
 
@@ -40,7 +38,6 @@ public class User extends BaseEntity {
 	private String location;
 
 	@NotNull
-
 	@Column(nullable=false)
 	private String phone;
 
@@ -51,7 +48,8 @@ public class User extends BaseEntity {
 	private Double lng = 0d;
 
 	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "user_roles", joinColumns = { @JoinColumn(name = "id_user", referencedColumnName = "id") }, inverseJoinColumns = { @JoinColumn(name = "id_role", referencedColumnName = "id") })
+	@JoinTable(name = "user_roles", joinColumns = { @JoinColumn(name = "id_user", referencedColumnName = "id") },
+			inverseJoinColumns = { @JoinColumn(name = "id_role", referencedColumnName = "id") })
 	private Set<Role> roles = new HashSet<>();
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
@@ -60,12 +58,12 @@ public class User extends BaseEntity {
 	public User() {
 	}
 
-	public User(String username, String passwordHash) {
+	public User(final String username, final String passwordHash) {
 		this.setUsername(username);
 		this.setPassword(passwordHash);
 	}
 
-	public User(String username, String name, String location, String phone) {
+	public User(final String username, final String name, final String location, final String phone) {
 		this.setUsername(username);
 		this.setName(name);
 		this.setLocation(location);

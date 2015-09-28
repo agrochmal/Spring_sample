@@ -27,7 +27,8 @@
 		<property name="entityManagerFactory" ref="entityManagerFactory" />
 	</bean>
 
-	<jpa:repositories base-package="pl.demo.core.model.repo"></jpa:repositories>
+	<jpa:repositories base-package="pl.demo.core.model.repo"
+					  factory-class="pl.demo.core.model.repo.CustomRepositoryFactoryBean"/>
 
 	<!--Support for pagination by Spring Data -->
 	<bean class="org.springframework.data.web.config.SpringDataWebConfiguration" />

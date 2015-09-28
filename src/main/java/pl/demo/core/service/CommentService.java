@@ -5,6 +5,7 @@ import pl.demo.core.model.entity.Comment;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.util.Collection;
 
 /**
@@ -14,8 +15,8 @@ import java.util.Collection;
 @Validated
 public interface CommentService extends CRUDService<Long, Comment> {
 
-    void postComment(@Min(1) Long advertId, @Valid Comment comment);
+    void postComment(@NotNull @Min(1) Long advertId, @NotNull @Valid Comment comment);
 
-    @Valid
-    Collection<Comment> findByAdvert(@Min(1) Long advertId);
+    @NotNull @Valid
+    Collection<Comment> findByAdvert(@NotNull @Min(1) Long advertId);
 }

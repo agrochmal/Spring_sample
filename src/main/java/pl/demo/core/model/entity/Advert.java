@@ -30,22 +30,18 @@ import static pl.demo.core.model.entity.ModelConstans.TEXT_LENGTH_80;
 		tokenizer=@TokenizerDef(factory=StandardTokenizerFactory.class),
 		filters={
 				@TokenFilterDef(factory=LowerCaseFilterFactory.class),
-				@TokenFilterDef(factory=StempelPolishStemFilterFactory.class)
-		})
-public class Advert extends BaseEntity implements Searchable, Coordinates {
+				@TokenFilterDef(factory=StempelPolishStemFilterFactory.class)})
+public class Advert extends BaseEntity implements Coordinates {
 	
 	@NotEmpty
 	@Length(max=TEXT_LENGTH_80)
-
 	@Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
 	@Analyzer(definition = "customanalyzer")
-
 	@Column(length=TEXT_LENGTH_80, nullable=false)
 	private String title;
 
 	@Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
 	@Analyzer(definition = "customanalyzer")
-
 	@Lob
 	@Column(name="description", columnDefinition="TEXT NOT NULL", table="adverts")
 	private String description;
@@ -64,7 +60,6 @@ public class Advert extends BaseEntity implements Searchable, Coordinates {
 	private Date endDate;
 
 	@Length(max=TEXT_LENGTH_80)
-
 	@Column(length=TEXT_LENGTH_80)
 	private String contact;
 	
@@ -79,7 +74,6 @@ public class Advert extends BaseEntity implements Searchable, Coordinates {
 	private String email;
 	
 	@NotNull
-
 	@Column(nullable=false)
 	private Double latitude=0d;
 	

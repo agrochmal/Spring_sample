@@ -26,7 +26,7 @@ public interface AdvertService extends CRUDService<Long, Advert> {
 	@NotNull
 	Advert createNew();
 
-	void sendMail(@Valid EMailDTO eMailDTO);
+	void sendMail(@NotNull @Valid EMailDTO eMailDTO);
 
 	void updateActiveStatus(@NotNull @Min(1) Long id, @NotNull Boolean status);
 }

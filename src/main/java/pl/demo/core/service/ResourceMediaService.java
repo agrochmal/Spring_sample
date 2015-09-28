@@ -5,6 +5,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.multipart.MultipartFile;
 import pl.demo.core.model.entity.MediaResource;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
@@ -14,12 +15,12 @@ import java.io.Serializable;
 
 @Validated
 public interface ResourceMediaService extends CRUDService<Long, MediaResource> {
-    @NotNull
+    @NotNull @Min(1)
     Long upload(@NotNull MultipartFile file);
 
     void deleteImage(@NotNull Serializable id);
 
-    void saveOnCallback(@NotNull Long id, @NotNull String publicId);
+    void saveOnCallback(@NotNull @Min(1) Long id, @NotNull @NotBlank String publicId);
 
     MediaResource getFirst(@NotNull Long advertId);
 

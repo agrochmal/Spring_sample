@@ -5,17 +5,14 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 @Entity
 @Table(name = "roles")
 @NamedQueries({
 	@NamedQuery(name = "Role.findAll", query = "SELECT r FROM Role r"),
-    @NamedQuery(name="Role.findByRoleName",
-                query="SELECT r FROM Role r WHERE r.roleName.name = :name"),
+    @NamedQuery(name="Role.findByRoleName", query="SELECT r FROM Role r WHERE r.roleName.name = :name"),
 }) 
-public class Role extends BaseEntity implements Serializable {
-  private static final long serialVersionUID = 1L;
+public class Role extends BaseEntity {
 
   @OneToOne
   private RoleName roleName;

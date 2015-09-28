@@ -15,9 +15,10 @@ import java.util.function.Consumer;
 @Validated
 public interface MediaProvider {
 
+    @NotNull
     UploadResult uploadSync(@NotNull Object file, Consumer<UploadResult> asyncCallback) throws IOException;
 
-    @Async(value="resourceMediaExecutor")
+    @NotNull @Async(value="resourceMediaExecutor")
     UploadResult uploadAsync(@NotNull Object file, Consumer<UploadResult> asyncCallback) throws IOException;
 
     void delete(@NotNull Serializable id) throws IOException;

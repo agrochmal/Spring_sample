@@ -7,15 +7,12 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import java.io.Serializable;
 
 import static pl.demo.core.model.entity.ModelConstans.TEXT_LENGTH_80;
 
 @Entity
 @Table(name = "role_names")
-public class RoleName extends BaseEntity implements Serializable {
-
-  private static final long serialVersionUID = 1L;
+public class RoleName extends BaseEntity {
 
   @Column(length=TEXT_LENGTH_80, unique=true)
   private String name;
