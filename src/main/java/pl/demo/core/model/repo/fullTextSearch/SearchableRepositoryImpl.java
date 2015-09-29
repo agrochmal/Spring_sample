@@ -12,6 +12,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.orm.jpa.EntityManagerProxy;
 import org.springframework.util.Assert;
+import pl.demo.core.model.repo.fullTextSearch.queryBuilder.SearchQueryBuilder;
+
 import javax.persistence.EntityManager;
 import java.io.Serializable;
 import java.util.List;

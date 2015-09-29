@@ -1,4 +1,4 @@
-package pl.demo.core.model.repo.fullTextSearch;
+package pl.demo.core.model.repo.fullTextSearch.queryBuilder;
 
 import org.apache.lucene.search.Query;
 

@@ -1,4 +1,4 @@
-package pl.demo.core.model.repo.fullTextSearch;
+package pl.demo.core.model.repo.fullTextSearch.queryBuilder;
 
 import org.apache.lucene.search.BooleanClause;
 import org.apache.lucene.search.BooleanQuery;
@@ -10,7 +10,7 @@ import pl.demo.web.dto.SearchCriteriaDTO;
 /**
  * Created by robertsikora on 28.09.15.
  */
-public class AdvertSearchQueryBuilderImpl implements SearchQueryBuilder{
+public class AdvertSearchQueryBuilderImpl implements SearchQueryBuilder {
 
     private final static String TITLE_FIELD = "title";
     private final static String TITLE_DESCRIPTION = "description";
