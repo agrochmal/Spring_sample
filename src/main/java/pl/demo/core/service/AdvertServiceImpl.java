@@ -23,7 +23,7 @@ import static pl.demo.core.service.MailServiceImpl.EMAIL_TEMPLATE;
 
 public class AdvertServiceImpl extends CRUDServiceImpl<Long, Advert> implements AdvertService {
 
-	private SearchAdvertService searchService;
+	private SearchService searchService;
 	private UserService userService;
 	private MailService mailService;
 	private HttpSessionContext httpSessionContext;
@@ -129,7 +129,7 @@ public class AdvertServiceImpl extends CRUDServiceImpl<Long, Advert> implements 
 	}
 
 	@Autowired
-	public void setSearchService(final SearchAdvertService searchService) {
+	public void setSearchService(final SearchService searchService) {
 		this.searchService = searchService;
 	}
 

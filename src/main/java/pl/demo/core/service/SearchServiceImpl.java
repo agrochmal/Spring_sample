@@ -7,20 +7,21 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.demo.core.model.entity.Advert;
 import pl.demo.core.model.repo.AdvertRepository;
+import pl.demo.core.model.repo.fullTextSearch.AdvertSearchQueryBuilderImpl;
 import pl.demo.web.dto.SearchCriteriaDTO;
 
 /**
  * Created by Robert on 2014-12-03.
  */
 @Service
-public class SearchAdvertServiceImpl implements SearchAdvertService {
+public class SearchServiceImpl implements SearchService {
 
     private AdvertRepository advertRepository;
 
     @Transactional(readOnly = true)
     @Override
     public Page<Advert> searchAdverts(final SearchCriteriaDTO searchCriteriaDTO, final Pageable pageable) {
-        return advertRepository.search(searchCriteriaDTO, pageable);
+        return advertRepository.search(new AdvertSearchQueryBuilderImpl(searchCriteriaDTO), pageable);
     }
 
     @Autowired

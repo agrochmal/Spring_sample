@@ -37,7 +37,7 @@ public class DetachEntityAspect {
     }
 
     private void detachAndUnproxyEntity(final Object target){
-        List<Object> entities = Collections.emptyList();
+        List<Object> entities;
         if(target instanceof Page){
             entities = ((Page)target).getContent();
         }else if(target instanceof Collection){

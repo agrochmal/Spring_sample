@@ -32,7 +32,9 @@ public abstract class BaseEntity implements Serializable, FlatableEntity{
 	}
 
 	public void setEntryDate(Date entryDate) {
-		this.entryDate = entryDate;
+		if(entryDate != null) {
+			this.entryDate = (Date) entryDate.clone();
+		}
 	}
 
 	@Override
