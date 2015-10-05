@@ -13,7 +13,6 @@ import pl.demo.core.model.repo.fullTextSearch.queryBuilder.AdvertSearchQueryBuil
 import pl.demo.core.model.repo.fullTextSearch.queryBuilder.CommentSearchQueryBuiderImpl;
 import pl.demo.web.dto.SearchCriteriaDTO;
 
-import javax.validation.constraints.NotNull;
 
 /**
  * Created by Robert on 2014-12-03.

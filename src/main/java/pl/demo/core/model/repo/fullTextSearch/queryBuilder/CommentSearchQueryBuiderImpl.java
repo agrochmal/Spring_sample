@@ -9,14 +9,27 @@ import pl.demo.web.dto.SearchCriteriaDTO;
  */
 public class CommentSearchQueryBuiderImpl implements SearchQueryBuilder{
 
+    private final static String TEXT_FIELD = "text";
+
     private final SearchCriteriaDTO searchCriteria;
 
     public CommentSearchQueryBuiderImpl(final SearchCriteriaDTO searchCriteria) {
         this.searchCriteria = searchCriteria;
     }
 
+    private Query applyKeywordCriteria(final QueryBuilder qb){
+        if (searchCriteria.hasKeyword()) {
+            return qb
+                    .keyword()
+                    .onFields(TEXT_FIELD)
+                    .matching(searchCriteria.getKeyWords())
+                    .createQuery();
+        }
+        return null;
+    }
+
     @Override
     public Query build(QueryBuilder queryBuilder) {
-        return null;
+        return applyKeywordCriteria(queryBuilder);
     }
 }

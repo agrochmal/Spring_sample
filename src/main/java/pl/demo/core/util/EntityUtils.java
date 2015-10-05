@@ -1,5 +1,8 @@
 package pl.demo.core.util;
 
+import org.hibernate.Hibernate;
+import org.hibernate.proxy.HibernateProxy;
+import org.hibernate.proxy.HibernateProxyHelper;
 import org.springframework.util.Assert;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.validation.BindingResult;
@@ -51,5 +54,13 @@ public final class EntityUtils {
         if(bindingResult.hasErrors()) {
             throw new ValidationRequestException(Utils.createErrorMessage(bindingResult));
         }
+    }
+
+    public static Object initializeHibernateEntity(final Object entity){
+        Hibernate.initialize(entity);
+        if(entity instanceof HibernateProxy){
+            return ((HibernateProxy)entity).getHibernateLazyInitializer().getImplementation();
+        }
+        return entity;
     }
 }

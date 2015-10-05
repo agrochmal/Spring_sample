@@ -25,8 +25,8 @@ import static pl.demo.core.model.entity.ModelConstans.TEXT_LENGTH_80;
 @Table(name = "adverts")
 
 @Spatial
-@Indexed(index="Adverts")
-@AnalyzerDef(name="customanalyzer",
+@Indexed(index="idx_adverts")
+@AnalyzerDef(name="advert_analyzer",
 		tokenizer=@TokenizerDef(factory=StandardTokenizerFactory.class),
 		filters={
 				@TokenFilterDef(factory=LowerCaseFilterFactory.class),
@@ -36,12 +36,12 @@ public class Advert extends BaseEntity implements Coordinates {
 	@NotEmpty
 	@Length(max=TEXT_LENGTH_80)
 	@Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
-	@Analyzer(definition = "customanalyzer")
+	@Analyzer(definition = "advert_analyzer")
 	@Column(length=TEXT_LENGTH_80, nullable=false)
 	private String title;
 
 	@Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
-	@Analyzer(definition = "customanalyzer")
+	@Analyzer(definition = "advert_analyzer")
 	@Lob
 	@Column(name="description", columnDefinition="TEXT NOT NULL", table="adverts")
 	private String description;

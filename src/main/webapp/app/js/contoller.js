@@ -33,6 +33,7 @@ angular.module('app.controlles', [])
 	$scope.searchCommand = {
 	keyword: '',
 	radius:'',
+	searchMode:'advert',
 	autoComplete: {
 		details: null,
 		options: {country: 'pl', types: '(cities)'},
@@ -49,7 +50,8 @@ angular.module('app.controlles', [])
 	},
 	getSearchCriteria: function(){
 		return {'keyWords' : this.keyword, 'locLatitude': this.autoComplete.getLatitude() ,
-			'locLongitude': this.autoComplete.getLongitude(), 'locRadius': this.radius}
+			'locLongitude': this.autoComplete.getLongitude(), 'locRadius': this.radius,
+			'searchMode': this.searchMode}
 	},
 	search: function(){
 		var searchCriteria = this.getSearchCriteria();

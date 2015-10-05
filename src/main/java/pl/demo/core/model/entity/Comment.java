@@ -3,9 +3,14 @@ package pl.demo.core.model.entity;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.solr.analysis.LowerCaseFilterFactory;
+import org.apache.solr.analysis.StandardTokenizerFactory;
+import org.apache.solr.analysis.StempelPolishStemFilterFactory;
+import org.hibernate.search.annotations.*;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
+import javax.persistence.Index;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
@@ -19,11 +24,20 @@ import static pl.demo.core.model.entity.ModelConstans.TEXT_LENGTH_25;
 
 @Entity
 @Table(name="comments")
+
+@Indexed(index="idx_comments")
+@AnalyzerDef(name="comment_analyzer",
+        tokenizer=@TokenizerDef(factory=StandardTokenizerFactory.class),
+        filters={
+                @TokenFilterDef(factory=LowerCaseFilterFactory.class),
+                @TokenFilterDef(factory=StempelPolishStemFilterFactory.class)})
 public class Comment extends BaseEntity {
 
     private String nick;
     private String ipAddr;
     private Date date;
+    @Field(index= org.hibernate.search.annotations.Index.YES, analyze=Analyze.YES, store=Store.NO)
+    @Analyzer(definition = "comment_analyzer")
     private String text;
     private Integer rate;
 

@@ -29,11 +29,6 @@ public class CommentServiceImpl extends CRUDServiceImpl<Long, Comment> implement
     private MailService mailService;
     private AdvertRepository advertRepository;
 
-    @Override
-    protected Class<Comment> supportedDomainClass() {
-        return Comment.class;
-    }
-
     @Transactional
     @Override
     public void postComment(final Long advertId, final Comment comment) {

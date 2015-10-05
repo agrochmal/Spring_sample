@@ -13,7 +13,7 @@ import pl.demo.web.dto.SearchCriteriaDTO;
 public class AdvertSearchQueryBuilderImpl implements SearchQueryBuilder {
 
     private final static String TITLE_FIELD = "title";
-    private final static String TITLE_DESCRIPTION = "description";
+    private final static String DESCRIPTION_FIELD = "description";
 
     private final SearchCriteriaDTO searchCriteria;
 
@@ -25,7 +25,7 @@ public class AdvertSearchQueryBuilderImpl implements SearchQueryBuilder {
         if (searchCriteria.hasKeyword()) {
             return qb
                 .keyword()
-                .onFields(TITLE_FIELD, TITLE_DESCRIPTION)
+                .onFields(TITLE_FIELD, DESCRIPTION_FIELD)
                 .matching(searchCriteria.getKeyWords())
                 .createQuery();
         }

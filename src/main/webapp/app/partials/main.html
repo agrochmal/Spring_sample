@@ -26,6 +26,13 @@
 		  <button id="button-search" class="btn input-lg btn-search" type="button" ng-click="searchCommand.search()">
 			  <span class="glyphicon glyphicon-search"></span> Szukaj </button>
 	    </span>
+		<div style="margin-top: 45px">
+			<label class="radio-inline" style="color: whitesmoke;font-weight: 600">ogłoszenia</label>
+				<input type="radio" id="search-adverts-radio" ng-model="searchCommand.searchMode" value="advert">
+			<label class="radio-inline" style="color: whitesmoke;font-weight: 600">komentarze</label>
+				<input type="radio" id="search-comments-radio" ng-model="searchCommand.searchMode" value="comment">
+
+		</div>
 	</div>
 
 </div>

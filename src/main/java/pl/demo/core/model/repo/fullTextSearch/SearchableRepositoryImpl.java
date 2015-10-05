@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.orm.jpa.EntityManagerProxy;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import pl.demo.core.model.repo.fullTextSearch.queryBuilder.SearchQueryBuilder;
 
@@ -23,14 +24,14 @@ import java.util.List;
  */
 
 public class SearchableRepositoryImpl<T, I extends Serializable> extends SimpleJpaRepository<T, I>
-        implements SearchableRepository<T>{
+        implements SearchableRepository<T> {
 
     private EntityManagerProxy entityManagerProxy;
-    private Class<T> entityClass;
+    private Class<T> domainClass;
 
     public SearchableRepositoryImpl(final Class<T> domainClass, final EntityManager em) {
         super(domainClass, em);
-        this.entityClass = domainClass;
+        this.domainClass = domainClass;
         initEntityManager(em);
     }
 
@@ -41,6 +42,7 @@ public class SearchableRepositoryImpl<T, I extends Serializable> extends SimpleJ
         this.entityManagerProxy = (EntityManagerProxy)entityManager;
     }
 
+    @Transactional(readOnly = true)
     @Override
     public Page<T> search(final SearchQueryBuilder searchQueryBuilder, final Pageable pageable) {
         Assert.notNull(searchQueryBuilder, "searchQueryBuilder is required");
@@ -48,9 +50,9 @@ public class SearchableRepositoryImpl<T, I extends Serializable> extends SimpleJ
 
         final EntityManager em = getFullTextEntityManager();
         final FullTextEntityManager fullTextEntityManager = org.hibernate.search.jpa.Search.getFullTextEntityManager(em);
-        final QueryBuilder qb = fullTextEntityManager.getSearchFactory().buildQueryBuilder().forEntity(entityClass).get();
+        final QueryBuilder qb = fullTextEntityManager.getSearchFactory().buildQueryBuilder().forEntity(domainClass).get();
         final Query query = searchQueryBuilder.build(qb);
-        final FullTextQuery fullTextQuery = fullTextEntityManager.createFullTextQuery(query, entityClass);
+        final FullTextQuery fullTextQuery = fullTextEntityManager.createFullTextQuery(query, domainClass);
         final int total = fullTextQuery.getResultSize();
         fullTextQuery.setFirstResult(pageable.getOffset())
                 .setMaxResults(pageable.getPageSize());

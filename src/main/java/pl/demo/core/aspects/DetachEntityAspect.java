@@ -13,7 +13,6 @@ import org.springframework.data.domain.Page;
 import pl.demo.core.model.entity.BaseEntity;
 import pl.demo.core.model.repo.GenericRepository;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -40,7 +39,7 @@ public class DetachEntityAspect {
         List<Object> entities;
         if(target instanceof Page){
             entities = ((Page)target).getContent();
-        }else if(target instanceof Collection){
+        }else if(target instanceof List){
             entities = (List<Object>) target;
         }else{
             entities = Collections.singletonList(target);

@@ -28,11 +28,6 @@ public class ResourceMediaServiceImpl extends CRUDServiceImpl<Long, MediaResourc
     private HttpSessionContext httpSessionContext;
     private MediaProvider mediaProvider;
 
-    @Override
-    protected Class<MediaResource> supportedDomainClass() {
-        return MediaResource.class;
-    }
-
     @Transactional
     @Override
     public Long upload(final MultipartFile file) {

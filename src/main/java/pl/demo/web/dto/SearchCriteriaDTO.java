@@ -11,10 +11,14 @@ import java.util.Objects;
  */
 public class SearchCriteriaDTO {
 
+    private static final String SEARCH_MODE_ADVERT = "advert";
+    private static final String SEARCH_MODE_COMMENT = "comment";
+
     private String keyWords;
     private Double locLatitude;
     private Double locLongitude;
     private Double locRadius;
+    private String searchMode;
 
     public String getKeyWords() {
         return keyWords;
@@ -62,6 +66,22 @@ public class SearchCriteriaDTO {
         return !(Objects.isNull(keyWords) || "".equals(keyWords));
     }
 
+    public String getSearchMode() {
+        return searchMode;
+    }
+
+    public void setSearchMode(String searchMode) {
+        this.searchMode = searchMode;
+    }
+
+    public boolean isAdvertSearchMode(){
+        return SEARCH_MODE_ADVERT.equals(this.searchMode);
+    }
+
+    public boolean isCommentSearchMode(){
+        return SEARCH_MODE_COMMENT.equals(this.searchMode);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -75,6 +95,7 @@ public class SearchCriteriaDTO {
                 .append(locLatitude, that.locLatitude)
                 .append(locLongitude, that.locLongitude)
                 .append(locRadius, that.locRadius)
+                .append(searchMode, that.searchMode)
                 .isEquals();
     }
 
@@ -85,6 +106,7 @@ public class SearchCriteriaDTO {
                 .append(locLatitude)
                 .append(locLongitude)
                 .append(locRadius)
+                .append(searchMode)
                 .toHashCode();
     }
 
@@ -95,6 +117,7 @@ public class SearchCriteriaDTO {
                 .append("locLatitude", locLatitude)
                 .append("locLongitude", locLongitude)
                 .append("locRadius", locRadius)
+                .append("searchMode", searchMode)
                 .toString();
     }
 }

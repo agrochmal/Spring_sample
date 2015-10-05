@@ -10,6 +10,8 @@ import pl.demo.core.model.entity.BaseEntity;
 import pl.demo.web.exception.ResourceNotFoundException;
 
 import java.io.Serializable;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.Collection;
 import java.util.Map;
 
@@ -23,13 +25,29 @@ public abstract class CRUDServiceImpl<PK extends Serializable, E extends BaseEnt
     protected final Logger LOGGER = LoggerFactory.getLogger(getClass());
 
     private Map<Class<? extends BaseEntity>, JpaRepository<E, PK>> repositoryMap;
-
-    protected abstract Class<E> supportedDomainClass();
+    private Class<E> entityClass;
 
     protected JpaRepository<E, PK> getDomainRepository(){
-        final JpaRepository<E, PK> repository = repositoryMap.get(supportedDomainClass());
-        Assert.notNull(repository, String.format("Domain object %s is not supported!", supportedDomainClass().getName()));
+        final JpaRepository<E, PK> repository = repositoryMap.get(entityClass);
+        Assert.notNull(repository, String.format("Domain object %s is not supported!", entityClass.getSimpleName()));
         return repository;
+    }
+
+    public CRUDServiceImpl() {
+        Type genericSuperclass = this.getClass().getGenericSuperclass();
+        while(!(genericSuperclass instanceof ParameterizedType)) {
+            if(!(genericSuperclass instanceof Class)) {
+                throw new IllegalStateException("Unable to determine type arguments because " +
+                        "generic superclass neither parameterized type nor class.");
+            }
+            if (genericSuperclass == CRUDServiceImpl.class) {
+                throw new IllegalStateException("Unable to determine type arguments because no parameterized generic superclass found.");
+            }
+            genericSuperclass = ((Class)genericSuperclass).getGenericSuperclass();
+        }
+        final ParameterizedType type = (ParameterizedType)genericSuperclass;
+        final Type[] arguments = type.getActualTypeArguments();
+        this.entityClass = (Class<E>)arguments[1];
     }
 
     @Transactional(readOnly = true)

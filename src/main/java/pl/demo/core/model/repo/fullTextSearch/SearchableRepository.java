@@ -8,5 +8,6 @@ import pl.demo.core.model.repo.fullTextSearch.queryBuilder.SearchQueryBuilder;
  * Created by robertsikora on 28.09.15.
  */
 public interface SearchableRepository<T> {
+
     Page<T> search(SearchQueryBuilder searchQueryBuilder, Pageable pageable);
 }

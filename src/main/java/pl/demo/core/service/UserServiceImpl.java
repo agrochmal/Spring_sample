@@ -24,11 +24,6 @@ public class UserServiceImpl extends CRUDServiceImpl<Long, User> implements User
 	private RoleRepository roleRepository;
 	private PasswordEncoder passwordEncoder;
 
-	@Override
-	protected Class<User> supportedDomainClass() {
-		return User.class;
-	}
-
 	@Autowired
 	@Qualifier("authenticationManager")
 	private AuthenticationManager authManager;

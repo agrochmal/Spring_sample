@@ -61,30 +61,27 @@ angular.module('app.services', ['ngResource'])
 		var searchCriteria;
 		return {
 			search: function(_searchCriteria, _page, _size){
-				if(_page>0)
-					_page = _page -1;
-
+				if(_page>0) {
+					_page = _page - 1;
+				}
 				return $http.get('api/adverts/search', {
 					params: { keyWords: _searchCriteria.keyWords,
 						      locLatitude: _searchCriteria.locLatitude,
 						      locLongitude:_searchCriteria.locLongitude,
 						      locRadius:_searchCriteria.locRadius,
-
+                              searchMode: _searchCriteria.searchMode,
 						      page:_page,
 						      size:_size
 					}
 				});
 			},
-
 			setResult: function(searchCriteria, data){
 				this.searchCriteria=searchCriteria;
 				this.data = data;
 			},
-
 			getData :function(){
 				return this.data;
 			},
-
 			getSearchCriteria: function(){
 				return this.searchCriteria;
 			}

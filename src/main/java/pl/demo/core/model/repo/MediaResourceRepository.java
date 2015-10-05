@@ -8,7 +8,7 @@ import pl.demo.core.model.entity.MediaResource;
 
 import javax.persistence.LockModeType;
 
-public interface MediaResourceRepository extends JpaRepository<MediaResource, Long>{
+public interface MediaResourceRepository extends JpaRepository<MediaResource, Long> {
 
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("SELECT m FROM MediaResource m WHERE m.id=:id")

@@ -10,7 +10,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import pl.demo.core.model.entity.Advert;
 import pl.demo.core.model.entity.User;
 import pl.demo.core.model.repo.AdvertRepository;
-import pl.demo.core.model.repo.GenericRepository;
+import pl.demo.core.model.repo.generic.GenericRepository;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.verify;
