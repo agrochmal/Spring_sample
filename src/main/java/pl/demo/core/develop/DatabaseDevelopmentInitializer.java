@@ -6,6 +6,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import pl.demo.core.model.entity.*;
+import pl.demo.core.model.entity.embeddable.Contact;
+import pl.demo.core.model.entity.embeddable.Location;
 import pl.demo.core.model.repo.AdvertRepository;
 import pl.demo.core.model.repo.RoleNameRepository;
 import pl.demo.core.model.repo.RoleRepository;
@@ -67,12 +69,16 @@ public class DatabaseDevelopmentInitializer {
       Role roleForUser = new Role(roleNameUser);
       roleForUser = roleRepository.save(roleForUser);
 
+        Location location = new Location();
+        location.setLocation("Rzeszow");
+        location.setLat(50.0411867d);
+        location.setLng(21.999119599999972d);
+
+
       final Contact contact1 = new Contact();
-      contact1.setLocation("Rzeszów");
+      contact1.setLocation(location);
       contact1.setEmail("Robert Sikora");
       contact1.setPhone("661 333 222");
-      contact1.setLat(50.0411867d);
-      contact1.setLng(21.999119599999972d);
       contact1.setEmail("user@user.pl");
 
       User plainUser = new User();
@@ -83,11 +89,9 @@ public class DatabaseDevelopmentInitializer {
       userRepository.save(plainUser);
 
       final Contact contact2 = new Contact();
-      contact2.setLocation("Rzeszów");
+      contact2.setLocation(location);
       contact2.setEmail("Robert Sikora");
       contact2.setPhone("661 333 222");
-      contact2.setLat(50.0411867d);
-      contact2.setLng(21.999119599999972d);
       contact2.setEmail("admin@admin.pl");
 
       adminUser = new User();

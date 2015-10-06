@@ -81,6 +81,8 @@ public class UserServiceImpl extends CRUDServiceImpl<Long, User> implements User
 			Assert.state(null!=loggedUser, "User doesn't exist in db");
 		}
 		final User result = new User();
+		result.setName(loggedUser.getName());
+		result.setId(loggedUser.getId());
 		result.setContact(loggedUser.getContact());
 		result.setRoles(loggedUser.getRoles());
 		return result;

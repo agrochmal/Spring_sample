@@ -77,12 +77,12 @@ public class AdvertServiceImpl extends CRUDServiceImpl<Long, Advert> implements 
 
 	private Advert createAdvert(final User t){
 		return Advert.AdvertBuilder.anAdvert()
-				.withLocationName(t.getContact().getLocation())
+				.withLocationName(t.getContact().getLocation().getLocation())
 				.withContact(t.getName())
 				.withPhone(t.getContact().getPhone())
 				.withEmail(t.getContact().getEmail())
-                .withLatitude(t.getContact().getLat())
-				.withLongitude(t.getContact().getLng()).build();
+                .withLatitude(t.getContact().getLocation().getLat())
+				.withLongitude(t.getContact().getLocation().getLng()).build();
 	}
 
 	@Transactional(readOnly = true)

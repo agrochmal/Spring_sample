@@ -71,8 +71,8 @@
 				<div class="form-group">
 					<label class="control-label" for="inputLocation">Twoja lokalizacja<span class="asterix"> *</span></label>
 					<input type="text" class="form-control" id="inputLocation" name="location" placeholder="Lokalizacja"
-						   ng-model="login.register.user.contact.location" ng-model-options="{ updateOn: 'blur' }"
-						   ng-autocomplete="login.register.user.contact.location" details="login.register.autoComplete.details" options="login.register.autoComplete.options"
+						   ng-model="login.register.user.contact.location.name" ng-model-options="{ updateOn: 'blur' }"
+						   ng-autocomplete="login.register.user.contact.location.location" details="login.register.autoComplete.details" options="login.register.autoComplete.options"
 						   placeholder="Wpisz miasto i województwo" required ng-autoclick target-id="button-register">
 					<div class="error-container" ng-show="userForm.$submitted || userForm.location.$touched">
 						<small ng-show="userForm.location.$error.required">

@@ -110,8 +110,8 @@ angular.module('app.controlles', [])
 			},
 			save: function($event) {
 				if ($scope.userForm.$valid) {
-					$scope.login.register.user.contact.lat = this.autoComplete.getLatitude();
-					$scope.login.register.user.contact.lng = this.autoComplete.getLongitude();
+					$scope.login.register.user.contact.location.lat = this.autoComplete.getLatitude();
+					$scope.login.register.user.contact.location.lng = this.autoComplete.getLongitude();
 
 					$scope.login.register.user.$save(function($event) {
 						Alertify.success('Zarejstrowano');

@@ -86,15 +86,15 @@ public class Advert extends BaseEntity implements Coordinates {
 	@NotNull
     @Basic
 	@Column(nullable=false)
-	private Double latitude=0d;
+	private Double latitude = 0d;
 	
 	@NotNull
     @Basic
 	@Column(nullable=false)
-	private Double longitude=0d;
+	private Double longitude = 0d;
 
     @Basic
-    private Float rate=1.0f;
+    private Float rate = 1.0f;
 
     @Basic
     private String thumbUrl;
