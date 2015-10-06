@@ -13,7 +13,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import pl.demo.MsgConst;
-import pl.demo.core.aspects.DetachEntity;
 import pl.demo.core.model.entity.AuthenticationUserDetails;
 import pl.demo.core.model.entity.User;
 import pl.demo.core.model.repo.RoleRepository;
@@ -73,7 +72,6 @@ public class UserServiceImpl extends CRUDServiceImpl<Long, User> implements User
 	}
 
 	@Transactional(readOnly = true)
-	@DetachEntity
 	@Override
 	public User getLoggedUser() {
 		User loggedUser = null;
@@ -82,7 +80,10 @@ public class UserServiceImpl extends CRUDServiceImpl<Long, User> implements User
 			loggedUser = getDomainRepository().findOne(userDetails.getId());
 			Assert.state(null!=loggedUser, "User doesn't exist in db");
 		}
-		return loggedUser;
+		final User result = new User();
+		result.setContact(loggedUser.getContact());
+		result.setRoles(loggedUser.getRoles());
+		return result;
 	}
 
 	private AuthenticationUserDetails getLoggedUserDetails() {

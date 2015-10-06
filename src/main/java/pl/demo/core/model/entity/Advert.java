@@ -37,57 +37,71 @@ public class Advert extends BaseEntity implements Coordinates {
 	@Length(max=TEXT_LENGTH_80)
 	@Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
 	@Analyzer(definition = "advert_analyzer")
+    @Basic
 	@Column(length=TEXT_LENGTH_80, nullable=false)
 	private String title;
 
 	@Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
 	@Analyzer(definition = "advert_analyzer")
 	@Lob
+    @Basic
 	@Column(name="description", columnDefinition="TEXT NOT NULL", table="adverts")
 	private String description;
 
+    @Basic
 	@Column(nullable=false)
 	private Boolean active = Boolean.TRUE;
 	
 	@NotEmpty
 	@Length(max=TEXT_LENGTH_80)
+
+    @Basic
 	@Column(length=TEXT_LENGTH_80, nullable=false)
 	private String locationName;
-	
+
+    @Basic
 	@Column(nullable = false)
 	private Date creationDate = new Date();
-	
+
+    @Basic
 	private Date endDate;
 
 	@Length(max=TEXT_LENGTH_80)
+    @Basic
 	@Column(length=TEXT_LENGTH_80)
 	private String contact;
 	
 	@NotEmpty
 	@Length(max=TEXT_LENGTH_80)
+    @Basic
 	@Column(length=TEXT_LENGTH_80, nullable = false)
 	private String phone;
 
 	@Email
 	@Length(max=TEXT_LENGTH_80)
+    @Basic
 	@Column(length=TEXT_LENGTH_80)
 	private String email;
 	
 	@NotNull
+    @Basic
 	@Column(nullable=false)
 	private Double latitude=0d;
 	
 	@NotNull
+    @Basic
 	@Column(nullable=false)
 	private Double longitude=0d;
+
+    @Basic
+    private Float rate=1.0f;
+
+    @Basic
+    private String thumbUrl;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="user_id")
 	private User user;
-
-	private Float rate=1.0f;
-
-	private String thumbUrl;
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "advert")
 	private Set<Comment> comments = new HashSet<>();

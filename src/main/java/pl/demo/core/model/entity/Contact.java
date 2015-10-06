@@ -3,6 +3,7 @@ package pl.demo.core.model.entity;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.validation.constraints.NotNull;
@@ -21,27 +22,31 @@ public class Contact {
     @NotNull
     @Length(min=TEXT_LENGTH_1, max=TEXT_LENGTH_80)
     @Email
+    @Basic
     @Column(length=TEXT_LENGTH_80, nullable = false)
     private String email;
 
     @NotNull
     @Length(min=TEXT_LENGTH_1, max=TEXT_LENGTH_80)
+    @Basic
     @Column(length=TEXT_LENGTH_80, nullable = false)
     private String phone;
 
     @NotNull
     @Length(min=TEXT_LENGTH_1, max=TEXT_LENGTH_80)
+    @Basic
     @Column(length=TEXT_LENGTH_80, nullable=false)
     private String location;
 
     @NotNull
+    @Basic
     @Column(nullable=false)
     private Double lat = 0d;
 
     @NotNull
+    @Basic
     @Column(nullable = false)
     private Double lng = 0d;
-
 
     public String getEmail() {
         return email;

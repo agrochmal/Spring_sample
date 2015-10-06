@@ -33,12 +33,29 @@ import static pl.demo.core.model.entity.ModelConstans.TEXT_LENGTH_25;
                 @TokenFilterDef(factory=StempelPolishStemFilterFactory.class)})
 public class Comment extends BaseEntity {
 
+    @Basic
     private String nick;
+
+    @Basic
+    @Size(max=TEXT_LENGTH_25)
+    @Column(name="ip_addr")
     private String ipAddr;
+
+    @Basic
+    @Column(name="date", nullable = false)
     private Date date;
+
     @Field(index= org.hibernate.search.annotations.Index.YES, analyze=Analyze.YES, store=Store.NO)
     @Analyzer(definition = "comment_analyzer")
+    @NotEmpty
+    @Lob
+    @Basic
+    @Column(name="text", columnDefinition="CLOB NOT NULL", table="comments")
     private String text;
+
+    @Min(1)
+    @Max(10)
+    @Basic
     private Integer rate;
 
     @ManyToOne(fetch=FetchType.LAZY)
@@ -53,8 +70,6 @@ public class Comment extends BaseEntity {
         this.nick = nick;
     }
 
-    @Size(max=TEXT_LENGTH_25)
-    @Column(name="ip_addr")
     public String getIpAddr() {
         return ipAddr;
     }
@@ -63,7 +78,6 @@ public class Comment extends BaseEntity {
         this.ipAddr = ipAddr;
     }
 
-    @Column(name="date", nullable = false)
     public Date getDate() {
         return (Date) date.clone();
     }
@@ -72,9 +86,6 @@ public class Comment extends BaseEntity {
         this.date = (Date) date.clone();
     }
 
-    @NotEmpty
-    @Lob
-    @Column(name="text", columnDefinition="CLOB NOT NULL", table="comments")
     public String getText() {
         return text;
     }
@@ -91,8 +102,6 @@ public class Comment extends BaseEntity {
         this.advert = advert;
     }
 
-    @Min(1)
-    @Max(10)
     public Integer getRate() {
         return rate;
     }

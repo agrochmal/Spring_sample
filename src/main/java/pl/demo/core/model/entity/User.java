@@ -21,9 +21,11 @@ import static pl.demo.core.model.entity.ModelConstans.TEXT_LENGTH_80;
 public class User extends BaseEntity {
 
 	@Length(max=TEXT_LENGTH_80)
+    @Basic
 	@Column(length=TEXT_LENGTH_80, nullable=false)
 	private String password;
 
+    @Basic
 	private String name;
 
 	@Embedded
@@ -75,7 +77,6 @@ public class User extends BaseEntity {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
 
 	public Contact getContact() {
 		return contact;

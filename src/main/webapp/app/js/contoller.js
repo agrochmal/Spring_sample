@@ -66,7 +66,7 @@ angular.module('app.controlles', [])
 })
 .controller('LoginController', function($scope, $rootScope, $location, $cookieStore, LoginService, UserService, Alertify) {
 
-	function login(event, username,password) {
+	function login(event, username, password) {
 		LoginService.authenticate($.param({
 			username: username,
 			password: password
@@ -117,7 +117,7 @@ angular.module('app.controlles', [])
 						Alertify.success('Zarejstrowano');
 						$scope.dismiss($event);
 						if($scope.login.register.autologin){
-							login($event, $scope.login.register.user.username, $scope.login.register.user.password);
+							login($event, $scope.login.register.user.contact.email, $scope.login.register.user.password);
 						}
 					});
 				} else {

@@ -3,6 +3,7 @@ package pl.demo.core.model.entity;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -15,11 +16,31 @@ import javax.validation.constraints.NotNull;
 @Table(name = "media_resource")
 public class MediaResource extends BaseEntity{
 
+    @Basic
     private String publicId;
+
+    @NotNull
+    @NotEmpty
+    @Basic
+    @Column(nullable = false)
     private String name;
+
+    @NotNull
+    @NotEmpty
+    @Basic
+    @Column(nullable = false)
     private String contentType;
+
+    @NotNull
+    @Column(nullable = false)
+    @Basic
     private Long size;
+
+    @NotNull
+    @Column(nullable = false)
+    @Basic
     private Boolean delete = Boolean.FALSE;
+
     @ManyToOne(fetch= FetchType.LAZY)
     @JoinColumn(name="advert_id")
     private Advert advert;
@@ -32,8 +53,6 @@ public class MediaResource extends BaseEntity{
         this.publicId = publicId;
     }
 
-    @NotNull
-    @Column(nullable = false)
     public String getName() {
         return name;
     }
@@ -42,8 +61,7 @@ public class MediaResource extends BaseEntity{
         this.name = name;
     }
 
-    @NotNull
-    @Column(nullable = false)
+
     public String getContentType() {
         return contentType;
     }
@@ -52,8 +70,6 @@ public class MediaResource extends BaseEntity{
         this.contentType = contentType;
     }
 
-    @NotNull
-    @Column(nullable = false)
     public Long getSize() {
         return size;
     }
@@ -62,8 +78,6 @@ public class MediaResource extends BaseEntity{
         this.size = size;
     }
 
-    @NotNull
-    @Column(nullable = false)
     public Boolean getDelete() {
         return delete;
     }

@@ -4,6 +4,7 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -14,6 +15,7 @@ import static pl.demo.core.model.entity.ModelConstans.TEXT_LENGTH_80;
 @Table(name = "role_names")
 public class RoleName extends BaseEntity {
 
+  @Basic
   @Column(length=TEXT_LENGTH_80, unique=true)
   private String name;
   

@@ -122,10 +122,17 @@ angular.module('app', ['ngRoute','ngCookies','ngSanitize','app.services','app.co
 			if ($rootScope.user === undefined) {
 				return false;
 			}
-			if ($rootScope.user.roles[role] === undefined) {
+			if ($rootScope.user.roles === undefined) {
 				return false;
 			}
-			return $rootScope.user.roles[role];
+
+			for (var i = 0; i < $rootScope.user.roles.length; i++) {
+				if($rootScope.user.roles[i].roleName.name === role){
+					return true;
+				}
+			}
+
+			return false;
 		};
 		$rootScope.logout = function() {
 			delete $rootScope.user;

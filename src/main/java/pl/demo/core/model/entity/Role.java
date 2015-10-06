@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Table(name = "roles")
 @NamedQueries({
 	@NamedQuery(name = "Role.findAll", query = "SELECT r FROM Role r"),
-    @NamedQuery(name="Role.findByRoleName", query="SELECT r FROM Role r WHERE r.roleName.name = :name"),
+    @NamedQuery(name = "Role.findByRoleName", query = "SELECT r FROM Role r WHERE r.roleName.name = :name"),
 }) 
 public class Role extends BaseEntity {
 
