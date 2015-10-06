@@ -9,6 +9,7 @@ public class ModelConstans {
         throw new AssertionError("Cannot create object");
     }
 
+    public final static int TEXT_LENGTH_1=1;
     public final static int TEXT_LENGTH_25=25;
     public final static int TEXT_LENGTH_80=80;
     public final static int TEXT_LENGTH_100=100;

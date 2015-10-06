@@ -13,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import pl.demo.MsgConst;
+import pl.demo.core.aspects.DetachEntity;
 import pl.demo.core.model.entity.AuthenticationUserDetails;
 import pl.demo.core.model.entity.User;
 import pl.demo.core.model.repo.RoleRepository;
@@ -35,8 +36,8 @@ public class UserServiceImpl extends CRUDServiceImpl<Long, User> implements User
 		final User existing = getDomainRepository().findOne(id);
 		Assert.state(null!=user, "User doesn't exist in db for id:"+id);
 		existing.setName(user.getName());
-		existing.setLocation(user.getLocation());
-		existing.setPhone(user.getPhone());
+		existing.getContact().setLocation(user.getContact().getLocation());
+		existing.getContact().setPhone(user.getContact().getPhone());
 		getDomainRepository().save(existing);
 	}
 
@@ -72,6 +73,7 @@ public class UserServiceImpl extends CRUDServiceImpl<Long, User> implements User
 	}
 
 	@Transactional(readOnly = true)
+	@DetachEntity
 	@Override
 	public User getLoggedUser() {
 		User loggedUser = null;
@@ -83,8 +85,7 @@ public class UserServiceImpl extends CRUDServiceImpl<Long, User> implements User
 		return loggedUser;
 	}
 
-	@Override
-	public AuthenticationUserDetails getLoggedUserDetails() {
+	private AuthenticationUserDetails getLoggedUserDetails() {
 		final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if (isAuthenticated(authentication)) {
 			final Object principal = authentication.getPrincipal();

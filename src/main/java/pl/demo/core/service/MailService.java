@@ -14,6 +14,7 @@ import javax.validation.constraints.NotNull;
 
 @Validated
 public interface MailService {
+
     @Async(value="mailExecutor")
     void sendMail(@NotNull @Valid EMailDTO emailDTO, @NotNull @NotBlank String template);
 }

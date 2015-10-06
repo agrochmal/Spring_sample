@@ -1,6 +1,5 @@
 package pl.demo.core.model.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -9,7 +8,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -22,30 +20,14 @@ import static pl.demo.core.model.entity.ModelConstans.TEXT_LENGTH_80;
 @Table(name = "users")
 public class User extends BaseEntity {
 
-	@NotNull
-	@Length(max=TEXT_LENGTH_80)
-	@Column(unique=true, length=TEXT_LENGTH_80, nullable=false)
-	private String username;
-
 	@Length(max=TEXT_LENGTH_80)
 	@Column(length=TEXT_LENGTH_80, nullable=false)
 	private String password;
 
 	private String name;
 
-	@NotNull
-	@Column(nullable=false)
-	private String location;
-
-	@NotNull
-	@Column(nullable=false)
-	private String phone;
-
-	@Column(nullable=false)
-	private Double lat = 0d;
-
-	@Column(nullable = false)
-	private Double lng = 0d;
+	@Embedded
+	private Contact contact;
 
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "user_roles", joinColumns = { @JoinColumn(name = "id_user", referencedColumnName = "id") },
@@ -58,23 +40,9 @@ public class User extends BaseEntity {
 	public User() {
 	}
 
-	public User(final String username, final String passwordHash) {
-		this.setUsername(username);
-		this.setPassword(passwordHash);
-	}
-
-	public User(final String username, final String name, final String location, final String phone) {
-		this.setUsername(username);
-		this.setName(name);
-		this.setLocation(location);
-		this.setPhone(phone);
-	}
-
 	public Set<Role> getRoles() {
 		return roles;
 	}
-
-	@JsonIgnoreProperties(ignoreUnknown = true)
 
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
@@ -85,14 +53,11 @@ public class User extends BaseEntity {
 	}
 
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		Set<Role> roles = getRoles();
+		final Set<Role> roles = getRoles();
 		if (roles == null) {
 			return Collections.emptyList();
 		}
-		Set<GrantedAuthority> authorities = roles.stream().map( t-> new SimpleGrantedAuthority(t.getRoleName()
-				.toString())).collect(Collectors.toSet());
-
-		return authorities;
+		return roles.stream().map( t-> new SimpleGrantedAuthority(t.getRoleName().toString())).collect(Collectors.toSet());
 	}
 
 	public String getName() {
@@ -103,20 +68,21 @@ public class User extends BaseEntity {
 		this.name = name;
 	}
 
-	public String getLocation() {
-		return location;
+	public String getPassword() {
+		return password;
 	}
 
-	public void setLocation(String location) {
-		this.location = location;
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
-	public String getPhone() {
-		return phone;
+
+	public Contact getContact() {
+		return contact;
 	}
 
-	public void setPhone(String phone) {
-		this.phone = phone;
+	public void setContact(Contact contact) {
+		this.contact = contact;
 	}
 
 	public Set<Advert> getAdverts() {
@@ -125,38 +91,6 @@ public class User extends BaseEntity {
 
 	public void setAdverts(Set<Advert> adverts) {
 		this.adverts = adverts;
-	}
-
-	public Double getLat() {
-		return lat;
-	}
-
-	public void setLat(Double lat) {
-		this.lat = lat;
-	}
-
-	public Double getLng() {
-		return lng;
-	}
-
-	public void setLng(Double lng) {
-		this.lng = lng;
-	}
-
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
 	}
 
 	@Override
@@ -168,39 +102,33 @@ public class User extends BaseEntity {
 		User user = (User) o;
 
 		return new EqualsBuilder()
-				.append(username, user.username)
 				.append(password, user.password)
 				.append(name, user.name)
-				.append(location, user.location)
-				.append(phone, user.phone)
-				.append(lat, user.lat)
-				.append(lng, user.lng)
+				.append(contact, user.contact)
+				.append(roles, user.roles)
+				.append(adverts, user.adverts)
 				.isEquals();
 	}
 
 	@Override
 	public int hashCode() {
 		return new HashCodeBuilder(17, 37)
-				.append(username)
 				.append(password)
 				.append(name)
-				.append(location)
-				.append(phone)
-				.append(lat)
-				.append(lng)
+				.append(contact)
+				.append(roles)
+				.append(adverts)
 				.toHashCode();
 	}
 
 	@Override
 	public String toString() {
 		return new ToStringBuilder(this)
-				.append("username", username)
 				.append("password", password)
 				.append("name", name)
-				.append("location", location)
-				.append("phone", phone)
-				.append("lat", lat)
-				.append("lng", lng)
+				.append("contact", contact)
+				.append("roles", roles)
+				.append("adverts", adverts)
 				.toString();
 	}
 }

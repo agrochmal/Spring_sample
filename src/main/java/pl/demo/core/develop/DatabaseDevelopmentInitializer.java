@@ -5,10 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import pl.demo.core.model.entity.Advert;
-import pl.demo.core.model.entity.Role;
-import pl.demo.core.model.entity.RoleName;
-import pl.demo.core.model.entity.User;
+import pl.demo.core.model.entity.*;
 import pl.demo.core.model.repo.AdvertRepository;
 import pl.demo.core.model.repo.RoleNameRepository;
 import pl.demo.core.model.repo.RoleRepository;
@@ -70,22 +67,34 @@ public class DatabaseDevelopmentInitializer {
       Role roleForUser = new Role(roleNameUser);
       roleForUser = roleRepository.save(roleForUser);
 
-      User plainUser = new User("user@user.pl", passwordEncoder.encode("user"));
-      plainUser.setLocation("Rzeszów");
+      final Contact contact1 = new Contact();
+      contact1.setLocation("Rzeszów");
+      contact1.setEmail("Robert Sikora");
+      contact1.setPhone("661 333 222");
+      contact1.setLat(50.0411867d);
+      contact1.setLng(21.999119599999972d);
+      contact1.setEmail("user@user.pl");
+
+      User plainUser = new User();
       plainUser.setName("Robert Sikora");
-      plainUser.setPhone("123 456 789");
-      plainUser.setLat(50.0411867d);
-      plainUser.setLng(21.999119599999972d);
+      plainUser.setPassword(passwordEncoder.encode("user"));
+      plainUser.setContact(contact1);
       plainUser.addRole(roleForUser);
       userRepository.save(plainUser);
 
-      adminUser = new User("admin@admin.pl", passwordEncoder.encode("admin"));
+      final Contact contact2 = new Contact();
+      contact2.setLocation("Rzeszów");
+      contact2.setEmail("Robert Sikora");
+      contact2.setPhone("661 333 222");
+      contact2.setLat(50.0411867d);
+      contact2.setLng(21.999119599999972d);
+      contact2.setEmail("admin@admin.pl");
+
+      adminUser = new User();
+      adminUser.setPassword(passwordEncoder.encode("admin"));
       Role roleForAdmin = new Role(roleNameAdmin);
-      adminUser.setLocation("Rzeszów");
       adminUser.setName("Robert Sikora");
-      adminUser.setPhone("661 333 222");
-      adminUser.setLat(50.0411867d);
-      adminUser.setLng(21.999119599999972d);
+      adminUser.setContact(contact2);
       roleForAdmin = roleRepository.save(roleForAdmin);
 
       adminUser.addRole(roleForUser);

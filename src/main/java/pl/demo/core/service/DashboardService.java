@@ -9,6 +9,7 @@ import javax.validation.constraints.NotNull;
  */
 
 public interface DashboardService {
+
     @NotNull
     DashboardDTO buildDashboard();
 }

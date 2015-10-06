@@ -15,6 +15,7 @@ import javax.validation.constraints.NotNull;
 
 @Validated
 public interface SearchService {
+
     @NotNull
     Page<Advert> searchAdverts(@NotNull SearchCriteriaDTO searchCriteriaDTO, @NotNull Pageable pageable);
 

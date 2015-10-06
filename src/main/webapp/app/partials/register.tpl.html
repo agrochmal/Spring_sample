@@ -10,20 +10,20 @@
 			<form name="userForm" novalidate>
 				<div class="form-group">
 					<label class="control-label" for="inputUsername">Adres e-mail<span class="asterix"> *</span></label>
-					<input type="text" class="form-control" id="inputUsername" placeholder="Adres e-mail" name="username" ng-model="login.register.user.username" ng-model-options="{ updateOn: 'blur' }"
+					<input type="text" class="form-control" id="inputUsername" placeholder="Adres e-mail" name="email" ng-model="login.register.user.contact.email" ng-model-options="{ updateOn: 'blur' }"
 						   ng-autofocus ng-validate-email ng-unique-email required ng-autoclick target-id="button-register">
-					<div class="error-container" ng-show="userForm.$submitted || userForm.username.$touched">
-						<small ng-show="userForm.username.$error.required">
+					<div class="error-container" ng-show="userForm.$submitted || userForm.email.$touched">
+						<small ng-show="userForm.email.$error.required">
 							Podaj adres e-mail
 						</small>
 					</div>
-					<div class="error-container" ng-show="userForm.username.$dirty">
-						<small ng-show="userForm.username.$error.email">
+					<div class="error-container" ng-show="userForm.email.$dirty">
+						<small ng-show="userForm.email.$error.email">
 							Podaj prawidłowy adres e-mail, np. robertsikora@interia.pl
 						</small>
 					</div>
-					<div class="error-container" ng-show="userForm.username.$dirty">
-						<small ng-show="userForm.username.$error.unique">
+					<div class="error-container" ng-show="userForm.email.$dirty">
+						<small ng-show="userForm.email.$error.unique">
 							Istnieje już konto z takim adresem
 						</small>
 					</div>
@@ -71,8 +71,8 @@
 				<div class="form-group">
 					<label class="control-label" for="inputLocation">Twoja lokalizacja<span class="asterix"> *</span></label>
 					<input type="text" class="form-control" id="inputLocation" name="location" placeholder="Lokalizacja"
-						   ng-model="login.register.user.location" ng-model-options="{ updateOn: 'blur' }"
-						   ng-autocomplete="login.register.user.location" details="login.register.autoComplete.details" options="login.register.autoComplete.options"
+						   ng-model="login.register.user.contact.location" ng-model-options="{ updateOn: 'blur' }"
+						   ng-autocomplete="login.register.user.contact.location" details="login.register.autoComplete.details" options="login.register.autoComplete.options"
 						   placeholder="Wpisz miasto i województwo" required ng-autoclick target-id="button-register">
 					<div class="error-container" ng-show="userForm.$submitted || userForm.location.$touched">
 						<small ng-show="userForm.location.$error.required">
@@ -82,7 +82,7 @@
 				</div>
 				<div class="form-group">
 					<label class="control-label" for="inputPhone">Numer telefonu<span class="asterix"> *</span></label>
-					<input type="text" class="form-control" id="inputPhone" name="phone" placeholder="Telefon" ng-model="login.register.user.phone"
+					<input type="text" class="form-control" id="inputPhone" name="phone" placeholder="Telefon" ng-model="login.register.user.contact.phone"
 						   ng-model-options="{ updateOn: 'blur' }" ng-validate-number required ng-autoclick target-id="button-register">
 					<div class="error-container" ng-show="userForm.$submitted || userForm.phone.$touched">
 						<small ng-show="userForm.phone.$error.required">
@@ -96,15 +96,6 @@
 					</div>
 				</div>
 				<div class="modal-footer">
-					<!--<div class="login-register-checkbox">
-						<input class="login-checkbox" type="checkbox" name="terms" required ng-autoclick target-id="button-register">
-						<span class="label-checkbox">Akceptuję regulamin</span>
-						<div class="error-container" ng-show="userForm.$submitted || userForm.terms.$touched">
-							<small ng-show="userForm.terms.$error.required">
-								Akceptacja regulaminu jest wymagana !
-							</small>
-						</div>
-					</div>-->
 					<div class="login-register-checkbox">
 						<input class="login-checkbox" type="checkbox" name="autologin" ng-model="login.register.autologin">
 						<span class="label-checkbox">Auto-logowanie</span>

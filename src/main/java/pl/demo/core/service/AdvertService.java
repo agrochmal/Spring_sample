@@ -14,6 +14,7 @@ import java.util.Collection;
 
 @Validated
 public interface AdvertService extends CRUDService<Long, Advert> {
+
 	@NotNull @Valid
 	Page<Advert> findAll(@NotNull Pageable pageable);
 

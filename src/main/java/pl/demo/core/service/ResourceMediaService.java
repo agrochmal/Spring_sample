@@ -15,6 +15,7 @@ import java.io.Serializable;
 
 @Validated
 public interface ResourceMediaService extends CRUDService<Long, MediaResource> {
+
     @NotNull @Min(1)
     Long upload(@NotNull MultipartFile file);
 
