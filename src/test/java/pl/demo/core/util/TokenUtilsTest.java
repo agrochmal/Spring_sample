@@ -12,7 +12,6 @@ import java.util.Collection;
 
 import static org.junit.Assert.*;
 
-@Ignore
 @RunWith(MockitoJUnitRunner.class)
 public class TokenUtilsTest {
 

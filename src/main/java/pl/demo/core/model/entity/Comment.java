@@ -10,7 +10,6 @@ import org.hibernate.search.annotations.*;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
-import javax.persistence.Index;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
@@ -50,12 +49,13 @@ public class Comment extends BaseEntity {
     @NotEmpty
     @Lob
     @Basic
-    @Column(name="text", columnDefinition="CLOB NOT NULL", table="comments")
+    @Column(name="text", columnDefinition="CLOB NOT NULL", table="comments", nullable = false)
     private String text;
 
     @Min(1)
     @Max(10)
     @Basic
+    @Column(nullable = false)
     private Integer rate;
 
     @ManyToOne(fetch=FetchType.LAZY)

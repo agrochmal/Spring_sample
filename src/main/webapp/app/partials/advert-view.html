@@ -22,11 +22,11 @@
                    <div class="panel">
                        <div class="heading">
                            <span class="icon mif-location-city"></span>
-                           <span class="title">{{advert.locationName}}</span>
+                           <span class="title">{{advert.contact.location.location}}</span>
                        </div>
                        <div class="content">
-                           <map center="{{advert.latitude}}, {{advert.longitude}}" zoom="11">
-                               <info-window id="1" position="{{advert.latitude}}, {{advert.longitude}}" visible="true">
+                           <map center="{{advert.contact.location.lat}}, {{advert.contact.location.lng}}" zoom="11">
+                               <info-window id="1" position="{{advert.contact.location.lat}}, {{advert.contact.location.lng}}" visible="true">
                                    <div ng-non-bindable="">
                                        tu jesteśmy
                                    </div>
@@ -44,8 +44,8 @@
                    </div>
                    <div class="content">
                        <ul class="list-unstyled">
-                           <li> <span class="glyphicon glyphicon-phone" aria-hidden="true"></span> <strong><abbr title="Phone">&nbsp;&nbsp;Telefon:&nbsp;&nbsp;</abbr>{{advert.phone}}</strong>  </li>
-                           <li> <span class="glyphicon glyphicon-user" aria-hidden="true"></span> <strong>&nbsp;&nbsp;{{advert.contact}}</strong> </li>
+                           <li> <span class="glyphicon glyphicon-phone" aria-hidden="true"></span> <strong><abbr title="Phone">&nbsp;&nbsp;Telefon:&nbsp;&nbsp;</abbr>{{advert.contact.phone}}</strong>  </li>
+                           <li> <span class="glyphicon glyphicon-user" aria-hidden="true"></span> <strong>&nbsp;&nbsp;{{advert.ownerName}}</strong> </li>
                            <li> <button type="submit" class="btn action-btn" data-toggle="modal" data-target="#sendEmailModal">Wyślij wiadomość</button></li>
                        </ul>
                    </div>

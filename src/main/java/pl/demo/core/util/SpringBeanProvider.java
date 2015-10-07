@@ -25,7 +25,7 @@ public class SpringBeanProvider implements ApplicationContextAware {
         setAppCtx(applicationContext);
     }
 
-    private static void setAppCtx(final ApplicationContext applicationContext){
+    public static void setAppCtx(final ApplicationContext applicationContext){
         SpringBeanProvider.applicationContext = applicationContext;
     }
 

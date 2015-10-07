@@ -23,7 +23,7 @@ public class DashboardRestResource {
             produces = APPLICATION_JSON_VALUE)
 
     public ResponseEntity<DashboardDTO> getDashboardData(){
-        return ResponseEntity.ok().body(dashboardService.buildDashboard());
+        return ResponseEntity.ok().body(this.dashboardService.buildDashboard());
     }
 
     @Autowired

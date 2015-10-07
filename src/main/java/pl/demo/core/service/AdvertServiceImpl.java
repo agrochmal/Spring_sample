@@ -12,6 +12,7 @@ import pl.demo.core.model.entity.Comment;
 import pl.demo.core.model.entity.MediaResource;
 import pl.demo.core.model.entity.User;
 import pl.demo.core.model.repo.AdvertRepository;
+import pl.demo.core.model.repo.fullTextSearch.SearchableRepository;
 import pl.demo.core.util.EntityUtils;
 import pl.demo.web.HttpSessionContext;
 import pl.demo.web.dto.EMailDTO;
@@ -22,8 +23,6 @@ import java.util.*;
 import static pl.demo.core.service.MailServiceImpl.EMAIL_TEMPLATE;
 
 public class AdvertServiceImpl extends CRUDServiceImpl<Long, Advert> implements AdvertService {
-
-	private final static Page<Advert> EMPTY_PAGE = new PageImpl(Collections.emptyList(), null, 0);
 
 	private SearchService searchService;
 	private UserService userService;
@@ -37,9 +36,9 @@ public class AdvertServiceImpl extends CRUDServiceImpl<Long, Advert> implements 
 		Assert.notNull(advert);
 		Advert saved;
 		try {
-			final User loggedUser = userService.getLoggedUser();
-			if (null != loggedUser) {
-				advert.setUser(loggedUser);
+			final Optional<User> loggedUser = userService.getLoggedUser();
+			if (loggedUser.isPresent()) {
+				advert.setUser(loggedUser.get());
 			}
 			saved = super.save(advert);
 			final Iterator<Long> idIterator = httpSessionContext.getUploadedResourcesId();
@@ -70,19 +69,18 @@ public class AdvertServiceImpl extends CRUDServiceImpl<Long, Advert> implements 
 	@Transactional(readOnly = true)
 	@Override
 	public Advert createNew() {
-		return Optional.ofNullable(userService.getLoggedUser())
-			.map(t-> createAdvert(t))
-			.orElse(new Advert());
+		final Optional<User> user = userService.getLoggedUser();
+		if(user.isPresent()){
+			return createAdvert(user.get());
+		}
+		return new Advert();
 	}
 
 	private Advert createAdvert(final User t){
 		return Advert.AdvertBuilder.anAdvert()
-				.withLocationName(t.getContact().getLocation().getLocation())
-				.withContact(t.getName())
-				.withPhone(t.getContact().getPhone())
-				.withEmail(t.getContact().getEmail())
-                .withLatitude(t.getContact().getLocation().getLat())
-				.withLongitude(t.getContact().getLocation().getLng()).build();
+				.withOwnerName(t.getName())
+				.withContact(t.getContact())
+				.build();
 	}
 
 	@Transactional(readOnly = true)
@@ -96,7 +94,7 @@ public class AdvertServiceImpl extends CRUDServiceImpl<Long, Advert> implements 
 	@DetachEntity
 	@Override
 	public Page<Advert> findBySearchCriteria(final SearchCriteriaDTO searchCriteriaDTO, final Pageable pageable) {
-		Page<Advert> adverts = EMPTY_PAGE;
+		Page<Advert> adverts = SearchableRepository.EMPTY_PAGE;
 		if(searchCriteriaDTO.isEmpty()) {
 			adverts = getAdvertRepository().findByActive(Boolean.TRUE, pageable);
 		} else {

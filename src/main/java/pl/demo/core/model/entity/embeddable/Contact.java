@@ -11,8 +11,7 @@ import javax.persistence.Embeddable;
 import javax.persistence.Embedded;
 import javax.validation.constraints.NotNull;
 
-import static pl.demo.core.model.entity.ModelConstans.TEXT_LENGTH_1;
-import static pl.demo.core.model.entity.ModelConstans.TEXT_LENGTH_80;
+import static pl.demo.core.model.entity.ModelConstans.*;
 
 /**
  * Created by robertsikora on 06.10.15.
@@ -22,16 +21,16 @@ import static pl.demo.core.model.entity.ModelConstans.TEXT_LENGTH_80;
 public class Contact {
 
     @NotNull
-    @Length(min=TEXT_LENGTH_1, max=TEXT_LENGTH_80)
+    @Length(max=TEXT_LENGTH_100)
     @Email
     @Basic
-    @Column(length=TEXT_LENGTH_80, nullable = false)
+    @Column(length=TEXT_LENGTH_100, nullable = false)
     private String email;
 
     @NotNull
     @Length(min=TEXT_LENGTH_1, max=TEXT_LENGTH_80)
     @Basic
-    @Column(length=TEXT_LENGTH_80, nullable = false)
+    @Column(length=TEXT_LENGTH_25, nullable = false)
     private String phone;
 
     @Embedded

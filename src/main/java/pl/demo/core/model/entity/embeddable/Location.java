@@ -35,7 +35,6 @@ public class Location {
     @Column(nullable = false)
     private Double lng = 0d;
 
-
     public String getLocation() {
         return location;
     }

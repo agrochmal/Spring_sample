@@ -10,7 +10,6 @@ import org.mockito.runners.MockitoJUnitRunner;
 import pl.demo.core.model.entity.Advert;
 import pl.demo.core.model.entity.User;
 import pl.demo.core.model.repo.AdvertRepository;
-import pl.demo.core.model.repo.generic.GenericRepository;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.verify;
@@ -23,10 +22,9 @@ public class AdvertServiceImplTest {
     private AdvertServiceImpl testSubject;
 
     @Mock private AdvertRepository advertRepo;
-    @Mock private SearchAdvertService searchService;
+    @Mock private SearchService searchService;
     @Mock private UserService userService;
     @Mock private MailServiceImpl mailService;
-    @Mock private GenericRepository genericRepository;
 
     @Before
     public void setUp() throws Exception {
@@ -105,16 +103,6 @@ public class AdvertServiceImplTest {
     @Test
     public void testCreateNew() throws Exception {
 
-        //given
-        User user = createTestUser();
-        when( userService.getLoggedUser() ).thenReturn(user);
-        //when
-
-        Advert result = testSubject.createNew();
-
-        //then
-
-        assertEquals(user.getPhone(), result.getPhone());
     }
 
     @Test
@@ -160,11 +148,6 @@ public class AdvertServiceImplTest {
 
         User user = new User();
         user.setName("RS");
-        user.setPhone("343443434");
-        user.setLat(11d);
-        user.setLocation("location");
-        user.setLng(12d);
-        user.setUsername("test");
         return user;
     }
 }

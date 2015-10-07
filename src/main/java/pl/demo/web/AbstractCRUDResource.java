@@ -52,7 +52,7 @@ public abstract class AbstractCRUDResource<PK extends Serializable, E extends Ba
     }
 
     /**
-     * Get resource by resource Id
+     * Get resource by Id
      * @param id
      * @return status 200 OK
      */
@@ -77,6 +77,7 @@ public abstract class AbstractCRUDResource<PK extends Serializable, E extends Ba
 
     @RequestMapping(value="{id}",
             method = RequestMethod.DELETE)
+
     protected ResponseEntity<?> deleteResource(@PathVariable final PK id){
         final E entity = this.crudService.findOne(id);
         if(null == entity) {
@@ -94,6 +95,7 @@ public abstract class AbstractCRUDResource<PK extends Serializable, E extends Ba
      */
     @RequestMapping(value="{id}",
             method = RequestMethod.PUT)
+
     protected ResponseEntity<?> editResource(@PathVariable final PK id, @Valid @RequestBody final E entity,
                                           final BindingResult bindingResult){
         EntityUtils.applyValidation(bindingResult);
@@ -101,7 +103,7 @@ public abstract class AbstractCRUDResource<PK extends Serializable, E extends Ba
         if(null == existingEntity) {
             throw new ResourceNotFoundException();
         }
-        crudService.edit(id, entity);
+        this.crudService.edit(id, entity);
         return ResponseEntity.noContent().build();
     }
 
@@ -114,12 +116,12 @@ public abstract class AbstractCRUDResource<PK extends Serializable, E extends Ba
      */
 
     @RequestMapping(method = RequestMethod.POST)
+
     protected ResponseEntity<?> save(@Valid @RequestBody final E entity, final BindingResult bindingResult) {
         EntityUtils.applyValidation(bindingResult);
-        return Optional.ofNullable(crudService.save(entity))
+        return Optional.ofNullable(this.crudService.save(entity))
             .map(t -> {
-                final String path = ServletUriComponentsBuilder.fromCurrentServletMapping().
-                        path("/{id}").buildAndExpand(t.getId()).toString();
+                final String path = ServletUriComponentsBuilder.fromCurrentServletMapping().path("/{id}").buildAndExpand(t.getId()).toString();
                 final URI uriLocation = Utils.createURI(path);
                 return ResponseEntity.created(uriLocation).build();}
             ).orElseGet(() -> ResponseEntity.noContent().build());

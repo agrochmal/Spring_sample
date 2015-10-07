@@ -11,7 +11,7 @@
     <import resource="spring-config/spring-upload.xml" />
     <import resource="spring-config/spring-async.xml" />
     <import resource="spring-config/spring-cloudinary.xml" />
-    <import resource="spring-config/spring-bean.xml" />
+    <import resource="spring-config/spring-service.xml" />
     <import resource="spring-config/spring-aspect.xml" />
 
 </beans>

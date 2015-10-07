@@ -15,6 +15,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static pl.demo.core.model.entity.ModelConstans.TEXT_LENGTH_100;
 import static pl.demo.core.model.entity.ModelConstans.TEXT_LENGTH_80;
 
 @Entity
@@ -27,8 +28,12 @@ public class User extends BaseEntity {
 	private String password;
 
     @Basic
+    @Column(nullable=false)
 	private String name;
 
+    @AttributeOverrides({
+        @AttributeOverride(name="email",column=@Column(length=TEXT_LENGTH_100, nullable=false, unique=true))}
+    )
 	@Embedded
 	private Contact contact;
 

@@ -27,18 +27,11 @@ public abstract class CRUDServiceImpl<PK extends Serializable, E extends BaseEnt
     private Map<Class<? extends BaseEntity>, JpaRepository<E, PK>> repositoryMap;
     private Class<E> entityClass;
 
-    protected JpaRepository<E, PK> getDomainRepository(){
-        final JpaRepository<E, PK> repository = repositoryMap.get(entityClass);
-        Assert.notNull(repository, String.format("Domain object %s is not supported!", entityClass.getSimpleName()));
-        return repository;
-    }
-
     public CRUDServiceImpl() {
         Type genericSuperclass = this.getClass().getGenericSuperclass();
         while(!(genericSuperclass instanceof ParameterizedType)) {
             if(!(genericSuperclass instanceof Class)) {
-                throw new IllegalStateException("Unable to determine type arguments because " +
-                        "generic superclass neither parameterized type nor class.");
+                throw new IllegalStateException("Unable to determine type arguments because generic superclass neither parameterized type nor class.");
             }
             if (genericSuperclass == CRUDServiceImpl.class) {
                 throw new IllegalStateException("Unable to determine type arguments because no parameterized generic superclass found.");
@@ -75,7 +68,6 @@ public abstract class CRUDServiceImpl<PK extends Serializable, E extends BaseEnt
         Assert.notNull(id, "Entity id is required");
         findOne(id);
         getDomainRepository().delete(id);
-        getDomainRepository().flush();
     }
 
     @Transactional
@@ -89,6 +81,12 @@ public abstract class CRUDServiceImpl<PK extends Serializable, E extends BaseEnt
     public E save(final E entity) {
         Assert.notNull(entity, "Entity is required");
         return getDomainRepository().saveAndFlush(entity);
+    }
+
+    protected JpaRepository<E, PK> getDomainRepository(){
+        final JpaRepository<E, PK> repository = repositoryMap.get(entityClass);
+        Assert.notNull(repository, String.format("Domain object %s is not supported!", entityClass.getSimpleName()));
+        return repository;
     }
 
     public void setRepositoryMap(Map<Class<? extends BaseEntity>, JpaRepository<E, PK>> repositoryMap) {

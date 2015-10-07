@@ -30,7 +30,7 @@
 					<label for="inputLocation" class="col-sm-2 control-label">Podaj lokalizację<span class="asterix"> *</span></label>
 					<div class="col-sm-7">
 						<input type="text" class="form-control" id="inputLocation"
-							name="locationName" ng-autocomplete="saveCommand.advert.locationName" ng-model="saveCommand.advert.locationName" ng-model-options="{ updateOn: 'blur' }"
+							name="locationName" ng-autocomplete="saveCommand.advert.contact.location.location" ng-model="saveCommand.advert.contact.location.location" ng-model-options="{ updateOn: 'blur' }"
 							details="saveCommand.autoComplete.details" options="saveCommand.autoComplete.options"
 							placeholder="Wpisz miasto i województwo" required>
 						<div class="error-container" ng-show="advertForm.$submitted || advertForm.locationName.$touched">
@@ -64,7 +64,7 @@
 				<div class="form-group margin-top30">
 					<label for="contact" class="col-sm-2 control-label">Imię i nazwisko<span class="asterix"> *</span></label>
 					<div class="col-sm-3">
-						<input type="text" class="form-control" placeholder="Imię i nazwisko" id="contact" name="contact" ng-model="saveCommand.advert.contact" ng-model-options="{ updateOn: 'blur' }" required>
+						<input type="text" class="form-control" placeholder="Imię i nazwisko" id="contact" name="contact" ng-model="saveCommand.advert.ownerName" ng-model-options="{ updateOn: 'blur' }" required>
 						<div class="error-container" ng-show="advertForm.$submitted || advertForm.contact.$touched">
 							<small ng-show="advertForm.contact.$error.required"> Podaj Imię i nazwisko </small>
 						</div>
@@ -73,7 +73,7 @@
 				<div class="form-group margin-top30">
 					<label for="inputPhone" class="col-sm-2 control-label">Numer telefonu<span class="asterix"> *</span></label>
 					<div class="col-sm-3">
-						<input type="text" id="inputPhone" placeholder="Telefon" name="phone" class="form-control" ng-model="saveCommand.advert.phone" ng-model-options="{ updateOn: 'blur' }" ng-validate-number required>
+						<input type="text" id="inputPhone" placeholder="Telefon" name="phone" class="form-control" ng-model="saveCommand.advert.contact.phone" ng-model-options="{ updateOn: 'blur' }" ng-validate-number required>
 						<div class="error-container" ng-show="advertForm.$submitted || advertForm.phone.$touched">
 							<small ng-show="advertForm.phone.$error.required"> Podaj numer telefonu </small>
 						</div>
@@ -85,9 +85,12 @@
 					</div>
 				</div>
 				<div class="form-group margin-top30">
-					<label for="inputEmail" class="col-sm-2 control-label">Adres e-mail</label>
+					<label for="inputEmail" class="col-sm-2 control-label">Adres e-mail<span class="asterix"> *</span></label>
 					<div class="col-sm-3">
-						<input type="text" class="form-control" name="email" placeholder="Adres e-mail" id="inputEmail" ng-model="saveCommand.advert.email" ng-model-options="{ updateOn: 'blur' }" ng-validate-email>
+						<input type="text" class="form-control" name="email" placeholder="Adres e-mail" id="inputEmail" ng-model="saveCommand.advert.contact.email" ng-model-options="{ updateOn: 'blur' }" ng-validate-email>
+						<div class="error-container" ng-show="advertForm.$submitted || advertForm.email.$touched">
+							<small ng-show="advertForm.email.$error.required"> Podaj adres e-mail </small>
+						</div>
 						<div class="error-container" ng-show="advertForm.email.$invalid && advertForm.email.$dirty">
 							<small ng-show="advertForm.email.$error.email">
 								Podaj prawidłowy adres e-mail, np. robertsikora@interia.pl

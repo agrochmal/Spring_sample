@@ -5,11 +5,14 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import pl.demo.core.util.EntityUtils;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 
 @MappedSuperclass
-public abstract class BaseEntity implements Serializable, FlatableEntity{
+public abstract class BaseEntity implements Serializable, FlatableEntity {
+
+	private final static Object NULL_VALUE = null;
 
 	@JsonIgnoreProperties(ignoreUnknown=true)
 	@Id
@@ -17,9 +20,9 @@ public abstract class BaseEntity implements Serializable, FlatableEntity{
 	@Column(name="id")
 	protected Long id;
 
-	@Basic
-	@Column(name="entry_date")
-	private Date entryDate;
+    @NotNull
+	@Column(name="entry_date", nullable = false)
+	private Date entryDate = new Date();
 
 	public Long getId() {
 		return id;
@@ -30,7 +33,7 @@ public abstract class BaseEntity implements Serializable, FlatableEntity{
 	}
 
 	public Date getEntryDate() {
-		return new Date();
+		return entryDate;
 	}
 
 	public void setEntryDate(Date entryDate) {
@@ -39,16 +42,21 @@ public abstract class BaseEntity implements Serializable, FlatableEntity{
 		}
 	}
 
+	/*
+	   Method makes flatten entity.
+	   Thanks to it may be serialized and send over REST
+	 */
+
 	@Override
 	public void flatEntity() {
-		EntityUtils.setFieldValues(this, null, EntityUtils.ANNOTATIONS);
+		EntityUtils.setFieldValues(this, NULL_VALUE, EntityUtils.ANNOTATIONS);
 	}
 
 	@Override
 	public String toString() {
 		return new ToStringBuilder(this)
 				.append("id", id)
-				.append("entryDate", entryDate)
+				//.append("entryDate", entryDate)
 				.toString();
 	}
 }

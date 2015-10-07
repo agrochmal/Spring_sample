@@ -19,6 +19,8 @@ import pl.demo.core.model.repo.RoleRepository;
 import pl.demo.core.model.repo.UserRepository;
 import pl.demo.web.exception.ResourceNotFoundException;
 
+import java.util.Optional;
+
 public class UserServiceImpl extends CRUDServiceImpl<Long, User> implements UserService {
 
 	private RoleRepository roleRepository;
@@ -73,19 +75,18 @@ public class UserServiceImpl extends CRUDServiceImpl<Long, User> implements User
 
 	@Transactional(readOnly = true)
 	@Override
-	public User getLoggedUser() {
-		User loggedUser = null;
+	public Optional<User> getLoggedUser() {
 		final AuthenticationUserDetails userDetails = getLoggedUserDetails();
 		if (userDetails != null) {
-			loggedUser = getDomainRepository().findOne(userDetails.getId());
+            final User result = new User();
+			User loggedUser = getDomainRepository().findOne(userDetails.getId());
 			Assert.state(null!=loggedUser, "User doesn't exist in db");
+			result.setName(loggedUser.getName());
+			result.setId(loggedUser.getId());
+			result.setContact(loggedUser.getContact());
+			result.setRoles(loggedUser.getRoles());
 		}
-		final User result = new User();
-		result.setName(loggedUser.getName());
-		result.setId(loggedUser.getId());
-		result.setContact(loggedUser.getContact());
-		result.setRoles(loggedUser.getRoles());
-		return result;
+		return null;
 	}
 
 	private AuthenticationUserDetails getLoggedUserDetails() {

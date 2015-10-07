@@ -161,11 +161,11 @@ angular.module('app.controlles', [])
 		},
 		save: function() {
 			if ($scope.advertForm.$valid) {
-				if ($scope.saveCommand.advert.latitude===0) {
-					$scope.saveCommand.advert.latitude = this.autoComplete.getLatitude();
+				if ($scope.saveCommand.advert.contact.location.lat===0) {
+					$scope.saveCommand.advert.contact.location.lat = this.autoComplete.getLatitude();
 				}
-				if ($scope.saveCommand.advert.longitude===0) {
-					$scope.saveCommand.advert.longitude = this.autoComplete.getLongitude();
+				if ($scope.saveCommand.advert.contact.location.lng==0) {
+					$scope.saveCommand.advert.contact.location.lng = this.autoComplete.getLongitude();
 				}
 				$scope.saveCommand.advert.$save(function(advert, headers) {
 					var newId = headers('Location');

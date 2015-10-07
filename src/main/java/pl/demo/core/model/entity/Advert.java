@@ -9,9 +9,9 @@ import org.apache.solr.analysis.StempelPolishStemFilterFactory;
 import org.hibernate.search.annotations.*;
 import org.hibernate.search.annotations.Index;
 import org.hibernate.search.spatial.Coordinates;
-import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
+import pl.demo.core.model.entity.embeddable.Contact;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -32,393 +32,337 @@ import static pl.demo.core.model.entity.ModelConstans.TEXT_LENGTH_80;
 				@TokenFilterDef(factory=LowerCaseFilterFactory.class),
 				@TokenFilterDef(factory=StempelPolishStemFilterFactory.class)})
 public class Advert extends BaseEntity implements Coordinates {
-	
-	@NotEmpty
-	@Length(max=TEXT_LENGTH_80)
-	@Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
-	@Analyzer(definition = "advert_analyzer")
-    @Basic
-	@Column(length=TEXT_LENGTH_80, nullable=false)
-	private String title;
 
-	@Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
-	@Analyzer(definition = "advert_analyzer")
-	@Lob
+    @NotEmpty
+    @Length(max = TEXT_LENGTH_80)
+    @Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
+    @Analyzer(definition = "advert_analyzer")
     @Basic
-	@Column(name="description", columnDefinition="TEXT NOT NULL", table="adverts")
-	private String description;
+    @Column(length = TEXT_LENGTH_80, nullable = false)
+    private String title;
 
+    @Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
+    @Analyzer(definition = "advert_analyzer")
+    @Lob
     @Basic
-	@Column(nullable=false)
-	private Boolean active = Boolean.TRUE;
-	
-	@NotEmpty
-	@Length(max=TEXT_LENGTH_80)
+    @Column(name = "description", columnDefinition = "TEXT NOT NULL", table = "adverts")
+    private String description;
 
     @Basic
-	@Column(length=TEXT_LENGTH_80, nullable=false)
-	private String locationName;
+    @Column(nullable = false)
+    private Boolean active = Boolean.TRUE;
+
+    @NotNull
+    @Basic
+    @Column(nullable = false)
+    private Date creationDate = new Date();
 
     @Basic
-	@Column(nullable = false)
-	private Date creationDate = new Date();
+    private Date endDate;
 
+    @Length(max = TEXT_LENGTH_80)
     @Basic
-	private Date endDate;
-
-	@Length(max=TEXT_LENGTH_80)
-    @Basic
-	@Column(length=TEXT_LENGTH_80)
-	private String contact;
-	
-	@NotEmpty
-	@Length(max=TEXT_LENGTH_80)
-    @Basic
-	@Column(length=TEXT_LENGTH_80, nullable = false)
-	private String phone;
-
-	@Email
-	@Length(max=TEXT_LENGTH_80)
-    @Basic
-	@Column(length=TEXT_LENGTH_80)
-	private String email;
-	
-	@NotNull
-    @Basic
-	@Column(nullable=false)
-	private Double latitude = 0d;
-	
-	@NotNull
-    @Basic
-	@Column(nullable=false)
-	private Double longitude = 0d;
+    @Column(name = "owner_name", length = TEXT_LENGTH_80)
+    private String ownerName;
 
     @Basic
     private Float rate = 1.0f;
 
     @Basic
     private String thumbUrl;
-	
-	@ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="user_id")
-	private User user;
 
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "advert")
-	private Set<Comment> comments = new HashSet<>();
+    @Embedded
+    private Contact contact;
 
-	public String getTitle() {
-		return title;
-	}
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "advert")
+    private Set<Comment> comments = new HashSet<>();
 
-	public String getDescription() {
-		return description;
-	}
+    public String getTitle() {
+        return title;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
-	public Date getEndDate() {
-		if(endDate != null) {
-			return (Date) endDate.clone();
-		}
-		return null;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public void setEndDate(Date endDate) {
-		if(endDate != null) {
-			this.endDate = (Date) endDate.clone();
-		}
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public String getContact() {
-		return contact;
-	}
+    public Date getEndDate() {
+        if (endDate != null) {
+            return (Date) endDate.clone();
+        }
+        return null;
+    }
 
-	public void setContact(String contact) {
-		this.contact = contact;
-	}
+    public void setEndDate(Date endDate) {
+        if (endDate != null) {
+            this.endDate = (Date) endDate.clone();
+        }
+    }
 
-	public String getPhone() {
-		return phone;
-	}
+    public Date getCreationDate() {
+        if (creationDate != null) {
+            return (Date) creationDate.clone();
+        }
+        return null;
+    }
 
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
+    public void setCreationDate(Date creationDate) {
+        if (creationDate != null) {
+            this.creationDate = (Date) creationDate.clone();
+        }
+    }
 
-	public String getEmail() {
-		return email;
-	}
+    public User getUser() {
+        return user;
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public void setUser(User user) {
+        this.user = user;
+    }
 
-	public Date getCreationDate() {
-		if(creationDate != null) {
-			return (Date) creationDate.clone();
-		}
-		return null;
-	}
+    public Boolean getActive() {
+        return active;
+    }
 
-	public void setCreationDate(Date creationDate) {
-		if(creationDate != null) {
-			this.creationDate = (Date) creationDate.clone();
-		}
-	}
+    public void setActive(Boolean isActive) {
+        this.active = isActive;
+    }
 
-	public User getUser() {
-		return user;
-	}
+    public Float getRate() {
+        return rate;
+    }
 
-	public void setUser(User user) {
-		this.user = user;
-	}
+    public void setRate(Float rate) {
+        this.rate = rate;
+    }
 
-	public String getLocationName() {
-		return locationName;
-	}
+    @Transient
+    public String getThumbUrl() {
+        return thumbUrl;
+    }
 
-	public void setLocationName(String locationName) {
-		this.locationName = locationName;
-	}
+    public void setThumbUrl(String thumbUrl) {
+        this.thumbUrl = thumbUrl;
+    }
 
-	public Double getLatitude() {
-		return latitude;
-	}
+    public Set<Comment> getComments() {
+        return comments;
+    }
 
-	public void setLatitude(Double latitude) {
-		this.latitude = latitude;
-	}
+    public void setComments(Set<Comment> comments) {
+        this.comments = comments;
+    }
 
-	public Double getLongitude() {
-		return longitude;
-	}
 
-	public void setLongitude(Double longitude) {
-		this.longitude = longitude;
-	}
+    public String getOwnerName() {
+        return ownerName;
+    }
 
-	public Boolean getActive() {
-		return active;
-	}
+    public void setOwnerName(String ownerName) {
+        this.ownerName = ownerName;
+    }
 
-	public void setActive(Boolean isActive) {
-		this.active = isActive;
-	}
+    public Contact getContact() {
+        return contact;
+    }
 
-	public Float getRate() {
-		return rate;
-	}
+    public void setContact(Contact contact) {
+        this.contact = contact;
+    }
 
-	public void setRate(Float rate) {
-		this.rate = rate;
-	}
+    @Override
+    public Double getLatitude() {
+        if(this.getContact() == null){
+            return null;
+        }
+        return this.getContact().getLocation().getLat();
+    }
 
-	@Transient
-	public String getThumbUrl() {
-		return thumbUrl;
-	}
+    @Override
+    public Double getLongitude() {
+        if(this.getContact() == null){
+            return null;
+        }
+        return this.getContact().getLocation().getLng();
+    }
 
-	public void setThumbUrl(String thumbUrl) {
-		this.thumbUrl = thumbUrl;
-	}
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
 
-	public Set<Comment> getComments() {
-		return comments;
-	}
+        if (o == null || getClass() != o.getClass()) return false;
 
-	public void setComments(Set<Comment> comments) {
-		this.comments = comments;
-	}
+        Advert advert = (Advert) o;
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
+        return new EqualsBuilder()
+                .append(title, advert.title)
+                .append(description, advert.description)
+                .append(active, advert.active)
+                .append(creationDate, advert.creationDate)
+                .append(endDate, advert.endDate)
+                .append(ownerName, advert.ownerName)
+                .append(rate, advert.rate)
+                .append(thumbUrl, advert.thumbUrl)
+                .append(contact, advert.contact)
+                .append(user, advert.user)
+                .append(comments, advert.comments)
+                .isEquals();
+    }
 
-		if (o == null || getClass() != o.getClass()) return false;
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder(17, 37)
+                .append(title)
+                .append(description)
+                .append(active)
+                .append(creationDate)
+                .append(endDate)
+                .append(ownerName)
+                .append(rate)
+                .append(thumbUrl)
+                .append(contact)
+                .append(user)
+                .append(comments)
+                .toHashCode();
+    }
 
-		Advert advert = (Advert) o;
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .append("title", title)
+                .append("description", description)
+                .append("active", active)
+                .append("creationDate", creationDate)
+                .append("endDate", endDate)
+                .append("ownerName", ownerName)
+                .append("rate", rate)
+                .append("thumbUrl", thumbUrl)
+                .append("contact", contact)
+                .append("user", user)
+                .append("comments", comments)
+                .toString();
+    }
 
-		return new EqualsBuilder()
-				.append(title, advert.title)
-				.append(description, advert.description)
-				.append(active, advert.active)
-				.append(locationName, advert.locationName)
-				.append(creationDate, advert.creationDate)
-				.append(endDate, advert.endDate)
-				.append(contact, advert.contact)
-				.append(phone, advert.phone)
-				.append(email, advert.email)
-				.append(latitude, advert.latitude)
-				.append(longitude, advert.longitude)
-				.isEquals();
-	}
+    public static class AdvertBuilder {
+        protected Long id;
+        private String title;
+        private String description;
+        private Boolean active = Boolean.TRUE;
 
-	@Override
-	public int hashCode() {
-		return new HashCodeBuilder(17, 37)
-				.append(title)
-				.append(description)
-				.append(active)
-				.append(locationName)
-				.append(creationDate)
-				.append(endDate)
-				.append(contact)
-				.append(phone)
-				.append(email)
-				.append(latitude)
-				.append(longitude)
-				.toHashCode();
-	}
+        private Date creationDate = new Date();
+        private Date endDate;
+        private String ownerName;
+        private Float rate = 1.0f;
+        private String thumbUrl;
+        private Contact contact;
+        private User user;
+        private Set<Comment> comments = new HashSet<>();
+        private Date entryDate;
 
-	@Override
-	public String toString() {
-		return new ToStringBuilder(this)
-				.append("title", title)
-				.append("description", description)
-				.append("active", active)
-				.append("locationName", locationName)
-				.append("creationDate", creationDate)
-				.append("endDate", endDate)
-				.append("contact", contact)
-				.append("phone", phone)
-				.append("email", email)
-				.append("latitude", latitude)
-				.append("longitude", longitude)
-				.toString();
-	}
+        private AdvertBuilder() {
+        }
 
-	public static class AdvertBuilder {
-		protected Long id;
+        public static AdvertBuilder anAdvert() {
+            return new AdvertBuilder();
+        }
 
-		private String title;
+        public AdvertBuilder withTitle(String title) {
+            this.title = title;
+            return this;
+        }
 
-		private String description;
-		private Boolean active = Boolean.TRUE;
-		private String locationName;
-		private Date creationDate = new Date();
-		private Date endDate;
+        public AdvertBuilder withDescription(String description) {
+            this.description = description;
+            return this;
+        }
 
-		private String contact;
-		private String phone;
-		private String email;
+        public AdvertBuilder withActive(Boolean active) {
+            this.active = active;
+            return this;
+        }
 
-		private Double latitude=0d;
-		private Double longitude=0d;
-		private User user;
-		private Float rate=1.0f;
-		private Set<Comment> comments = new HashSet<>();
+        public AdvertBuilder withCreationDate(Date creationDate) {
+            this.creationDate = creationDate;
+            return this;
+        }
 
-		private AdvertBuilder() {
-		}
+        public AdvertBuilder withEndDate(Date endDate) {
+            this.endDate = endDate;
+            return this;
+        }
 
-		public static AdvertBuilder anAdvert() {
-			return new AdvertBuilder();
-		}
+        public AdvertBuilder withOwnerName(String ownerName) {
+            this.ownerName = ownerName;
+            return this;
+        }
 
-		public AdvertBuilder withTitle(String title) {
-			this.title = title;
-			return this;
-		}
+        public AdvertBuilder withRate(Float rate) {
+            this.rate = rate;
+            return this;
+        }
 
-		public AdvertBuilder withDescription(String description) {
-			this.description = description;
-			return this;
-		}
+        public AdvertBuilder withThumbUrl(String thumbUrl) {
+            this.thumbUrl = thumbUrl;
+            return this;
+        }
 
-		public AdvertBuilder withActive(Boolean active) {
-			this.active = active;
-			return this;
-		}
+        public AdvertBuilder withContact(Contact contact) {
+            this.contact = contact;
+            return this;
+        }
 
-		public AdvertBuilder withLocationName(String locationName) {
-			this.locationName = locationName;
-			return this;
-		}
+        public AdvertBuilder withUser(User user) {
+            this.user = user;
+            return this;
+        }
 
-		public AdvertBuilder withCreationDate(Date creationDate) {
-			this.creationDate = (Date)creationDate.clone();
-			return this;
-		}
+        public AdvertBuilder withComments(Set<Comment> comments) {
+            this.comments = comments;
+            return this;
+        }
 
-		public AdvertBuilder withEndDate(Date endDate) {
-			this.endDate = (Date)endDate.clone();
-			return this;
-		}
+        public AdvertBuilder withId(Long id) {
+            this.id = id;
+            return this;
+        }
 
-		public AdvertBuilder withContact(String contact) {
-			this.contact = contact;
-			return this;
-		}
+        public AdvertBuilder withEntryDate(Date entryDate) {
+            this.entryDate = entryDate;
+            return this;
+        }
 
-		public AdvertBuilder withPhone(String phone) {
-			this.phone = phone;
-			return this;
-		}
+        public AdvertBuilder but() {
+            return anAdvert().withTitle(title).withDescription(description).withActive(active).withCreationDate(creationDate).withEndDate(endDate).withOwnerName(ownerName).withRate(rate).withThumbUrl(thumbUrl).withContact(contact).withUser(user).withComments(comments).withId(id).withEntryDate(entryDate);
+        }
 
-		public AdvertBuilder withEmail(String email) {
-			this.email = email;
-			return this;
-		}
-
-		public AdvertBuilder withLatitude(Double latitude) {
-			this.latitude = latitude;
-			return this;
-		}
-
-		public AdvertBuilder withLongitude(Double longitude) {
-			this.longitude = longitude;
-			return this;
-		}
-
-		public AdvertBuilder withUser(User user) {
-			this.user = user;
-			return this;
-		}
-
-		public AdvertBuilder withRate(Float rate) {
-			this.rate = rate;
-			return this;
-		}
-
-		public AdvertBuilder withComments(Set<Comment> comments) {
-			this.comments = comments;
-			return this;
-		}
-
-		public AdvertBuilder withId(Long id) {
-			this.id = id;
-			return this;
-		}
-
-		public AdvertBuilder but() {
-			return anAdvert().withTitle(title).withDescription(description).withActive(active).withLocationName(locationName).withCreationDate(creationDate).withEndDate(endDate).withContact(contact).withPhone(phone).withEmail(email).withLatitude(latitude).withLongitude(longitude).withUser(user).withRate(rate).withComments(comments).withId(id);
-		}
-
-		public Advert build() {
-			Advert advert = new Advert();
-			advert.setTitle(title);
-			advert.setDescription(description);
-			advert.setActive(active);
-			advert.setLocationName(locationName);
-			advert.setCreationDate(creationDate);
-			advert.setEndDate(endDate);
-			advert.setContact(contact);
-			advert.setPhone(phone);
-			advert.setEmail(email);
-			advert.setLatitude(latitude);
-			advert.setLongitude(longitude);
-			advert.setUser(user);
-			advert.setRate(rate);
-			advert.setComments(comments);
-			advert.setId(id);
-			return advert;
-		}
-	}
+        public Advert build() {
+            Advert advert = new Advert();
+            advert.setTitle(title);
+            advert.setDescription(description);
+            advert.setActive(active);
+            advert.setCreationDate(creationDate);
+            advert.setEndDate(endDate);
+            advert.setOwnerName(ownerName);
+            advert.setRate(rate);
+            advert.setThumbUrl(thumbUrl);
+            advert.setContact(contact);
+            advert.setUser(user);
+            advert.setComments(comments);
+            advert.setId(id);
+            return advert;
+        }
+    }
 }
+
+

@@ -13,11 +13,13 @@ import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.orm.jpa.EntityManagerProxy;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import pl.demo.core.model.entity.Advert;
 import pl.demo.core.model.repo.fullTextSearch.queryBuilder.SearchQueryBuilder;
 
 import javax.persistence.EntityManager;
 import java.io.Serializable;
-import java.util.List;
+import java.util.Collections;
+import java.util.Optional;
 
 /**
  * Created by robertsikora on 28.09.15.
@@ -51,14 +53,14 @@ public class SearchableRepositoryImpl<T, I extends Serializable> extends SimpleJ
         final EntityManager em = getFullTextEntityManager();
         final FullTextEntityManager fullTextEntityManager = org.hibernate.search.jpa.Search.getFullTextEntityManager(em);
         final QueryBuilder qb = fullTextEntityManager.getSearchFactory().buildQueryBuilder().forEntity(domainClass).get();
-        final Query query = searchQueryBuilder.build(qb);
-        final FullTextQuery fullTextQuery = fullTextEntityManager.createFullTextQuery(query, domainClass);
-        final int total = fullTextQuery.getResultSize();
-        fullTextQuery.setFirstResult(pageable.getOffset())
-                .setMaxResults(pageable.getPageSize());
+        final Optional<Query> queryOptional = searchQueryBuilder.build(qb);
+        if(!queryOptional.isPresent()){
+            return (Page<T>) EMPTY_PAGE;
+        }
 
-        final List result = fullTextQuery.getResultList();
-        return new PageImpl(result, pageable, total);
+        final FullTextQuery fullTextQuery = fullTextEntityManager.createFullTextQuery(queryOptional.get(), domainClass);
+        fullTextQuery.setFirstResult(pageable.getOffset()).setMaxResults(pageable.getPageSize());
+        return new PageImpl(fullTextQuery.getResultList(), pageable, fullTextQuery.getResultSize());
     }
 
     private FullTextEntityManager getFullTextEntityManager() {

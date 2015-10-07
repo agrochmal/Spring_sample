@@ -4,6 +4,8 @@ import org.apache.lucene.search.Query;
 import org.hibernate.search.query.dsl.QueryBuilder;
 import pl.demo.web.dto.SearchCriteriaDTO;
 
+import java.util.Optional;
+
 /**
  * Created by robertsikora on 29.09.15.
  */
@@ -29,7 +31,7 @@ public class CommentSearchQueryBuiderImpl implements SearchQueryBuilder{
     }
 
     @Override
-    public Query build(QueryBuilder queryBuilder) {
-        return applyKeywordCriteria(queryBuilder);
+    public Optional<Query> build(QueryBuilder queryBuilder) {
+        return Optional.of(applyKeywordCriteria(queryBuilder));
     }
 }

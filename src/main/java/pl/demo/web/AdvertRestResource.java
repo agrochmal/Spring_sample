@@ -48,16 +48,17 @@ public class AdvertRestResource extends AbstractCRUDResource<Long, Advert> {
             method = RequestMethod.POST)
 
     public ResponseEntity<?> updateStatus(@PathVariable("id") final Long id, @RequestParam(value = "status") final String status) {
-        advertService.updateActiveStatus(id, Boolean.valueOf(status));
+        this.advertService.updateActiveStatus(id, Boolean.valueOf(status));
         return ResponseEntity.noContent().build();
     }
 
     @RequestMapping(value = ADVERT_SEND_MAIL,
             method = RequestMethod.POST)
 
-    public ResponseEntity<?> sendEmail(@PathVariable("id") final Long id, @Valid @RequestBody final EMailDTO email, final BindingResult bindingResult) {
+    public ResponseEntity<?> sendEmail(@PathVariable("id") final Long id, @Valid @RequestBody final EMailDTO email,
+                                       final BindingResult bindingResult) {
         EntityUtils.applyValidation(bindingResult);
-        advertService.sendMail(email);
+        this.advertService.sendMail(email);
         return ResponseEntity.noContent().build();
     }
 }

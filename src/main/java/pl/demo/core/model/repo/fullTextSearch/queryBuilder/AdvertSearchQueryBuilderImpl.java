@@ -7,6 +7,8 @@ import org.hibernate.search.query.dsl.QueryBuilder;
 import org.hibernate.search.query.dsl.Unit;
 import pl.demo.web.dto.SearchCriteriaDTO;
 
+import java.util.Optional;
+
 /**
  * Created by robertsikora on 28.09.15.
  */
@@ -47,7 +49,7 @@ public class AdvertSearchQueryBuilderImpl implements SearchQueryBuilder {
     }
 
     @Override
-    public Query build(final QueryBuilder queryBuilder) {
+    public Optional<Query> build(final QueryBuilder queryBuilder) {
         final Query locationQuery = applyLocationCriteria(queryBuilder);
         final BooleanQuery bq = new BooleanQuery();
         if (null != locationQuery) {
@@ -57,6 +59,6 @@ public class AdvertSearchQueryBuilderImpl implements SearchQueryBuilder {
         if (null != keywordQuery) {
             bq.add(new BooleanClause(keywordQuery, BooleanClause.Occur.MUST));
         }
-        return bq;
+        return Optional.of(bq);
     }
 }

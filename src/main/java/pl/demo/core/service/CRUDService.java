@@ -2,6 +2,8 @@ package pl.demo.core.service;
 
 import pl.demo.core.model.entity.BaseEntity;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Collection;
 
@@ -11,13 +13,19 @@ import java.util.Collection;
 
 public interface CRUDService<PK extends Serializable, E extends BaseEntity> {
 
+    @NotNull
+    @Valid
     Collection<E> findAll();
 
-    E findOne(PK id);
+    @NotNull
+    @Valid
+    E findOne(@NotNull PK id);
 
-    void delete(PK id);
+    void delete(@NotNull PK id);
 
-    void edit(PK id, E entity);
+    void edit(@NotNull PK id, @NotNull @Valid E entity);
 
-    E save(E entity);
+    @NotNull
+    @Valid
+    E save(@NotNull @Valid E entity);
 }

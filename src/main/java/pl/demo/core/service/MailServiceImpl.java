@@ -31,7 +31,7 @@ public class MailServiceImpl implements MailService{
     public static final String EMAIL_TEMPLATE = "/velocity/email_template.vm";
     public static final String COMMENT_TEMPLATE = "/velocity/comment_template.vm";
 
-    private @Value("${mail.enable}") Boolean emailEnabled;
+    private @Value("${email.enable}") Boolean emailEnabled;
 
     @Autowired
     private JavaMailSender mailSender;
