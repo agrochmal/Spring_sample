@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import pl.demo.web.exception.ErrorEntity;
+import pl.demo.web.exception.ErrorInfo;
 import pl.demo.web.exception.GeneralException;
 import pl.demo.web.exception.ResourceNotFoundException;
 import pl.demo.web.exception.ValidationRequestException;
@@ -38,6 +38,6 @@ public class ErrorController {
     public ResponseEntity<?> handleGeneralException(final Exception ex) {
         LOGGER.error("General exception occurs", ex);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).
-                body(new ErrorEntity("Fatal error on server", ex.getMessage()));
+                body(new ErrorInfo("Fatal error on server", ex.getMessage()));
     }
 }

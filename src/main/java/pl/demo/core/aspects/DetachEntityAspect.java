@@ -10,6 +10,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.stereotype.Component;
 import pl.demo.core.model.entity.BaseEntity;
 import pl.demo.core.model.repo.GenericRepository;
 
@@ -17,6 +18,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Aspect
+@Component
 public class DetachEntityAspect {
 
     private GenericRepository<BaseEntity> genericRepository;
@@ -26,8 +28,8 @@ public class DetachEntityAspect {
     }
 
     @Around("anyPublicServiceMethod() && @annotation(detachEntity)")
-    public Object logAction(
-            ProceedingJoinPoint pjp, DetachEntity detachEntity)
+    public Object aspectAction(
+            final ProceedingJoinPoint pjp, final DetachEntity detachEntity)
             throws Throwable {
 
         final Object result = pjp.proceed();

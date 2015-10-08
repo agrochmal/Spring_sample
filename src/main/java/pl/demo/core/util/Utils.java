@@ -14,7 +14,7 @@ import java.net.URISyntaxException;
 
 public final class Utils {
 
-	private final static Logger logger = LoggerFactory.getLogger(Utils.class);
+	private final static Logger LOGGER = LoggerFactory.getLogger(Utils.class);
 
 	private Utils(){
 		Assert.noObject();
@@ -24,7 +24,7 @@ public final class Utils {
 
 	static{
 		LINE_SEPARATOR = System.getProperty("line.separator");
-		Assert.hasText(LINE_SEPARATOR);
+		Assert.notNull(LINE_SEPARATOR);
 	}
 
 	public static String escapeHtml(final String text) {
@@ -50,7 +50,7 @@ public final class Utils {
 		try {
 			uri = new URI(path);
 		} catch (URISyntaxException ex) {
-			logger.error("Cannot create URI for given path:"+path, ex);
+			LOGGER.error("Cannot create URI for given path:"+path, ex);
 			Throwables.propagate(ex);
 		}
 		return uri;
@@ -71,7 +71,7 @@ public final class Utils {
 		try {
 			bytes = file.getBytes();
 		} catch (IOException e) {
-			logger.error("Error during retrive bytes", e);
+			LOGGER.error("Error during retrive bytes", e);
 			throw new ValidationRequestException("Cannot get bytes from uploaded image");
 		}
 		return bytes;

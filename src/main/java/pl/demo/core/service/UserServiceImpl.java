@@ -17,7 +17,6 @@ import pl.demo.core.model.entity.AuthenticationUserDetails;
 import pl.demo.core.model.entity.User;
 import pl.demo.core.model.repo.RoleRepository;
 import pl.demo.core.model.repo.UserRepository;
-import pl.demo.web.exception.ResourceNotFoundException;
 
 import java.util.Optional;
 
@@ -84,7 +83,7 @@ public class UserServiceImpl extends CRUDServiceImpl<Long, User> implements User
 			result.setContact(loggedUser.getContact());
 			result.setRoles(loggedUser.getRoles());
 		}
-		return null;
+		return Optional.empty();
 	}
 
 	private AuthenticationUserDetails getLoggedUserDetails() {

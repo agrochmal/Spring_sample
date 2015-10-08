@@ -1,11 +1,13 @@
 package pl.demo.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import pl.demo.core.service.CRUDService;
 import pl.demo.core.service.ResourceMediaService;
-import pl.demo.web.validator.ImageUploadValidator;
+import pl.demo.web.validator.CustomValidator;
 
 import static pl.demo.web.EndpointConst.IMAGE.IMAGE_ENDPOINT;
 
@@ -14,16 +16,16 @@ import static pl.demo.web.EndpointConst.IMAGE.IMAGE_ENDPOINT;
  */
 @RestController
 @RequestMapping(IMAGE_ENDPOINT)
-public class ImageRestResource {
+public class ImageRestResource{
 
-    private ResourceMediaService resourceMediaService;
-    private ImageUploadValidator imageUploadValidator;
+    private CRUDService     domainService;
+    private CustomValidator validator;
 
     @RequestMapping(method = RequestMethod.POST)
 
     public ResponseEntity<?> uploadImage(@RequestParam("file") final MultipartFile file) {
-        this.imageUploadValidator.validate(file);
-        final Long imageId = this.resourceMediaService.upload(file);
+        this.validator.validate(file);
+        final Long imageId = this.getResourceMediaService().upload(file);
         return ResponseEntity.ok(imageId);
     }
 
@@ -31,17 +33,23 @@ public class ImageRestResource {
             method = RequestMethod.DELETE)
 
     public ResponseEntity<?> deleteImage(@PathVariable final Long id) {
-        this.resourceMediaService.deleteImage(id);
+        this.getResourceMediaService().deleteImage(id);
         return ResponseEntity.noContent().build();
     }
 
-    @Autowired
-    public void setResourceMediaService(final ResourceMediaService resourceMediaService) {
-        this.resourceMediaService = resourceMediaService;
+    private ResourceMediaService getResourceMediaService(){
+        return (ResourceMediaService)domainService;
     }
 
     @Autowired
-    public void setImageUploadValidator(final ImageUploadValidator imageUploadValidator) {
-        this.imageUploadValidator = imageUploadValidator;
+    @Qualifier("resourceMediaService")
+    public void setDomainService(final CRUDService domainService) {
+        this.domainService = domainService;
+    }
+
+    @Autowired
+    @Qualifier("imageUploadValidator")
+    public void setValidator(final CustomValidator validator) {
+        this.validator = validator;
     }
 }

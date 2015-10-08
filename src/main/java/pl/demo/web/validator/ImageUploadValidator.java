@@ -1,8 +1,6 @@
 package pl.demo.web.validator;
 
 import org.springframework.stereotype.Component;
-import org.springframework.validation.Errors;
-import org.springframework.validation.Validator;
 import org.springframework.web.multipart.MultipartFile;
 import pl.demo.MsgConst;
 import pl.demo.web.exception.ValidationRequestException;
@@ -12,20 +10,12 @@ import pl.demo.web.exception.ValidationRequestException;
  */
 
 @Component
-public class ImageUploadValidator implements Validator {
+public class ImageUploadValidator implements CustomValidator {
 
     private final static long MAX_FILE_SIZE = 10_000_000;
 
     @Override
-    public boolean supports(Class<?> clazz) {
-        return false;
-    }
-
-    @Override
-    public void validate(Object target, Errors errors) {
-    }
-
-    public void validate(final Object target){
+    public boolean validate(final Object target){
         final MultipartFile multipartFile = (MultipartFile)target;
         if(multipartFile.isEmpty()){
             throw new ValidationRequestException(MsgConst.FILE_EMPTY);
@@ -33,5 +23,6 @@ public class ImageUploadValidator implements Validator {
         if(multipartFile.getSize() > MAX_FILE_SIZE){
             throw new ValidationRequestException(MsgConst.FILE_TOO_BIG);
         }
+        return true;
     }
 }

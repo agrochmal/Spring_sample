@@ -11,7 +11,7 @@ import java.security.NoSuchAlgorithmException;
 
 public final class TokenUtils {
 
-	private final static Logger logger = LoggerFactory.getLogger(TokenUtils.class);
+	private final static Logger LOGGER = LoggerFactory.getLogger(TokenUtils.class);
 
 	private static final String OBFUSCATE_KEY = "12dfR45At612GAn09";
 	private static final long   TOKEN_TIME_VALIDITY_MS = 1000L * 60 * 5;	// 5 minutes
@@ -50,7 +50,7 @@ public final class TokenUtils {
 		try {
 			digest = MessageDigest.getInstance("MD5");
 		} catch (final NoSuchAlgorithmException e) {
-			logger.error("Cannot find instance for MD5", e);
+			LOGGER.error("Cannot find instance for MD5", e);
 			Throwables.propagate(e);
 		}
 		return new String(Hex.encode(digest.digest(signatureBuilder.toString().getBytes(Charset.forName("UTF-8")))));

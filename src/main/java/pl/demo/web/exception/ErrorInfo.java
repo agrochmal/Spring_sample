@@ -7,12 +7,12 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 /**
  * Created by robertsikora on 01.08.15.
  */
-public final class ErrorEntity {
+public final class ErrorInfo {
 
     private final String errorMsg;
     private final String developerMsg;
 
-    public ErrorEntity(final String errorMsg, final String developerMsg) {
+    public ErrorInfo(final String errorMsg, final String developerMsg) {
         this.errorMsg = errorMsg;
         this.developerMsg = developerMsg;
     }
@@ -31,7 +31,7 @@ public final class ErrorEntity {
 
         if (o == null || getClass() != o.getClass()) return false;
 
-        ErrorEntity that = (ErrorEntity) o;
+        ErrorInfo that = (ErrorInfo) o;
 
         return new EqualsBuilder()
                 .append(errorMsg, that.errorMsg)

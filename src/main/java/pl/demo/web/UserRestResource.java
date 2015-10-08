@@ -1,15 +1,18 @@
 package pl.demo.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.demo.core.model.entity.Advert;
 import pl.demo.core.model.entity.User;
 import pl.demo.core.service.AdvertService;
+import pl.demo.core.service.CRUDService;
 import pl.demo.core.service.UserService;
 import pl.demo.core.util.TokenUtils;
 import pl.demo.web.dto.TokenDTO;
-import pl.demo.web.exception.ResourceNotFoundException;
+import pl.demo.web.validator.CustomValidator;
+
 import java.util.Collection;
 import java.util.Optional;
 
@@ -20,22 +23,15 @@ import static pl.demo.web.EndpointConst.USER.*;
 @RequestMapping(USER_ENDPOINT)
 public class UserRestResource extends AbstractCRUDResource<Long, User>{
 
-	private final AdvertService advertService;
-	private final UserService userService;
-
-	@Autowired
-	public UserRestResource(final UserService userService, final AdvertService advertService) {
-		super(userService);
-		this.userService = userService;
-		this.advertService = advertService;
-	}
+	private AdvertService   advertService;
+	private CustomValidator validator;
 
 	@RequestMapping(value = USER_GET_LOGGED,
 			method = RequestMethod.GET,
 			produces = APPLICATION_JSON_VALUE)
 
 	public ResponseEntity<User> getLoggedUser() {
-		final Optional<User> user = userService.getLoggedUser();
+		final Optional<User> user = getUserService().getLoggedUser();
 		return ResponseEntity.ok().body(user.isPresent() ? user.get() : null);
 	}
 
@@ -43,20 +39,15 @@ public class UserRestResource extends AbstractCRUDResource<Long, User>{
 			method = RequestMethod.GET,
 			produces = APPLICATION_JSON_VALUE)
 
-	public ResponseEntity<Boolean> isUserExists(final String username) {
-		try {
-			this.userService.loadUserByUsername(username);
-		}catch (final ResourceNotFoundException ex){
-			return ResponseEntity.ok().body(Boolean.TRUE);
-		}
-		return ResponseEntity.ok().body(Boolean.FALSE);
+	public ResponseEntity<Boolean> checkUnique(final String username) {
+		return ResponseEntity.ok().body(validator.validate(username));
 	}
 
 	@RequestMapping(value = USER_AUTHENTICATE,
 			method = RequestMethod.POST)
 
 	public TokenDTO authenticate(@RequestParam("username") final String username, @RequestParam("password") final String password) {
-		return new TokenDTO(TokenUtils.createToken(this.userService.authenticate(username, password)));
+		return new TokenDTO(TokenUtils.createToken(this.getUserService().authenticate(username, password)));
 	}
 
 	@RequestMapping(value = USER_FIND_ADVERTS,
@@ -72,6 +63,27 @@ public class UserRestResource extends AbstractCRUDResource<Long, User>{
 			produces = APPLICATION_JSON_VALUE)
 
 	public ResponseEntity<User> findUserAccount(@PathVariable final Long userId){
-		return ResponseEntity.ok().body(this.userService.findOne(userId));
+		return ResponseEntity.ok().body(this.getUserService().findOne(userId));
+	}
+
+	private UserService getUserService(){
+		return (UserService)crudService;
+	}
+
+	@Autowired
+	@Qualifier("userService")
+	public void setDomainService(final CRUDService domainService) {
+		this.crudService = domainService;
+	}
+
+	@Autowired
+	@Qualifier("uniqueUserValidator")
+	public void setValidator(final CustomValidator validator) {
+		this.validator = validator;
+	}
+
+	@Autowired
+	public void setAdvertService(final AdvertService advertService) {
+		this.advertService = advertService;
 	}
 }
