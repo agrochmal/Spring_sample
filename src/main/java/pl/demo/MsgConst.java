@@ -1,12 +1,14 @@
 package pl.demo;
 
+import pl.demo.core.util.Assert;
+
 /**
  * Created by robertsikora on 06.09.15.
  */
-public class MsgConst {
+public final class MsgConst {
 
     private MsgConst(){
-        throw new AssertionError("Cannot crate instance of object!");
+        Assert.noObject();
     }
 
     public static final String RESOURCE_NOT_FOUND = "RESOURCE_NOT_FOUND";

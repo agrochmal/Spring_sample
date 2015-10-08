@@ -1,12 +1,14 @@
 package pl.demo.core.model.entity;
 
+import pl.demo.core.util.Assert;
+
 /**
  * Created by robertsikora on 26.07.15.
  */
-public class ModelConstans {
+public final class ModelConstans {
 
     private ModelConstans(){
-        throw new AssertionError("Cannot create object");
+        Assert.noObject();
     }
 
     public final static int TEXT_LENGTH_1 = 1;

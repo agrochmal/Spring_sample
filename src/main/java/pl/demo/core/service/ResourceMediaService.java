@@ -23,8 +23,6 @@ public interface ResourceMediaService extends CRUDService<Long, MediaResource> {
 
     void saveOnCallback(@NotNull @Min(1) Long id, @NotNull @NotBlank String publicId);
 
-    MediaResource getFirst(@NotNull Long advertId);
-
     @NotNull @NotBlank
     String getThumb(@NotNull Serializable id);
 }

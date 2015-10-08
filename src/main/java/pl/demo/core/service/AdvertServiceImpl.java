@@ -5,7 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
+import pl.demo.core.util.Assert;
 import pl.demo.core.aspects.DetachEntity;
 import pl.demo.core.model.entity.Advert;
 import pl.demo.core.model.entity.Comment;
@@ -120,7 +120,7 @@ public class AdvertServiceImpl extends CRUDServiceImpl<Long, Advert> implements 
 	public void updateActiveStatus(final Long advertId, final Boolean status) {
 		Assert.notNull(advertId, "Advert is required");
 		final Advert dbAdvert = getDomainRepository().findOne(advertId);
-		Assert.state(null != dbAdvert, "Advert doesn't exist in db");
+		Assert.notResourceFound(dbAdvert);
 		dbAdvert.setActive(status);
 		super.save(dbAdvert);
 	}

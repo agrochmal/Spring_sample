@@ -1,12 +1,14 @@
 package pl.demo.web;
 
+import pl.demo.core.util.Assert;
+
 /**
  * Created by robertsikora on 29.08.15.
  */
-class EndpointConst {
+final class EndpointConst {
 
     private EndpointConst(){
-        throw new AssertionError("Cannot crate instance of object!");
+        Assert.noObject();
     }
 
     final static class ADVERT{

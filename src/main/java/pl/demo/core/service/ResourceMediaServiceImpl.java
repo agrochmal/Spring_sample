@@ -21,7 +21,8 @@ import java.io.Serializable;
  * Created by robertsikora on 29.07.15.
  */
 
-public class ResourceMediaServiceImpl extends CRUDServiceImpl<Long, MediaResource> implements ResourceMediaService{
+public class ResourceMediaServiceImpl extends CRUDServiceImpl<Long, MediaResource>
+        implements ResourceMediaService{
 
     private final static String DEFAULT_IMAGE_THUMB = "./app/images/thumb.jpg";
 
@@ -58,13 +59,8 @@ public class ResourceMediaServiceImpl extends CRUDServiceImpl<Long, MediaResourc
 
     @Transactional(readOnly = true)
     @Override
-    public MediaResource getFirst(final Long advertId) {
-        return getMediaResourceRepository().findFirstByAdvertOrderByEntryDateDesc(advertId);
-    }
-
-    @Override
     public String getThumb(final Serializable id) {
-        final MediaResource mediaResource = getFirst((Long)id);
+        final MediaResource mediaResource = getMediaResourceRepository().findFirstByAdvertOrderByEntryDateDesc((Long)id);
         if(null != mediaResource) {
             return this.mediaProvider.getThumb(mediaResource.getPublicId());
         }

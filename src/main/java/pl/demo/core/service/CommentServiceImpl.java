@@ -3,7 +3,7 @@ package pl.demo.core.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
+import pl.demo.core.util.Assert;
 import pl.demo.core.aspects.DetachEntity;
 import pl.demo.core.model.entity.Advert;
 import pl.demo.core.model.entity.Comment;
@@ -37,7 +37,7 @@ public class CommentServiceImpl extends CRUDServiceImpl<Long, Comment> implement
         prepareComment(comment);
 
         final Advert dbAdvert = advertRepository.findOne(advertId);
-        Assert.state(null != dbAdvert);
+        Assert.notResourceFound(dbAdvert);
         comment.setAdvert(dbAdvert);
         getDomainRepository().save(comment);
 

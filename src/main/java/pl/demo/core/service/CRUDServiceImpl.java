@@ -4,10 +4,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
+import pl.demo.core.util.Assert;
 import pl.demo.core.aspects.DetachEntity;
 import pl.demo.core.model.entity.BaseEntity;
-import pl.demo.web.exception.ResourceNotFoundException;
 
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
@@ -49,9 +48,7 @@ public abstract class CRUDServiceImpl<PK extends Serializable, E extends BaseEnt
     public E findOne(final PK id) {
         Assert.notNull(id, "Entity id is required");
         final E entity = getDomainRepository().findOne(id);
-        if(entity == null){
-            throw new ResourceNotFoundException();
-        }
+        Assert.notResourceFound(entity);
         return entity;
     }
 

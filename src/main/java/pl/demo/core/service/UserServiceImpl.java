@@ -11,7 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
+import pl.demo.core.util.Assert;
 import pl.demo.MsgConst;
 import pl.demo.core.model.entity.AuthenticationUserDetails;
 import pl.demo.core.model.entity.User;
@@ -35,7 +35,7 @@ public class UserServiceImpl extends CRUDServiceImpl<Long, User> implements User
 	public void edit(final Long id, final User user) {
 		Assert.notNull(user, "User is required");
 		final User existing = getDomainRepository().findOne(id);
-		Assert.state(null!=user, "User doesn't exist in db for id:"+id);
+		Assert.notResourceFound(existing);
 		existing.setName(user.getName());
 		existing.getContact().setLocation(user.getContact().getLocation());
 		existing.getContact().setPhone(user.getContact().getPhone());
@@ -56,9 +56,7 @@ public class UserServiceImpl extends CRUDServiceImpl<Long, User> implements User
 	public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
 		Assert.notNull(username, "Username is required");
 		final User user = getUserRepository().findByUsername(username);
-		if (null == user) {
-			throw new ResourceNotFoundException(MsgConst.USER_NOT_FOUND);
-		}
+		Assert.notResourceFound(user, MsgConst.USER_NOT_FOUND);
 		return new AuthenticationUserDetails(user);
 	}
 
@@ -80,7 +78,7 @@ public class UserServiceImpl extends CRUDServiceImpl<Long, User> implements User
 		if (userDetails != null) {
             final User result = new User();
 			User loggedUser = getDomainRepository().findOne(userDetails.getId());
-			Assert.state(null!=loggedUser, "User doesn't exist in db");
+			Assert.notResourceFound(loggedUser, MsgConst.USER_NOT_FOUND);
 			result.setName(loggedUser.getName());
 			result.setId(loggedUser.getId());
 			result.setContact(loggedUser.getContact());
