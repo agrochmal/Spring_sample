@@ -14,16 +14,15 @@ import java.util.Locale;
 @Component("msgResolver")
 public class MessageResolver {
 
-    private final static Locale PL = new Locale("pl", "PL");
-
-    @Autowired
+    protected final static Locale pl_PL = new Locale("pl", "PL");
     private MessageSource messages;
 
     public String getMessage(final String messageCode){
         Assert.notNull(messageCode);
-        return messages.getMessage(messageCode, null, PL);
+        return messages.getMessage(messageCode, null, pl_PL);
     }
 
+    @Autowired
     public void setMessages(final MessageSource messages) {
         this.messages = messages;
     }

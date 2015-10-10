@@ -68,7 +68,7 @@ public class AdvertServiceImplTest {
 
         User user = createTestUser();
 
-        when(userService.getLoggedUser()).thenReturn(user);
+     //   when(userService.getLoggedUser()).thenReturn(user);
         when(advertRepo.save(expected)).thenReturn(expected);
 
         //when
