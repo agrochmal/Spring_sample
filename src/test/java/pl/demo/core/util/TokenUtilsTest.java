@@ -1,6 +1,5 @@
 package pl.demo.core.util;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
@@ -15,7 +14,7 @@ import static org.junit.Assert.*;
 @RunWith(MockitoJUnitRunner.class)
 public class TokenUtilsTest {
 
-    private final static String FAKE_TOKEN="admin@admin.pl:1431784298750:4b4227fc85c4a08ef6f648b234a2c8f5";
+    private final static String FAKE_TOKEN = "admin@admin.pl:1431784298750:4b4227fc85c4a08ef6f648b234a2c8f5";
 
     private UserDetails userDetails = new UserDetails() {
         @Override
@@ -57,24 +56,15 @@ public class TokenUtilsTest {
 
     @Test
     public void testGetUsernameFromToken() throws Exception {
-        //given
         String result = TokenUtils.getUsernameFromToken(null);
         assertNull(result);
-        //when
         result = TokenUtils.getUsernameFromToken(FAKE_TOKEN);
-        //then
         assertEquals("admin@admin.pl", result);
     }
 
     @Test
     public void testValidateToken() throws Exception {
-        //given
-
-
         String realToken = TokenUtils.createToken(userDetails);
-
-        //success
-        //when
         boolean result = TokenUtils.validateToken(realToken, userDetails);
         //then
         assertTrue(result);
@@ -91,11 +81,5 @@ public class TokenUtilsTest {
 
     @Test
     public void testCreateToken() throws Exception {
-       // ArgumentCaptor<Integer> cap; cap.capture();
-
-        //given
-        //when
-        String result = TokenUtils.createToken(userDetails);
-        //then
     }
 }

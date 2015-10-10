@@ -13,7 +13,7 @@ import org.springframework.util.Assert;
 @Component
 public class SpringBeanProvider implements ApplicationContextAware {
 
-    private static ApplicationContext applicationContext = null;
+    protected static ApplicationContext applicationContext = null;
 
     public static Object getBean(final String beanName) {
         Assert.hasText(beanName);

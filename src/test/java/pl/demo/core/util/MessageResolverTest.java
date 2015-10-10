@@ -18,6 +18,8 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class MessageResolverTest {
 
+    private final static String SAMPLE_MESSAGE = "message";
+
     @InjectMocks
     private MessageResolverImpl messageResolver;
     @Mock
@@ -30,14 +32,13 @@ public class MessageResolverTest {
 
     @Test(expected = NoSuchMessageException.class)
     public void testGetMessageNotFound() {
-        when(messageSource.getMessage("any", null, MessageResolverImpl.pl_PL)).thenThrow(NoSuchMessageException.class);
-        messageResolver.getMessage("any");
+        when(messageSource.getMessage(SAMPLE_MESSAGE, null, MessageResolverImpl.pl_PL)).thenThrow(NoSuchMessageException.class);
+        messageResolver.getMessage(SAMPLE_MESSAGE);
     }
 
     @Test
     public void testGetMessage() {
-        final String message = "message1";
-        when(messageSource.getMessage(message, null, MessageResolverImpl.pl_PL)).thenReturn(message);
-        assertEquals(message, messageResolver.getMessage(message));
+        when(messageSource.getMessage(SAMPLE_MESSAGE, null, MessageResolverImpl.pl_PL)).thenReturn(SAMPLE_MESSAGE);
+        assertEquals(SAMPLE_MESSAGE, messageResolver.getMessage(SAMPLE_MESSAGE));
     }
 }

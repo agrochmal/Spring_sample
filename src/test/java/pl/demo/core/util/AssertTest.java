@@ -5,8 +5,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.springframework.context.MessageSource;
-import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import pl.demo.ApplicationContextFake;
@@ -25,6 +23,8 @@ import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class AssertTest {
+
+    private final static String SAMPLE_MESSAGE = "message";
 
     @Mock
     private BindingResult bindingResult;
@@ -47,16 +47,16 @@ public class AssertTest {
     @Test
     public void testNotResourceFoundWithMessageNullArg() {
         try {
-            Assert.notResourceFound(null, "message");
+            Assert.notResourceFound(null, SAMPLE_MESSAGE);
             fail();
         }catch(final ResourceNotFoundException ex){
-            assertEquals("message", ex.getMessageCode());
+            assertEquals(SAMPLE_MESSAGE, ex.getMessageCode());
         }
     }
 
     @Test
     public void testNotResourceFoundWithMessage() {
-        Assert.notResourceFound(new Object(), "message");
+        Assert.notResourceFound(new Object(), SAMPLE_MESSAGE);
     }
 
     @Test(expected = ValidationRequestException.class)

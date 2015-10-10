@@ -27,6 +27,10 @@ public final class Utils {
 		Assert.notNull(LINE_SEPARATOR);
 	}
 
+	public static String getLineSeparator(){
+		return LINE_SEPARATOR;
+	}
+
 	public static String escapeHtml(final String text) {
 		Assert.hasText(text, "Text cannot be empty!");
 		return text.replace("&", "&amp;")
