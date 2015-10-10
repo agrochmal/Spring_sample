@@ -9,7 +9,7 @@ import pl.demo.core.util.MesssageResolver;
 public class MessageResolverFake implements MesssageResolver {
 
     @Override
-    public String getMessage(String messageCode) {
+    public String getMessage(final String messageCode) {
         return StringUtils.EMPTY;
     }
 }

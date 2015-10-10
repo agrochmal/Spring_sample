@@ -23,15 +23,13 @@ public class ApplicationContextFake<T> implements ApplicationContext {
 
     private Class<T> clazz;
 
-    public final static <T> ApplicationContextFake<T> getApplicationContext(Class<T> clazz){
+    public final static <T> ApplicationContextFake<T> getApplicationContext(final Class<T> clazz){
         return new ApplicationContextFake(clazz);
     }
 
     public ApplicationContextFake(Class<T> clazz){
         this.clazz = clazz;
     }
-
-    private final static Object FAKE_OBJECT = new Object();
 
     @Override
     public String getId() {
@@ -65,7 +63,6 @@ public class ApplicationContextFake<T> implements ApplicationContext {
 
     @Override
     public void publishEvent(ApplicationEvent event) {
-
     }
 
     @Override
@@ -142,22 +139,50 @@ public class ApplicationContextFake<T> implements ApplicationContext {
 
     @Override
     public <T> T getBean(String name, Class<T> requiredType) throws BeansException {
-        return (T)FAKE_OBJECT;
+        try {
+            return requiredType.newInstance() ;
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override
     public <T> T getBean(Class<T> requiredType) throws BeansException {
-        return (T)FAKE_OBJECT;
+        try {
+            return requiredType.newInstance() ;
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override
     public Object getBean(String name, Object... args) throws BeansException {
-        return FAKE_OBJECT;
+        try {
+            return clazz.newInstance() ;
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override
     public <T> T getBean(Class<T> requiredType, Object... args) throws BeansException {
-        return (T)FAKE_OBJECT;
+        try {
+            return requiredType.newInstance() ;
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override
