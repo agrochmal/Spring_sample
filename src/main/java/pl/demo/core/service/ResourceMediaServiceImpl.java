@@ -26,8 +26,8 @@ public class ResourceMediaServiceImpl extends CRUDServiceImpl<Long, MediaResourc
 
     private final static String DEFAULT_IMAGE_THUMB = "./app/images/thumb.jpg";
 
-    private HttpSessionContext httpSessionContext;
-    private MediaProvider mediaProvider;
+    private HttpSessionContext  httpSessionContext;
+    private MediaProvider       mediaProvider;
 
     @Transactional
     @Override

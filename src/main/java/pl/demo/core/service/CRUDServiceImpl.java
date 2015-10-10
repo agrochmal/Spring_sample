@@ -19,7 +19,8 @@ import java.util.Map;
  */
 
 
-public abstract class CRUDServiceImpl<PK extends Serializable, E extends BaseEntity> implements CRUDService<PK, E>{
+public abstract class CRUDServiceImpl<PK extends Serializable, E extends BaseEntity>
+        implements CRUDService<PK, E>{
 
     protected final Logger LOGGER = LoggerFactory.getLogger(getClass());
 

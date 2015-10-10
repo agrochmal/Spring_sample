@@ -10,7 +10,6 @@ import org.springframework.context.MessageSourceResolvable;
 import org.springframework.context.NoSuchMessageException;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.Resource;
-import pl.demo.core.util.MessageResolver;
 
 import java.io.IOException;
 import java.lang.annotation.Annotation;
@@ -20,9 +19,17 @@ import java.util.Map;
 /**
  * Created by robertsikora on 07.10.15.
  */
-public class ApplicationContextFake implements ApplicationContext {
+public class ApplicationContextFake<T> implements ApplicationContext {
 
-    public final static ApplicationContext INSTANCE = new ApplicationContextFake();
+    private Class<T> clazz;
+
+    public final static <T> ApplicationContextFake<T> getApplicationContext(Class<T> clazz){
+        return new ApplicationContextFake(clazz);
+    }
+
+    public ApplicationContextFake(Class<T> clazz){
+        this.clazz = clazz;
+    }
 
     private final static Object FAKE_OBJECT = new Object();
 
@@ -122,8 +129,15 @@ public class ApplicationContextFake implements ApplicationContext {
     }
 
     @Override
-    public Object getBean(String name) throws BeansException {
-        return new MessageResolver();
+    public T getBean(String name) throws BeansException {
+        try {
+            return clazz.newInstance() ;
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override

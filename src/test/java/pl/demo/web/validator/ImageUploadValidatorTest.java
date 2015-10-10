@@ -22,10 +22,6 @@ public class ImageUploadValidatorTest {
     @InjectMocks
     private ImageUploadValidator testTarget;
 
-    @Before
-    public void setUp() throws Exception {
-        SpringBeanProvider.setAppCtx(ApplicationContextFake.INSTANCE);
-    }
 
     @Ignore
     @Test(expected = ValidationRequestException.class)

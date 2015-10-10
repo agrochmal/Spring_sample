@@ -32,5 +32,4 @@
 		<security:intercept-url method="POST" pattern="/api/comments/advert/**" access="hasRole('user')" />
 	-->
 	</security:http>
-
 </beans>

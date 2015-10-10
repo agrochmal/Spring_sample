@@ -26,7 +26,7 @@ public class CommentServiceImpl extends CRUDServiceImpl<Long, Comment> implement
 
     private @Value("${comment.receipt-email}") String receipt_email;
 
-    private MailService mailService;
+    private MailService      mailService;
     private AdvertRepository advertRepository;
 
     @Transactional

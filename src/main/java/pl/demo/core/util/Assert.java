@@ -38,7 +38,6 @@ public final class Assert extends org.springframework.util.Assert {
      * @throws ValidationRequestException if the object has errors
      */
     public static void hasErrors(final BindingResult bindingResult){
-        org.springframework.util.Assert.notNull(bindingResult);
         if(bindingResult.hasErrors()) {
             throw new ValidationRequestException(Utils.createErrorMessage(bindingResult));
         }

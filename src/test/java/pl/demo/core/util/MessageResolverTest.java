@@ -19,25 +19,25 @@ import static org.mockito.Mockito.when;
 public class MessageResolverTest {
 
     @InjectMocks
-    private MessageResolver messageResolver;
+    private MessageResolverImpl messageResolver;
     @Mock
     private MessageSource messageSource;
 
     @Test(expected = IllegalArgumentException.class)
-    public void testGetMessageNullArg() throws Exception {
+    public void testGetMessageNullArg() {
         messageResolver.getMessage(null);
     }
 
     @Test(expected = NoSuchMessageException.class)
-    public void testGetMessageNotFound() throws Exception {
-        when(messageSource.getMessage("any", null, MessageResolver.pl_PL)).thenThrow(NoSuchMessageException.class);
+    public void testGetMessageNotFound() {
+        when(messageSource.getMessage("any", null, MessageResolverImpl.pl_PL)).thenThrow(NoSuchMessageException.class);
         messageResolver.getMessage("any");
     }
 
     @Test
-    public void testGetMessage() throws Exception {
+    public void testGetMessage() {
         final String message = "message1";
-        when(messageSource.getMessage(message, null, MessageResolver.pl_PL)).thenReturn(message);
+        when(messageSource.getMessage(message, null, MessageResolverImpl.pl_PL)).thenReturn(message);
         assertEquals(message, messageResolver.getMessage(message));
     }
 }

@@ -24,10 +24,10 @@ import static pl.demo.core.service.MailServiceImpl.EMAIL_TEMPLATE;
 
 public class AdvertServiceImpl extends CRUDServiceImpl<Long, Advert> implements AdvertService {
 
-	private SearchService searchService;
-	private UserService userService;
-	private MailService mailService;
-	private HttpSessionContext httpSessionContext;
+	private SearchService 	     searchService;
+	private UserService 		 userService;
+	private MailService 		 mailService;
+	private HttpSessionContext   httpSessionContext;
 	private ResourceMediaService resourceMediaService;
 
 	@Transactional

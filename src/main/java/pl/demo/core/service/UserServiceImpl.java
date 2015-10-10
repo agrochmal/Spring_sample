@@ -22,7 +22,7 @@ import java.util.Optional;
 
 public class UserServiceImpl extends CRUDServiceImpl<Long, User> implements UserService {
 
-	private RoleRepository roleRepository;
+	private RoleRepository  roleRepository;
 	private PasswordEncoder passwordEncoder;
 
 	@Autowired
@@ -45,8 +45,8 @@ public class UserServiceImpl extends CRUDServiceImpl<Long, User> implements User
 	@Override
 	public User save(final User user){
 		Assert.notNull(user, "User is required");
-		user.setPassword(passwordEncoder.encode(user.getPassword()));
-		user.addRole(roleRepository.findByRoleName("user"));
+		user.setPassword(this.passwordEncoder.encode(user.getPassword()));
+		user.addRole(this.roleRepository.findByRoleName("user"));
 		return super.save(user);
 	}
 

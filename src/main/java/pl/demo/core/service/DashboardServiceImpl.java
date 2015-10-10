@@ -15,8 +15,8 @@ import pl.demo.web.dto.DashboardDTO;
 @Service
 public class DashboardServiceImpl implements DashboardService{
 
-    private AdvertRepository advertRepository;
-    private UserRepository userRepo;
+    private AdvertRepository  advertRepository;
+    private UserRepository    userRepo;
     private CommentRepository commentRepository;
 
     @Transactional(readOnly = true)

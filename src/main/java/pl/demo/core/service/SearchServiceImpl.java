@@ -20,19 +20,19 @@ import pl.demo.web.dto.SearchCriteriaDTO;
 @Service
 public class SearchServiceImpl implements SearchService {
 
-    private AdvertRepository advertRepository;
+    private AdvertRepository  advertRepository;
     private CommentRepository commentRepository;
 
     @Transactional(readOnly = true)
     @Override
     public Page<Advert> searchAdverts(final SearchCriteriaDTO searchCriteriaDTO, final Pageable pageable) {
-        return advertRepository.search(new AdvertSearchQueryBuilderImpl(searchCriteriaDTO), pageable);
+        return this.advertRepository.search(new AdvertSearchQueryBuilderImpl(searchCriteriaDTO), pageable);
     }
 
     @Transactional(readOnly = true)
     @Override
     public Page<Comment> searchComments(final SearchCriteriaDTO searchCriteriaDTO, final Pageable pageable) {
-        return commentRepository.search(new CommentSearchQueryBuiderImpl(searchCriteriaDTO), pageable);
+        return this.commentRepository.search(new CommentSearchQueryBuiderImpl(searchCriteriaDTO), pageable);
     }
 
     @Autowired

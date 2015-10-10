@@ -28,40 +28,48 @@ public class MailServiceImpl implements MailService{
 
     private final static Logger LOGGER = LoggerFactory.getLogger(MailServiceImpl.class);
 
-    public static final String EMAIL_TEMPLATE = "/velocity/email_template.vm";
+    public static final String EMAIL_TEMPLATE   = "/velocity/email_template.vm";
     public static final String COMMENT_TEMPLATE = "/velocity/comment_template.vm";
 
     private @Value("${email.enable}") Boolean emailEnabled;
-
-    @Autowired
-    private JavaMailSender mailSender;
-
-    @Autowired
-    private VelocityEngine velocityEngine;
+    private JavaMailSender                    mailSender;
+    private VelocityEngine                    velocityEngine;
 
     @Override
     public void sendMail(final EMailDTO emailDTO, final String template){
         if(!emailEnabled){
+            LOGGER.info("Sending e-mails is disabled");
             return;
         }
         Assert.notNull(emailDTO, "Email data is required");
         Assert.notNull(template);
-        final MimeMessage mimeMsg = mailSender.createMimeMessage();
+        final MimeMessage mimeMsg = this.mailSender.createMimeMessage();
         final Map<String, Object> model = new HashMap<>();
         model.put("userMessage", emailDTO);
-        final String text = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, template, model).replaceAll("\n", "<br>");
+        final String text = VelocityEngineUtils.mergeTemplateIntoString(this.velocityEngine, template, model).replaceAll("\n", "<br>");
+
+        final MimeMessageHelper helper = new MimeMessageHelper(mimeMsg);
         try{
-            final MimeMessageHelper helper = new MimeMessageHelper(mimeMsg);
             helper.setSubject(emailDTO.getTitle());
             helper.setTo(emailDTO.getReceipt());
             helper.setFrom(emailDTO.getSender());
             helper.setSentDate(new Date());
             helper.setText(text, true);
-            mailSender.send(mimeMsg);
+            this.mailSender.send(mimeMsg);
 
-        } catch (MessagingException e) {
+        } catch (final MessagingException e) {
             LOGGER.error("Error during sending email", e);
             Throwables.propagate(e);
         }
+    }
+
+    @Autowired
+    public void setMailSender(final JavaMailSender mailSender) {
+        this.mailSender = mailSender;
+    }
+
+    @Autowired
+    public void setVelocityEngine(final VelocityEngine velocityEngine) {
+        this.velocityEngine = velocityEngine;
     }
 }
