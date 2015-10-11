@@ -16,7 +16,7 @@ import static pl.demo.web.EndpointConst.IMAGE.IMAGE_ENDPOINT;
  */
 @RestController
 @RequestMapping(IMAGE_ENDPOINT)
-public class ImageRestResource{
+public class ImageResourceImpl {
 
     private CRUDService     domainService;
     private CustomValidator validator;

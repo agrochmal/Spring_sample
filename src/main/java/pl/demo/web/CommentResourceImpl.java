@@ -19,7 +19,7 @@ import static pl.demo.web.EndpointConst.COMMENT.*;
 
 @RestController
 @RequestMapping(COMMENT_ENDPOINT)
-public class CommentRestResource extends AbstractCRUDResource<Long, Comment> {
+public class CommentResourceImpl extends CRUDResourceImpl<Long, Comment> {
 
     @RequestMapping(value = COMMENT_NEW,
             method = RequestMethod.POST)

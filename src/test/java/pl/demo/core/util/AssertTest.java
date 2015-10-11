@@ -1,14 +1,13 @@
 package pl.demo.core.util;
 
-import org.junit.BeforeClass;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import pl.demo.ApplicationContextFake;
-import pl.demo.MessageResolverFake;
+import pl.demo.rules.FakeMessageResolverTestRule;
 import pl.demo.web.exception.ResourceNotFoundException;
 import pl.demo.web.exception.ValidationRequestException;
 
@@ -25,14 +24,10 @@ import static org.mockito.Mockito.when;
 public class AssertTest {
 
     private final static String SAMPLE_MESSAGE = "message";
-
+    @Rule
+    public FakeMessageResolverTestRule fakeMessageResolverTestRule = new FakeMessageResolverTestRule();
     @Mock(name="bindingResult")
-    private BindingResult bindingResult;
-
-    @BeforeClass
-    public static void setupTest() throws Exception {
-        SpringBeanProvider.setAppCtx(ApplicationContextFake.getApplicationContext(MessageResolverFake.class));
-    }
+    private BindingResult              bindingResult;
 
     @Test(expected = ResourceNotFoundException.class)
     public void testNotResourceFoundWithNullArg() {

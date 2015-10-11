@@ -19,8 +19,8 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class SpringBeanProviderTest {
 
-    private final static String SAMPLE_BEAN_NAME = "sampleBean";
-    private final static String SAMPLE_BEAN_NAME_NOT_NORMALIZE = "sampleBean";
+    private final static String  SAMPLE_BEAN_NAME = "sampleBean";
+    private final static String  SAMPLE_BEAN_NAME_NOT_NORMALIZE = "sampleBean";
     private final static Integer SAMPLE_BEAN = Integer.valueOf(1);
 
     @Mock

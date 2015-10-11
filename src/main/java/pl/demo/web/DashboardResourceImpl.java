@@ -14,7 +14,7 @@ import static pl.demo.web.EndpointConst.DASHBOARD.DASHBOARD_STATISTIC;
 
 @RestController
 @RequestMapping(DASHBOARD_ENDPOINT)
-public class DashboardRestResource {
+public class DashboardResourceImpl {
 
     private DashboardService dashboardService;
 

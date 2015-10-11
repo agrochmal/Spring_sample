@@ -1,7 +1,7 @@
 package pl.demo.core.util;
 
 import org.apache.commons.lang.StringUtils;
-import org.junit.BeforeClass;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -10,15 +10,15 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.multipart.MultipartFile;
-import pl.demo.ApplicationContextFake;
-import pl.demo.MessageResolverFake;
+import pl.demo.rules.FakeMessageResolverTestRule;
 import pl.demo.web.dto.TokenDTO;
 import pl.demo.web.exception.GeneralException;
-
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.net.URI;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -27,16 +27,15 @@ public class UtilsTest {
     private final static String BEFORE_ESCAPING = "&<>" + Utils.getLineSeparator();
     private final static String AFTER_ESCAPING  = "&amp;&lt;&gt;<br/>";
     private final static String SAMPLE_IP  = "123.10.10.01";
+    private final static String CORRECT_PATH = "\\sample";
+    private final static String INCORRECT_PATH = "aaa-sample";
 
+    @Rule
+    public FakeMessageResolverTestRule fakeMessageResolverTestRule = new FakeMessageResolverTestRule();
     @Mock
-    private MultipartFile       file;
+    private MultipartFile              file;
     @Mock
-    private HttpServletRequest  httpServletRequest;
-
-    @BeforeClass
-    public static void setupTest() throws Exception {
-        SpringBeanProvider.setAppCtx(ApplicationContextFake.getApplicationContext(MessageResolverFake.class));
-    }
+    private HttpServletRequest         httpServletRequest;
 
     @Test
     public void testCreateErrorMessage() throws Exception {
@@ -96,5 +95,27 @@ public class UtilsTest {
         when(httpServletRequest.getHeader(Utils.X_FORWARDED_FOR_HEADER)).thenReturn(null);
         when(httpServletRequest.getRemoteAddr()).thenReturn(SAMPLE_IP);
         assertEquals(SAMPLE_IP, Utils.getIpAdress(httpServletRequest));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testCreateURIWithNullArg() throws Exception {
+        Utils.createURI(null);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testCreateURIWithEmptyArg() throws Exception {
+        Utils.createURI(null);
+    }
+
+    @Test(expected = GeneralException.class)
+     public void testCreateURIThrowingURISyntaxException() throws Exception {
+        Utils.createURI(INCORRECT_PATH);
+    }
+
+    @Test
+    public void testCreateURI() throws Exception {
+        final URI uri = Utils.createURI(INCORRECT_PATH);
+        assertNotNull(uri);
+        assertEquals(CORRECT_PATH, uri.getPath());
     }
 }
