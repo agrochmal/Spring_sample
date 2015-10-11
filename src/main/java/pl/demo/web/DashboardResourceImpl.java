@@ -7,7 +7,7 @@ import pl.demo.core.service.DashboardService;
 import pl.demo.web.dto.DashboardDTO;
 
 @RestController
-public class DashboardRestResource implements DashboardResource {
+public class DashboardResourceImpl implements DashboardResource {
 
     private DashboardService dashboardService;
 

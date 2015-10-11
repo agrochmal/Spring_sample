@@ -15,7 +15,7 @@ import pl.demo.web.dto.SearchCriteriaDTO;
 import javax.validation.Valid;
 
 @RestController
-public class AdvertRestResource extends AbstractCRUDResource<Long, Advert> implements AdvertResource {
+public class AdvertResourceImpl extends CRUDResourceImpl<Long, Advert> implements AdvertResource {
 
     @Override
     public ResponseEntity<Advert> createNew() {

@@ -13,7 +13,7 @@ import pl.demo.web.validator.CustomValidator;
  * Created by robertsikora on 26.08.15.
  */
 @RestController
-public class ImageRestResource implements ImageResource {
+public class ImageResourceImpl implements ImageResource {
 
     private CRUDService     domainService;
     private CustomValidator validator;

@@ -21,7 +21,7 @@ import java.util.Optional;
 /**
  * Created by Robert on 09.12.14.
  */
-public abstract class AbstractCRUDResource<PK extends Serializable, E extends BaseEntity>
+public abstract class CRUDResourceImpl<PK extends Serializable, E extends BaseEntity>
     implements CRUDResource<PK, E>{
 
     private static final String HEADER_ETAG = "ETag";

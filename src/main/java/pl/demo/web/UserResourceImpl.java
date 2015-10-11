@@ -16,7 +16,7 @@ import java.util.Collection;
 import java.util.Optional;
 
 @RestController
-public class UserRestResource extends AbstractCRUDResource<Long, User> implements UserResource {
+public class UserResourceImpl extends CRUDResourceImpl<Long, User> implements UserResource {
 
 	private AdvertService   advertService;
 	private CustomValidator validator;
