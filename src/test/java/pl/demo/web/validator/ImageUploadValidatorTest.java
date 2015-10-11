@@ -1,16 +1,16 @@
 package pl.demo.web.validator;
 
-import org.junit.Before;
-import org.junit.Ignore;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
-import pl.demo.ApplicationContextFake;
-import pl.demo.core.util.SpringBeanProvider;
+import pl.demo.rules.FakeMessageResolverTestRule;
 import pl.demo.web.exception.ValidationRequestException;
+
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.when;
 
 /**
  * Created by robertsikora on 15.09.15.
@@ -19,18 +19,33 @@ import pl.demo.web.exception.ValidationRequestException;
 @RunWith(MockitoJUnitRunner.class)
 public class ImageUploadValidatorTest {
 
-    @InjectMocks
-    private ImageUploadValidator testTarget;
+    @Rule
+    public FakeMessageResolverTestRule fakeMessageResolverTestRule = new FakeMessageResolverTestRule();
 
+    private CustomValidator            validator = new ImageUploadValidator();
+    @Mock
+    private MultipartFile              multipartFile;
 
-    @Ignore
-    @Test(expected = ValidationRequestException.class)
-    public void testValidate() throws Exception {
-        final MultipartFile multipartFile = createMultipartFile();
-        testTarget.validate(multipartFile);
+    @Test(expected = IllegalArgumentException.class)
+    public void testValidateWithNullArg() throws Exception {
+        validator.validate(null);
     }
 
-    private MultipartFile createMultipartFile(){
-        return new CommonsMultipartFile(new FileItemFake());
+    @Test(expected = ValidationRequestException.class)
+    public void testValidateWithEmptyFile() throws Exception {
+        when(multipartFile.isEmpty()).thenReturn(true);
+        validator.validate(multipartFile);
+    }
+
+    @Test(expected = ValidationRequestException.class)
+    public void testValidateWithInvalidSize() throws Exception {
+        when(multipartFile.getSize()).thenReturn(ImageUploadValidator.MAX_FILE_SIZE + 1);
+        validator.validate(multipartFile);
+    }
+
+    @Test
+    public void testValidate() throws Exception {
+        when(multipartFile.getSize()).thenReturn(100L);
+        assertTrue(validator.validate(multipartFile));
     }
 }

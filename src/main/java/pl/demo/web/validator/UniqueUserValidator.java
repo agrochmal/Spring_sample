@@ -2,6 +2,7 @@ package pl.demo.web.validator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.Assert;
 import pl.demo.core.service.UserService;
 import pl.demo.web.exception.ResourceNotFoundException;
 
@@ -16,6 +17,7 @@ public class UniqueUserValidator implements CustomValidator {
 
     @Override
     public boolean validate(Object target) {
+        Assert.hasText((String)target);
         try {
             this.userService.loadUserByUsername((String)target);
         }catch (final ResourceNotFoundException ex){
