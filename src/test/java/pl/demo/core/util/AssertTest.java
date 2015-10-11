@@ -26,7 +26,7 @@ public class AssertTest {
 
     private final static String SAMPLE_MESSAGE = "message";
 
-    @Mock
+    @Mock(name="bindingResult")
     private BindingResult bindingResult;
 
     @BeforeClass
@@ -35,17 +35,17 @@ public class AssertTest {
     }
 
     @Test(expected = ResourceNotFoundException.class)
-    public void testNotResourceFoundNullArg() {
+    public void testNotResourceFoundWithNullArg() {
         Assert.notResourceFound(null);
     }
 
     @Test
-    public void testNotResourceFound() {
+    public void testNotResourceFoundWithNotNullArg() {
         Assert.notResourceFound(new Object());
     }
 
     @Test
-    public void testNotResourceFoundWithMessageNullArg() {
+    public void testNotResourceFoundWithMessageWithNullArg() {
         try {
             Assert.notResourceFound(null, SAMPLE_MESSAGE);
             fail();
@@ -55,7 +55,7 @@ public class AssertTest {
     }
 
     @Test
-    public void testNotResourceFoundWithMessage() {
+    public void testNotResourceFoundWithMessageWithNotNullArg() {
         Assert.notResourceFound(new Object(), SAMPLE_MESSAGE);
     }
 

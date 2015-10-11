@@ -1,13 +1,10 @@
 package pl.demo.core.util;
 
-import com.google.common.base.Throwables;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.codec.Hex;
 import java.nio.charset.Charset;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
 public final class TokenUtils {
 
@@ -32,7 +29,7 @@ public final class TokenUtils {
 		return tokenBuilder.toString();
 	}
 
-	private static String computeSignature(final UserDetails userDetails, final long expires) {
+	protected static String computeSignature(final UserDetails userDetails, final long expires) {
 		Assert.notNull(userDetails);
 		if(expires<=0){
 			throw new IllegalArgumentException("Expires time should be positive");
@@ -45,15 +42,7 @@ public final class TokenUtils {
 		signatureBuilder.append(userDetails.getPassword());
 		signatureBuilder.append(":");
 		signatureBuilder.append(OBFUSCATE_KEY);
-
-		MessageDigest digest = null;
-		try {
-			digest = MessageDigest.getInstance("MD5");
-		} catch (final NoSuchAlgorithmException e) {
-			LOGGER.error("Cannot find instance for MD5", e);
-			Throwables.propagate(e);
-		}
-		return new String(Hex.encode(digest.digest(signatureBuilder.toString().getBytes(Charset.forName("UTF-8")))));
+		return new String(Hex.encode(Utils.getMessageDigest().digest(signatureBuilder.toString().getBytes(Charset.forName("UTF-8")))));
 	}
 
 	public static String getUsernameFromToken(final String authToken) {

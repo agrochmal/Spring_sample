@@ -36,6 +36,7 @@
         <junit-version>4.12</junit-version>
         <mockito-version>2.0.8-beta</mockito-version>
         <fest-assert-version>1.4</fest-assert-version>
+		<catch-exception-version>1.2.0</catch-exception-version>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
@@ -271,6 +272,12 @@
 			<groupId>org.easytesting</groupId>
 			<artifactId>fest-assert</artifactId>
 			<version>${fest-assert-version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.googlecode.catch-exception</groupId>
+			<artifactId>catch-exception</artifactId>
+			<version>${catch-exception-version}</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

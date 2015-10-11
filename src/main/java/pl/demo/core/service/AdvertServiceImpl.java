@@ -17,7 +17,6 @@ import pl.demo.core.util.EntityUtils;
 import pl.demo.web.HttpSessionContext;
 import pl.demo.web.dto.EMailDTO;
 import pl.demo.web.dto.SearchCriteriaDTO;
-import java.io.IOException;
 import java.util.*;
 
 import static pl.demo.core.service.MailServiceImpl.EMAIL_TEMPLATE;
@@ -49,11 +48,7 @@ public class AdvertServiceImpl extends CRUDServiceImpl<Long, Advert> implements 
 				resourceMediaService.save(mediaResource);
 			}
 		}finally {
-			try {
-				httpSessionContext.close();
-			} catch (IOException e) {
-				LOGGER.error("", e);
-			}
+			httpSessionContext.close();
 		}
 		return saved;
 	}

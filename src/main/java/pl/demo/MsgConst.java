@@ -11,6 +11,7 @@ public final class MsgConst {
         Assert.noObject();
     }
 
+    public static final String FATAL_ERROR = "FATAL_ERROR";
     public static final String RESOURCE_NOT_FOUND = "RESOURCE_NOT_FOUND";
     public static final String VALIDATION_FAILED = "VALIDATION_FAILED";
     public static final String FILE_EMPTY = "FILE.IS_EMPTY";

@@ -5,4 +5,4 @@ var exampleAppConfig = {
 	 * This might be desirable if headers don't work correctly in some
 	 * environments and is still secure when using https. */
 	useAuthTokenHeader: true
-}
+};

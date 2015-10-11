@@ -34,7 +34,7 @@ public class HttpSessionContext implements Closeable {
     }
 
     @Override
-    public void close() throws IOException {
+    public void close() {
         this.uploadedResourcesId.clear();
     }
 }
