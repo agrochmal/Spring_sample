@@ -10,20 +10,15 @@ import pl.demo.core.service.CRUDService;
 import pl.demo.core.service.CommentService;
 import pl.demo.core.util.Assert;
 import pl.demo.core.util.Utils;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static pl.demo.web.EndpointConst.COMMENT.*;
 
 @RestController
 @RequestMapping(COMMENT_ENDPOINT)
-public class CommentResourceImpl extends CRUDResourceImpl<Long, Comment> {
+public class CommentResourceImpl extends CRUDResourceImpl<Long, Comment> implements CommentResource{
 
-    @RequestMapping(value = COMMENT_NEW,
-            method = RequestMethod.POST)
-
+    @Override
     public ResponseEntity<?> postComment(@PathVariable("id") final Long advertId, @Valid @RequestBody final Comment comment,
                              final BindingResult bindingResult, final HttpServletRequest httpServletRequest) {
         Assert.hasErrors(bindingResult);
@@ -32,10 +27,7 @@ public class CommentResourceImpl extends CRUDResourceImpl<Long, Comment> {
         return ResponseEntity.noContent().build();
     }
 
-    @RequestMapping(value = COMMENT_GETALL,
-            method = RequestMethod.GET,
-            produces = APPLICATION_JSON_VALUE)
-
+    @Override
     public ResponseEntity<?> getAllComments(@PathVariable("id") final Long id) {
         return ResponseEntity.ok().body(this.getCommentService().findByAdvert(id));
     }

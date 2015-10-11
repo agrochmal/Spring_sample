@@ -16,22 +16,19 @@ import static pl.demo.web.EndpointConst.IMAGE.IMAGE_ENDPOINT;
  */
 @RestController
 @RequestMapping(IMAGE_ENDPOINT)
-public class ImageResourceImpl {
+public class ImageResourceImpl implements ImageResource{
 
     private CRUDService     domainService;
     private CustomValidator validator;
 
-    @RequestMapping(method = RequestMethod.POST)
-
+    @Override
     public ResponseEntity<?> uploadImage(@RequestParam("file") final MultipartFile file) {
         this.validator.validate(file);
         final Long imageId = this.getResourceMediaService().upload(file);
         return ResponseEntity.ok(imageId);
     }
 
-    @RequestMapping(value="{id}",
-            method = RequestMethod.DELETE)
-
+    @Override
     public ResponseEntity<?> deleteImage(@PathVariable final Long id) {
         this.getResourceMediaService().deleteImage(id);
         return ResponseEntity.noContent().build();
