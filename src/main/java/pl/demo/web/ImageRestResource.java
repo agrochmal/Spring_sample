@@ -9,29 +9,23 @@ import pl.demo.core.service.CRUDService;
 import pl.demo.core.service.ResourceMediaService;
 import pl.demo.web.validator.CustomValidator;
 
-import static pl.demo.web.EndpointConst.IMAGE.IMAGE_ENDPOINT;
-
 /**
  * Created by robertsikora on 26.08.15.
  */
 @RestController
-@RequestMapping(IMAGE_ENDPOINT)
-public class ImageRestResource{
+public class ImageRestResource implements ImageResource {
 
     private CRUDService     domainService;
     private CustomValidator validator;
 
-    @RequestMapping(method = RequestMethod.POST)
-
+    @Override
     public ResponseEntity<?> uploadImage(@RequestParam("file") final MultipartFile file) {
         this.validator.validate(file);
         final Long imageId = this.getResourceMediaService().upload(file);
         return ResponseEntity.ok(imageId);
     }
 
-    @RequestMapping(value="{id}",
-            method = RequestMethod.DELETE)
-
+    @Override
     public ResponseEntity<?> deleteImage(@PathVariable final Long id) {
         this.getResourceMediaService().deleteImage(id);
         return ResponseEntity.noContent().build();
