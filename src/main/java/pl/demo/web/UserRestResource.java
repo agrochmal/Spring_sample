@@ -21,7 +21,7 @@ import static pl.demo.web.EndpointConst.USER.*;
 
 @RestController
 @RequestMapping(USER_ENDPOINT)
-public class UserResourceImpl extends CRUDResourceImpl<Long, User> {
+public class UserRestResource extends AbstractCRUDResource<Long, User>{
 
 	private AdvertService   advertService;
 	private CustomValidator validator;

@@ -18,9 +18,9 @@ import pl.demo.web.exception.ValidationRequestException;
  */
 
 @ControllerAdvice
-public class ErrorAdvice {
+public class ErrorController {
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(ErrorAdvice.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(ErrorController.class);
 
     @ExceptionHandler(ValidationRequestException.class)
     public ResponseEntity<?> handleValidationRequestException(final ValidationRequestException ex) {

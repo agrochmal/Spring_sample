@@ -20,7 +20,7 @@ import static pl.demo.web.EndpointConst.ADVERT.*;
 
 @RestController
 @RequestMapping(ADVERT_ENDPOINT)
-public class AdvertResourceImpl extends CRUDResourceImpl<Long, Advert> {
+public class AdvertRestResource extends AbstractCRUDResource<Long, Advert> {
 
     @RequestMapping(value = ADVERT_NEW,
             method = RequestMethod.GET,
