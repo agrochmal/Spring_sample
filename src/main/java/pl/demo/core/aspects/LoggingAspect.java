@@ -6,14 +6,12 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 
 /**
  * Created by robertsikora on 08.10.15.
  */
 
 @Aspect
-@Component
 public class LoggingAspect {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(LoggingAspect.class);
@@ -23,12 +21,8 @@ public class LoggingAspect {
     }
 
     @Around("anyMethod()")
-    public Object aspectAction(
-            final ProceedingJoinPoint pjp)
-            throws Throwable {
-
+    public Object aspectAction(final ProceedingJoinPoint pjp) throws Throwable {
         final Object result = pjp.proceed();
         return result;
     }
-
 }

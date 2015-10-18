@@ -23,7 +23,6 @@ public interface AdvertResource {
     @RequestMapping(value = ADVERT_NEW, method = RequestMethod.GET, produces = APPLICATION_JSON_VALUE)
     ResponseEntity<Advert> createNew();
 
-
     @RequestMapping(value = ADVERT_SEARCH, method = RequestMethod.GET, produces = APPLICATION_JSON_VALUE)
     ResponseEntity<?> search(SearchCriteriaDTO searchCriteriaDTO, Pageable pageable);
 

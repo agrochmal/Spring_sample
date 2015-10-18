@@ -14,7 +14,7 @@ angular.module('app.controlles', [])
 		$scope.addSlide = function () {
 			slides.push({
 				image: 'app/images/' + nr + '.jpeg',
-				text: ['deatils 111111111', 'deatils 22222222'][slides.length % 2] + ' ' +
+				text: ['details 111111111', 'details 22222222'][slides.length % 2] + ' ' +
 				['.................', '.............', '..............'][slides.length % 2]
 			});
 			nr++;
