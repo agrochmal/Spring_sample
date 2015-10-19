@@ -216,7 +216,6 @@ public class Advert extends BaseEntity implements Coordinates {
                 .append(thumbUrl, advert.thumbUrl)
                 .append(contact, advert.contact)
                 .append(user, advert.user)
-                .append(comments, advert.comments)
                 .isEquals();
     }
 
@@ -233,7 +232,6 @@ public class Advert extends BaseEntity implements Coordinates {
                 .append(thumbUrl)
                 .append(contact)
                 .append(user)
-                .append(comments)
                 .toHashCode();
     }
 

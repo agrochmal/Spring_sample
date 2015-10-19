@@ -61,7 +61,6 @@ public class MediaResource extends BaseEntity{
         this.name = name;
     }
 
-
     public String getContentType() {
         return contentType;
     }

@@ -112,8 +112,6 @@ public class User extends BaseEntity {
 				.append(password, user.password)
 				.append(name, user.name)
 				.append(contact, user.contact)
-				.append(roles, user.roles)
-				.append(adverts, user.adverts)
 				.isEquals();
 	}
 
@@ -123,8 +121,6 @@ public class User extends BaseEntity {
 				.append(password)
 				.append(name)
 				.append(contact)
-				.append(roles)
-				.append(adverts)
 				.toHashCode();
 	}
 
