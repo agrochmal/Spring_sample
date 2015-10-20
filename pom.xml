@@ -91,6 +91,22 @@
 					<check/>
 				</configuration>
             </plugin>
+			<plugin>
+				<groupId>org.flywaydb</groupId>
+				<artifactId>flyway-maven-plugin</artifactId>
+				<version>3.2.1</version>
+				<configuration>
+					<url>jdbc:h2:mem</url>
+					<user>sa</user>
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>com.h2database</groupId>
+						<artifactId>h2</artifactId>
+						<version>1.3.170</version>
+					</dependency>
+				</dependencies>
+			</plugin>
 		</plugins>
 	</build>
 	<reporting>
@@ -273,6 +289,16 @@
 			<artifactId>catch-exception</artifactId>
 			<version>${catch-exception-version}</version>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.flywaydb</groupId>
+			<artifactId>flyway-core</artifactId>
+			<version>3.2.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<version>1.3.170</version>
 		</dependency>
 	</dependencies>
 	<repositories>

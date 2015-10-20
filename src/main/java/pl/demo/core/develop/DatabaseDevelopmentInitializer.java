@@ -5,7 +5,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import pl.demo.core.model.entity.*;
+import pl.demo.core.model.entity.Advert;
+import pl.demo.core.model.entity.Role;
+import pl.demo.core.model.entity.RoleName;
+import pl.demo.core.model.entity.User;
 import pl.demo.core.model.entity.embeddable.Contact;
 import pl.demo.core.model.entity.embeddable.Location;
 import pl.demo.core.model.repo.AdvertRepository;
@@ -21,6 +24,7 @@ import java.util.List;
 /**
  * Only for development time.
  */
+@Deprecated
 @Component
 @Transactional
 public class DatabaseDevelopmentInitializer {
