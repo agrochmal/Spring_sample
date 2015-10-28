@@ -2,11 +2,14 @@ package pl.demo.core.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
-import pl.demo.core.util.Assert;
 import pl.demo.core.aspects.DetachEntity;
+import pl.demo.core.events.CreationEventImpl;
 import pl.demo.core.model.entity.BaseEntity;
+import pl.demo.core.util.Assert;
 
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
@@ -24,8 +27,9 @@ public abstract class CRUDServiceImpl<PK extends Serializable, E extends BaseEnt
 
     protected final Logger LOGGER = LoggerFactory.getLogger(getClass());
 
-    private Map<Class<? extends BaseEntity>, JpaRepository<E, PK>> repositoryMap;
-    private Class<E> entityClass;
+    private Map<Class<? extends BaseEntity>, JpaRepository<E, PK>>      repositoryMap;
+    private ApplicationEventPublisher                                   publisher;
+    private Class<E>                                                    entityClass;
 
     public CRUDServiceImpl() {
         Type genericSuperclass = this.getClass().getGenericSuperclass();
@@ -78,6 +82,7 @@ public abstract class CRUDServiceImpl<PK extends Serializable, E extends BaseEnt
     @Override
     public E save(final E entity) {
         Assert.notNull(entity, "Entity is required");
+        this.publisher.publishEvent(new CreationEventImpl<E>(entity));
         return getDomainRepository().saveAndFlush(entity);
     }
 
@@ -87,7 +92,12 @@ public abstract class CRUDServiceImpl<PK extends Serializable, E extends BaseEnt
         return repository;
     }
 
-    public void setRepositoryMap(Map<Class<? extends BaseEntity>, JpaRepository<E, PK>> repositoryMap) {
+    public void setRepositoryMap(final Map<Class<? extends BaseEntity>, JpaRepository<E, PK>> repositoryMap) {
         this.repositoryMap = repositoryMap;
+    }
+
+    @Autowired
+    public void setPublisher(final ApplicationEventPublisher publisher) {
+        this.publisher = publisher;
     }
 }

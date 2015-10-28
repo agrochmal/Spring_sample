@@ -8,6 +8,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.MessageSourceResolvable;
 import org.springframework.context.NoSuchMessageException;
+import org.springframework.core.ResolvableType;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.Resource;
 
@@ -66,6 +67,11 @@ public class ApplicationContextFake<T> implements ApplicationContext {
     }
 
     @Override
+    public void publishEvent(Object o) {
+        
+    }
+
+    @Override
     public BeanFactory getParentBeanFactory() {
         return null;
     }
@@ -87,6 +93,11 @@ public class ApplicationContextFake<T> implements ApplicationContext {
 
     @Override
     public String[] getBeanDefinitionNames() {
+        return new String[0];
+    }
+
+    @Override
+    public String[] getBeanNamesForType(ResolvableType resolvableType) {
         return new String[0];
     }
 
@@ -197,6 +208,11 @@ public class ApplicationContextFake<T> implements ApplicationContext {
 
     @Override
     public boolean isPrototype(String name) throws NoSuchBeanDefinitionException {
+        return false;
+    }
+
+    @Override
+    public boolean isTypeMatch(String s, ResolvableType resolvableType) throws NoSuchBeanDefinitionException {
         return false;
     }
 

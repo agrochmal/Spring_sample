@@ -4,14 +4,14 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>pl.robertsikora</groupId>
 	<artifactId>demo</artifactId>
-	<version>1.1</version>
+	<version>2.0</version>
 	<packaging>war</packaging>
 	<properties>
 		<maven-compiler-plugin-version>3.2</maven-compiler-plugin-version>
 		<h2-database-version>1.4.182</h2-database-version>
 		<hibernate-entitymanager-version>4.3.6.Final</hibernate-entitymanager-version>
 		<hibernate-search-version>4.5.2.Final</hibernate-search-version>
-		<spring-version>4.1.1.RELEASE</spring-version>
+		<spring-version>4.2.2.RELEASE</spring-version>
 		<spring-data-version>1.7.0.RELEASE</spring-data-version>
 		<spring-security-version>3.2.5.RELEASE</spring-security-version>
 		<spring-social-version>1.1.0.RELEASE</spring-social-version>
@@ -30,7 +30,7 @@
 		<geronimo.javamail-version>1.8.4</geronimo.javamail-version>
 		<spring-hateos-version>0.16.0.RELEASE</spring-hateos-version>
 		<postgres-version>9.1-901-1.jdbc4</postgres-version>
-		<spring-context-support-version>4.1.1.RELEASE</spring-context-support-version>
+		<spring-context-support-version>4.2.2.RELEASE</spring-context-support-version>
         <aspectjweaver-version>1.8.7</aspectjweaver-version>
         <!-- testing libs -->
         <junit-version>4.12</junit-version>

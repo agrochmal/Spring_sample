@@ -5,7 +5,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
-import pl.demo.core.util.Assert;
 import pl.demo.core.aspects.DetachEntity;
 import pl.demo.core.model.entity.Advert;
 import pl.demo.core.model.entity.Comment;
@@ -13,21 +12,24 @@ import pl.demo.core.model.entity.MediaResource;
 import pl.demo.core.model.entity.User;
 import pl.demo.core.model.repo.AdvertRepository;
 import pl.demo.core.model.repo.fullTextSearch.SearchableRepository;
+import pl.demo.core.util.Assert;
 import pl.demo.core.util.EntityUtils;
 import pl.demo.web.HttpSessionContext;
 import pl.demo.web.dto.EMailDTO;
 import pl.demo.web.dto.SearchCriteriaDTO;
+
 import java.util.*;
 
 import static pl.demo.core.service.MailServiceImpl.EMAIL_TEMPLATE;
 
 public class AdvertServiceImpl extends CRUDServiceImpl<Long, Advert> implements AdvertService {
 
-	private SearchService 	     searchService;
-	private UserService 		 userService;
-	private MailService 		 mailService;
-	private HttpSessionContext   httpSessionContext;
-	private ResourceMediaService resourceMediaService;
+	private SearchService 	     		searchService;
+	private UserService 		 		userService;
+	private MailService 		 		mailService;
+	private HttpSessionContext   		httpSessionContext;
+	private ResourceMediaService 		resourceMediaService;
+
 
 	@Transactional
 	@Override
@@ -72,10 +74,11 @@ public class AdvertServiceImpl extends CRUDServiceImpl<Long, Advert> implements 
 	}
 
 	private Advert createAdvert(final User t){
-		return Advert.AdvertBuilder.anAdvert()
+		final Advert advert = Advert.AdvertBuilder.anAdvert()
 				.withOwnerName(t.getName())
 				.withContact(t.getContact())
 				.build();
+		return advert;
 	}
 
 	@Transactional(readOnly = true)
