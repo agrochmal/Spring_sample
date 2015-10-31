@@ -22,11 +22,11 @@ import static pl.demo.core.model.entity.ModelConstans.TEXT_LENGTH_25;
  */
 
 @Entity
-@Table(name="comments")
+@Table(name = "comments")
 
-@Indexed(index="idx_comments")
-@AnalyzerDef(name="comment_analyzer",
-        tokenizer=@TokenizerDef(factory=StandardTokenizerFactory.class),
+@Indexed(index = "idx_comments")
+@AnalyzerDef(name = "comment_analyzer",
+        tokenizer = @TokenizerDef(factory=StandardTokenizerFactory.class),
         filters={
                 @TokenFilterDef(factory=LowerCaseFilterFactory.class),
                 @TokenFilterDef(factory=StempelPolishStemFilterFactory.class)})
@@ -36,20 +36,20 @@ public class Comment extends BaseEntity {
     private String nick;
 
     @Basic
-    @Size(max=TEXT_LENGTH_25)
-    @Column(name="ip_addr")
+    @Size(max = TEXT_LENGTH_25)
+    @Column(name = "ip_addr")
     private String ipAddr;
 
     @Basic
-    @Column(name="date", nullable = false)
+    @Column(name = "date", nullable = false)
     private Date date;
 
-    @Field(index= org.hibernate.search.annotations.Index.YES, analyze=Analyze.YES, store=Store.NO)
+    @Field(index = org.hibernate.search.annotations.Index.YES, analyze = Analyze.YES, store = Store.NO)
     @Analyzer(definition = "comment_analyzer")
     @NotEmpty
     @Lob
     @Basic
-    @Column(name="text", columnDefinition="CLOB NOT NULL", table="comments", nullable = false)
+    @Column(name = "text", columnDefinition = "CLOB NOT NULL", table = "comments", nullable = false)
     private String text;
 
     @Min(1)
@@ -58,8 +58,8 @@ public class Comment extends BaseEntity {
     @Column(nullable = false)
     private Integer rate;
 
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="advert_id")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "advert_id", nullable = false)
     private Advert advert;
 
     public String getNick() {

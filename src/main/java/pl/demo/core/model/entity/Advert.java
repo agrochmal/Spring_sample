@@ -25,12 +25,12 @@ import static pl.demo.core.model.entity.ModelConstans.TEXT_LENGTH_80;
 @Table(name = "adverts")
 
 @Spatial
-@Indexed(index="idx_adverts")
-@AnalyzerDef(name="advert_analyzer",
-		tokenizer=@TokenizerDef(factory=StandardTokenizerFactory.class),
-		filters={
-				@TokenFilterDef(factory=LowerCaseFilterFactory.class),
-				@TokenFilterDef(factory=StempelPolishStemFilterFactory.class)})
+@Indexed(index = "idx_adverts")
+@AnalyzerDef(name = "advert_analyzer",
+		tokenizer = @TokenizerDef(factory=StandardTokenizerFactory.class),
+		filters = {
+				@TokenFilterDef(factory = LowerCaseFilterFactory.class),
+				@TokenFilterDef(factory = StempelPolishStemFilterFactory.class)})
 public class Advert extends BaseEntity implements Coordinates {
 
     @NotEmpty

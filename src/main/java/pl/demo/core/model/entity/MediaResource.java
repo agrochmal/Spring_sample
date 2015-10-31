@@ -41,8 +41,8 @@ public class MediaResource extends BaseEntity{
     @Basic
     private Boolean delete = Boolean.FALSE;
 
-    @ManyToOne(fetch= FetchType.LAZY)
-    @JoinColumn(name="advert_id")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "advert_id", nullable = false)
     private Advert advert;
 
     public String getPublicId() {

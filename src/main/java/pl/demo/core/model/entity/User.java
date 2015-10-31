@@ -22,17 +22,17 @@ import static pl.demo.core.model.entity.ModelConstans.TEXT_LENGTH_80;
 @Table(name = "users")
 public class User extends BaseEntity {
 
-	@Length(max=TEXT_LENGTH_80)
+	@Length(max = TEXT_LENGTH_80)
     @Basic
-	@Column(length=TEXT_LENGTH_80, nullable=false)
+	@Column(length = TEXT_LENGTH_80, nullable = false)
 	private String password;
 
     @Basic
-    @Column(nullable=false)
+    @Column(nullable = false)
 	private String name;
 
     @AttributeOverrides({
-        @AttributeOverride(name="email",column=@Column(length=TEXT_LENGTH_100, nullable=false, unique=true))}
+        @AttributeOverride(name = "email", column = @Column(length=TEXT_LENGTH_100, nullable = false, unique = true))}
     )
 	@Embedded
 	private Contact contact;

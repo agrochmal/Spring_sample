@@ -14,14 +14,14 @@ public abstract class BaseEntity implements Serializable, FlatableEntity {
 
 	private final static Object NULL_VALUE = null;
 
-	@JsonIgnoreProperties(ignoreUnknown=true)
+	@JsonIgnoreProperties(ignoreUnknown = true)
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="id")
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "id")
 	protected Long id;
 
     @NotNull
-	@Column(name="entry_date", nullable = false)
+	@Column(name = "entry_date", nullable = false)
 	private Date entryDate = new Date();
 
 	public Long getId() {
