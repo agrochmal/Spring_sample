@@ -3,12 +3,12 @@ package pl.demo.core.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.transaction.annotation.Transactional;
-import pl.demo.core.util.Assert;
 import pl.demo.core.aspects.DetachEntity;
 import pl.demo.core.model.entity.Advert;
 import pl.demo.core.model.entity.Comment;
 import pl.demo.core.model.repo.AdvertRepository;
 import pl.demo.core.model.repo.CommentRepository;
+import pl.demo.core.util.Assert;
 import pl.demo.core.util.Utils;
 import pl.demo.web.dto.EMailDTO;
 
@@ -31,7 +31,7 @@ public class CommentServiceImpl extends CRUDServiceImpl<Long, Comment> implement
 
     @Transactional
     @Override
-    public void postComment(final Long advertId, final Comment comment) {
+    public void postComment(final long advertId, final Comment comment) {
         Assert.notNull(advertId, "Advert id is required");
         Assert.notNull(comment, "Comment is required");
         prepareComment(comment);
@@ -51,7 +51,7 @@ public class CommentServiceImpl extends CRUDServiceImpl<Long, Comment> implement
     @Transactional(readOnly = true)
     @DetachEntity
     @Override
-    public Collection<Comment> findByAdvert(Long advertId) {
+    public Collection<Comment> findByAdvert(final long advertId) {
         Assert.notNull(advertId, "Advert id is required");
         return getCommentRepository().findByAdvertIdOrderByDateDesc(advertId);
     }

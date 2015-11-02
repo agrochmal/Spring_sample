@@ -3,7 +3,9 @@ package pl.demo.web;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import pl.demo.core.model.entity.Advert;
 import pl.demo.core.model.entity.User;
 import pl.demo.core.service.AdvertService;
@@ -12,6 +14,7 @@ import pl.demo.core.service.UserService;
 import pl.demo.core.util.TokenUtils;
 import pl.demo.web.dto.TokenDTO;
 import pl.demo.web.validator.CustomValidator;
+
 import java.util.Collection;
 import java.util.Optional;
 
@@ -38,12 +41,12 @@ public class UserResourceImpl extends CRUDResourceImpl<Long, User> implements Us
 	}
 
 	@Override
-	public ResponseEntity<Collection<Advert>> findUserAdverts(@PathVariable final Long userId){
+	public ResponseEntity<Collection<Advert>> findUserAdverts(@PathVariable final long userId){
 		return ResponseEntity.ok().body(this.advertService.findByUserId(userId));
 	}
 
 	@Override
-	public ResponseEntity<User> findUserAccount(@PathVariable final Long userId){
+	public ResponseEntity<User> findUserAccount(@PathVariable final long userId){
 		return ResponseEntity.ok().body(this.getUserService().findOne(userId));
 	}
 

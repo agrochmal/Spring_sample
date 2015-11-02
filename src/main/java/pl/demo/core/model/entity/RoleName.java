@@ -15,6 +15,9 @@ import static pl.demo.core.model.entity.ModelConstans.TEXT_LENGTH_80;
 @Table(name = "role_names")
 public class RoleName extends BaseEntity {
 
+  public final static String USER_ROLE = "USER";
+  public final static String ADMIN_ROLE = "ADMIN";
+
   @Basic
   @Column(length=TEXT_LENGTH_80, unique=true)
   private String name;

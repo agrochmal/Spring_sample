@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.demo.core.model.entity.BaseEntity;
 import pl.demo.core.service.CRUDService;
-import pl.demo.core.util.Utils;
 import pl.demo.core.util.Assert;
+import pl.demo.core.util.Utils;
 
 import javax.annotation.PostConstruct;
 import javax.validation.Valid;
@@ -37,6 +37,7 @@ public abstract class CRUDResourceImpl<PK extends Serializable, E extends BaseEn
     public ResponseEntity<?> getResources(){
         final Collection<E> resources = this.crudService.findAll();
         Assert.notResourceFound(resources);
+
         return ResponseEntity.ok().body(resources);
     }
 
@@ -44,6 +45,7 @@ public abstract class CRUDResourceImpl<PK extends Serializable, E extends BaseEn
     public ResponseEntity<?> getResourceById(@PathVariable final PK id){
         final E resource = this.crudService.findOne(id);
         Assert.notResourceFound(resource);
+
         return ResponseEntity.ok().header(HEADER_ETAG, String.valueOf(resource.hashCode())).body(resource);
     }
 
@@ -52,6 +54,7 @@ public abstract class CRUDResourceImpl<PK extends Serializable, E extends BaseEn
         final E resource = this.crudService.findOne(id);
         Assert.notResourceFound(resource);
         this.crudService.delete(id);
+
         return ResponseEntity.noContent().build();
     }
 
@@ -62,16 +65,19 @@ public abstract class CRUDResourceImpl<PK extends Serializable, E extends BaseEn
         final E resource = this.crudService.findOne(id);
         Assert.notResourceFound(resource);
         this.crudService.edit(id, entity);
+
         return ResponseEntity.noContent().build();
     }
 
     @Override
     public ResponseEntity<?> save(@Valid @RequestBody final E entity, final BindingResult bindingResult) {
         Assert.hasErrors(bindingResult);
+
         return Optional.ofNullable(this.crudService.save(entity))
             .map(t -> {
                 final String path = ServletUriComponentsBuilder.fromCurrentServletMapping().path("/{id}").buildAndExpand(t.getId()).toString();
                 final URI uriLocation = Utils.createURI(path);
+
                 return ResponseEntity.created(uriLocation).build();}
             ).orElseGet(() -> ResponseEntity.noContent().build());
     }

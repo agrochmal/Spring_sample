@@ -48,7 +48,7 @@ public class ResourceMediaServiceImpl extends CRUDServiceImpl<Long, MediaResourc
     }
 
     @Transactional
-    public void saveOnCallback(final Long id, final String publicId){
+    public void saveOnCallback(final long id, final String publicId){
         final MediaResource dbMediaResource = getMediaResourceRepository().findOneForUpdate(id);
         dbMediaResource.setPublicId(publicId);
         save(dbMediaResource);

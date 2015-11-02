@@ -20,5 +20,5 @@ public interface ImageResource {
     ResponseEntity<?> uploadImage(@RequestParam("file") final MultipartFile file);
 
     @RequestMapping(value="{id}", method = RequestMethod.DELETE)
-    ResponseEntity<?> deleteImage(@PathVariable Long id);
+    ResponseEntity<?> deleteImage(@PathVariable long id);
 }

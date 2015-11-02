@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import pl.demo.core.model.entity.Advert;
 import pl.demo.core.model.entity.User;
 import pl.demo.web.dto.TokenDTO;
+
 import java.util.Collection;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static pl.demo.web.EndpointConst.USER.*;
-import static pl.demo.web.EndpointConst.USER.ACCOUNT;
 
 /**
  * Created by robertsikora on 11.10.15.
@@ -28,12 +28,11 @@ public interface UserResource {
     ResponseEntity<Boolean> checkUnique(String username);
 
     @RequestMapping(value = USER_AUTHENTICATE, method = RequestMethod.POST)
-    TokenDTO authenticate(@RequestParam("username") String username,
-                          @RequestParam("password") String password);
+    TokenDTO authenticate(@RequestParam("username") String username, @RequestParam("password") String password);
 
     @RequestMapping(value = USER_FIND_ADVERTS, method = RequestMethod.GET, produces = APPLICATION_JSON_VALUE)
-    ResponseEntity<Collection<Advert>> findUserAdverts(@PathVariable Long userId);
+    ResponseEntity<Collection<Advert>> findUserAdverts(@PathVariable long userId);
 
     @RequestMapping(value = ACCOUNT, method = RequestMethod.GET, produces = APPLICATION_JSON_VALUE)
-    ResponseEntity<User> findUserAccount(@PathVariable Long userId);
+    ResponseEntity<User> findUserAccount(@PathVariable long userId);
 }

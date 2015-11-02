@@ -35,28 +35,27 @@ angular.module('app', ['ngRoute','ngCookies','ngSanitize','app.services','app.co
 		   when('/search', {
 			  templateUrl: 'app/partials/all-advert-view.html',
 			  controller: 'AllAdvertView'
-			}).
-			when('/users/account/:id', {
-				templateUrl: 'app/partials/user-account.html',
-				controller: 'UserAccountController',
-				 resolve: {
-					 user: function (UserService, $route) {
-						 return UserService.get({id: $route.current.params.id});
-					 }
+		   }).
+		   when('/users/account/:id', {
+			  templateUrl: 'app/partials/user-account.html',
+			  controller: 'UserAccountController',
+			  resolve: {
+				 user: function (UserService, $route) {
+					 return UserService.get({id: $route.current.params.id});
 				 }
-			}).
-		    when('/adverts/:id', {
-			   templateUrl: 'app/partials/advert-view.html',
-			   controller: 'AdvertViewController',
-			    resolve: {
-					advert: function (AdvertService, $route) {
-						return AdvertService.get({id: $route.current.params.id});
-					}
-				}
-		    }).
-			otherwise({
-			  redirectTo: 'main'
-			});
+			  }
+		   }).
+		   when('/adverts/:id', {
+		      templateUrl: 'app/partials/advert-view.html',
+		      controller: 'AdvertViewController',
+			  resolve: {
+				 advert: function (AdvertService, $route) {
+					return AdvertService.get({id: $route.current.params.id});
+				 }
+			  }
+		   }).otherwise({
+			   redirectTo: 'main'
+		   });
 			/*	$locationProvider.html5Mode(true);
 			$locationProvider.hashPrefix('!');*/
 			
@@ -72,7 +71,10 @@ angular.module('app', ['ngRoute','ngCookies','ngSanitize','app.services','app.co
 						var alertify = $injector.get('Alertify');
 						//Unauthorized
 						if (status == 401) {
-							alertify.error('Brak dostepu. Zaloguj sie');
+							alertify.error('Zaloguj sie');
+							$location.path("/main");
+						} else if (status == 403) {
+							alertify.error('Brak dostepu');
 							$location.path( "/main" );
 						} else {
 							alertify.error('Powazny blad serwera');

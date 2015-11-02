@@ -34,8 +34,8 @@ public class ErrorController {
         return ResponseEntity.notFound().build();
     }
 
-    @ExceptionHandler({Exception.class, GeneralException.class})
-    public ResponseEntity<?> handleGeneralException(final Exception ex) {
+    @ExceptionHandler({GeneralException.class})
+    public ResponseEntity<?> handleGeneralException(final GeneralException ex) {
         LOGGER.error("General exception occurs", ex);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).
                 body(new ErrorInfo("Fatal error on server", ex.getMessage()));

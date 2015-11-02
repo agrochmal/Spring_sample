@@ -1,5 +1,6 @@
-insert into role_names(id, entry_date, name) values (null, CURRENT_TIMESTAMP(), 'user');
-insert into role_names(id, entry_date, name) values (null, CURRENT_TIMESTAMP(), 'admin');
+insert into role_names(id, entry_date, name) values (null, CURRENT_TIMESTAMP(), 'USER');
+insert into role_names(id, entry_date, name) values (null, CURRENT_TIMESTAMP(), 'ADMIN');
+insert into role_names(id, entry_date, name) values (null, CURRENT_TIMESTAMP(), 'VIEW_ADVERTS');
 
 insert into roles(id, entry_date, roleName_id) values (null, CURRENT_TIMESTAMP(), 1);
 

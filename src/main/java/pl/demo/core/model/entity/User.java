@@ -32,7 +32,7 @@ public class User extends BaseEntity {
 	private String name;
 
     @AttributeOverrides({
-        @AttributeOverride(name = "email", column = @Column(length=TEXT_LENGTH_100, nullable = false, unique = true))}
+        @AttributeOverride(name = "email", column = @Column(length = TEXT_LENGTH_100, nullable = false, unique = true))}
     )
 	@Embedded
 	private Contact contact;
@@ -65,7 +65,7 @@ public class User extends BaseEntity {
 		if (roles == null) {
 			return Collections.emptyList();
 		}
-		return roles.stream().map( t-> new SimpleGrantedAuthority(t.getRoleName().toString())).collect(Collectors.toSet());
+		return roles.stream().map( t-> new SimpleGrantedAuthority(t.getRoleName().getName())).collect(Collectors.toSet());
 	}
 
 	public String getName() {
@@ -131,7 +131,6 @@ public class User extends BaseEntity {
 				.append("name", name)
 				.append("contact", contact)
 				.append("roles", roles)
-				.append("adverts", adverts)
 				.toString();
 	}
 }

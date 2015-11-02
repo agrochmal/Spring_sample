@@ -27,8 +27,8 @@ public interface AdvertResource {
     ResponseEntity<?> search(SearchCriteriaDTO searchCriteriaDTO, Pageable pageable);
 
     @RequestMapping(value = ADVERT_UPDATE_STATUS, method = RequestMethod.POST)
-    ResponseEntity<?> updateStatus(@PathVariable("id") Long id, @RequestParam(value = "status") String status);
+    ResponseEntity<?> updateStatus(@PathVariable("id") long id, @RequestParam(value = "status") String status);
 
     @RequestMapping(value = ADVERT_SEND_MAIL, method = RequestMethod.POST)
-    ResponseEntity<?> sendEmail(@PathVariable("id") Long id, @Valid @RequestBody EMailDTO email, BindingResult bindingResult);
+    ResponseEntity<?> sendEmail(@PathVariable("id") long id, @Valid @RequestBody EMailDTO email, BindingResult bindingResult);
 }

@@ -24,6 +24,9 @@ public abstract class BaseEntity implements Serializable, FlatableEntity {
 	@Column(name = "entry_date", nullable = false)
 	private Date entryDate = new Date();
 
+	@Column(name = "entry_user")
+	private String entryUser;
+
 	public Long getId() {
 		return id;
 	}
@@ -42,6 +45,14 @@ public abstract class BaseEntity implements Serializable, FlatableEntity {
 		}
 	}
 
+	public String getEntryUser() {
+		return entryUser;
+	}
+
+	public void setEntryUser(String entryUser) {
+		this.entryUser = entryUser;
+	}
+
 	/*
 	   Method makes flatten entity.
 	   Thanks to it may be serialized and send over REST
@@ -55,8 +66,6 @@ public abstract class BaseEntity implements Serializable, FlatableEntity {
 	@Override
 	public String toString() {
 		return new ToStringBuilder(this)
-				.append("id", id)
-				//.append("entryDate", entryDate)
-				.toString();
+				.append("id", id).toString();
 	}
 }

@@ -58,7 +58,7 @@ public class AdvertServiceImpl extends CRUDServiceImpl<Long, Advert> implements 
 	@Transactional(readOnly = true)
 	@DetachEntity
 	@Override
-	public Collection<Advert> findByUserId(final Long userId){
+	public Collection<Advert> findByUserId(final long userId){
 		Assert.notNull(userId);
 		return getAdvertRepository().findByUserId(userId);
 	}
@@ -115,7 +115,7 @@ public class AdvertServiceImpl extends CRUDServiceImpl<Long, Advert> implements 
 
 	@Transactional
 	@Override
-	public void updateActiveStatus(final Long advertId, final Boolean status) {
+	public void updateActiveStatus(final long advertId, final Boolean status) {
 		Assert.notNull(advertId, "Advert is required");
 		final Advert dbAdvert = getDomainRepository().findOne(advertId);
 		Assert.notResourceFound(dbAdvert);

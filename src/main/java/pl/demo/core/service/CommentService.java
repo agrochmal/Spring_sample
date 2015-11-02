@@ -15,8 +15,8 @@ import java.util.Collection;
 @Validated
 public interface CommentService extends CRUDService<Long, Comment> {
 
-    void postComment(@NotNull @Min(1) Long advertId, @NotNull @Valid Comment comment);
+    void postComment(@NotNull @Min(1) long advertId, @NotNull @Valid Comment comment);
 
     @NotNull @Valid
-    Collection<Comment> findByAdvert(@NotNull @Min(1) Long advertId);
+    Collection<Comment> findByAdvert(@NotNull @Min(1) long advertId);
 }

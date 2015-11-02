@@ -16,13 +16,15 @@ import java.io.Serializable;
 @Validated
 public interface ResourceMediaService extends CRUDService<Long, MediaResource> {
 
-    @NotNull @Min(1)
+    @NotNull
+    @Min(1)
     Long upload(@NotNull MultipartFile file);
 
     void deleteImage(@NotNull Serializable id);
 
-    void saveOnCallback(@NotNull @Min(1) Long id, @NotNull @NotBlank String publicId);
+    void saveOnCallback(@NotNull @Min(1) long id, @NotNull @NotBlank String publicId);
 
-    @NotNull @NotBlank
+    @NotNull
+    @NotBlank
     String getThumb(@NotNull Serializable id);
 }

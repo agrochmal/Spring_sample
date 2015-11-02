@@ -3,7 +3,9 @@ package pl.demo.web;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import pl.demo.core.service.CRUDService;
 import pl.demo.core.service.ResourceMediaService;
@@ -26,7 +28,7 @@ public class ImageResourceImpl implements ImageResource {
     }
 
     @Override
-    public ResponseEntity<?> deleteImage(@PathVariable final Long id) {
+    public ResponseEntity<?> deleteImage(@PathVariable final long id) {
         this.getResourceMediaService().deleteImage(id);
         return ResponseEntity.noContent().build();
     }

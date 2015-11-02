@@ -13,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import pl.demo.MsgConst;
 import pl.demo.core.model.entity.AuthenticationUserDetails;
+import pl.demo.core.model.entity.RoleName;
 import pl.demo.core.model.entity.User;
 import pl.demo.core.model.repo.RoleRepository;
 import pl.demo.core.model.repo.UserRepository;
@@ -46,7 +47,8 @@ public class UserServiceImpl extends CRUDServiceImpl<Long, User> implements User
 	public User save(final User user){
 		Assert.notNull(user, "User is required");
 		user.setPassword(this.passwordEncoder.encode(user.getPassword()));
-		user.addRole(this.roleRepository.findByRoleName("user"));
+		user.addRole(this.roleRepository.findByRoleName(RoleName.USER_ROLE));
+		user.setEntryUser(user.getContact().getEmail());
 		return super.save(user);
 	}
 
@@ -66,8 +68,7 @@ public class UserServiceImpl extends CRUDServiceImpl<Long, User> implements User
 		Assert.notNull(password, "Password is required");
 		final UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
 		final Authentication authentication = authManager.authenticate(authenticationToken);
-		SecurityContextHolder.getContext().setAuthentication(authentication);
-		return loadUserByUsername(username);
+		return (UserDetails)authentication.getPrincipal();
 	}
 
 	@Transactional(readOnly = true)
