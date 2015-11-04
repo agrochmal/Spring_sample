@@ -10,7 +10,7 @@ import pl.demo.core.model.entity.User;
 import pl.demo.core.service.advert.AdvertService;
 import pl.demo.core.service.basic_service.CRUDService;
 import pl.demo.core.service.user.UserService;
-import pl.demo.web.validator.CustomValidator;
+import pl.demo.web.validator.BusinessValidator;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -19,7 +19,7 @@ import java.util.Optional;
 public class UserResourceImpl extends CRUDResourceImpl<Long, User> implements UserResource {
 
 	private AdvertService   advertService;
-	private CustomValidator validator;
+	private BusinessValidator validator;
 
 	@Override
 	public ResponseEntity<User> getLoggedUser() {
@@ -54,7 +54,7 @@ public class UserResourceImpl extends CRUDResourceImpl<Long, User> implements Us
 
 	@Autowired
 	@Qualifier("uniqueUserValidator")
-	public void setValidator(final CustomValidator validator) {
+	public void setValidator(final BusinessValidator validator) {
 		this.validator = validator;
 	}
 

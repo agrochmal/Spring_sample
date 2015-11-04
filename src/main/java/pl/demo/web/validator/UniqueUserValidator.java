@@ -11,7 +11,7 @@ import pl.demo.web.exception.ResourceNotFoundException;
  */
 
 @Component
-public class UniqueUserValidator implements CustomValidator {
+public class UniqueUserValidator implements BusinessValidator {
 
     private UserService userService;
 

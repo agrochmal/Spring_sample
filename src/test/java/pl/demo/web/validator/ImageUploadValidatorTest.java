@@ -22,7 +22,7 @@ public class ImageUploadValidatorTest {
     @Rule
     public FakeMessageResolverTestRule fakeMessageResolverTestRule = new FakeMessageResolverTestRule();
 
-    private CustomValidator            validator = new ImageUploadValidator();
+    private BusinessValidator validator = new ImageUploadValidator();
     @Mock
     private MultipartFile              multipartFile;
 

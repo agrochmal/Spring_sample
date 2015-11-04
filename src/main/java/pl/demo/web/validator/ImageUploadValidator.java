@@ -11,7 +11,7 @@ import pl.demo.web.exception.ValidationRequestException;
  */
 
 @Component
-public class ImageUploadValidator implements CustomValidator {
+public class ImageUploadValidator implements BusinessValidator {
 
     protected final static long MAX_FILE_SIZE = 10_000_000;
 

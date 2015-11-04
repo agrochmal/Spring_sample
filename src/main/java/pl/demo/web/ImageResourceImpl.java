@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import pl.demo.core.service.basic_service.CRUDService;
 import pl.demo.core.service.resource.ResourceMediaService;
-import pl.demo.web.validator.CustomValidator;
+import pl.demo.web.validator.BusinessValidator;
 
 /**
  * Created by robertsikora on 26.08.15.
@@ -18,7 +18,7 @@ import pl.demo.web.validator.CustomValidator;
 public class ImageResourceImpl implements ImageResource {
 
     private CRUDService     domainService;
-    private CustomValidator validator;
+    private BusinessValidator validator;
 
     @Override
     public ResponseEntity<?> uploadImage(@RequestParam("file") final MultipartFile file) {
@@ -45,7 +45,7 @@ public class ImageResourceImpl implements ImageResource {
 
     @Autowired
     @Qualifier("imageUploadValidator")
-    public void setValidator(final CustomValidator validator) {
+    public void setValidator(final BusinessValidator validator) {
         this.validator = validator;
     }
 }
