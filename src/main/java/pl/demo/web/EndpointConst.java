@@ -27,7 +27,6 @@ final class EndpointConst {
 
     final static class DASHBOARD{
         static final String DASHBOARD_ENDPOINT = "/dashboard";
-        static final String DASHBOARD_STATISTIC = "/statistic";
     }
 
     final static class IMAGE{

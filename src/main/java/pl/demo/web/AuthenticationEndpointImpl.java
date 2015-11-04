@@ -12,7 +12,7 @@ import pl.demo.web.dto.TokenDTO;
  */
 
 @RestController
-public class AuthenticationResourceImpl implements AuthenticationResource {
+public class AuthenticationEndpointImpl implements AuthenticationEndpoint {
 
     private UserService userService;
 

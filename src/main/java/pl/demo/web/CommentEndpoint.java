@@ -19,7 +19,7 @@ import static pl.demo.web.EndpointConst.COMMENT.*;
  */
 
 @RequestMapping(COMMENT_ENDPOINT)
-public interface CommentResource {
+public interface CommentEndpoint {
 
     @RequestMapping(value = COMMENT_NEW, method = RequestMethod.POST)
     ResponseEntity<?> postComment(@PathVariable("id") long advertId, @Valid @RequestBody Comment comment,

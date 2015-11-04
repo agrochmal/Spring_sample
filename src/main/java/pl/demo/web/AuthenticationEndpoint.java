@@ -10,7 +10,7 @@ import pl.demo.web.dto.TokenDTO;
  */
 
 @RequestMapping(EndpointConst.AUTHENTICATE.ENDPOINT)
-public interface AuthenticationResource {
+public interface AuthenticationEndpoint {
 
     @RequestMapping(method = RequestMethod.POST)
     TokenDTO authenticate(@RequestParam("username") String username, @RequestParam("password") String password);

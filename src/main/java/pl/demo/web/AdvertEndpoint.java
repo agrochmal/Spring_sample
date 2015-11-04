@@ -18,7 +18,7 @@ import static pl.demo.web.EndpointConst.ADVERT.*;
  */
 
 @RequestMapping(ADVERT_ENDPOINT)
-public interface AdvertResource {
+public interface AdvertEndpoint {
 
     @RequestMapping(value = ADVERT_NEW, method = RequestMethod.GET, produces = APPLICATION_JSON_VALUE)
     ResponseEntity<Advert> createNew();

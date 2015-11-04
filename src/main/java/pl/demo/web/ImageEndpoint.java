@@ -14,7 +14,7 @@ import static pl.demo.web.EndpointConst.IMAGE.IMAGE_ENDPOINT;
  */
 
 @RequestMapping(IMAGE_ENDPOINT)
-public interface ImageResource {
+public interface ImageEndpoint {
 
     @RequestMapping(method = RequestMethod.POST)
     ResponseEntity<?> uploadImage(@RequestParam("file") final MultipartFile file);

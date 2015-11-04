@@ -15,7 +15,7 @@ import pl.demo.web.validator.BusinessValidator;
  * Created by robertsikora on 26.08.15.
  */
 @RestController
-public class ImageResourceImpl implements ImageResource {
+public class ImageEndpointImpl implements ImageEndpoint {
 
     private CRUDService     domainService;
     private BusinessValidator validator;

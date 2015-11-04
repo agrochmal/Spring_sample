@@ -17,7 +17,7 @@ import static pl.demo.web.EndpointConst.USER.*;
  */
 
 @RequestMapping(USER_ENDPOINT)
-public interface UserResource {
+public interface UserEndpoint {
 
     @RequestMapping(value = USER_GET_LOGGED, method = RequestMethod.GET, produces = APPLICATION_JSON_VALUE)
     ResponseEntity<User> getLoggedUser();

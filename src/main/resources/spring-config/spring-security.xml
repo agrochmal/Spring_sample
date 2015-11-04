@@ -31,11 +31,13 @@
 		auto-config="false" create-session="stateless" entry-point-ref="unauthorizedEntryPoint"
 		authentication-manager-ref="authenticationManager">
 	    <security:custom-filter ref="authenticationTokenProcessingFilter" position="FORM_LOGIN_FILTER"/>
-		<security:intercept-url pattern="/api/**" access="hasRole('USER')"/>
+	<!--	<security:intercept-url pattern="/api/**" access="hasRole('USER')"/> -->
 		<security:intercept-url method="POST" pattern="/api/account" access="permitAll"/>
 
-		<!-- dashboard + account(login, register, check unique, activation) + list adverts  -->
+		<!-- account(login, register, check unique, activation) -->
 
+		<security:intercept-url pattern="/api/dashboard" access="permitAll"/>
+		<security:intercept-url method="GET" pattern="/api/adverts/search" access="permitAll"/>
 	</security:http>
 
     <!-- Browser shows the popup window for both

@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @RestController
-public class CommentResourceImpl extends CRUDResourceImpl<Long, Comment> implements CommentResource {
+public class CommentEndpointImpl extends CRUDResourceImpl<Long, Comment> implements CommentEndpoint {
 
     @Override
     public ResponseEntity<?> postComment(@PathVariable("id") final long advertId, @Valid @RequestBody final Comment comment,
