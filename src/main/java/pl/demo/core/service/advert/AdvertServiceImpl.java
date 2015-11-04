@@ -1,4 +1,4 @@
-package pl.demo.core.service;
+package pl.demo.core.service.advert;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -12,6 +12,11 @@ import pl.demo.core.model.entity.MediaResource;
 import pl.demo.core.model.entity.User;
 import pl.demo.core.model.repo.AdvertRepository;
 import pl.demo.core.model.repo.fullTextSearch.SearchableRepository;
+import pl.demo.core.service.basic_service.CRUDServiceImpl;
+import pl.demo.core.service.mail.MailService;
+import pl.demo.core.service.resource.ResourceMediaService;
+import pl.demo.core.service.searching.SearchService;
+import pl.demo.core.service.user.UserService;
 import pl.demo.core.util.Assert;
 import pl.demo.core.util.EntityUtils;
 import pl.demo.web.HttpSessionContext;
@@ -20,15 +25,15 @@ import pl.demo.web.dto.SearchCriteriaDTO;
 
 import java.util.*;
 
-import static pl.demo.core.service.MailServiceImpl.EMAIL_TEMPLATE;
+import static pl.demo.core.service.mail.MailServiceImpl.EMAIL_TEMPLATE;
 
 public class AdvertServiceImpl extends CRUDServiceImpl<Long, Advert> implements AdvertService {
 
-	private SearchService 	     		searchService;
-	private UserService 		 		userService;
-	private MailService 		 		mailService;
+	private SearchService searchService;
+	private UserService userService;
+	private MailService mailService;
 	private HttpSessionContext   		httpSessionContext;
-	private ResourceMediaService 		resourceMediaService;
+	private ResourceMediaService resourceMediaService;
 
 
 	@Transactional

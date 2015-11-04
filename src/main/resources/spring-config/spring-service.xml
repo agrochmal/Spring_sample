@@ -3,7 +3,7 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-       <bean id="crudService" class="pl.demo.core.service.CRUDServiceImpl" abstract="true">
+       <bean id="crudService" class="pl.demo.core.service.basic_service.CRUDServiceImpl" abstract="true">
               <property name="repositoryMap">
               <map>
                   <entry key="pl.demo.core.model.entity.Advert" value-ref="advertRepository"/>
@@ -13,8 +13,8 @@
               </map>
               </property>
        </bean>
-       <bean id="advertService" class="pl.demo.core.service.AdvertServiceImpl" parent="crudService"/>
-       <bean id="commentService" class="pl.demo.core.service.CommentServiceImpl" parent="crudService"/>
-       <bean id="userService" class="pl.demo.core.service.UserServiceImpl" parent="crudService"/>
-       <bean id="resourceMediaService" class="pl.demo.core.service.ResourceMediaServiceImpl" parent="crudService"/>
+       <bean id="advertService" class="pl.demo.core.service.advert.AdvertServiceImpl" parent="crudService"/>
+       <bean id="commentService" class="pl.demo.core.service.comment.CommentServiceImpl" parent="crudService"/>
+       <bean id="userService" class="pl.demo.core.service.user.UserServiceImpl" parent="crudService"/>
+       <bean id="resourceMediaService" class="pl.demo.core.service.resource.ResourceMediaServiceImpl" parent="crudService"/>
 </beans>

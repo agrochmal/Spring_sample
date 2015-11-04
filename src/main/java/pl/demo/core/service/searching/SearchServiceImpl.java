@@ -1,4 +1,4 @@
-package pl.demo.core.service;
+package pl.demo.core.service.searching;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

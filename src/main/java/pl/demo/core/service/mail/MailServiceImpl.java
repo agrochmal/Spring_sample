@@ -1,4 +1,4 @@
-package pl.demo.core.service;
+package pl.demo.core.service.mail;
 
 import com.google.common.base.Throwables;
 import org.apache.velocity.app.VelocityEngine;

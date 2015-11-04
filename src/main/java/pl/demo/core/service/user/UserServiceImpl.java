@@ -1,4 +1,4 @@
-package pl.demo.core.service;
+package pl.demo.core.service.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -17,6 +17,7 @@ import pl.demo.core.model.entity.RoleName;
 import pl.demo.core.model.entity.User;
 import pl.demo.core.model.repo.RoleRepository;
 import pl.demo.core.model.repo.UserRepository;
+import pl.demo.core.service.basic_service.CRUDServiceImpl;
 import pl.demo.core.util.Assert;
 
 import java.util.Optional;

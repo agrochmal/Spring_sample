@@ -1,4 +1,4 @@
-package pl.demo.core.service;
+package pl.demo.core.service.mail;
 
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.scheduling.annotation.Async;

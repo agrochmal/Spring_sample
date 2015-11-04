@@ -1,4 +1,4 @@
-package pl.demo.core.service;
+package pl.demo.core.service.mail;
 
 import org.apache.velocity.app.VelocityEngine;
 import org.slf4j.Logger;

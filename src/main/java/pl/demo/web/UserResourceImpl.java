@@ -4,15 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import pl.demo.core.model.entity.Advert;
 import pl.demo.core.model.entity.User;
-import pl.demo.core.service.AdvertService;
-import pl.demo.core.service.CRUDService;
-import pl.demo.core.service.UserService;
-import pl.demo.core.util.TokenUtils;
-import pl.demo.web.dto.TokenDTO;
+import pl.demo.core.service.advert.AdvertService;
+import pl.demo.core.service.basic_service.CRUDService;
+import pl.demo.core.service.user.UserService;
 import pl.demo.web.validator.CustomValidator;
 
 import java.util.Collection;
@@ -33,11 +30,6 @@ public class UserResourceImpl extends CRUDResourceImpl<Long, User> implements Us
 	@Override
 	public ResponseEntity<Boolean> checkUnique(final String username) {
 		return ResponseEntity.ok().body(validator.validate(username));
-	}
-
-	@Override
-	public TokenDTO authenticate(@RequestParam("username") final String username, @RequestParam("password") final String password) {
-		return new TokenDTO(TokenUtils.createToken(this.getUserService().authenticate(username, password)));
 	}
 
 	@Override

@@ -11,6 +11,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.test.util.ReflectionTestUtils;
+import pl.demo.core.service.mail.MailServiceImpl;
 import pl.demo.web.dto.EMailDTO;
 
 import javax.mail.Address;

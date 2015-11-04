@@ -1,5 +1,6 @@
-package pl.demo.core.service;
+package pl.demo.core.service.basic_service;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import pl.demo.core.model.entity.BaseEntity;
 
 import javax.validation.Valid;
@@ -21,8 +22,10 @@ public interface CRUDService<PK extends Serializable, E extends BaseEntity> {
     @Valid
     E findOne(@NotNull PK id);
 
+    @PreAuthorize("isAuthenticated()")
     void delete(@NotNull PK id);
 
+    @PreAuthorize("isAuthenticated()")
     void edit(@NotNull PK id, @NotNull @Valid E entity);
 
     @NotNull

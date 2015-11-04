@@ -1,4 +1,4 @@
-package pl.demo.core.service;
+package pl.demo.core.service.resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -8,6 +8,7 @@ import pl.demo.MsgConst;
 import pl.demo.core.model.entity.MediaResource;
 import pl.demo.core.model.repo.MediaResourceRepository;
 import pl.demo.core.service.MediaProviders.MediaProvider;
+import pl.demo.core.service.basic_service.CRUDServiceImpl;
 import pl.demo.core.util.SpringBeanProvider;
 import pl.demo.core.util.Utils;
 import pl.demo.web.HttpSessionContext;

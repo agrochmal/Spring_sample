@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.demo.core.model.entity.BaseEntity;
-import pl.demo.core.service.CRUDService;
+import pl.demo.core.service.basic_service.CRUDService;
 import pl.demo.core.util.Assert;
 import pl.demo.core.util.Utils;
 

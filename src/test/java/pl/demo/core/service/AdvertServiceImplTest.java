@@ -10,6 +10,10 @@ import org.mockito.runners.MockitoJUnitRunner;
 import pl.demo.core.model.entity.Advert;
 import pl.demo.core.model.entity.User;
 import pl.demo.core.model.repo.AdvertRepository;
+import pl.demo.core.service.advert.AdvertServiceImpl;
+import pl.demo.core.service.mail.MailServiceImpl;
+import pl.demo.core.service.searching.SearchService;
+import pl.demo.core.service.user.UserService;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.verify;

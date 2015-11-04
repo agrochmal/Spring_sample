@@ -1,4 +1,4 @@
-package pl.demo.core.service;
+package pl.demo.core.service.basic_service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

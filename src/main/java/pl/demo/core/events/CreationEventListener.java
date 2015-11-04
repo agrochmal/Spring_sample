@@ -12,8 +12,7 @@ import pl.demo.core.model.entity.User;
 @Component
 public class CreationEventListener {
 
-    //send mails
-    //audit trail etc.
+    //TO-DO send mails
 
     @EventListener
     public void handleCreationEventAdvert(final CreationEvent<Advert> creationEvent) {

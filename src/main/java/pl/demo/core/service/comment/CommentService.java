@@ -1,7 +1,8 @@
-package pl.demo.core.service;
+package pl.demo.core.service.comment;
 
 import org.springframework.validation.annotation.Validated;
 import pl.demo.core.model.entity.Comment;
+import pl.demo.core.service.basic_service.CRUDService;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;

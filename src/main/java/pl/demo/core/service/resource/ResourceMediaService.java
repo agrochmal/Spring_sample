@@ -1,9 +1,10 @@
-package pl.demo.core.service;
+package pl.demo.core.service.resource;
 
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.multipart.MultipartFile;
 import pl.demo.core.model.entity.MediaResource;
+import pl.demo.core.service.basic_service.CRUDService;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;

@@ -16,5 +16,5 @@
             </props>
         </property>
     </bean>
-    <bean id="velocityEngine" class="pl.demo.core.service.VelocityFactory"/>
+    <bean id="velocityEngine" class="pl.demo.core.service.mail.VelocityFactory"/>
 </beans>

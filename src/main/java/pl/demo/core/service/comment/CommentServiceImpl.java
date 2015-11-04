@@ -1,4 +1,4 @@
-package pl.demo.core.service;
+package pl.demo.core.service.comment;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -8,6 +8,8 @@ import pl.demo.core.model.entity.Advert;
 import pl.demo.core.model.entity.Comment;
 import pl.demo.core.model.repo.AdvertRepository;
 import pl.demo.core.model.repo.CommentRepository;
+import pl.demo.core.service.basic_service.CRUDServiceImpl;
+import pl.demo.core.service.mail.MailService;
 import pl.demo.core.util.Assert;
 import pl.demo.core.util.Utils;
 import pl.demo.web.dto.EMailDTO;
@@ -15,7 +17,7 @@ import pl.demo.web.dto.EMailDTO;
 import java.util.Collection;
 import java.util.Date;
 
-import static pl.demo.core.service.MailServiceImpl.COMMENT_TEMPLATE;
+import static pl.demo.core.service.mail.MailServiceImpl.COMMENT_TEMPLATE;
 
 /**
  * Created by Robert on 22.02.15.
@@ -26,7 +28,7 @@ public class CommentServiceImpl extends CRUDServiceImpl<Long, Comment> implement
 
     private @Value("${comment.receipt-email}") String receipt_email;
 
-    private MailService      mailService;
+    private MailService mailService;
     private AdvertRepository advertRepository;
 
     @Transactional

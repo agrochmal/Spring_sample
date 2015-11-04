@@ -1,6 +1,7 @@
-package pl.demo.core.service;
+package pl.demo.core.service.dashboard;
 
 import pl.demo.web.dto.DashboardDTO;
+
 import javax.validation.constraints.NotNull;
 
 /**
