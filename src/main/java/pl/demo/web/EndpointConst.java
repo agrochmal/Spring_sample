@@ -35,13 +35,12 @@ final class EndpointConst {
 
     final static class USER{
         static final String USER_ENDPOINT = "/users";
-        static final String USER_GET_LOGGED = "/logged";
         static final String USER_IS_UNIQUE = "/unique";
         static final String USER_FIND_ADVERTS = "/{userId}/adverts";
         static final String ACCOUNT = "/account/{userId}";
     }
 
     final static class AUTHENTICATE{
-        static final String ENDPOINT = "/authenticate";
+        static final String ENDPOINT = "/authentication";
     }
 }

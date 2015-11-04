@@ -11,7 +11,6 @@ import pl.demo.core.service.basic_service.CRUDService;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import java.util.Optional;
 
 /**
  * Created by Robert on 30.12.14.
@@ -21,9 +20,6 @@ public interface UserService extends UserDetailsService, CRUDService<Long, User>
 
     @NotNull
     UserDetails authenticate(@NotNull @NotBlank @Email String email, @NotNull @NotBlank String password);
-
-    @NotNull
-    Optional<User> getLoggedUser();
 
     @PreAuthorize("authentication.principal.username.equals(#user.entryUser)")
     void edit(Long id, @Valid @P("user") User user);

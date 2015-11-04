@@ -6,16 +6,14 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 import pl.demo.core.aspects.DetachEntity;
-import pl.demo.core.model.entity.Advert;
-import pl.demo.core.model.entity.Comment;
-import pl.demo.core.model.entity.MediaResource;
-import pl.demo.core.model.entity.User;
+import pl.demo.core.model.entity.*;
 import pl.demo.core.model.repo.AdvertRepository;
 import pl.demo.core.model.repo.fullTextSearch.SearchableRepository;
 import pl.demo.core.service.basic_service.CRUDServiceImpl;
 import pl.demo.core.service.mail.MailService;
 import pl.demo.core.service.resource.ResourceMediaService;
 import pl.demo.core.service.searching.SearchService;
+import pl.demo.core.service.security.AuthenticationContextProvider;
 import pl.demo.core.service.user.UserService;
 import pl.demo.core.util.Assert;
 import pl.demo.core.util.EntityUtils;
@@ -23,7 +21,10 @@ import pl.demo.web.HttpSessionContext;
 import pl.demo.web.dto.EMailDTO;
 import pl.demo.web.dto.SearchCriteriaDTO;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
 
 import static pl.demo.core.service.mail.MailServiceImpl.EMAIL_TEMPLATE;
 
@@ -42,10 +43,8 @@ public class AdvertServiceImpl extends CRUDServiceImpl<Long, Advert> implements 
 		Assert.notNull(advert);
 		Advert saved;
 		try {
-			final Optional<User> loggedUser = userService.getLoggedUser();
-			if (loggedUser.isPresent()) {
-				advert.setUser(loggedUser.get());
-			}
+			final AuthenticationUserDetails loggedUser = AuthenticationContextProvider.getAuthenticatedUser();
+			advert.setUser(new User(loggedUser.getId()));
 			saved = super.save(advert);
 			final Iterator<Long> idIterator = httpSessionContext.getUploadedResourcesId();
 			while (idIterator.hasNext()) {
@@ -71,19 +70,13 @@ public class AdvertServiceImpl extends CRUDServiceImpl<Long, Advert> implements 
 	@Transactional(readOnly = true)
 	@Override
 	public Advert createNew() {
-		final Optional<User> user = userService.getLoggedUser();
-		if(user.isPresent()){
-			return createAdvert(user.get());
-		}
-		return new Advert();
-	}
-
-	private Advert createAdvert(final User t){
-		final Advert advert = Advert.AdvertBuilder.anAdvert()
-				.withOwnerName(t.getName())
-				.withContact(t.getContact())
+		final AuthenticationUserDetails authenticationUserDetails = AuthenticationContextProvider.getAuthenticatedUser();
+		final User userDB = userService.findOne(authenticationUserDetails.getId());
+		Assert.notNull(userDB, "User doesn't exist in db !");
+		return Advert.AdvertBuilder.anAdvert()
+				.withOwnerName(userDB.getName())
+				.withContact(userDB.getContact())
 				.build();
-		return advert;
 	}
 
 	@Transactional(readOnly = true)

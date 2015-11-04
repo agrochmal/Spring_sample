@@ -13,19 +13,13 @@ import pl.demo.core.service.user.UserService;
 import pl.demo.web.validator.BusinessValidator;
 
 import java.util.Collection;
-import java.util.Optional;
+
 
 @RestController
 public class UserEndpointImpl extends CRUDResourceImpl<Long, User> implements UserEndpoint {
 
 	private AdvertService   advertService;
 	private BusinessValidator validator;
-
-	@Override
-	public ResponseEntity<User> getLoggedUser() {
-		final Optional<User> user = getUserService().getLoggedUser();
-		return ResponseEntity.ok().body(user.isPresent() ? user.get() : null);
-	}
 
 	@Override
 	public ResponseEntity<Boolean> checkUnique(final String username) {

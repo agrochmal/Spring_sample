@@ -42,10 +42,11 @@ public class User extends BaseEntity {
 			inverseJoinColumns = { @JoinColumn(name = "id_role", referencedColumnName = "id") })
 	private Set<Role> roles = new HashSet<>();
 
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
-	private Set<Advert> adverts = new HashSet<>();
-
 	public User() {
+	}
+
+	public User(long id) {
+		this.id = id;
 	}
 
 	public Set<Role> getRoles() {
@@ -90,14 +91,6 @@ public class User extends BaseEntity {
 
 	public void setContact(Contact contact) {
 		this.contact = contact;
-	}
-
-	public Set<Advert> getAdverts() {
-		return adverts;
-	}
-
-	public void setAdverts(Set<Advert> adverts) {
-		this.adverts = adverts;
 	}
 
 	@Override

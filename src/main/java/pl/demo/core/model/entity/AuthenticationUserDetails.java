@@ -1,5 +1,7 @@
 package pl.demo.core.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -22,11 +24,13 @@ public class AuthenticationUserDetails implements UserDetails, Serializable {
         this.grantedAuthorities = user.getAuthorities();
     }
 
+    @JsonProperty(value = "roles")
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return grantedAuthorities;
     }
 
+    @JsonIgnore
     @Override
     public String getPassword() {
         return password;
@@ -37,21 +41,25 @@ public class AuthenticationUserDetails implements UserDetails, Serializable {
         return username;
     }
 
+    @JsonIgnore
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isEnabled() {
         return true;

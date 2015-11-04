@@ -19,9 +19,6 @@ import static pl.demo.web.EndpointConst.USER.*;
 @RequestMapping(USER_ENDPOINT)
 public interface UserEndpoint {
 
-    @RequestMapping(value = USER_GET_LOGGED, method = RequestMethod.GET, produces = APPLICATION_JSON_VALUE)
-    ResponseEntity<User> getLoggedUser();
-
     @RequestMapping(value = USER_IS_UNIQUE, method = RequestMethod.GET, produces = APPLICATION_JSON_VALUE)
     ResponseEntity<Boolean> checkUnique(String username);
 

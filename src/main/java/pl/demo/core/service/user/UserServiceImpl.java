@@ -2,11 +2,9 @@ package pl.demo.core.service.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,8 +17,6 @@ import pl.demo.core.model.repo.RoleRepository;
 import pl.demo.core.model.repo.UserRepository;
 import pl.demo.core.service.basic_service.CRUDServiceImpl;
 import pl.demo.core.util.Assert;
-
-import java.util.Optional;
 
 public class UserServiceImpl extends CRUDServiceImpl<Long, User> implements UserService {
 
@@ -64,46 +60,12 @@ public class UserServiceImpl extends CRUDServiceImpl<Long, User> implements User
 
 	@Transactional(readOnly = true)
 	@Override
-	public UserDetails authenticate(final String username, final String password){
+	public UserDetails authenticate(final String username, final String password) {
 		Assert.notNull(username, "Username is required");
 		Assert.notNull(password, "Password is required");
 		final UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
 		final Authentication authentication = authManager.authenticate(authenticationToken);
 		return (UserDetails)authentication.getPrincipal();
-	}
-
-	@Transactional(readOnly = true)
-	@Override
-	public Optional<User> getLoggedUser() {
-		final Optional<AuthenticationUserDetails> userDetails = getLoggedUserDetails();
-		if (userDetails.isPresent()) {
-            final User result = new User();
-			final User dbUser = getDomainRepository().findOne(userDetails.get().getId());
-			Assert.notResourceFound(dbUser, MsgConst.USER_NOT_FOUND);
-			result.setName(dbUser.getName());
-			result.setId(dbUser.getId());
-			result.setContact(dbUser.getContact());
-			result.setRoles(dbUser.getRoles());
-			return Optional.of(result);
-		}
-		return Optional.empty();
-	}
-
-	private Optional<AuthenticationUserDetails> getLoggedUserDetails() {
-		final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		if (isAuthenticated(authentication)) {
-			final Object principal = authentication.getPrincipal();
-			if (principal instanceof AuthenticationUserDetails) {
-				return Optional.of((AuthenticationUserDetails) principal);
-			}
-		}
-		return Optional.empty();
-	}
-
-	private boolean isAuthenticated(final Authentication authentication) {
-		return authentication != null
-				&& !(authentication instanceof AnonymousAuthenticationToken)
-				&& authentication.isAuthenticated();
 	}
 
 	private UserRepository getUserRepository(){

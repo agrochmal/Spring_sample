@@ -78,9 +78,6 @@ public class Advert extends BaseEntity implements Coordinates {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "advert")
-    private Set<Comment> comments = new HashSet<>();
-
     public String getTitle() {
         return title;
     }
@@ -155,15 +152,6 @@ public class Advert extends BaseEntity implements Coordinates {
     public void setThumbUrl(String thumbUrl) {
         this.thumbUrl = thumbUrl;
     }
-
-    public Set<Comment> getComments() {
-        return comments;
-    }
-
-    public void setComments(Set<Comment> comments) {
-        this.comments = comments;
-    }
-
 
     public String getOwnerName() {
         return ownerName;
@@ -248,7 +236,6 @@ public class Advert extends BaseEntity implements Coordinates {
                 .append("thumbUrl", thumbUrl)
                 .append("contact", contact)
                 .append("user", user)
-                .append("comments", comments)
                 .toString();
     }
 
@@ -356,7 +343,6 @@ public class Advert extends BaseEntity implements Coordinates {
             advert.setThumbUrl(thumbUrl);
             advert.setContact(contact);
             advert.setUser(user);
-            advert.setComments(comments);
             advert.setId(id);
             return advert;
         }
