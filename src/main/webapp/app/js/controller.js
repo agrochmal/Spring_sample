@@ -64,7 +64,7 @@ angular.module('app.controlles', [])
 	}
 	};
 })
-.controller('LoginController', function($scope, $rootScope, $location, $cookieStore, LoginService, UserService, Alertify) {
+.controller('LoginController', function($scope, $rootScope, $location, $cookieStore, LoginService, AccountService, Alertify) {
 
 	function login(event, username, password) {
 		LoginService.authenticate($.param({
@@ -130,7 +130,7 @@ angular.module('app.controlles', [])
 	init();
 
 	function init() {
-		$scope.login.register.user = new UserService();
+		$scope.login.register.user = new AccountService();
 	}
 })
 .controller('AdvertCreateController', function($scope, $rootScope, $location, AdvertService, Alertify) {
@@ -217,7 +217,7 @@ angular.module('app.controlles', [])
 	};
 
 })
-.controller('UserAccountController', function($scope, $rootScope, user, UserService, AdvertService, Alertify) {
+.controller('UserController', function($scope, $rootScope, user, UserService, AdvertService, Alertify) {
 
 	$scope.editCommand = {
 		user : null,

@@ -13,8 +13,10 @@
               </map>
               </property>
        </bean>
+
        <bean id="advertService" class="pl.demo.core.service.advert.AdvertServiceImpl" parent="crudService"/>
        <bean id="commentService" class="pl.demo.core.service.comment.CommentServiceImpl" parent="crudService"/>
        <bean id="userService" class="pl.demo.core.service.user.UserServiceImpl" parent="crudService"/>
        <bean id="resourceMediaService" class="pl.demo.core.service.resource.ResourceMediaServiceImpl" parent="crudService"/>
+       <bean id="registrationService" class="pl.demo.core.service.registration.RegistrationServiceImpl" parent="crudService"/>
 </beans>

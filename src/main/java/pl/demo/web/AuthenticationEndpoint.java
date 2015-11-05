@@ -13,7 +13,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
  * Created by robertsikora on 03.11.2015.
  */
 
-@RequestMapping(EndpointConst.AUTHENTICATE.ENDPOINT)
+@RequestMapping(AUTHENTICATE.ENDPOINT)
 public interface AuthenticationEndpoint {
 
     @RequestMapping(method = RequestMethod.POST)

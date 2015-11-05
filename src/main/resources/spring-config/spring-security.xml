@@ -31,7 +31,11 @@
 		auto-config="false" create-session="stateless" entry-point-ref="unauthorizedEntryPoint"
 		authentication-manager-ref="authenticationManager">
 	    <security:custom-filter ref="authenticationTokenProcessingFilter" position="FORM_LOGIN_FILTER"/>
+
 		<security:intercept-url method="POST" pattern="/api/authentication" access="isAnonymous()"/>
+		<security:intercept-url method="POST" pattern="/api/account" access="isAnonymous()"/>
+		<security:intercept-url method="GET" pattern="/api/account" access="isAnonymous()"/>
+
 		<security:intercept-url pattern="/api/dashboard" access="isAnonymous() or isAuthenticated()"/>
 		<security:intercept-url method="GET" pattern="/api/adverts/search" access="isAnonymous() or isAuthenticated()"/>
 		<security:intercept-url method="GET" pattern="/api/adverts/**" access="isAnonymous() or isAuthenticated()"/>

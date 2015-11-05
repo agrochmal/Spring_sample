@@ -12,13 +12,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
-import static pl.demo.web.EndpointConst.COMMENT.*;
+import static pl.demo.web.COMMENT.*;
 
 /**
  * Created by robertsikora on 11.10.15.
  */
 
-@RequestMapping(COMMENT_ENDPOINT)
+@RequestMapping(ENDPOINT)
 public interface CommentEndpoint {
 
     @RequestMapping(value = COMMENT_NEW, method = RequestMethod.POST)

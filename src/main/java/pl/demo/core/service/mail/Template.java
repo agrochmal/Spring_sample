@@ -10,7 +10,8 @@ import pl.demo.core.util.EnumValuable;
  */
 public enum Template implements EnumValuable {
 
-    EMAIL_TEMPLATE("email_template.vm"),
+    REGISTRATION_TEMPLATE("comment_template.vm"),
+    ADVERT_TEMPLATE("email_template.vm"),
     COMMENT_TEMPLATE("comment_template.vm");
 
     private final static String FOLDER = "/velocity/";

@@ -9,8 +9,6 @@ import pl.demo.core.model.entity.Advert;
 import pl.demo.core.model.entity.User;
 import pl.demo.core.service.advert.AdvertService;
 import pl.demo.core.service.basic_service.CRUDService;
-import pl.demo.core.service.user.UserService;
-import pl.demo.web.validator.BusinessValidator;
 
 import java.util.Collection;
 
@@ -18,38 +16,17 @@ import java.util.Collection;
 @RestController
 public class UserEndpointImpl extends CRUDResourceImpl<Long, User> implements UserEndpoint {
 
-	private AdvertService   advertService;
-	private BusinessValidator validator;
+	private AdvertService     advertService;
 
 	@Override
-	public ResponseEntity<Boolean> checkUnique(final String username) {
-		return ResponseEntity.ok().body(validator.validate(username));
-	}
-
-	@Override
-	public ResponseEntity<Collection<Advert>> findUserAdverts(@PathVariable final long userId){
+	public ResponseEntity<Collection<Advert>> findUserAdverts(@PathVariable final Long userId){
 		return ResponseEntity.ok().body(this.advertService.findByUserId(userId));
-	}
-
-	@Override
-	public ResponseEntity<User> findUserAccount(@PathVariable final long userId){
-		return ResponseEntity.ok().body(this.getUserService().findOne(userId));
-	}
-
-	private UserService getUserService(){
-		return (UserService)crudService;
 	}
 
 	@Autowired
 	@Qualifier("userService")
 	public void setDomainService(final CRUDService domainService) {
 		this.crudService = domainService;
-	}
-
-	@Autowired
-	@Qualifier("uniqueUserValidator")
-	public void setValidator(final BusinessValidator validator) {
-		this.validator = validator;
 	}
 
 	@Autowired

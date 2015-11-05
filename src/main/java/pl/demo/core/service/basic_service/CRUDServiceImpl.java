@@ -7,7 +7,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 import pl.demo.core.aspects.DetachEntity;
-import pl.demo.core.events.CreationEventImpl;
+import pl.demo.core.events.BusinessEvent;
 import pl.demo.core.model.entity.BaseEntity;
 import pl.demo.core.util.Assert;
 
@@ -28,7 +28,7 @@ public abstract class CRUDServiceImpl<PK extends Serializable, E extends BaseEnt
     protected final Logger LOGGER = LoggerFactory.getLogger(getClass());
 
     private Map<Class<? extends BaseEntity>, JpaRepository<E, PK>>      repositoryMap;
-    private ApplicationEventPublisher                                   publisher;
+    private ApplicationEventPublisher                                   eventPublisher;
     private Class<E>                                                    entityClass;
 
     public CRUDServiceImpl() {
@@ -82,7 +82,6 @@ public abstract class CRUDServiceImpl<PK extends Serializable, E extends BaseEnt
     @Override
     public E save(final E entity) {
         Assert.notNull(entity, "Entity is required");
-        this.publisher.publishEvent(new CreationEventImpl<E>(entity));
         return getDomainRepository().saveAndFlush(entity);
     }
 
@@ -92,12 +91,16 @@ public abstract class CRUDServiceImpl<PK extends Serializable, E extends BaseEnt
         return repository;
     }
 
+    protected void publishBusinessEvent(final BusinessEvent businessEvent){
+        this.eventPublisher.publishEvent(businessEvent);
+    }
+
     public void setRepositoryMap(final Map<Class<? extends BaseEntity>, JpaRepository<E, PK>> repositoryMap) {
         this.repositoryMap = repositoryMap;
     }
 
     @Autowired
     public void setPublisher(final ApplicationEventPublisher publisher) {
-        this.publisher = publisher;
+        this.eventPublisher = publisher;
     }
 }

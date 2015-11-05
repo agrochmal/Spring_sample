@@ -11,13 +11,13 @@ import pl.demo.web.dto.SearchCriteriaDTO;
 import javax.validation.Valid;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
-import static pl.demo.web.EndpointConst.ADVERT.*;
+import static pl.demo.web.ADVERT.*;
 
 /**
  * Created by robertsikora on 11.10.15.
  */
 
-@RequestMapping(ADVERT_ENDPOINT)
+@RequestMapping(ENDPOINT)
 public interface AdvertEndpoint {
 
     @RequestMapping(value = ADVERT_NEW, method = RequestMethod.GET, produces = APPLICATION_JSON_VALUE)

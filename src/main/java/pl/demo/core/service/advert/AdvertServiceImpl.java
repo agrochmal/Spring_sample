@@ -10,7 +10,7 @@ import pl.demo.core.model.entity.*;
 import pl.demo.core.model.repo.AdvertRepository;
 import pl.demo.core.model.repo.fullTextSearch.SearchableRepository;
 import pl.demo.core.service.basic_service.CRUDServiceImpl;
-import pl.demo.core.service.mail.MailService;
+import pl.demo.core.service.mail.SendMailEvent;
 import pl.demo.core.service.mail.Template;
 import pl.demo.core.service.resource.ResourceMediaService;
 import pl.demo.core.service.searching.SearchService;
@@ -30,12 +30,10 @@ import java.util.List;
 
 public class AdvertServiceImpl extends CRUDServiceImpl<Long, Advert> implements AdvertService {
 
-	private SearchService searchService;
-	private UserService userService;
-	private MailService mailService;
+	private SearchService 				searchService;
+	private UserService 				userService;
 	private HttpSessionContext   		httpSessionContext;
-	private ResourceMediaService resourceMediaService;
-
+	private ResourceMediaService 		resourceMediaService;
 
 	@Transactional
 	@Override
@@ -124,7 +122,7 @@ public class AdvertServiceImpl extends CRUDServiceImpl<Long, Advert> implements 
 	@Override
 	public void sendMail(final EMailDTO eMailDTO) {
 		Assert.notNull(eMailDTO, "Email data is required");
-		this.mailService.sendMail(eMailDTO, Template.EMAIL_TEMPLATE);
+		publishBusinessEvent(new SendMailEvent(eMailDTO, Template.ADVERT_TEMPLATE));
 	}
 
 	private AdvertRepository getAdvertRepository(){
@@ -139,11 +137,6 @@ public class AdvertServiceImpl extends CRUDServiceImpl<Long, Advert> implements 
 	@Autowired
 	public void setUserService(final UserService userService) {
 		this.userService = userService;
-	}
-
-	@Autowired
-	public void setMailService(final MailService mailService) {
-		this.mailService = mailService;
 	}
 
 	@Autowired

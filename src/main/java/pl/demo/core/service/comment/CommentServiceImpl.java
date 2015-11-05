@@ -1,7 +1,6 @@
 package pl.demo.core.service.comment;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.transaction.annotation.Transactional;
 import pl.demo.core.aspects.DetachEntity;
 import pl.demo.core.model.entity.Advert;
@@ -9,11 +8,11 @@ import pl.demo.core.model.entity.Comment;
 import pl.demo.core.model.repo.AdvertRepository;
 import pl.demo.core.model.repo.CommentRepository;
 import pl.demo.core.service.basic_service.CRUDServiceImpl;
-import pl.demo.core.service.mail.MailService;
+import pl.demo.core.service.mail.MailDTOSupplier;
+import pl.demo.core.service.mail.SendMailEvent;
 import pl.demo.core.service.mail.Template;
 import pl.demo.core.util.Assert;
 import pl.demo.core.util.Utils;
-import pl.demo.web.dto.EMailDTO;
 
 import java.util.Collection;
 import java.util.Date;
@@ -26,10 +25,7 @@ import java.util.Date;
 
 public class CommentServiceImpl extends CRUDServiceImpl<Long, Comment> implements CommentService{
 
-    private @Value("${comment.receipt-email}") String receipt_email;
-
-    private MailService mailService;
-    private AdvertRepository advertRepository;
+    private AdvertRepository        advertRepository;
 
     @Transactional
     @Override
@@ -64,21 +60,12 @@ public class CommentServiceImpl extends CRUDServiceImpl<Long, Comment> implement
     }
 
     private void sendEmail(final Comment comment){
-        final EMailDTO eMailDTO = new EMailDTO();
-        eMailDTO.setTitle("Dodano nowy komentarz");
-        eMailDTO.setContent(comment.getText());
-        eMailDTO.setReceipt(receipt_email);
-        eMailDTO.setSender(receipt_email);
-        mailService.sendMail(eMailDTO, Template.COMMENT_TEMPLATE);
+        publishBusinessEvent(new SendMailEvent(MailDTOSupplier.get("Dodano nowy komentarz",
+                comment.getText()).get(), Template.COMMENT_TEMPLATE));
     }
 
     private CommentRepository getCommentRepository(){
         return (CommentRepository)getDomainRepository();
-    }
-
-    @Autowired
-    public void setMailService(final MailService mailService) {
-        this.mailService = mailService;
     }
 
     @Autowired

@@ -4,11 +4,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.demo.MsgConst;
 import pl.demo.web.exception.GeneralException;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.io.Serializable;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.security.MessageDigest;
@@ -52,13 +54,13 @@ public final class Utils {
 		return str.toString();
 	}
 
-	public static URI createURI(final String path){
-		Assert.hasText(path);
+	public static URI createURI(final Serializable id){
+		Assert.notNull(id);
 		URI uri;
 		try {
-			uri = new URI(path);
+			uri = new URI(ServletUriComponentsBuilder.fromCurrentServletMapping().path("/{id}").buildAndExpand(id).toString());
 		} catch (final URISyntaxException e) {
-			LOGGER.error("Cannot create URI for given path:"+path, e);
+			LOGGER.error("Cannot create URI for given id:" + id, e);
 			throw new GeneralException(MsgConst.FATAL_ERROR, e);
 		}
 		return uri;

@@ -4,7 +4,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.demo.core.model.entity.BaseEntity;
 import pl.demo.core.service.basic_service.CRUDService;
 import pl.demo.core.util.Assert;
@@ -13,7 +12,6 @@ import pl.demo.core.util.Utils;
 import javax.annotation.PostConstruct;
 import javax.validation.Valid;
 import java.io.Serializable;
-import java.net.URI;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -74,11 +72,7 @@ public abstract class CRUDResourceImpl<PK extends Serializable, E extends BaseEn
         Assert.hasErrors(bindingResult);
 
         return Optional.ofNullable(this.crudService.save(entity))
-            .map(t -> {
-                final String path = ServletUriComponentsBuilder.fromCurrentServletMapping().path("/{id}").buildAndExpand(t.getId()).toString();
-                final URI uriLocation = Utils.createURI(path);
-
-                return ResponseEntity.created(uriLocation).build();}
-            ).orElseGet(() -> ResponseEntity.noContent().build());
+            .map(t -> ResponseEntity.created(Utils.createURI(t.getId())).build())
+            .orElseGet(() -> ResponseEntity.noContent().build());
     }
 }
