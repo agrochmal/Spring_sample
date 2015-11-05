@@ -11,6 +11,7 @@ import pl.demo.core.model.repo.AdvertRepository;
 import pl.demo.core.model.repo.fullTextSearch.SearchableRepository;
 import pl.demo.core.service.basic_service.CRUDServiceImpl;
 import pl.demo.core.service.mail.MailService;
+import pl.demo.core.service.mail.Template;
 import pl.demo.core.service.resource.ResourceMediaService;
 import pl.demo.core.service.searching.SearchService;
 import pl.demo.core.service.security.AuthenticationContextProvider;
@@ -26,7 +27,6 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import static pl.demo.core.service.mail.MailServiceImpl.EMAIL_TEMPLATE;
 
 public class AdvertServiceImpl extends CRUDServiceImpl<Long, Advert> implements AdvertService {
 
@@ -43,7 +43,7 @@ public class AdvertServiceImpl extends CRUDServiceImpl<Long, Advert> implements 
 		Assert.notNull(advert);
 		Advert saved;
 		try {
-			final AuthenticationUserDetails loggedUser = AuthenticationContextProvider.getAuthenticatedUser();
+			final Authentication loggedUser = AuthenticationContextProvider.getAuthenticatedUser();
 			advert.setUser(new User(loggedUser.getId()));
 			saved = super.save(advert);
 			final Iterator<Long> idIterator = httpSessionContext.getUploadedResourcesId();
@@ -70,7 +70,7 @@ public class AdvertServiceImpl extends CRUDServiceImpl<Long, Advert> implements 
 	@Transactional(readOnly = true)
 	@Override
 	public Advert createNew() {
-		final AuthenticationUserDetails authenticationUserDetails = AuthenticationContextProvider.getAuthenticatedUser();
+		final Authentication authenticationUserDetails = AuthenticationContextProvider.getAuthenticatedUser();
 		final User userDB = userService.findOne(authenticationUserDetails.getId());
 		Assert.notNull(userDB, "User doesn't exist in db !");
 		return Advert.AdvertBuilder.anAdvert()
@@ -124,7 +124,7 @@ public class AdvertServiceImpl extends CRUDServiceImpl<Long, Advert> implements 
 	@Override
 	public void sendMail(final EMailDTO eMailDTO) {
 		Assert.notNull(eMailDTO, "Email data is required");
-		this.mailService.sendMail(eMailDTO, EMAIL_TEMPLATE);
+		this.mailService.sendMail(eMailDTO, Template.EMAIL_TEMPLATE);
 	}
 
 	private AdvertRepository getAdvertRepository(){

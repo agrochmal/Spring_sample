@@ -10,6 +10,7 @@ import pl.demo.core.model.repo.AdvertRepository;
 import pl.demo.core.model.repo.CommentRepository;
 import pl.demo.core.service.basic_service.CRUDServiceImpl;
 import pl.demo.core.service.mail.MailService;
+import pl.demo.core.service.mail.Template;
 import pl.demo.core.util.Assert;
 import pl.demo.core.util.Utils;
 import pl.demo.web.dto.EMailDTO;
@@ -17,7 +18,6 @@ import pl.demo.web.dto.EMailDTO;
 import java.util.Collection;
 import java.util.Date;
 
-import static pl.demo.core.service.mail.MailServiceImpl.COMMENT_TEMPLATE;
 
 /**
  * Created by Robert on 22.02.15.
@@ -69,7 +69,7 @@ public class CommentServiceImpl extends CRUDServiceImpl<Long, Comment> implement
         eMailDTO.setContent(comment.getText());
         eMailDTO.setReceipt(receipt_email);
         eMailDTO.setSender(receipt_email);
-        mailService.sendMail(eMailDTO, COMMENT_TEMPLATE);
+        mailService.sendMail(eMailDTO, Template.COMMENT_TEMPLATE);
     }
 
     private CommentRepository getCommentRepository(){

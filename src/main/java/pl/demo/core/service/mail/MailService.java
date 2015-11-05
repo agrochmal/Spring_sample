@@ -1,6 +1,5 @@
 package pl.demo.core.service.mail;
 
-import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.validation.annotation.Validated;
 import pl.demo.web.dto.EMailDTO;
@@ -16,5 +15,5 @@ import javax.validation.constraints.NotNull;
 public interface MailService {
 
     @Async(value="mailExecutor")
-    void sendMail(@NotNull @Valid EMailDTO emailDTO, @NotNull @NotBlank String template);
+    void sendMail(@NotNull @Valid EMailDTO emailDTO, @NotNull Template template);
 }

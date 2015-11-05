@@ -28,15 +28,12 @@ public class MailServiceImpl implements MailService{
 
     private final static Logger LOGGER = LoggerFactory.getLogger(MailServiceImpl.class);
 
-    public static final String EMAIL_TEMPLATE   = "/velocity/email_template.vm";
-    public static final String COMMENT_TEMPLATE = "/velocity/comment_template.vm";
-
     private @Value("${email.enable}") Boolean emailEnabled;
     private JavaMailSender                    mailSender;
     private VelocityEngine                    velocityEngine;
 
     @Override
-    public void sendMail(final EMailDTO emailDTO, final String template){
+    public void sendMail(final EMailDTO emailDTO, final Template template){
         if(!emailEnabled){
             LOGGER.info("Sending e-mails is disabled");
             return;
@@ -46,7 +43,7 @@ public class MailServiceImpl implements MailService{
         final MimeMessage mimeMsg = this.mailSender.createMimeMessage();
         final Map<String, Object> model = new HashMap<>();
         model.put("userMessage", emailDTO);
-        final String text = VelocityEngineUtils.mergeTemplateIntoString(this.velocityEngine, template, model).replaceAll("\n", "<br>");
+        final String text = VelocityEngineUtils.mergeTemplateIntoString(this.velocityEngine, template.getValue(), model).replaceAll("\n", "<br>");
 
         final MimeMessageHelper helper = new MimeMessageHelper(mimeMsg);
         try{

@@ -32,13 +32,13 @@ public class AdvertEndpointImpl extends CRUDResourceImpl<Long, Advert> implement
     }
 
     @Override
-    public ResponseEntity<?> updateStatus(@PathVariable("id") final long id, @RequestParam(value = "status") final String status) {
+    public ResponseEntity<?> updateStatus(@PathVariable("id") final Long id, @RequestParam(value = "status") final String status) {
         this.getAdvertService().updateActiveStatus(id, Boolean.valueOf(status));
         return ResponseEntity.noContent().build();
     }
 
     @Override
-    public ResponseEntity<?> sendEmail(@PathVariable("id") final long id, @Valid @RequestBody final EMailDTO email,
+    public ResponseEntity<?> sendEmail(@PathVariable("id") final Long id, @Valid @RequestBody final EMailDTO email,
                                        final BindingResult bindingResult) {
         Assert.hasErrors(bindingResult);
         this.getAdvertService().sendMail(email);

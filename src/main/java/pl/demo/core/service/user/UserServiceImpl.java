@@ -1,16 +1,12 @@
 package pl.demo.core.service.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import pl.demo.MsgConst;
-import pl.demo.core.model.entity.AuthenticationUserDetails;
+import pl.demo.core.model.entity.Authentication;
 import pl.demo.core.model.entity.RoleName;
 import pl.demo.core.model.entity.User;
 import pl.demo.core.model.repo.RoleRepository;
@@ -22,10 +18,6 @@ public class UserServiceImpl extends CRUDServiceImpl<Long, User> implements User
 
 	private RoleRepository  roleRepository;
 	private PasswordEncoder passwordEncoder;
-
-	@Autowired
-	@Qualifier("authenticationManager")
-	private AuthenticationManager authManager;
 
 	@Transactional
 	@Override
@@ -55,17 +47,7 @@ public class UserServiceImpl extends CRUDServiceImpl<Long, User> implements User
 		Assert.notNull(username, "Username is required");
 		final User user = getUserRepository().findByUsername(username);
 		Assert.notResourceFound(user, MsgConst.USER_NOT_FOUND);
-		return new AuthenticationUserDetails(user);
-	}
-
-	@Transactional(readOnly = true)
-	@Override
-	public UserDetails authenticate(final String username, final String password) {
-		Assert.notNull(username, "Username is required");
-		Assert.notNull(password, "Password is required");
-		final UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
-		final Authentication authentication = authManager.authenticate(authenticationToken);
-		return (UserDetails)authentication.getPrincipal();
+		return new Authentication(user);
 	}
 
 	private UserRepository getUserRepository(){

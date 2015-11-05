@@ -10,14 +10,14 @@ import java.util.Collection;
 /**
  * Created by Robert on 15.02.15.
  */
-public class AuthenticationUserDetails implements UserDetails, Serializable {
+public class Authentication implements UserDetails, Serializable {
 
     private final Long id;
     private final String username;
     private final String password;
     private final Collection<? extends GrantedAuthority> grantedAuthorities;
 
-    public AuthenticationUserDetails(final User user) {
+    public Authentication(final User user) {
         this.id = user.getId();
         this.username = user.getContact().getEmail();
         this.password = user.getPassword();

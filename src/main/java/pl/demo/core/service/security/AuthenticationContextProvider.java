@@ -1,9 +1,8 @@
 package pl.demo.core.service.security;
 
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import pl.demo.core.model.entity.AuthenticationUserDetails;
+import pl.demo.core.model.entity.Authentication;
 import pl.demo.core.util.Assert;
 
 /**
@@ -13,15 +12,15 @@ public class AuthenticationContextProvider {
 
     private AuthenticationContextProvider(){}
 
-    public static Authentication getAuthentication(){
+    public static org.springframework.security.core.Authentication getAuthentication(){
         return SecurityContextHolder.getContext().getAuthentication();
     }
 
-    public static AuthenticationUserDetails getAuthenticatedUser() {
-        final Authentication authentication = AuthenticationContextProvider.getAuthentication();
+    public static Authentication getAuthenticatedUser() {
+        final org.springframework.security.core.Authentication authentication = AuthenticationContextProvider.getAuthentication();
         Assert.notNull(authentication, "Lack of logged user in securoty context !");
         Assert.isTrue(!(authentication instanceof AnonymousAuthenticationToken));
         Assert.isTrue(authentication.isAuthenticated());
-        return (AuthenticationUserDetails)authentication.getPrincipal();
+        return (Authentication)authentication.getPrincipal();
     }
 }

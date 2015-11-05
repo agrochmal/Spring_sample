@@ -183,9 +183,9 @@ angular.module('app.controlles', [])
 
 	function init(){
 		$scope.saveCommand.advert = new AdvertService();
-		AdvertService.createNew(function(advert){
-			$scope.saveCommand.advert = advert;
-		});
+		//AdvertService.createNew(function(advert){
+		//	$scope.saveCommand.advert = advert;
+		//});
 	}
 })
 .controller('AllAdvertView', function($scope, SearchService, AdvertService) {

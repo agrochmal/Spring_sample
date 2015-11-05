@@ -1,12 +1,10 @@
 package pl.demo.core.service.security;
 
-import org.springframework.stereotype.Component;
 
 /**
  * Created by robertsikora on 04.11.2015.
  */
 
-@Component
 public class Permission {
 
     private Permission(){}

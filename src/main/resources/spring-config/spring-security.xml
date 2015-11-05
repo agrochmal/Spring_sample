@@ -35,6 +35,7 @@
 		<security:intercept-url pattern="/api/dashboard" access="isAnonymous() or isAuthenticated()"/>
 		<security:intercept-url method="GET" pattern="/api/adverts/search" access="isAnonymous() or isAuthenticated()"/>
 		<security:intercept-url method="GET" pattern="/api/adverts/**" access="isAnonymous() or isAuthenticated()"/>
+		<security:intercept-url method="GET" pattern="/api/comments/advert/**" access="isAnonymous() or isAuthenticated()"/>
 		<security:intercept-url pattern="/api/**" access="isAuthenticated()"/>
 	</security:http>
 
