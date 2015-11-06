@@ -22,8 +22,7 @@ import java.util.Map;
  */
 
 
-public abstract class CRUDServiceImpl<PK extends Serializable, E extends BaseEntity>
-        implements CRUDService<PK, E>{
+public abstract class CRUDServiceImpl<PK extends Serializable, E extends BaseEntity> implements CRUDService<PK, E> {
 
     protected final Logger LOGGER = LoggerFactory.getLogger(getClass());
 
@@ -83,6 +82,11 @@ public abstract class CRUDServiceImpl<PK extends Serializable, E extends BaseEnt
     public E save(final E entity) {
         Assert.notNull(entity, "Entity is required");
         return getDomainRepository().saveAndFlush(entity);
+    }
+
+    @Override
+    public boolean exists(final PK id){
+        return getDomainRepository().exists(id);
     }
 
     protected JpaRepository<E, PK> getDomainRepository(){

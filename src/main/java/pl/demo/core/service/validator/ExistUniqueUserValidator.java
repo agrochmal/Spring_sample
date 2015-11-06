@@ -1,4 +1,4 @@
-package pl.demo.web.validator;
+package pl.demo.core.service.validator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -11,7 +11,7 @@ import pl.demo.web.exception.ResourceNotFoundException;
  */
 
 @Component
-public class UniqueUserValidator implements BusinessValidator {
+public class ExistUniqueUserValidator implements BusinessValidator {
 
     private UserService userService;
 

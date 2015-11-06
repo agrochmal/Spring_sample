@@ -1,4 +1,4 @@
-package pl.demo.web.validator;
+package pl.demo.core.service.validator;
 
 /**
  * Created by robertsikora on 08.10.15.

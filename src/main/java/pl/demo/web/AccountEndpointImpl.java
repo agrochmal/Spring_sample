@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import pl.demo.core.model.entity.User;
 import pl.demo.core.service.registration.RegistrationService;
+import pl.demo.core.service.validator.BusinessValidator;
 import pl.demo.core.util.Assert;
 import pl.demo.core.util.Utils;
-import pl.demo.web.validator.BusinessValidator;
 
 import javax.validation.Valid;
 import java.util.Optional;
@@ -46,7 +46,7 @@ public class AccountEndpointImpl implements AccountEndpoint {
     }
 
     @Autowired
-    @Qualifier("uniqueUserValidator")
+    @Qualifier("existUniqueUserValidator")
     public void setValidator(final BusinessValidator validator) {
         this.validator = validator;
     }

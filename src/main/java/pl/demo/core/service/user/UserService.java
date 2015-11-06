@@ -7,6 +7,7 @@ import pl.demo.core.model.entity.User;
 import pl.demo.core.service.basic_service.CRUDService;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 /**
  * Created by Robert on 30.12.14.
@@ -14,6 +15,7 @@ import javax.validation.Valid;
 
 public interface UserService extends UserDetailsService, CRUDService<Long, User> {
 
-    @PreAuthorize("authentication.principal.username.equals(#user.entryUser)")
-    void edit(Long id, @Valid @P("user") User user);
+    @PreAuthorize("isAuthenticated()")
+    //@PreAuthorize("authentication.principal.username.equals(#user.entryUser)")
+    void edit(@NotNull Long id, @NotNull @Valid @P("user") User user);
 }

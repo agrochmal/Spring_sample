@@ -19,7 +19,7 @@ public class RoleName extends BaseEntity {
   public final static String ADMIN_ROLE = "ADMIN";
 
   @Basic
-  @Column(length=TEXT_LENGTH_80, unique=true)
+  @Column(length = TEXT_LENGTH_80, unique=true)
   private String name;
   
   public RoleName() {}

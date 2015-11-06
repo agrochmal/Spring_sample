@@ -1,7 +1,9 @@
 package pl.demo.core.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.apache.commons.lang.builder.ToStringBuilder;
+import pl.demo.core.model.entity.preprocessors.EnrichBaseEntityProcessor;
 import pl.demo.core.util.EntityUtils;
 
 import javax.persistence.*;
@@ -10,6 +12,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 @MappedSuperclass
+@EntityListeners(EnrichBaseEntityProcessor.class)
 public abstract class BaseEntity implements Serializable, FlatableEntity {
 
 	private final static Object NULL_VALUE = null;
@@ -35,6 +38,7 @@ public abstract class BaseEntity implements Serializable, FlatableEntity {
 		this.id = id;
 	}
 
+	@JsonIgnore
 	public Date getEntryDate() {
 		return entryDate;
 	}
@@ -45,6 +49,7 @@ public abstract class BaseEntity implements Serializable, FlatableEntity {
 		}
 	}
 
+	@JsonIgnore
 	public String getEntryUser() {
 		return entryUser;
 	}

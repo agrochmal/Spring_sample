@@ -23,4 +23,11 @@ public class AuthenticationContextProvider {
         Assert.isTrue(authentication.isAuthenticated());
         return (Authentication)authentication.getPrincipal();
     }
+
+    public static boolean isAuthenticatedUser() {
+        final org.springframework.security.core.Authentication authentication = AuthenticationContextProvider.getAuthentication();
+        return null != authentication
+                && !(authentication instanceof AnonymousAuthenticationToken)
+                && authentication.isAuthenticated();
+    }
 }

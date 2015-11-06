@@ -57,7 +57,7 @@ create table users (
         location varchar(80) not null,
         phone varchar(25) not null,
         name varchar(255) not null,
-        password varchar(80) not null,
+        password varchar(60) not null,
         primary key (id)
 );
 

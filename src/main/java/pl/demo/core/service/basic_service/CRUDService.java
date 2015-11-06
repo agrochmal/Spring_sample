@@ -14,6 +14,7 @@ import java.util.Collection;
 
 public interface CRUDService<PK extends Serializable, E extends BaseEntity> {
 
+    @PreAuthorize("isAuthenticated()")
     @NotNull
     @Valid
     Collection<E> findAll();
@@ -28,7 +29,11 @@ public interface CRUDService<PK extends Serializable, E extends BaseEntity> {
     @PreAuthorize("isAuthenticated()")
     void edit(@NotNull PK id, @NotNull @Valid E entity);
 
+    @PreAuthorize("isAuthenticated()")
     @NotNull
     @Valid
     E save(@NotNull @Valid E entity);
+
+    @PreAuthorize("isAuthenticated()")
+    boolean exists(@NotNull PK id);
 }

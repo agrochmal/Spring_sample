@@ -1,4 +1,4 @@
-package pl.demo.web.validator;
+package pl.demo.core.service.validator;
 
 import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
@@ -23,7 +23,7 @@ public class UniqueUserValidatorTest {
     private final static String USERNAME = "username";
 
     @InjectMocks
-    private UniqueUserValidator uniqueUserValidator;
+    private ExistUniqueUserValidator uniqueUserValidator;
     @Mock
     private UserService         userService;
 

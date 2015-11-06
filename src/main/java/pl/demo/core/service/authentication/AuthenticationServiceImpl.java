@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Service;
 import pl.demo.core.model.entity.Authentication;
 import pl.demo.core.service.security.AuthenticationContextProvider;
 import pl.demo.core.util.TokenUtils;
@@ -16,7 +15,6 @@ import pl.demo.web.dto.TokenDTO;
  * Created by robertsikora on 05.11.2015.
  */
 
-@Service
 public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Autowired
@@ -35,5 +33,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public Authentication getAuthenticatedUser() {
         return AuthenticationContextProvider.getAuthenticatedUser();
+    }
+
+    @Override
+    public boolean isAuthenticatedUser() {
+        return AuthenticationContextProvider.isAuthenticatedUser();
     }
 }

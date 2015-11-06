@@ -1,4 +1,4 @@
-package pl.demo.web.validator;
+package pl.demo.core.service.validator;
 
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;

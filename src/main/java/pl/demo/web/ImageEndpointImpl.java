@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import pl.demo.core.service.basic_service.CRUDService;
 import pl.demo.core.service.resource.ResourceMediaService;
-import pl.demo.web.validator.BusinessValidator;
+import pl.demo.core.service.validator.BusinessValidator;
 
 /**
  * Created by robertsikora on 26.08.15.
