@@ -7,7 +7,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import pl.demo.core.model.entity.Authentication;
-import pl.demo.core.model.entity.User;
 import pl.demo.core.model.repo.UserRepository;
 import pl.demo.core.service.security.AuthenticationContextProvider;
 import pl.demo.core.service.user.UserService;
@@ -115,7 +114,7 @@ public class TokenGeneratorServiceImpl implements TokenGeneratorService {
             return false;
         }
         final Authentication authentication = (Authentication) userDetails;
-        final User dbUser = userRepository.findOne(authentication.getId());
-        return signature.equals(computeSignature(userDetails, expires, dbUser.getSalt()));
+        final String salt = userRepository.getUserSalt(authentication.getId());
+        return signature.equals(computeSignature(userDetails, expires, salt));
     }
 }
