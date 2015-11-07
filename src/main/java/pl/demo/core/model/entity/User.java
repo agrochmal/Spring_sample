@@ -7,6 +7,8 @@ import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import pl.demo.core.model.entity.embeddable.Contact;
+import pl.demo.core.model.entity.versioning.VersionableBaseEntity;
+import pl.demo.core.service.registration.AccountStatus;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -20,7 +22,7 @@ import static pl.demo.core.model.entity.ModelConstans.TEXT_LENGTH_80;
 
 @Entity
 @Table(name = "users")
-public class User extends BaseEntity {
+public class User extends VersionableBaseEntity {
 
 	@Length(max = TEXT_LENGTH_80)
     @Basic
@@ -42,11 +44,17 @@ public class User extends BaseEntity {
 			inverseJoinColumns = { @JoinColumn(name = "id_role", referencedColumnName = "id") })
 	private Set<Role> roles = new HashSet<>();
 
+	@Enumerated(EnumType.STRING)
+	@Column(name = "account_status")
+	private AccountStatus accountStatus;
+
+	private String salt;
+
 	public User() {
 	}
 
 	public User(long id) {
-		this.id = id;
+		setId(id);
 	}
 
 	public Set<Role> getRoles() {
@@ -91,6 +99,22 @@ public class User extends BaseEntity {
 
 	public void setContact(Contact contact) {
 		this.contact = contact;
+	}
+
+	public AccountStatus getAccountStatus() {
+		return accountStatus;
+	}
+
+	public void setAccountStatus(AccountStatus accountStatus) {
+		this.accountStatus = accountStatus;
+	}
+
+	public String getSalt() {
+		return salt;
+	}
+
+	public void setSalt(String salt) {
+		this.salt = salt;
 	}
 
 	@Override

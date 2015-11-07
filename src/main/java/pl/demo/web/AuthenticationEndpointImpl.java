@@ -5,7 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import pl.demo.core.model.entity.Authentication;
-import pl.demo.core.service.authentication.AuthenticationService;
+import pl.demo.core.service.security.authentication.AuthenticationService;
 import pl.demo.web.dto.TokenDTO;
 
 /**

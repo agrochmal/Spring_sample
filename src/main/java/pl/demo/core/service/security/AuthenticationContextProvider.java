@@ -16,6 +16,10 @@ public class AuthenticationContextProvider {
         return SecurityContextHolder.getContext().getAuthentication();
     }
 
+    public static void setAuthentication(org.springframework.security.core.Authentication authentication){
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+    }
+
     public static Authentication getAuthenticatedUser() {
         final org.springframework.security.core.Authentication authentication = AuthenticationContextProvider.getAuthentication();
         Assert.notNull(authentication, "Lack of logged user in securoty context !");

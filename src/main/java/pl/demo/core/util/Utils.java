@@ -2,6 +2,7 @@ package pl.demo.core.util;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.crypto.codec.Hex;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -13,6 +14,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -87,14 +89,13 @@ public final class Utils {
 		return bytes;
 	}
 
-	public static MessageDigest getMessageDigest() {
-		MessageDigest digest;
+	public static char[] digest(final String plainText) {
 		try {
-			digest = MessageDigest.getInstance("MD5");
+			final MessageDigest messageDigest = MessageDigest.getInstance("MD5");
+			return Hex.encode(messageDigest.digest(plainText.getBytes(Charset.forName("UTF-8"))));
 		} catch (final NoSuchAlgorithmException e) {
 			LOGGER.error("Cannot find instance for MD5", e);
 			throw new GeneralException(MsgConst.FATAL_ERROR, e);
 		}
-		return digest;
 	}
 }

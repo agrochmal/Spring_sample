@@ -1,4 +1,4 @@
-package pl.demo.core.service.authentication;
+package pl.demo.core.service.security.authentication;
 
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.security.access.prepost.PreAuthorize;

@@ -15,6 +15,7 @@ import pl.demo.core.model.repo.AdvertRepository;
 import pl.demo.core.model.repo.RoleNameRepository;
 import pl.demo.core.model.repo.RoleRepository;
 import pl.demo.core.model.repo.UserRepository;
+import pl.demo.core.service.registration.AccountStatus;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
@@ -59,7 +60,7 @@ public class DatabaseDevelopmentInitializer {
   }
 
   private void initUsers() {
-    User userExists = userRepository.findByUsername("user");
+    User userExists = userRepository.findByUsername("user", AccountStatus.ACTIVE);
       User adminUser = null;
     if (userExists == null) {
       // 2 examples of roles: user and admin

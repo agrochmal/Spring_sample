@@ -31,6 +31,7 @@ public class RegistrationServiceImpl extends CRUDServiceImpl<Long, User> impleme
     public User register(final User user) {
         user.setPassword(this.passwordEncoder.encode(user.getPassword()));
         user.addRole(this.roleRepository.findByRoleName(RoleName.USER_ROLE));
+        user.setAccountStatus(AccountStatus.ACTIVE);
         User registered = userRepository.save(user);
         publishBusinessEvent(new SendMailEvent(MailDTOSupplier.get(EMAIL_TITLE, EMAIL_CONTENT).get(),
                 Template.REGISTRATION_TEMPLATE));

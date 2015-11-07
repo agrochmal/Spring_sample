@@ -51,6 +51,8 @@ create table users (
         entry_date timestamp not null,
         entry_user VARCHAR(100),
 
+        version INT,
+
         email varchar(100) not null,
         lat double not null,
         lng double not null,
@@ -58,6 +60,8 @@ create table users (
         phone varchar(25) not null,
         name varchar(255) not null,
         password varchar(60) not null,
+        account_status varchar(10) not null,
+        salt varchar(255),
         primary key (id)
 );
 

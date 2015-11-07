@@ -1,7 +1,7 @@
 package pl.demo.core.model.entity.preprocessors;
 
 import pl.demo.core.model.entity.BaseEntity;
-import pl.demo.core.service.authentication.AuthenticationService;
+import pl.demo.core.service.security.authentication.AuthenticationService;
 import pl.demo.core.util.SpringBeanProvider;
 
 import javax.persistence.PrePersist;

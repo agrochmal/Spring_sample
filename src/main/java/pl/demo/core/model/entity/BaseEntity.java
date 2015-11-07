@@ -21,7 +21,7 @@ public abstract class BaseEntity implements Serializable, FlatableEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id")
-	protected Long id;
+	private Long id;
 
     @NotNull
 	@Column(name = "entry_date", nullable = false)
