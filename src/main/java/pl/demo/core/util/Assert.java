@@ -39,7 +39,7 @@ public final class Assert extends org.springframework.util.Assert {
      */
     public static void hasErrors(final BindingResult bindingResult){
         if(bindingResult.hasErrors()) {
-            throw new ValidationRequestException(Utils.createErrorMessage(bindingResult));
+            throw new ValidationRequestException(resolveErrorMessage(bindingResult));
         }
     }
 
@@ -50,4 +50,15 @@ public final class Assert extends org.springframework.util.Assert {
     public static void noObject(){
         throw new AssertionError("Cannot create object");
     }
+
+
+    private static String resolveErrorMessage(final BindingResult bindingResult){
+        Assert.notNull(bindingResult);
+        final StringBuilder str = new StringBuilder();
+        bindingResult.getFieldErrors().forEach(
+                t ->  str.append(t.getDefaultMessage()).append(Utils.LINE_SEPARATOR)
+        );
+        return str.toString();
+    }
+
 }

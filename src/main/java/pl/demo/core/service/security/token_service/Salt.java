@@ -11,10 +11,12 @@ import java.util.Random;
  */
 public final class Salt {
 
+    private final static String ALGORITHM = "SHA1PRNG";
+
     private static Random random;
     static {
         try {
-            random = SecureRandom.getInstance("SHA1PRNG");
+            random = SecureRandom.getInstance(ALGORITHM);
         }catch (NoSuchAlgorithmException ex){
             throw new ExceptionInInitializerError();
         }

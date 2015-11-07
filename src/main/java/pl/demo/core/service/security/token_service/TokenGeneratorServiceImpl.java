@@ -11,7 +11,6 @@ import pl.demo.core.model.repo.UserRepository;
 import pl.demo.core.service.security.AuthenticationContextProvider;
 import pl.demo.core.service.user.UserService;
 import pl.demo.core.util.Assert;
-import pl.demo.core.util.Utils;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
@@ -33,6 +32,9 @@ public class TokenGeneratorServiceImpl implements TokenGeneratorService {
 
     @Autowired
     private UserRepository  userRepository;
+
+    @Autowired
+    private HashingFunction hashingFunction;
 
     @PostConstruct
     private void calculateTokenExpirationTime(){
@@ -72,7 +74,7 @@ public class TokenGeneratorServiceImpl implements TokenGeneratorService {
         userRepository.saveAndFlush(dbUser);
     }
 
-    private static String computeSignature(final UserDetails userDetails, final long expires, final String salt) {
+    private String computeSignature(final UserDetails userDetails, final long expires, final String salt) {
         if(expires<=0){
             throw new IllegalArgumentException("Expires time should be positive");
         }
@@ -84,7 +86,7 @@ public class TokenGeneratorServiceImpl implements TokenGeneratorService {
         signatureBuilder.append(userDetails.getPassword());
         signatureBuilder.append(":");
         signatureBuilder.append(salt);
-        return new String(Utils.digest(signatureBuilder.toString()));
+        return new String(hashingFunction.hash(signatureBuilder.toString()));
     }
 
     @Override

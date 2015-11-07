@@ -27,6 +27,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     public TokenDTO authenticate(final String username, final String password) {
         final UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
         final org.springframework.security.core.Authentication authentication = authManager.authenticate(authenticationToken);
+
         return new TokenDTO(tokenGeneratorService.generateToken((UserDetails)authentication.getPrincipal()));
     }
 
