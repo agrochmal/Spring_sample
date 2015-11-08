@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import pl.demo.core.model.entity.BaseEntity;
 import pl.demo.core.service.basic_service.CRUDService;
 import pl.demo.core.util.Assert;
-import pl.demo.core.util.Utils;
+import pl.demo.core.util.WebUtils;
 
 import javax.annotation.PostConstruct;
 import javax.validation.Valid;
@@ -72,7 +72,7 @@ public abstract class CRUDResourceImpl<PK extends Serializable, E extends BaseEn
         Assert.hasErrors(bindingResult);
 
         return Optional.ofNullable(this.crudService.save(entity))
-            .map(t -> ResponseEntity.created(Utils.createURI(t.getId())).build())
+            .map(t -> ResponseEntity.created(WebUtils.createURI(t.getId())).build())
             .orElseGet(() -> ResponseEntity.noContent().build());
     }
 }

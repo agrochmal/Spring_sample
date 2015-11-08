@@ -2,6 +2,7 @@ package pl.demo.core.service.security.token_service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.AuthenticationDetailsSource;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.codec.Hex;
@@ -9,13 +10,12 @@ import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 import pl.demo.core.model.entity.User;
 import pl.demo.core.model.repo.UserRepository;
 import pl.demo.core.service.security.AuthenticationContextProvider;
 import pl.demo.core.service.user.UserService;
 import pl.demo.core.util.Assert;
+import pl.demo.core.util.WebUtils;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
@@ -40,6 +40,8 @@ public class TokenGeneratorServiceImpl implements TokenGeneratorService {
 
     @Autowired
     private Digester        digester;
+
+    private final AuthenticationDetailsSource authenticationDetailsSource = new WebAuthenticationDetailsSource();
 
     @PostConstruct
     private void calculateTokenExpirationTime(){
@@ -88,9 +90,9 @@ public class TokenGeneratorServiceImpl implements TokenGeneratorService {
             throw new IllegalArgumentException("Expires time should be positive");
         }
 
-        final HttpServletRequest request =
-                ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        final WebAuthenticationDetails webAuthenticationDetails = new WebAuthenticationDetailsSource().buildDetails(request);
+
+        final WebAuthenticationDetails webAuthenticationDetails =
+                (WebAuthenticationDetails)authenticationDetailsSource.buildDetails(WebUtils.geHttpServletRequest());
 
         final String[] attributes = {
                 userDetails.getUsername(),

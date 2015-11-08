@@ -13,6 +13,7 @@ import pl.demo.core.service.mail.Template;
 import pl.demo.core.service.mail.event.SendMailEvent;
 import pl.demo.core.util.Assert;
 import pl.demo.core.util.Utils;
+import pl.demo.core.util.WebUtils;
 
 import java.util.Collection;
 import java.util.Date;
@@ -32,6 +33,7 @@ public class CommentServiceImpl extends CRUDServiceImpl<Long, Comment> implement
     public void postComment(final long advertId, final Comment comment) {
         Assert.notNull(advertId, "Advert id is required");
         Assert.notNull(comment, "Comment is required");
+
         prepareComment(comment);
 
         final Advert dbAdvert = advertRepository.findOne(advertId);
@@ -55,11 +57,18 @@ public class CommentServiceImpl extends CRUDServiceImpl<Long, Comment> implement
     }
 
     private void prepareComment(final Comment comment) {
+
+        assert comment != null;
+
         comment.setDate(new Date());
         comment.setText(Utils.escapeHtml(comment.getText()));
+        comment.setIpAddr(WebUtils.getIpAdress(WebUtils.geHttpServletRequest()));
     }
 
     private void sendEmail(final Comment comment){
+
+        assert comment != null;
+
         publishBusinessEvent(new SendMailEvent(MailDTOSupplier.get("Dodano nowy komentarz",
                 comment.getText()).get(), Template.COMMENT_TEMPLATE));
     }

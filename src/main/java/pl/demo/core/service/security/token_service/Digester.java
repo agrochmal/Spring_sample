@@ -21,8 +21,8 @@ public final class Digester {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(Digester.class);
 
-    private final static String ALGORITHM = "SHA-256";
-    private final static int    ITERATIONS = 2048;
+    private final static String     ALGORITHM = "SHA-256";
+    private final static int        ITERATIONS = 2048;
 
     final private MessageDigest messageDigest;{
         try {

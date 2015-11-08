@@ -11,7 +11,7 @@ import pl.demo.core.model.entity.User;
 import pl.demo.core.service.registration.RegistrationService;
 import pl.demo.core.service.validator.BusinessValidator;
 import pl.demo.core.util.Assert;
-import pl.demo.core.util.Utils;
+import pl.demo.core.util.WebUtils;
 
 import javax.validation.Valid;
 import java.util.Optional;
@@ -31,7 +31,7 @@ public class AccountEndpointImpl implements AccountEndpoint {
         Assert.hasErrors(bindingResult);
 
         return Optional.ofNullable(registrationService.registerAccount(user))
-                .map(t -> ResponseEntity.created(Utils.createURI(t.getId())).build())
+                .map(t -> ResponseEntity.created(WebUtils.createURI(t.getId())).build())
                 .orElseGet(() -> ResponseEntity.noContent().build());
     }
 
