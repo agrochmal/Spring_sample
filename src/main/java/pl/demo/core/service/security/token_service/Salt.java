@@ -18,7 +18,7 @@ public final class Salt {
         try {
             random = SecureRandom.getInstance(ALGORITHM);
         }catch (NoSuchAlgorithmException ex){
-            throw new ExceptionInInitializerError();
+            throw new ExceptionInInitializerError(ex);
         }
     }
     private final byte[] salt = new byte[16];

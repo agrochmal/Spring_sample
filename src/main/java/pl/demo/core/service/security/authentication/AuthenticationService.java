@@ -2,7 +2,7 @@ package pl.demo.core.service.security.authentication;
 
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.security.access.prepost.PreAuthorize;
-import pl.demo.core.model.entity.Authentication;
+import pl.demo.core.model.entity.User;
 import pl.demo.web.dto.TokenDTO;
 
 import javax.validation.constraints.NotNull;
@@ -17,7 +17,7 @@ public interface AuthenticationService {
 
     @PreAuthorize("isAuthenticated()")
     @NotNull
-    Authentication getAuthenticatedUser();
+    User getAuthenticatedUser();
 
     boolean isAuthenticatedUser();
 

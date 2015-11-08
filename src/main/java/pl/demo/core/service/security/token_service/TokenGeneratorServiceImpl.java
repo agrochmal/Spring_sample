@@ -6,7 +6,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
-import pl.demo.core.model.entity.Authentication;
+import org.springframework.transaction.annotation.Transactional;
+import pl.demo.core.model.entity.User;
 import pl.demo.core.model.repo.UserRepository;
 import pl.demo.core.service.security.AuthenticationContextProvider;
 import pl.demo.core.service.user.UserService;
@@ -34,13 +35,14 @@ public class TokenGeneratorServiceImpl implements TokenGeneratorService {
     private UserRepository  userRepository;
 
     @Autowired
-    private HashingFunction hashingFunction;
+    private Digester hashingFunction;
 
     @PostConstruct
     private void calculateTokenExpirationTime(){
         this.TOKEN_TIME_VALIDITY_MS = 1000L * 60 * MINUTES;
     }
 
+    @Transactional(readOnly = true)
     @Override
     public String generateToken(final UserDetails userDetails) {
         Assert.notNull(userDetails);
@@ -68,10 +70,9 @@ public class TokenGeneratorServiceImpl implements TokenGeneratorService {
     }
 
     private void persistUserSalt(final String salt, final UserDetails userDetails){
-        final Authentication authentication = (Authentication) userDetails;
-        final pl.demo.core.model.entity.User dbUser = userRepository.findOne(authentication.getId());
-        dbUser.setSalt(salt);
-        userRepository.saveAndFlush(dbUser);
+        final User authentication = (User) userDetails;
+        final int updated = userRepository.updateUserSalt(salt, authentication.getId());
+        Assert.isTrue(updated > 0, "The salt for login session wasn't assigned to user !");
     }
 
     private String computeSignature(final UserDetails userDetails, final long expires, final String salt) {
@@ -89,6 +90,7 @@ public class TokenGeneratorServiceImpl implements TokenGeneratorService {
         return new String(hashingFunction.hash(signatureBuilder.toString()));
     }
 
+    @Transactional(readOnly = true)
     @Override
     public void authenticateByToken(final String authToken, final HttpServletRequest httpRequest) {
         Assert.hasText(authToken);
@@ -115,7 +117,7 @@ public class TokenGeneratorServiceImpl implements TokenGeneratorService {
         if (expires < System.currentTimeMillis()) {
             return false;
         }
-        final Authentication authentication = (Authentication) userDetails;
+        final User authentication = (User) userDetails;
         final String salt = userRepository.getUserSalt(authentication.getId());
         return signature.equals(computeSignature(userDetails, expires, salt));
     }

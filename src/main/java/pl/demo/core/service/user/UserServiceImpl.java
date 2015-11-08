@@ -4,7 +4,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 import pl.demo.MsgConst;
-import pl.demo.core.model.entity.Authentication;
 import pl.demo.core.model.entity.User;
 import pl.demo.core.model.repo.UserRepository;
 import pl.demo.core.service.basic_service.CRUDServiceImpl;
@@ -25,13 +24,18 @@ public class UserServiceImpl extends CRUDServiceImpl<Long, User> implements User
 		getDomainRepository().save(existing);
 	}
 
+	/*
+	 * For better performance use class SecurityUser
+	 * 			extends org.springframework.security.core.userdetails.User
+     *
+	 */
 	@Transactional
 	@Override
 	public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
 		Assert.notNull(username, "Username is required");
 		final User user = getUserRepository().findByUsername(username, AccountStatus.ACTIVE);
 		Assert.notResourceFound(user, MsgConst.USER_NOT_FOUND);
-		return new Authentication(user);
+		return user;
 	}
 
 	private UserRepository getUserRepository(){

@@ -6,7 +6,10 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 import pl.demo.core.aspects.DetachEntity;
-import pl.demo.core.model.entity.*;
+import pl.demo.core.model.entity.Advert;
+import pl.demo.core.model.entity.Comment;
+import pl.demo.core.model.entity.MediaResource;
+import pl.demo.core.model.entity.User;
 import pl.demo.core.model.repo.AdvertRepository;
 import pl.demo.core.model.repo.fullTextSearch.SearchableRepository;
 import pl.demo.core.service.basic_service.CRUDServiceImpl;
@@ -41,7 +44,7 @@ public class AdvertServiceImpl extends CRUDServiceImpl<Long, Advert> implements 
 		Assert.notNull(advert);
 		Advert saved;
 		try {
-			final Authentication loggedUser = AuthenticationContextProvider.getAuthenticatedUser();
+			final User loggedUser = AuthenticationContextProvider.getAuthenticatedUser();
 			advert.setUser(new User(loggedUser.getId()));
 			saved = super.save(advert);
 			final Iterator<Long> idIterator = httpSessionContext.getUploadedResourcesId();
@@ -68,8 +71,7 @@ public class AdvertServiceImpl extends CRUDServiceImpl<Long, Advert> implements 
 	@Transactional(readOnly = true)
 	@Override
 	public Advert createNew() {
-		final Authentication authenticationUserDetails = AuthenticationContextProvider.getAuthenticatedUser();
-		final User userDB = userService.findOne(authenticationUserDetails.getId());
+		final User userDB = AuthenticationContextProvider.getAuthenticatedUser();
 		Assert.notNull(userDB, "User doesn't exist in db !");
 		return Advert.AdvertBuilder.anAdvert()
 				.withOwnerName(userDB.getName())

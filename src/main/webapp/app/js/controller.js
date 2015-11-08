@@ -182,13 +182,10 @@ angular.module('app.controlles', [])
 	init();
 
 	function init(){
-		if ($rootScope.advertCreateInit==true) return;
-		$rootScope.advertCreateInit=true;
-
 		$scope.saveCommand.advert = new AdvertService();
-		//AdvertService.createNew(function(advert){
-		//	$scope.saveCommand.advert = advert;
-		//});
+		AdvertService.createNew(function(advert){
+			$scope.saveCommand.advert = advert;
+		});
 	}
 })
 .controller('AllAdvertView', function($scope, SearchService, AdvertService) {
