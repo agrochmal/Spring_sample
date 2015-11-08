@@ -11,6 +11,7 @@ import pl.demo.core.events.BusinessEvent;
 import pl.demo.core.model.entity.BaseEntity;
 import pl.demo.core.util.Assert;
 
+import javax.annotation.PostConstruct;
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -22,13 +23,20 @@ import java.util.Map;
  */
 
 
-public abstract class CRUDServiceImpl<PK extends Serializable, E extends BaseEntity> implements CRUDService<PK, E> {
+public abstract class CRUDServiceImpl<PK extends Serializable, E extends BaseEntity>
+        implements CRUDService<PK, E> {
 
     protected final Logger LOGGER = LoggerFactory.getLogger(getClass());
 
     private Map<Class<? extends BaseEntity>, JpaRepository<E, PK>>      repositoryMap;
     private ApplicationEventPublisher                                   eventPublisher;
     private Class<E>                                                    entityClass;
+
+    @PostConstruct
+    public void afterPropertiesSet() throws Exception {
+        Assert.notNull(entityClass, "Entity class for basic service must be specified !");
+        Assert.notEmpty(repositoryMap, "Basic service needs map of repositories !");
+    }
 
     public CRUDServiceImpl() {
         Type genericSuperclass = this.getClass().getGenericSuperclass();
