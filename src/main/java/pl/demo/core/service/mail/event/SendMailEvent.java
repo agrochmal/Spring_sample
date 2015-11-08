@@ -1,7 +1,8 @@
-package pl.demo.core.service.mail;
+package pl.demo.core.service.mail.event;
 
 import org.springframework.context.ApplicationEvent;
 import pl.demo.core.events.BusinessEvent;
+import pl.demo.core.service.mail.Template;
 
 /**
  * Created by robertsikora on 22.10.15.

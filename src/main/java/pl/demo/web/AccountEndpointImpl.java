@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import pl.demo.core.model.entity.User;
@@ -29,15 +30,21 @@ public class AccountEndpointImpl implements AccountEndpoint {
     public ResponseEntity<?> registerAccount(@Valid @RequestBody final User user, final BindingResult bindingResult) {
         Assert.hasErrors(bindingResult);
 
-        return Optional.ofNullable(registrationService.register(user))
+        return Optional.ofNullable(registrationService.registerAccount(user))
                 .map(t -> ResponseEntity.created(Utils.createURI(t.getId())).build())
                 .orElseGet(() -> ResponseEntity.noContent().build());
     }
 
+    @Override
+    public ResponseEntity<?> activateAccount(@PathVariable("id") Long userId, String activationCode) {
+        registrationService.activateAccount(userId, activationCode);
+        return ResponseEntity.ok().build();
+    }
 
     @Override
-    public ResponseEntity<?> activateAccount(String activationCode) {
-        throw new UnsupportedOperationException("Not implemented yet !");
+    public ResponseEntity<?> deactivateAccount(@PathVariable("id") Long userId) {
+        registrationService.deactivateAccount(userId);
+        return ResponseEntity.ok().build();
     }
 
     @Override

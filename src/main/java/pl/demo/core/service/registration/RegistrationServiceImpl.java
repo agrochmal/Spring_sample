@@ -9,8 +9,9 @@ import pl.demo.core.model.repo.RoleRepository;
 import pl.demo.core.model.repo.UserRepository;
 import pl.demo.core.service.basic_service.CRUDServiceImpl;
 import pl.demo.core.service.mail.MailDTOSupplier;
-import pl.demo.core.service.mail.SendMailEvent;
 import pl.demo.core.service.mail.Template;
+import pl.demo.core.service.mail.event.SendMailEvent;
+
 
 /**
  * Created by robertsikora on 05.11.2015.
@@ -28,7 +29,7 @@ public class RegistrationServiceImpl extends CRUDServiceImpl<Long, User> impleme
 
     @Transactional
     @Override
-    public User register(final User user) {
+    public User registerAccount(final User user) {
         user.setPassword(this.passwordEncoder.encode(user.getPassword()));
         user.addRole(this.roleRepository.findByRoleName(RoleName.USER_ROLE));
         user.setAccountStatus(AccountStatus.ACTIVE);
@@ -36,6 +37,16 @@ public class RegistrationServiceImpl extends CRUDServiceImpl<Long, User> impleme
         publishBusinessEvent(new SendMailEvent(MailDTOSupplier.get(EMAIL_TITLE, EMAIL_CONTENT).get(),
                 Template.REGISTRATION_TEMPLATE));
         return registered;
+    }
+
+    @Override
+    public void activateAccount(Long userId, String activationCode) {
+        throw new UnsupportedOperationException("Not implemented yet !");
+    }
+
+    @Override
+    public void deactivateAccount(Long userId) {
+        throw new UnsupportedOperationException("Not implemented yet !");
     }
 
     @Autowired

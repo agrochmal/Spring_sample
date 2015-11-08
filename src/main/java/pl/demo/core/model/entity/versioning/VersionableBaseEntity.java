@@ -1,5 +1,6 @@
 package pl.demo.core.model.entity.versioning;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import pl.demo.core.model.entity.BaseEntity;
 
 import javax.persistence.MappedSuperclass;
@@ -15,7 +16,7 @@ public class VersionableBaseEntity extends BaseEntity {
     @Version
     private int version;
 
-
+    @JsonIgnore
     public int getVersion() {
         return version;
     }

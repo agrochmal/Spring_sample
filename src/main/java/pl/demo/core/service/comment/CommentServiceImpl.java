@@ -9,8 +9,8 @@ import pl.demo.core.model.repo.AdvertRepository;
 import pl.demo.core.model.repo.CommentRepository;
 import pl.demo.core.service.basic_service.CRUDServiceImpl;
 import pl.demo.core.service.mail.MailDTOSupplier;
-import pl.demo.core.service.mail.SendMailEvent;
 import pl.demo.core.service.mail.Template;
+import pl.demo.core.service.mail.event.SendMailEvent;
 import pl.demo.core.util.Assert;
 import pl.demo.core.util.Utils;
 
