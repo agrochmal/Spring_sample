@@ -44,7 +44,7 @@
     <!-- Browser shows the popup window for both
     1. Basic authorization header:Authorization Basic Base64
 
-	<security:http-basic/>
+	<security:http-basic/>  -> BasicAuthenticationFilter
 
 	<bean id="authenticationEntryPoint"
 		  class="org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint">

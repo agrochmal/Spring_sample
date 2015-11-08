@@ -2,14 +2,17 @@ package pl.demo.core.service.security.token_service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.crypto.codec.Hex;
 import org.springframework.security.crypto.codec.Utf8;
 import org.springframework.stereotype.Component;
+import org.springframework.util.Assert;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 /**
+ * Use for hashing token. To provide better security
+ * in production the BCrypt might be more secure.
+ *
  * Created by robertsikora on 07.11.2015.
  */
 
@@ -30,13 +33,15 @@ public final class Digester {
         }
     }
 
-    public char[] hash(final String plainText) {
+    public byte[] hash(final String plainText) {
+        Assert.hasText(plainText);
+
         byte [] value = Utf8.encode(plainText);
         synchronized (messageDigest) {
             for (int i = 0; i < ITERATIONS; i++) {
                 value = messageDigest.digest(value);
             }
         }
-        return Hex.encode(value);
+        return value;
     }
 }

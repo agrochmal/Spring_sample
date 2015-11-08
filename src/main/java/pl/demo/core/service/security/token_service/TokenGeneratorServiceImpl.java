@@ -4,9 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.codec.Hex;
+import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import pl.demo.core.model.entity.User;
 import pl.demo.core.model.repo.UserRepository;
 import pl.demo.core.service.security.AuthenticationContextProvider;
@@ -35,7 +39,7 @@ public class TokenGeneratorServiceImpl implements TokenGeneratorService {
     private UserRepository  userRepository;
 
     @Autowired
-    private Digester hashingFunction;
+    private Digester        digester;
 
     @PostConstruct
     private void calculateTokenExpirationTime(){
@@ -75,19 +79,32 @@ public class TokenGeneratorServiceImpl implements TokenGeneratorService {
         Assert.isTrue(updated > 0, "The salt for login session wasn't assigned to user !");
     }
 
+    /*
+    *
+    * token [username:expires:password:ip_address:salt] -> save to db ?
+     */
     private String computeSignature(final UserDetails userDetails, final long expires, final String salt) {
         if(expires<=0){
             throw new IllegalArgumentException("Expires time should be positive");
         }
+
+        final HttpServletRequest request =
+                ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        final WebAuthenticationDetails webAuthenticationDetails = new WebAuthenticationDetailsSource().buildDetails(request);
+
+        final String[] attributes = {
+                userDetails.getUsername(),
+                String.valueOf(expires),
+                userDetails.getPassword(),
+                webAuthenticationDetails.getRemoteAddress(),
+                salt
+        };
+
         final StringBuilder signatureBuilder = new StringBuilder();
-        signatureBuilder.append(userDetails.getUsername());
-        signatureBuilder.append(":");
-        signatureBuilder.append(expires);
-        signatureBuilder.append(":");
-        signatureBuilder.append(userDetails.getPassword());
-        signatureBuilder.append(":");
-        signatureBuilder.append(salt);
-        return new String(hashingFunction.hash(signatureBuilder.toString()));
+        for(final String attribute : attributes){
+            signatureBuilder.append(attribute);
+        }
+        return new String(Hex.encode(digester.hash(signatureBuilder.toString())));
     }
 
     @Transactional(readOnly = true)
@@ -112,7 +129,7 @@ public class TokenGeneratorServiceImpl implements TokenGeneratorService {
 
     private boolean validateToken(final String authToken, final UserDetails userDetails){
         final String[] parts = authToken.split(":");
-        long expires = Long.parseLong(parts[1]);
+        final long expires = Long.parseLong(parts[1]);
         final String signature = parts[2];
         if (expires < System.currentTimeMillis()) {
             return false;
