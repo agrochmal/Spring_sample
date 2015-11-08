@@ -30,14 +30,12 @@
 		authentication-manager-ref="authenticationManager">
 	    <security:custom-filter ref="authenticationTokenProcessingFilter" position="FORM_LOGIN_FILTER"/>
 
+		<!-- non-secured (login, registration, dashboard) -->
 		<security:intercept-url method="POST" pattern="/api/authentication" access="isAnonymous()"/>
 		<security:intercept-url method="POST" pattern="/api/account" access="isAnonymous()"/>
 		<security:intercept-url method="GET" pattern="/api/account" access="isAnonymous()"/>
-
 		<security:intercept-url pattern="/api/dashboard" access="isAnonymous() or isAuthenticated()"/>
-		<security:intercept-url method="GET" pattern="/api/adverts/search" access="isAnonymous() or isAuthenticated()"/>
-		<security:intercept-url method="GET" pattern="/api/adverts/**" access="isAnonymous() or isAuthenticated()"/>
-		<security:intercept-url method="GET" pattern="/api/comments/advert/**" access="isAnonymous() or isAuthenticated()"/>
+
 		<security:intercept-url pattern="/api/**" access="isAuthenticated()"/>
 	</security:http>
 

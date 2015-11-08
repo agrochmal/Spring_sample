@@ -60,7 +60,7 @@
 			</div>
 			<span class="tile-label">Chcę dodać zlecenie</span>
 		</a>
-		<a class="tile-large bg-steel fg-white" data-role="tile" ng-href="#/users/{{user.id}}" style="opacity: 1; transform: scale(1); transition: all 0.3s ease 0s;">
+		<a class="tile-large bg-steel fg-white" data-role="tile" ng-href="#/users/{{user.id || -1}}" style="opacity: 1; transform: scale(1); transition: all 0.3s ease 0s;">
 			<div class="tile-content iconic">
 				<span class="icon mif-4x  mif-profile"></span>
 				<span class="tile-label">Moje Konto</span>

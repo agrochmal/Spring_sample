@@ -251,6 +251,7 @@ angular.module('app.controlles', [])
 		//from resolver
 		$scope.editCommand.user = user;
 		loadAdverts();
+
 	}
 		function loadAdverts(){
 		UserService.getAdverts({id: $rootScope.user.id}, function(adverts){

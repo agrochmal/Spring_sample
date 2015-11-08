@@ -19,6 +19,7 @@ public interface CRUDService<PK extends Serializable, E extends BaseEntity> {
     @Valid
     Collection<E> findAll();
 
+    @PreAuthorize("isAuthenticated()")
     @NotNull
     @Valid
     E findOne(@NotNull PK id);
