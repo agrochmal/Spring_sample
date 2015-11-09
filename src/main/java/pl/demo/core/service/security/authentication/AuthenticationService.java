@@ -2,7 +2,8 @@ package pl.demo.core.service.security.authentication;
 
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.security.access.prepost.PreAuthorize;
-import pl.demo.core.model.entity.User;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import pl.demo.core.service.security.SecurityUser;
 import pl.demo.web.dto.TokenDTO;
 
 import javax.validation.constraints.NotNull;
@@ -10,15 +11,18 @@ import javax.validation.constraints.NotNull;
 /**
  * Created by robertsikora on 05.11.2015.
  */
-public interface AuthenticationService {
+public interface AuthenticationService extends UserDetailsService {
 
     @NotNull
     TokenDTO authenticate(@NotNull @NotBlank String username, @NotNull @NotBlank String password);
 
     @PreAuthorize("isAuthenticated()")
     @NotNull
-    User getAuthenticatedUser();
+    SecurityUser getAuthenticatedUser();
 
     boolean isAuthenticatedUser();
+
+    @PreAuthorize("isAuthenticated()")
+    void logout();
 
 }

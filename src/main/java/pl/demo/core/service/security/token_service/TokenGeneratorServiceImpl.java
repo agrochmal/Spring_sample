@@ -10,10 +10,10 @@ import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import pl.demo.core.model.entity.User;
 import pl.demo.core.model.repo.UserRepository;
 import pl.demo.core.service.security.AuthenticationContextProvider;
-import pl.demo.core.service.user.UserService;
+import pl.demo.core.service.security.SecurityUser;
+import pl.demo.core.service.security.authentication.AuthenticationService;
 import pl.demo.core.util.Assert;
 import pl.demo.core.util.WebUtils;
 
@@ -33,13 +33,13 @@ public class TokenGeneratorServiceImpl implements TokenGeneratorService {
     private long            TOKEN_TIME_VALIDITY_MS ;
 
     @Autowired
-    private UserService     userService;
+    private AuthenticationService   authenticationService;
 
     @Autowired
-    private UserRepository  userRepository;
+    private UserRepository          userRepository;
 
     @Autowired
-    private Digester        digester;
+    private Digester                digester;
 
     private final AuthenticationDetailsSource authenticationDetailsSource = new WebAuthenticationDetailsSource();
 
@@ -76,8 +76,8 @@ public class TokenGeneratorServiceImpl implements TokenGeneratorService {
     }
 
     private void persistUserSalt(final String salt, final UserDetails userDetails){
-        final User authentication = (User) userDetails;
-        final int updated = userRepository.updateUserSalt(salt, authentication.getId());
+        final SecurityUser securityUser = (SecurityUser) userDetails;
+        final int updated = userRepository.updateUserSalt(salt, securityUser.getId());
         Assert.isTrue(updated > 0, "The salt for login session wasn't assigned to user !");
     }
 
@@ -90,14 +90,13 @@ public class TokenGeneratorServiceImpl implements TokenGeneratorService {
             throw new IllegalArgumentException("Expires time should be positive");
         }
 
-
         final WebAuthenticationDetails webAuthenticationDetails =
                 (WebAuthenticationDetails)authenticationDetailsSource.buildDetails(WebUtils.geHttpServletRequest());
 
-        final String[] attributes = {
+        final String[] attributes = {//user@user.pl1447095351951null0:0:0:0:0:0:0:1[B@2e00d31b
                 userDetails.getUsername(),
                 String.valueOf(expires),
-                userDetails.getPassword(),
+                //userDetails.getPassword(),
                 webAuthenticationDetails.getRemoteAddress(),
                 salt
         };
@@ -116,7 +115,7 @@ public class TokenGeneratorServiceImpl implements TokenGeneratorService {
 
         final String username = resolveToken(authToken);
         if (username != null) {
-            final UserDetails userDetails = userService.loadUserByUsername(username);
+            final UserDetails userDetails = authenticationService.loadUserByUsername(username);
             if (validateToken(authToken, userDetails)) {
                 final UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpRequest));
@@ -136,8 +135,7 @@ public class TokenGeneratorServiceImpl implements TokenGeneratorService {
         if (expires < System.currentTimeMillis()) {
             return false;
         }
-        final User authentication = (User) userDetails;
-        final String salt = userRepository.getUserSalt(authentication.getId());
-        return signature.equals(computeSignature(userDetails, expires, salt));
+        final SecurityUser securityUser = (SecurityUser) userDetails;
+        return signature.equals(computeSignature(userDetails, expires, securityUser.getSalt()));
     }
 }

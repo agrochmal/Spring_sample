@@ -4,7 +4,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import pl.demo.core.model.entity.User;
+import pl.demo.core.service.security.SecurityUser;
 import pl.demo.web.dto.TokenDTO;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
@@ -20,5 +20,5 @@ public interface AuthenticationEndpoint {
     ResponseEntity<TokenDTO> authenticate(@RequestParam("username") String username, @RequestParam("password") String password);
 
     @RequestMapping(method = RequestMethod.GET, produces = APPLICATION_JSON_VALUE)
-    ResponseEntity<User> getAuthenticatedUser();
+    ResponseEntity<SecurityUser> getAuthenticatedUser();
 }

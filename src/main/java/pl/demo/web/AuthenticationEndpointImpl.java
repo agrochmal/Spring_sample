@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import pl.demo.core.model.entity.User;
+import pl.demo.core.service.security.SecurityUser;
 import pl.demo.core.service.security.authentication.AuthenticationService;
 import pl.demo.web.dto.TokenDTO;
 
@@ -23,7 +23,7 @@ public class AuthenticationEndpointImpl implements AuthenticationEndpoint {
     }
 
     @Override
-    public ResponseEntity<User> getAuthenticatedUser() {
+    public ResponseEntity<SecurityUser> getAuthenticatedUser() {
         return ResponseEntity.ok().body(authenticationService.getAuthenticatedUser());
     }
 

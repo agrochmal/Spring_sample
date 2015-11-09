@@ -3,6 +3,7 @@ package pl.demo.core.service.basic_service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
@@ -107,6 +108,7 @@ public abstract class CRUDServiceImpl<PK extends Serializable, E extends BaseEnt
         this.eventPublisher.publishEvent(businessEvent);
     }
 
+    @Required
     public void setRepositoryMap(final Map<Class<? extends BaseEntity>, JpaRepository<E, PK>> repositoryMap) {
         this.repositoryMap = repositoryMap;
     }

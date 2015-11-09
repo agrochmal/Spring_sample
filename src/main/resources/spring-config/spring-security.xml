@@ -20,7 +20,7 @@
 	<security:global-method-security pre-post-annotations="enabled" proxy-target-class="false" order="0" />
 
 	<security:authentication-manager id="authenticationManager">
-		<security:authentication-provider user-service-ref="userService">
+		<security:authentication-provider user-service-ref="authenticationService">
 			<security:password-encoder ref="passwordEncoder"></security:password-encoder>
 		</security:authentication-provider>
 	</security:authentication-manager>

@@ -18,6 +18,7 @@ import pl.demo.core.service.mail.event.SendMailEvent;
 import pl.demo.core.service.resource.ResourceMediaService;
 import pl.demo.core.service.searching.SearchService;
 import pl.demo.core.service.security.AuthenticationContextProvider;
+import pl.demo.core.service.security.SecurityUser;
 import pl.demo.core.service.user.UserService;
 import pl.demo.core.util.Assert;
 import pl.demo.core.util.EntityUtils;
@@ -44,8 +45,8 @@ public class AdvertServiceImpl extends CRUDServiceImpl<Long, Advert> implements 
 		Assert.notNull(advert);
 		Advert saved;
 		try {
-			final User loggedUser = AuthenticationContextProvider.getAuthenticatedUser();
-			advert.setUser(new User(loggedUser.getId()));
+			final SecurityUser securityUser = AuthenticationContextProvider.getAuthenticatedUser();
+			advert.setUser(new User(securityUser.getId()));
 			saved = super.save(advert);
 			final Iterator<Long> idIterator = httpSessionContext.getUploadedResourcesId();
 			while (idIterator.hasNext()) {
@@ -71,7 +72,8 @@ public class AdvertServiceImpl extends CRUDServiceImpl<Long, Advert> implements 
 	@Transactional(readOnly = true)
 	@Override
 	public Advert createNew() {
-		final User userDB = AuthenticationContextProvider.getAuthenticatedUser();
+		final SecurityUser securityUser = AuthenticationContextProvider.getAuthenticatedUser();
+		final User userDB = userService.findOne(securityUser.getId());
 		Assert.notNull(userDB, "User doesn't exist in db !");
 		return Advert.AdvertBuilder.anAdvert()
 				.withOwnerName(userDB.getName())

@@ -1,8 +1,7 @@
 package pl.demo.core.model.entity.preprocessors;
 
 import pl.demo.core.model.entity.BaseEntity;
-import pl.demo.core.service.security.authentication.AuthenticationService;
-import pl.demo.core.util.SpringBeanProvider;
+import pl.demo.core.service.security.AuthenticationContextProvider;
 
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
@@ -20,13 +19,9 @@ public class EnrichBaseEntityProcessor {
     @PreUpdate
     public void updateEntryUser(final BaseEntity entity){
 
-        final AuthenticationService authenticationService =
-                (AuthenticationService)SpringBeanProvider.getBean("authenticationService");
-
         entity.setEntryDate(new Date());
-
-        if(authenticationService.isAuthenticatedUser()){
-            entity.setEntryUser(authenticationService.getAuthenticatedUser().getUsername());
+        if(AuthenticationContextProvider.isAuthenticatedUser()){
+            entity.setEntryUser(AuthenticationContextProvider.getAuthenticatedUser().getUsername());
         } else {
             entity.setEntryUser(SYSTEM_USER);
         }

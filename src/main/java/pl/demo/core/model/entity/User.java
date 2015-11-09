@@ -8,7 +8,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 import pl.demo.core.model.entity.embeddable.Contact;
 import pl.demo.core.model.entity.versioning.VersionableBaseEntity;
 import pl.demo.core.service.registration.AccountStatus;
@@ -25,7 +24,7 @@ import static pl.demo.core.model.entity.ModelConstans.TEXT_LENGTH_80;
 
 @Entity
 @Table(name = "users")
-public class User extends VersionableBaseEntity implements UserDetails {
+public class User extends VersionableBaseEntity {
 
 	@JsonIgnore
 	@Length(max = TEXT_LENGTH_80)
@@ -92,35 +91,6 @@ public class User extends VersionableBaseEntity implements UserDetails {
 
 	public String getPassword() {
 		return password;
-	}
-
-	@Override
-	public String getUsername() {
-		return getContact().getEmail();
-	}
-
-	@JsonIgnore
-	@Override
-	public boolean isAccountNonExpired() {
-		return true;
-	}
-
-	@JsonIgnore
-	@Override
-	public boolean isAccountNonLocked() {
-		return accountStatus == AccountStatus.ACTIVE;
-	}
-
-	@JsonIgnore
-	@Override
-	public boolean isCredentialsNonExpired() {
-		return true;
-	}
-
-	@JsonIgnore
-	@Override
-	public boolean isEnabled() {
-		return accountStatus == AccountStatus.ACTIVE;
 	}
 
 	public void setPassword(String password) {

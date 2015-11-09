@@ -3,7 +3,8 @@ package pl.demo.core.service.validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
-import pl.demo.core.service.user.UserService;
+import pl.demo.core.model.repo.UserRepository;
+import pl.demo.core.service.registration.AccountStatus;
 import pl.demo.web.exception.ResourceNotFoundException;
 
 /**
@@ -13,21 +14,20 @@ import pl.demo.web.exception.ResourceNotFoundException;
 @Component
 public class ExistUniqueUserValidator implements BusinessValidator {
 
-    private UserService userService;
+    private UserRepository userRepository;
 
     @Override
     public boolean validate(Object target) {
         Assert.hasText((String)target);
         try {
-            this.userService.loadUserByUsername((String)target);
+            return null != this.userRepository.findByUsername((String)target, AccountStatus.ACTIVE);
         }catch (final ResourceNotFoundException ex){
             return true;
         }
-        return false;
     }
 
     @Autowired
-    public void setUserService(final UserService userService) {
-        this.userService = userService;
+    public void setUserRepository(final UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 }
