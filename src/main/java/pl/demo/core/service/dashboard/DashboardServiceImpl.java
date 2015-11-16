@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.demo.core.model.repo.AdvertRepository;
 import pl.demo.core.model.repo.CommentRepository;
 import pl.demo.core.model.repo.UserRepository;
-import pl.demo.web.dto.DashboardDTO;
+import pl.demo.web.dto.Dashboard;
 
 /**
  * Created by Robert on 29.12.14.
@@ -21,8 +21,8 @@ public class DashboardServiceImpl implements DashboardService{
 
     @Transactional(readOnly = true)
     @Override
-    public DashboardDTO buildDashboard() {
-        return DashboardDTO.DashboardDTOBuilder.aDashboardDTO()
+    public Dashboard buildDashboard() {
+        return Dashboard.DashboardDTOBuilder.aDashboardDTO()
                 .withAdverts(advertRepository.countByActive(Boolean.TRUE))
                 .withComments(commentRepository.count())
                 .withUsers(userRepo.count())

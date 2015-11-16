@@ -3,9 +3,10 @@ package pl.demo.core.service.security.token_service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.token.Token;
+import org.springframework.security.core.token.TokenService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.codec.Hex;
-import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import pl.demo.core.service.security.AuthenticationContextProvider;
@@ -14,8 +15,6 @@ import pl.demo.core.service.security.authentication.AuthenticationService;
 import pl.demo.core.util.Assert;
 
 import javax.annotation.PostConstruct;
-import javax.servlet.http.HttpServletRequest;
-
 
 /**
  * Created by robertsikora on 07.11.2015.
@@ -40,8 +39,9 @@ public class TokenServiceImpl implements TokenService {
     }
 
     @Override
-    public String generateToken(final UserDetails userDetails) {
-        Assert.notNull(userDetails);
+    public Token allocateToken(final String extendedInformation) {
+
+        final UserDetails userDetails = AuthenticationContextProvider.getAuthenticatedUser();
 
         final long expires = countExpirationTokenTime();
         final StringBuilder tokenBuilder = new StringBuilder();
@@ -51,7 +51,7 @@ public class TokenServiceImpl implements TokenService {
         tokenBuilder.append(":");
         tokenBuilder.append(computeSignature(userDetails, expires, retrieveUserSalt(userDetails)));
 
-        return tokenBuilder.toString();
+        return new pl.demo.web.dto.Token(tokenBuilder.toString());
     }
 
     private long countExpirationTokenTime(){
@@ -67,12 +67,7 @@ public class TokenServiceImpl implements TokenService {
             throw new IllegalArgumentException("Expires time should be positive");
         }
 
-        final String[] attributes = {
-                userDetails.getUsername(),
-                String.valueOf(expires),
-                //webAuthenticationDetails.getRemoteAddress(),
-                salt
-        };
+        final String[] attributes = {userDetails.getUsername(), String.valueOf(expires), salt};
 
         final StringBuilder signatureBuilder = new StringBuilder();
         for(final String attribute : attributes){
@@ -83,20 +78,19 @@ public class TokenServiceImpl implements TokenService {
 
     @Transactional(readOnly = true)
     @Override
-    public boolean authenticateByToken(final String authToken, final HttpServletRequest httpRequest) {
-        Assert.hasText(authToken);
+    public Token verifyToken(final String key) {
+        Assert.hasText(key, "The toke key is mandatory here !");
 
-        final String username = resolveToken(authToken);
+        final String username = resolveToken(key);
         if (username != null) {
             final UserDetails userDetails = authenticationService.loadUserByUsername(username);
-            if (validateToken(authToken, userDetails)) {
+            if (validateToken(key, userDetails)) {
                 final UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpRequest));
                 AuthenticationContextProvider.setAuthentication(authentication);
-                return true;
+                return new pl.demo.web.dto.Token(key);
             }
         }
-        return false;
+        return null;
     }
 
     private String resolveToken(final String authToken) {

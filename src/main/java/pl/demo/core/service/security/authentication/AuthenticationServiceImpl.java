@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.token.TokenService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,9 +16,8 @@ import pl.demo.core.service.registration.AccountStatus;
 import pl.demo.core.service.security.AuthenticationContextProvider;
 import pl.demo.core.service.security.SecurityUser;
 import pl.demo.core.service.security.token_service.Salt;
-import pl.demo.core.service.security.token_service.TokenService;
 import pl.demo.core.util.Assert;
-import pl.demo.web.dto.TokenDTO;
+import pl.demo.web.dto.Token;
 
 
 /**
@@ -30,13 +30,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Qualifier("authenticationManager")
     private AuthenticationManager       authManager;
     @Autowired
-    private TokenService                tokenGeneratorService;
+    private TokenService                tokenGeneratorService; // TO-DO eliminate from here
     @Autowired
     private UserRepository              userRepository;
 
     @Transactional(readOnly = true)
     @Override
-    public TokenDTO authenticate(final String username, final String password) {
+    public Token authenticate(final String username, final String password) {
 
         final UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
         final Authentication authentication = authManager.authenticate(authenticationToken);
@@ -47,7 +47,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         final String salt = generateSalt().getValue().toString();
         updateUserSalt(salt, securityUser);
 
-        return new TokenDTO(tokenGeneratorService.generateToken(securityUser));
+        return new Token(tokenGeneratorService.allocateToken(null).getKey());
     }
 
     @Override

@@ -12,7 +12,7 @@ import org.mockito.stubbing.Answer;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.test.util.ReflectionTestUtils;
 import pl.demo.core.service.mail.MailServiceImpl;
-import pl.demo.web.dto.EMailDTO;
+import pl.demo.web.dto.EMail;
 
 import javax.mail.Address;
 import javax.mail.Session;
@@ -44,7 +44,7 @@ public class MailServiceTest {
     public void testSendMail() throws Exception {
 
         //given
-        EMailDTO emailDTO= new EMailDTO();
+        EMail emailDTO= new EMail();
         emailDTO.setTitle("title");
         emailDTO.setReceipt("receipt1");
         emailDTO.setSender("sender1");

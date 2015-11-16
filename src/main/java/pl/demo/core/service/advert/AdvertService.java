@@ -6,8 +6,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import pl.demo.core.model.entity.Advert;
 import pl.demo.core.service.basic_service.CRUDService;
-import pl.demo.web.dto.EMailDTO;
-import pl.demo.web.dto.SearchCriteriaDTO;
+import pl.demo.web.dto.EMail;
+import pl.demo.web.dto.SearchCriteria;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
@@ -27,14 +27,14 @@ public interface AdvertService extends CRUDService<Long, Advert> {
 	Collection<Advert> findByUserId(@NotNull @Min(1) long id);
 
 	@NotNull
-	Page<Advert> findBySearchCriteria(@NotNull SearchCriteriaDTO searchCriteriaDTO, @NotNull Pageable pageable);
+	Page<Advert> findBySearchCriteria(@NotNull SearchCriteria searchCriteriaDTO, @NotNull Pageable pageable);
 
 	@PreAuthorize("isAuthenticated()")
 	@NotNull
 	Advert createNew();
 
 	@PreAuthorize("isAuthenticated()")
-	void sendMail(@NotNull @Valid EMailDTO eMailDTO);
+	void sendMail(@NotNull @Valid EMail eMailDTO);
 
 	@PreAuthorize("isAuthenticated()")
 	void updateActiveStatus(@NotNull @Min(1) long id, @NotNull Boolean status);

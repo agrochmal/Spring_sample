@@ -11,8 +11,9 @@ import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.multipart.MultipartFile;
 import pl.demo.rules.FakeMessageResolverTestRule;
-import pl.demo.web.dto.TokenDTO;
+import pl.demo.web.dto.Token;
 import pl.demo.web.exception.GeneralException;
+
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.net.URI;
@@ -39,7 +40,7 @@ public class UtilsTest {
 
     @Test
     public void testCreateErrorMessage() throws Exception {
-        final BindingResult br =  new BeanPropertyBindingResult(new TokenDTO(StringUtils.EMPTY), StringUtils.EMPTY);
+        final BindingResult br =  new BeanPropertyBindingResult(new Token(StringUtils.EMPTY), StringUtils.EMPTY);
         br.rejectValue("token", "", "Error occurs");
         assertEquals("Retrive a errors string from BindingResult object", "Error occurs\n", Utils.createErrorMessage(br));
     }

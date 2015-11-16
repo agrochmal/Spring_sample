@@ -3,7 +3,7 @@ package pl.demo.core.service.mail;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import pl.demo.core.util.Assert;
-import pl.demo.web.dto.EMailDTO;
+import pl.demo.web.dto.EMail;
 
 import java.util.function.Supplier;
 
@@ -21,22 +21,22 @@ public class MailDTOSupplier {
         MailDTOSupplier.ADMIN_EMAIL_ADDRESS = ADMIN_EMAIL_ADDRESS;
     }
 
-    public static Supplier<EMailDTO> get(final String title,
-                                         final String content){
+    public static Supplier<EMail> get(final String title,
+                                      final String content){
         return get(title, content, ADMIN_EMAIL_ADDRESS, ADMIN_EMAIL_ADDRESS);
     }
 
-    public static Supplier<EMailDTO> get(final String title,
-                                  final String content,
-                                  final String receipt,
-                                  final String sender){
+    public static Supplier<EMail> get(final String title,
+                                      final String content,
+                                      final String receipt,
+                                      final String sender){
         Assert.hasText(title);
         Assert.hasText(content);
         Assert.hasText(receipt);
         Assert.hasText(sender);
 
         return ()-> {
-            EMailDTO eMailDTO = new EMailDTO();
+            EMail eMailDTO = new EMail();
             eMailDTO.setTitle(title);
             eMailDTO.setContent(content);
             eMailDTO.setReceipt(receipt);

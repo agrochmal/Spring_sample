@@ -13,7 +13,7 @@ import static pl.demo.core.model.entity.ModelConstans.TEXT_LENGTH_5_000;
 /**
  * Created by Robert on 08.02.15.
  */
-public class EMailDTO {
+public class EMail {
 
     @NotEmpty
     @Email
@@ -68,7 +68,7 @@ public class EMailDTO {
 
         if (o == null || getClass() != o.getClass()) return false;
 
-        EMailDTO eMailDTO = (EMailDTO) o;
+        EMail eMailDTO = (EMail) o;
 
         return new EqualsBuilder()
                 .append(sender, eMailDTO.sender)

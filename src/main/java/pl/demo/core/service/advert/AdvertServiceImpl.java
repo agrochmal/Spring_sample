@@ -23,8 +23,8 @@ import pl.demo.core.service.user.UserService;
 import pl.demo.core.util.Assert;
 import pl.demo.core.util.EntityUtils;
 import pl.demo.web.HttpSessionContext;
-import pl.demo.web.dto.EMailDTO;
-import pl.demo.web.dto.SearchCriteriaDTO;
+import pl.demo.web.dto.EMail;
+import pl.demo.web.dto.SearchCriteria;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -85,13 +85,13 @@ public class AdvertServiceImpl extends CRUDServiceImpl<Long, Advert> implements 
 	@Override
 	public Page<Advert> findAll(final Pageable pageable) {
 		Assert.notNull(pageable);
-		return findBySearchCriteria(new SearchCriteriaDTO(), pageable);
+		return findBySearchCriteria(new SearchCriteria(), pageable);
 	}
 
 	@Transactional(readOnly = true)
 	@DetachEntity
 	@Override
-	public Page<Advert> findBySearchCriteria(final SearchCriteriaDTO searchCriteriaDTO, final Pageable pageable) {
+	public Page<Advert> findBySearchCriteria(final SearchCriteria searchCriteriaDTO, final Pageable pageable) {
 
 		Page<Advert> adverts = SearchableRepository.EMPTY_PAGE;
 		if(searchCriteriaDTO.isEmpty()) {
@@ -125,7 +125,7 @@ public class AdvertServiceImpl extends CRUDServiceImpl<Long, Advert> implements 
 	}
 
 	@Override
-	public void sendMail(final EMailDTO eMailDTO) {
+	public void sendMail(final EMail eMailDTO) {
 		Assert.notNull(eMailDTO, "Email data is required");
 		publishBusinessEvent(new SendMailEvent(eMailDTO, Template.ADVERT_TEMPLATE));
 	}

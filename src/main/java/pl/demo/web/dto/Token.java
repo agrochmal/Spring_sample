@@ -3,13 +3,12 @@ package pl.demo.web.dto;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
-import org.springframework.security.core.token.Token;
 
-public class TokenDTO implements Token {
+public class Token implements org.springframework.security.core.token.Token {
 
 	private final String key;
 
-	public TokenDTO(final String key) {
+	public Token(final String key) {
 		this.key = key;
 	}
 
@@ -34,7 +33,7 @@ public class TokenDTO implements Token {
 
 		if (o == null || getClass() != o.getClass()) return false;
 
-		TokenDTO tokenDTO = (TokenDTO) o;
+		Token tokenDTO = (Token) o;
 
 		return new EqualsBuilder()
 				.append(key, tokenDTO.key)

@@ -9,7 +9,7 @@ import java.util.Objects;
 /**
  * Created by Robert on 02.12.14.
  */
-public class SearchCriteriaDTO {
+public class SearchCriteria {
 
     private static final String SEARCH_MODE_ADVERT = "advert";
     private static final String SEARCH_MODE_COMMENT = "comment";
@@ -88,7 +88,7 @@ public class SearchCriteriaDTO {
 
         if (o == null || getClass() != o.getClass()) return false;
 
-        SearchCriteriaDTO that = (SearchCriteriaDTO) o;
+        SearchCriteria that = (SearchCriteria) o;
 
         return new EqualsBuilder()
                 .append(keyWords, that.keyWords)

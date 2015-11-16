@@ -11,7 +11,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.velocity.VelocityEngineUtils;
 import org.springframework.util.Assert;
-import pl.demo.web.dto.EMailDTO;
+import pl.demo.web.dto.EMail;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -33,7 +33,7 @@ public class MailServiceImpl implements MailService{
     private VelocityEngine                    velocityEngine;
 
     @Override
-    public void sendMail(final EMailDTO emailDTO, final Template template){
+    public void sendMail(final EMail emailDTO, final Template template){
         if(!emailEnabled){
             LOGGER.info("Sending e-mails is disabled");
             return;

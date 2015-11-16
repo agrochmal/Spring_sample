@@ -5,7 +5,7 @@ import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.Query;
 import org.hibernate.search.query.dsl.QueryBuilder;
 import org.hibernate.search.query.dsl.Unit;
-import pl.demo.web.dto.SearchCriteriaDTO;
+import pl.demo.web.dto.SearchCriteria;
 
 import java.util.Optional;
 
@@ -17,9 +17,9 @@ public class AdvertSearchQueryBuilderImpl implements SearchQueryBuilder {
     private final static String TITLE_FIELD = "title";
     private final static String DESCRIPTION_FIELD = "description";
 
-    private final SearchCriteriaDTO searchCriteria;
+    private final SearchCriteria searchCriteria;
 
-    public AdvertSearchQueryBuilderImpl(final SearchCriteriaDTO searchCriteria) {
+    public AdvertSearchQueryBuilderImpl(final SearchCriteria searchCriteria) {
         this.searchCriteria = searchCriteria;
     }
 

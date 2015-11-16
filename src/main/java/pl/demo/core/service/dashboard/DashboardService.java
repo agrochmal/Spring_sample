@@ -1,7 +1,7 @@
 package pl.demo.core.service.dashboard;
 
 import org.springframework.validation.annotation.Validated;
-import pl.demo.web.dto.DashboardDTO;
+import pl.demo.web.dto.Dashboard;
 
 import javax.validation.constraints.NotNull;
 
@@ -13,5 +13,5 @@ import javax.validation.constraints.NotNull;
 public interface DashboardService {
 
     @NotNull
-    DashboardDTO buildDashboard();
+    Dashboard buildDashboard();
 }

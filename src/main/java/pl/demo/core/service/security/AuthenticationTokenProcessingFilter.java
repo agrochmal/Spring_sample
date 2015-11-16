@@ -2,8 +2,8 @@ package pl.demo.core.service.security;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.token.TokenService;
 import org.springframework.web.filter.DelegatingFilterProxy;
-import pl.demo.core.service.security.token_service.TokenService;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -20,15 +20,15 @@ public class AuthenticationTokenProcessingFilter extends DelegatingFilterProxy {
 	public static final String TOKEN_QUERY_PARAM = "token";
 
 	@Autowired
-	private TokenService tokenGeneratorService;
+	private TokenService 	tokenGeneratorService;
 
 	@Override
 	public void doFilter(final ServletRequest request, final ServletResponse response, final FilterChain chain) throws IOException, ServletException {
 
 		final HttpServletRequest httpRequest = this.getAsHttpRequest(request);
-		final String authToken = this.extractAuthTokenFromRequest(httpRequest);
-		if(StringUtils.isNotBlank(authToken)) {
-			tokenGeneratorService.authenticateByToken(authToken, httpRequest);
+		final String tokenKey = this.extractAuthTokenFromRequest(httpRequest);
+		if(StringUtils.isNotBlank(tokenKey)) {
+			tokenGeneratorService.verifyToken(tokenKey);
 		}
 
 		/**
@@ -66,8 +66,7 @@ public class AuthenticationTokenProcessingFilter extends DelegatingFilterProxy {
 		}
 		if(AuthenticationContextProvider.isAuthenticatedUser()) {
 			final HttpServletResponse httpServletResponse = (HttpServletResponse) response;
-			httpServletResponse.addHeader(TOKEN_HEADER,
-					tokenGeneratorService.generateToken(AuthenticationContextProvider.getAuthenticatedUser()));
+			httpServletResponse.addHeader(TOKEN_HEADER, tokenGeneratorService.allocateToken(null).getKey());
 		}
 	}
 

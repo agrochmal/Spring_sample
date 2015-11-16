@@ -13,8 +13,8 @@ import pl.demo.core.model.entity.Advert;
 import pl.demo.core.service.advert.AdvertService;
 import pl.demo.core.service.basic_service.CRUDService;
 import pl.demo.core.util.Assert;
-import pl.demo.web.dto.EMailDTO;
-import pl.demo.web.dto.SearchCriteriaDTO;
+import pl.demo.web.dto.EMail;
+import pl.demo.web.dto.SearchCriteria;
 
 import javax.validation.Valid;
 
@@ -27,7 +27,7 @@ public class AdvertEndpointImpl extends CRUDResourceImpl<Long, Advert> implement
     }
 
     @Override
-    public ResponseEntity<?> search(final SearchCriteriaDTO searchCriteriaDTO, final Pageable pageable) {
+    public ResponseEntity<?> search(final SearchCriteria searchCriteriaDTO, final Pageable pageable) {
         return ResponseEntity.ok().body(this.getAdvertService().findBySearchCriteria(searchCriteriaDTO, pageable));
     }
 
@@ -38,7 +38,7 @@ public class AdvertEndpointImpl extends CRUDResourceImpl<Long, Advert> implement
     }
 
     @Override
-    public ResponseEntity<?> sendEmail(@PathVariable("id") final Long id, @Valid @RequestBody final EMailDTO email,
+    public ResponseEntity<?> sendEmail(@PathVariable("id") final Long id, @Valid @RequestBody final EMail email,
                                        final BindingResult bindingResult) {
         Assert.hasErrors(bindingResult);
         this.getAdvertService().sendMail(email);

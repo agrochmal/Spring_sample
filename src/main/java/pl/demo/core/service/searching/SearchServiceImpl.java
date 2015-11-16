@@ -11,7 +11,7 @@ import pl.demo.core.model.repo.AdvertRepository;
 import pl.demo.core.model.repo.CommentRepository;
 import pl.demo.core.model.repo.fullTextSearch.queryBuilder.AdvertSearchQueryBuilderImpl;
 import pl.demo.core.model.repo.fullTextSearch.queryBuilder.CommentSearchQueryBuiderImpl;
-import pl.demo.web.dto.SearchCriteriaDTO;
+import pl.demo.web.dto.SearchCriteria;
 
 
 /**
@@ -25,13 +25,13 @@ public class SearchServiceImpl implements SearchService {
 
     @Transactional(readOnly = true)
     @Override
-    public Page<Advert> searchAdverts(final SearchCriteriaDTO searchCriteriaDTO, final Pageable pageable) {
+    public Page<Advert> searchAdverts(final SearchCriteria searchCriteriaDTO, final Pageable pageable) {
         return this.advertRepository.search(new AdvertSearchQueryBuilderImpl(searchCriteriaDTO), pageable);
     }
 
     @Transactional(readOnly = true)
     @Override
-    public Page<Comment> searchComments(final SearchCriteriaDTO searchCriteriaDTO, final Pageable pageable) {
+    public Page<Comment> searchComments(final SearchCriteria searchCriteriaDTO, final Pageable pageable) {
         return this.commentRepository.search(new CommentSearchQueryBuiderImpl(searchCriteriaDTO), pageable);
     }
 

@@ -2,7 +2,7 @@ package pl.demo.core.model.repo.fullTextSearch.queryBuilder;
 
 import org.apache.lucene.search.Query;
 import org.hibernate.search.query.dsl.QueryBuilder;
-import pl.demo.web.dto.SearchCriteriaDTO;
+import pl.demo.web.dto.SearchCriteria;
 
 import java.util.Optional;
 
@@ -13,9 +13,9 @@ public class CommentSearchQueryBuiderImpl implements SearchQueryBuilder{
 
     private final static String TEXT_FIELD = "text";
 
-    private final SearchCriteriaDTO searchCriteria;
+    private final SearchCriteria searchCriteria;
 
-    public CommentSearchQueryBuiderImpl(final SearchCriteriaDTO searchCriteria) {
+    public CommentSearchQueryBuiderImpl(final SearchCriteria searchCriteria) {
         this.searchCriteria = searchCriteria;
     }
 

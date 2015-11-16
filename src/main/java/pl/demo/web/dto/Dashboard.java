@@ -7,13 +7,13 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 /**
  * Created by Robert on 29.12.14.
  */
-public final class DashboardDTO {
+public final class Dashboard {
 
     private final long users;
     private final long adverts;
     private final long comments;
 
-    private DashboardDTO(final long users, final long adverts, final long comments){
+    private Dashboard(final long users, final long adverts, final long comments){
         this.users=users;
         this.adverts=adverts;
         this.comments=comments;
@@ -37,7 +37,7 @@ public final class DashboardDTO {
 
         if (o == null || getClass() != o.getClass()) return false;
 
-        DashboardDTO that = (DashboardDTO) o;
+        Dashboard that = (Dashboard) o;
 
         return new EqualsBuilder()
                 .append(users, that.users)
@@ -93,8 +93,8 @@ public final class DashboardDTO {
             return aDashboardDTO().withUsers(users).withAdverts(adverts).withComments(comments);
         }
 
-        public DashboardDTO build() {
-            DashboardDTO dashboardDTO = new DashboardDTO(users, adverts, comments);
+        public Dashboard build() {
+            Dashboard dashboardDTO = new Dashboard(users, adverts, comments);
             return dashboardDTO;
         }
     }

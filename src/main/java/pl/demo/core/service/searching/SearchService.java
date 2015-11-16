@@ -6,7 +6,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import pl.demo.core.model.entity.Advert;
 import pl.demo.core.model.entity.Comment;
-import pl.demo.web.dto.SearchCriteriaDTO;
+import pl.demo.web.dto.SearchCriteria;
 
 import javax.validation.constraints.NotNull;
 
@@ -19,9 +19,9 @@ public interface SearchService {
 
     @PreAuthorize("isAuthenticated()")
     @NotNull
-    Page<Advert> searchAdverts(@NotNull SearchCriteriaDTO searchCriteriaDTO, @NotNull Pageable pageable);
+    Page<Advert> searchAdverts(@NotNull SearchCriteria searchCriteriaDTO, @NotNull Pageable pageable);
 
     @PreAuthorize("isAuthenticated()")
     @NotNull
-    Page<Comment> searchComments(@NotNull SearchCriteriaDTO searchCriteriaDTO, @NotNull Pageable pageable);
+    Page<Comment> searchComments(@NotNull SearchCriteria searchCriteriaDTO, @NotNull Pageable pageable);
 }
