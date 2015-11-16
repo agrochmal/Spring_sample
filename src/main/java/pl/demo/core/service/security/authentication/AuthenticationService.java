@@ -11,10 +11,11 @@ import javax.validation.constraints.NotNull;
 /**
  * Created by robertsikora on 05.11.2015.
  */
+
 public interface AuthenticationService extends UserDetailsService {
 
     @NotNull
-    TokenDTO authenticate(@NotNull @NotBlank String username, @NotNull @NotBlank String password);
+    TokenDTO authenticate(@NotBlank String username, @NotBlank String password);
 
     @PreAuthorize("isAuthenticated()")
     @NotNull

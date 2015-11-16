@@ -19,9 +19,9 @@ public class MailSenderListener {
     @Autowired
     private MailService mailService;
 
-    @EventListener
+    @EventListener(condition = "#sendMailEvent.accepted==true")
     public void handleCreationEventAdvert(final SendMailEvent sendMailEvent) {
-        LOGGER.debug("sending new email");
+        LOGGER.debug("sending new e-mail to receipt {}", sendMailEvent.getTarget().getReceipt());
         mailService.sendMail(sendMailEvent.getTarget(), sendMailEvent.getTemplate());
     }
 }

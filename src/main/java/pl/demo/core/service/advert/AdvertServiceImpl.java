@@ -92,10 +92,13 @@ public class AdvertServiceImpl extends CRUDServiceImpl<Long, Advert> implements 
 	@DetachEntity
 	@Override
 	public Page<Advert> findBySearchCriteria(final SearchCriteriaDTO searchCriteriaDTO, final Pageable pageable) {
+
 		Page<Advert> adverts = SearchableRepository.EMPTY_PAGE;
 		if(searchCriteriaDTO.isEmpty()) {
 			adverts = getAdvertRepository().findByActive(Boolean.TRUE, pageable);
 		} else {
+			Assert.isTrue(searchCriteriaDTO.isAdvertSearchMode() || searchCriteriaDTO.isCommentSearchMode());
+
 			if(searchCriteriaDTO.isAdvertSearchMode()) {
 				adverts = searchService.searchAdverts(searchCriteriaDTO, pageable);
 			}else if(searchCriteriaDTO.isCommentSearchMode()){
@@ -105,8 +108,6 @@ public class AdvertServiceImpl extends CRUDServiceImpl<Long, Advert> implements 
 					comments.getContent().forEach(c->advertList.add((Advert)EntityUtils.initializeHibernateEntity(c.getAdvert())));
 					adverts = new PageImpl(advertList, pageable, advertList.size());
 				}
-			}else {
-				Assert.state(false, "The search mode is not set.");
 			}
 		}
 		adverts.getContent().forEach(t-> t.setThumbUrl(resourceMediaService.getThumb(t.getId())));

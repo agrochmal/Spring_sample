@@ -1,6 +1,7 @@
 package pl.demo.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,7 +20,9 @@ public class AuthenticationEndpointImpl implements AuthenticationEndpoint {
 
     @Override
     public ResponseEntity<TokenDTO> authenticate(@RequestParam("username") final String username, @RequestParam("password") final String password) {
-        return ResponseEntity.ok().body(authenticationService.authenticate(username, password));
+
+        final TokenDTO token = authenticationService.authenticate(username, password);
+        return new ResponseEntity(token, HttpStatus.OK);
     }
 
     @Override

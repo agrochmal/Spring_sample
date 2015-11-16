@@ -36,13 +36,13 @@ public class AccountEndpointImpl implements AccountEndpoint {
     }
 
     @Override
-    public ResponseEntity<?> activateAccount(@PathVariable("id") Long userId, String activationCode) {
+    public ResponseEntity<?> activateAccount(@PathVariable("id") final Long userId, final String activationCode) {
         registrationService.activateAccount(userId, activationCode);
         return ResponseEntity.ok().build();
     }
 
     @Override
-    public ResponseEntity<?> deactivateAccount(@PathVariable("id") Long userId) {
+    public ResponseEntity<?> deactivateAccount(@PathVariable("id") final Long userId) {
         registrationService.deactivateAccount(userId);
         return ResponseEntity.ok().build();
     }

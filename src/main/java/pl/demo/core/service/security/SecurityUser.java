@@ -22,7 +22,7 @@ public class SecurityUser extends User {
 
         super(username, password, authorities);
         this.id = id;
-        this.salt = salt;
+        this.setSalt(salt);
     }
 
     public Long getId() {
@@ -32,5 +32,10 @@ public class SecurityUser extends User {
     @JsonIgnore
     public String getSalt() {
         return salt;
+    }
+
+
+    public void setSalt(final String salt) {
+        this.salt = salt;
     }
 }

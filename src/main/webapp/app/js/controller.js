@@ -71,7 +71,7 @@ angular.module('app.controlles', [])
 			username: username,
 			password: password
 		}), function (authenticationResult) {
-			var authToken = authenticationResult.token;
+			var authToken = authenticationResult.key;
 			$rootScope.authToken = authToken;
 			if ($scope.login.rememberMe) {
 				$cookieStore.put('authToken', authToken);

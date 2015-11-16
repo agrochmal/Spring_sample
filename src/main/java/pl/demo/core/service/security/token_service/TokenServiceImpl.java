@@ -2,20 +2,16 @@ package pl.demo.core.service.security.token_service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.authentication.AuthenticationDetailsSource;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.codec.Hex;
-import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import pl.demo.core.model.repo.UserRepository;
 import pl.demo.core.service.security.AuthenticationContextProvider;
 import pl.demo.core.service.security.SecurityUser;
 import pl.demo.core.service.security.authentication.AuthenticationService;
 import pl.demo.core.util.Assert;
-import pl.demo.core.util.WebUtils;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
@@ -26,7 +22,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 
 @Component
-public class TokenGeneratorServiceImpl implements TokenGeneratorService {
+public class TokenServiceImpl implements TokenService {
 
     @Value("${TOKEN.expiration-time?: 60}")
     private int             MINUTES;
@@ -36,25 +32,16 @@ public class TokenGeneratorServiceImpl implements TokenGeneratorService {
     private AuthenticationService   authenticationService;
 
     @Autowired
-    private UserRepository          userRepository;
-
-    @Autowired
     private Digester                digester;
-
-    private final AuthenticationDetailsSource authenticationDetailsSource = new WebAuthenticationDetailsSource();
 
     @PostConstruct
     private void calculateTokenExpirationTime(){
         this.TOKEN_TIME_VALIDITY_MS = 1000L * 60 * MINUTES;
     }
 
-    @Transactional(readOnly = true)
     @Override
     public String generateToken(final UserDetails userDetails) {
         Assert.notNull(userDetails);
-
-        final String salt = generateSaltPerUser().getValue().toString();
-        persistUserSalt(salt, userDetails);
 
         final long expires = countExpirationTokenTime();
         final StringBuilder tokenBuilder = new StringBuilder();
@@ -62,7 +49,7 @@ public class TokenGeneratorServiceImpl implements TokenGeneratorService {
         tokenBuilder.append(":");
         tokenBuilder.append(expires);
         tokenBuilder.append(":");
-        tokenBuilder.append(computeSignature(userDetails, expires, salt));
+        tokenBuilder.append(computeSignature(userDetails, expires, retrieveUserSalt(userDetails)));
 
         return tokenBuilder.toString();
     }
@@ -71,33 +58,19 @@ public class TokenGeneratorServiceImpl implements TokenGeneratorService {
         return System.currentTimeMillis() + TOKEN_TIME_VALIDITY_MS;
     }
 
-    private Salt generateSaltPerUser(){
-        return new Salt().generate();
-    }
-
-    private void persistUserSalt(final String salt, final UserDetails userDetails){
-        final SecurityUser securityUser = (SecurityUser) userDetails;
-        final int updated = userRepository.updateUserSalt(salt, securityUser.getId());
-        Assert.isTrue(updated > 0, "The salt for login session wasn't assigned to user !");
-    }
-
     /*
     *
-    * token [username:expires:password:ip_address:salt] -> save to db ?
+    * token [username:expires:ip_address:salt] -> save to db ?
      */
     private String computeSignature(final UserDetails userDetails, final long expires, final String salt) {
         if(expires<=0){
             throw new IllegalArgumentException("Expires time should be positive");
         }
 
-        final WebAuthenticationDetails webAuthenticationDetails =
-                (WebAuthenticationDetails)authenticationDetailsSource.buildDetails(WebUtils.geHttpServletRequest());
-
-        final String[] attributes = {//user@user.pl1447095351951null0:0:0:0:0:0:0:1[B@2e00d31b
+        final String[] attributes = {
                 userDetails.getUsername(),
                 String.valueOf(expires),
-                //userDetails.getPassword(),
-                webAuthenticationDetails.getRemoteAddress(),
+                //webAuthenticationDetails.getRemoteAddress(),
                 salt
         };
 
@@ -110,7 +83,7 @@ public class TokenGeneratorServiceImpl implements TokenGeneratorService {
 
     @Transactional(readOnly = true)
     @Override
-    public void authenticateByToken(final String authToken, final HttpServletRequest httpRequest) {
+    public boolean authenticateByToken(final String authToken, final HttpServletRequest httpRequest) {
         Assert.hasText(authToken);
 
         final String username = resolveToken(authToken);
@@ -120,8 +93,10 @@ public class TokenGeneratorServiceImpl implements TokenGeneratorService {
                 final UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpRequest));
                 AuthenticationContextProvider.setAuthentication(authentication);
+                return true;
             }
         }
+        return false;
     }
 
     private String resolveToken(final String authToken) {
@@ -135,7 +110,11 @@ public class TokenGeneratorServiceImpl implements TokenGeneratorService {
         if (expires < System.currentTimeMillis()) {
             return false;
         }
+        return signature.equals(computeSignature(userDetails, expires, retrieveUserSalt(userDetails)));
+    }
+
+    private String retrieveUserSalt(final UserDetails userDetails){
         final SecurityUser securityUser = (SecurityUser) userDetails;
-        return signature.equals(computeSignature(userDetails, expires, securityUser.getSalt()));
+        return securityUser.getSalt();
     }
 }

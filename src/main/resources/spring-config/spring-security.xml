@@ -29,11 +29,10 @@
 		auto-config="false" create-session="stateless" entry-point-ref="unauthorizedEntryPoint"
 		authentication-manager-ref="authenticationManager">
 	    <security:custom-filter ref="authenticationTokenProcessingFilter" position="FORM_LOGIN_FILTER"/>
-
 		<!-- non-secured (login, registration, dashboard) -->
 		<security:intercept-url method="POST" pattern="/api/authentication" access="isAnonymous()"/>
 		<security:intercept-url method="POST" pattern="/api/account" access="isAnonymous()"/>
-		<security:intercept-url method="GET" pattern="/api/account" access="isAnonymous()"/>
+		<security:intercept-url method="GET"  pattern="/api/account" access="isAnonymous()"/>
 		<security:intercept-url pattern="/api/dashboard" access="isAnonymous() or isAuthenticated()"/>
 
 		<security:intercept-url pattern="/api/**" access="isAuthenticated()"/>
@@ -55,7 +54,7 @@
 
 	<bean id="digestFilter"
 				class="org.springframework.security.web.authentication.www.DigestAuthenticationFilter">
-		<property name="userDetailsService" ref="userService" />
+		<property name="userDetailsService" ref="authenticationService" />
 		<property name="authenticationEntryPoint" ref="digestEntryPoint" />
 	</bean>
 	<bean id="digestEntryPoint"
@@ -63,5 +62,5 @@
 		<property name="realmName" value="Contacts Realm via Digest Authentication" />
 		<property name="key" value="acegi" />
 	</bean>
-    -->
+-->
 </beans>

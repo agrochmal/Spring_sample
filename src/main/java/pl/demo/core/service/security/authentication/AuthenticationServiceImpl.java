@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,7 +14,8 @@ import pl.demo.core.model.repo.UserRepository;
 import pl.demo.core.service.registration.AccountStatus;
 import pl.demo.core.service.security.AuthenticationContextProvider;
 import pl.demo.core.service.security.SecurityUser;
-import pl.demo.core.service.security.token_service.TokenGeneratorService;
+import pl.demo.core.service.security.token_service.Salt;
+import pl.demo.core.service.security.token_service.TokenService;
 import pl.demo.core.util.Assert;
 import pl.demo.web.dto.TokenDTO;
 
@@ -26,18 +28,26 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Autowired
     @Qualifier("authenticationManager")
-    private AuthenticationManager   authManager;
+    private AuthenticationManager       authManager;
     @Autowired
-    private TokenGeneratorService   tokenGeneratorService;
+    private TokenService                tokenGeneratorService;
     @Autowired
-    private UserRepository          userRepository;
+    private UserRepository              userRepository;
 
+    @Transactional(readOnly = true)
     @Override
     public TokenDTO authenticate(final String username, final String password) {
-        final UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
-        final org.springframework.security.core.Authentication authentication = authManager.authenticate(authenticationToken);
 
-        return new TokenDTO(tokenGeneratorService.generateToken((UserDetails)authentication.getPrincipal()));
+        final UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
+        final Authentication authentication = authManager.authenticate(authenticationToken);
+
+        AuthenticationContextProvider.setAuthentication(authentication);
+
+        final SecurityUser securityUser = (SecurityUser)authentication.getPrincipal();
+        final String salt = generateSalt().getValue().toString();
+        updateUserSalt(salt, securityUser);
+
+        return new TokenDTO(tokenGeneratorService.generateToken(securityUser));
     }
 
     @Override
@@ -52,9 +62,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public void logout() {
-        //TO-DO
-        //clear security context
-        //clear salt
+        final SecurityUser securityUser = getAuthenticatedUser();
+        clearUserSalt(securityUser);
+        AuthenticationContextProvider.clearSecurityContext();
     }
 
     @Transactional
@@ -69,5 +79,19 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                                 user.getPassword(),
                                 user.getAuthorities(),
                                 user.getSalt());
+    }
+
+    private Salt generateSalt(){
+        return new Salt().generate();
+    }
+
+    private void updateUserSalt(final String salt, final SecurityUser securityUser){
+        Assert.isTrue(userRepository.updateUserSalt(salt, securityUser.getId()) > 0, "The salt wasn't be updated !");
+        securityUser.setSalt(salt);
+    }
+
+    private void clearUserSalt(final SecurityUser securityUser){
+        Assert.isTrue(userRepository.updateUserSalt(null, securityUser.getId()) > 0, "The salt wasn't be updated !");
+        securityUser.setSalt(null);
     }
 }

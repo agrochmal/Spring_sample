@@ -11,6 +11,7 @@ import pl.demo.core.service.mail.Template;
 public class SendMailEvent extends ApplicationEvent implements BusinessEvent<pl.demo.web.dto.EMailDTO> {
 
     private final Template template;
+    private boolean accepted = true;
 
     public SendMailEvent(final pl.demo.web.dto.EMailDTO source, final Template template){
         super(source);
@@ -23,5 +24,13 @@ public class SendMailEvent extends ApplicationEvent implements BusinessEvent<pl.
 
     public Template getTemplate(){
         return template;
+    }
+
+    public boolean isAccepted() {
+        return accepted;
+    }
+
+    public void setAccepted(final boolean accepted) {
+        this.accepted = accepted;
     }
 }
