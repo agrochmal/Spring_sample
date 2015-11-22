@@ -43,7 +43,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         AuthenticationContextProvider.setAuthentication(authentication);
 
-        final SecurityUser securityUser = (SecurityUser)authentication.getPrincipal();
+        final SecurityUser securityUser = getAuthenticatedUser();
         final String salt = generateSalt().getValue().toString();
         updateUserSalt(salt, securityUser);
 

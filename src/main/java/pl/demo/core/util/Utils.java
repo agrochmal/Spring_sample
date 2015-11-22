@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.multipart.MultipartFile;
 import pl.demo.MsgConst;
-import pl.demo.web.exception.GeneralException;
+import pl.demo.web.exception.ServerException;
 
 import java.io.IOException;
 
@@ -43,7 +43,7 @@ public final class Utils {
 			bytes = file.getBytes();
 		} catch (final IOException e) {
 			LOGGER.error("Error during retrive bytes", e);
-			throw new GeneralException(MsgConst.FATAL_ERROR, e);
+			throw new ServerException(MsgConst.FATAL_ERROR, e);
 		}
 		return bytes;
 	}

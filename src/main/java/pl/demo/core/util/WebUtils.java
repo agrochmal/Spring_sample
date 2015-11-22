@@ -6,7 +6,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.demo.MsgConst;
-import pl.demo.web.exception.GeneralException;
+import pl.demo.web.exception.ServerException;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
@@ -41,7 +41,7 @@ public class WebUtils {
             uri = new URI(ServletUriComponentsBuilder.fromCurrentServletMapping().path("/{id}").buildAndExpand(id).toString());
         } catch (final URISyntaxException e) {
             LOGGER.error("Cannot create URI for given id:" + id, e);
-            throw new GeneralException(MsgConst.FATAL_ERROR, e);
+            throw new ServerException(MsgConst.FATAL_ERROR, e);
         }
         return uri;
     }

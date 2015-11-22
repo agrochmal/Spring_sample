@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import pl.demo.MsgConst;
-import pl.demo.web.exception.GeneralException;
+import pl.demo.web.exception.ServerException;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -38,7 +38,7 @@ public class CloudinaryProvider implements MediaProvider{
         try {
             uploadResult = cloudinary.uploader().upload(file, ObjectUtils.emptyMap());
         }catch(final RuntimeException | IOException e){
-            throw new GeneralException(e.getMessage());
+            throw new ServerException(e.getMessage());
         }
         final CloudinaryUploadResult cloudinaryUploadResult = new CloudinaryUploadResult(uploadResult);
         if(null != asyncCallback) {
@@ -62,7 +62,7 @@ public class CloudinaryProvider implements MediaProvider{
         Assert.notNull(id);
         final Map deleteResult = cloudinary.uploader().destroy((String)id, ObjectUtils.emptyMap());
         if(!deleteResult.getOrDefault(RESULT_VAR, StringUtils.EMPTY).equals(RESULT_OK)){
-            throw new GeneralException(MsgConst.CANNOT_DELETE_IMAGE);
+            throw new ServerException(MsgConst.CANNOT_DELETE_IMAGE);
         }
     }
 

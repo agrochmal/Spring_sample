@@ -8,9 +8,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import pl.demo.web.exception.ErrorInfo;
-import pl.demo.web.exception.GeneralException;
 import pl.demo.web.exception.ResourceNotFoundException;
-import pl.demo.web.exception.ValidationRequestException;
+import pl.demo.web.exception.ServerException;
+import pl.demo.web.exception.ValidationException;
 
 
 /**
@@ -22,20 +22,26 @@ public class ErrorAdvice {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(ErrorAdvice.class);
 
-    @ExceptionHandler(ValidationRequestException.class)
-    public ResponseEntity<?> handleValidationRequestException(final ValidationRequestException ex) {
+    @ExceptionHandler(ValidationException.class)
+    public ResponseEntity<?> handleValidationRequestException(final ValidationException ex) {
         LOGGER.error("Validation exception occurs", ex);
         return ResponseEntity.badRequest().body(ex.getMessage());
     }
 
-    @ExceptionHandler({ResourceNotFoundException.class, UsernameNotFoundException.class})
+    @ExceptionHandler({ResourceNotFoundException.class})
     public ResponseEntity<?> handleResourceNotFoundException(final ResourceNotFoundException ex) {
         LOGGER.error("Resource not found exception occurs", ex);
         return ResponseEntity.notFound().build();
     }
 
-    @ExceptionHandler({GeneralException.class})
-    public ResponseEntity<?> handleGeneralException(final GeneralException ex) {
+    @ExceptionHandler({UsernameNotFoundException.class})
+    public ResponseEntity<?> handleUsernameNotFoundException(final UsernameNotFoundException ex) {
+        LOGGER.error("Resource not found exception occurs", ex);
+        return ResponseEntity.notFound().build();
+    }
+
+    @ExceptionHandler({ServerException.class})
+    public ResponseEntity<?> handleGeneralException(final ServerException ex) {
         LOGGER.error("General exception occurs", ex);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).
                 body(new ErrorInfo("Fatal error on server", ex.getMessage()));

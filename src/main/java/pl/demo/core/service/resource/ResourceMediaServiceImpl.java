@@ -12,7 +12,7 @@ import pl.demo.core.service.basic_service.CRUDServiceImpl;
 import pl.demo.core.util.SpringBeanProvider;
 import pl.demo.core.util.Utils;
 import pl.demo.web.HttpSessionContext;
-import pl.demo.web.exception.GeneralException;
+import pl.demo.web.exception.ServerException;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -43,7 +43,7 @@ public class ResourceMediaServiceImpl extends CRUDServiceImpl<Long, MediaResourc
                     .saveOnCallback(mediaResource.getId(), (String) t.getPublicID()));
         } catch (final IOException e) {
             LOGGER.error("", e);
-            throw new GeneralException(MsgConst.MEDIA_PROVIDER_ISSUE, e);
+            throw new ServerException(MsgConst.MEDIA_PROVIDER_ISSUE, e);
         }
         return mediaResource.getId();
     }
@@ -88,7 +88,7 @@ public class ResourceMediaServiceImpl extends CRUDServiceImpl<Long, MediaResourc
             }
         } catch (final IOException e) {
             LOGGER.error("", e);
-            throw new GeneralException(MsgConst.MEDIA_PROVIDER_ISSUE, e);
+            throw new ServerException(MsgConst.MEDIA_PROVIDER_ISSUE, e);
         }
     }
 

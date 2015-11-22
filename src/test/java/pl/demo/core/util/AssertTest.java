@@ -9,11 +9,12 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import pl.demo.rules.FakeMessageResolverTestRule;
 import pl.demo.web.exception.ResourceNotFoundException;
-import pl.demo.web.exception.ValidationRequestException;
+import pl.demo.web.exception.ValidationException;
 
 import java.util.Collections;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.when;
 
 /**
@@ -54,7 +55,7 @@ public class AssertTest {
         Assert.notResourceFound(new Object(), SAMPLE_MESSAGE);
     }
 
-    @Test(expected = ValidationRequestException.class)
+    @Test(expected = ValidationException.class)
     public void testHasErrors() throws Exception {
         when(bindingResult.hasErrors()).thenReturn(true);
         when(bindingResult.getFieldErrors()).thenReturn(Collections.singletonList(new FieldError("objectName", "field", "defaultMessage")));

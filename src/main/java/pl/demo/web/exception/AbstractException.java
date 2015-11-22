@@ -1,7 +1,7 @@
 package pl.demo.web.exception;
 
 import org.springframework.util.Assert;
-import pl.demo.core.util.MesssageResolver;
+import pl.demo.core.util.MessageResolver;
 import pl.demo.core.util.SpringBeanProvider;
 
 /**
@@ -18,7 +18,7 @@ public class AbstractException extends RuntimeException{
 
     private static String getMessage(final String messageCode){
         Assert.hasText(messageCode);
-        final MesssageResolver messageResolver = (MesssageResolver) SpringBeanProvider.getBean("msgResolver");
+        final MessageResolver messageResolver = (MessageResolver) SpringBeanProvider.getBean("msgResolver");
         Assert.notNull(messageResolver, "Bean should exists in Spring context");
         return messageResolver.getMessage(messageCode);
     }

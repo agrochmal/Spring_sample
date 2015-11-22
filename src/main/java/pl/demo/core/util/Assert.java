@@ -2,7 +2,7 @@ package pl.demo.core.util;
 
 import org.springframework.validation.BindingResult;
 import pl.demo.web.exception.ResourceNotFoundException;
-import pl.demo.web.exception.ValidationRequestException;
+import pl.demo.web.exception.ValidationException;
 
 /**
  * Created by robertsikora on 08.10.15.
@@ -35,11 +35,11 @@ public final class Assert extends org.springframework.util.Assert {
     /**
      * Assert that an object is not {@code null} .
      * @param bindingResult the object to check
-     * @throws ValidationRequestException if the object has errors
+     * @throws ValidationException if the object has errors
      */
     public static void hasErrors(final BindingResult bindingResult){
         if(bindingResult.hasErrors()) {
-            throw new ValidationRequestException(resolveErrorMessage(bindingResult));
+            throw new ValidationException(resolveErrorMessage(bindingResult));
         }
     }
 

@@ -5,7 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.config.AbstractFactoryBean;
 import org.springframework.ui.velocity.VelocityEngineFactory;
-import pl.demo.web.exception.GeneralException;
+import pl.demo.web.exception.ServerException;
 
 import java.io.IOException;
 import java.util.Properties;
@@ -34,7 +34,7 @@ public final class VelocityFactory extends AbstractFactoryBean<VelocityEngine> {
             return factory.createVelocityEngine();
         } catch (IOException e) {
             LOGGER.error("Error during preparing velocity engine", e);
-            throw new GeneralException(e.getMessage(), e);
+            throw new ServerException(e.getMessage(), e);
         }
     }
 }

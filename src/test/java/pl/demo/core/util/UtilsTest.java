@@ -12,7 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.multipart.MultipartFile;
 import pl.demo.rules.FakeMessageResolverTestRule;
 import pl.demo.web.dto.Token;
-import pl.demo.web.exception.GeneralException;
+import pl.demo.web.exception.ServerException;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -66,7 +66,7 @@ public class UtilsTest {
         Mockito.verifyZeroInteractions(file);
     }
 
-    @Test(expected = GeneralException.class)
+    @Test(expected = ServerException.class)
     public void testGetBytesThrowIOException() throws Exception {
         when(file.getBytes()).thenThrow(IOException.class);
         Utils.getBytes(file);
@@ -108,7 +108,7 @@ public class UtilsTest {
         Utils.createURI(null);
     }
 
-    @Test(expected = GeneralException.class)
+    @Test(expected = ServerException.class)
      public void testCreateURIThrowingURISyntaxException() throws Exception {
         Utils.createURI(INCORRECT_PATH);
     }

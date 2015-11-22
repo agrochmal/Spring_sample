@@ -12,7 +12,7 @@ import java.util.Locale;
  */
 
 @Component("msgResolver")
-public class MessageResolverImpl implements MesssageResolver{
+public class MessageResolverImpl implements MessageResolver {
 
     protected final static Locale pl_PL = new Locale("pl", "PL");
     private MessageSource messages;

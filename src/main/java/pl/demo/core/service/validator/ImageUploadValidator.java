@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 import org.springframework.web.multipart.MultipartFile;
 import pl.demo.MsgConst;
-import pl.demo.web.exception.ValidationRequestException;
+import pl.demo.web.exception.ValidationException;
 
 /**
  * Created by robertsikora on 27.08.15.
@@ -20,10 +20,10 @@ public class ImageUploadValidator implements BusinessValidator {
         Assert.notNull(target);
         final MultipartFile multipartFile = (MultipartFile)target;
         if(multipartFile.isEmpty()){
-            throw new ValidationRequestException(MsgConst.FILE_EMPTY);
+            throw new ValidationException(MsgConst.FILE_EMPTY);
         }
         if(multipartFile.getSize() > MAX_FILE_SIZE){
-            throw new ValidationRequestException(MsgConst.FILE_TOO_BIG);
+            throw new ValidationException(MsgConst.FILE_TOO_BIG);
         }
         return true;
     }
