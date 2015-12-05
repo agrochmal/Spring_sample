@@ -1,11 +1,10 @@
 package pl.demo.web;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pl.demo.core.util.Assert;
 import pl.demo.web.exception.ServerException;
 import pl.demo.web.lookup.Lookup;
@@ -23,13 +22,19 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RequestMapping("/dictionary")
 public class LookupEndpoint implements InitializingBean {
 
+    private final static Logger LOGGER = LoggerFactory.getLogger(LookupEndpoint.class);
+
     private Map<String, Lookup> lookupMap;
 
     @RequestMapping(value = "/{lookup}",
             method = RequestMethod.GET,
             produces = APPLICATION_JSON_VALUE)
 
-    public ResponseEntity<Collection> getData(@PathVariable("lookup") final String lookup){
+    public ResponseEntity<Collection> getData(@PathVariable("lookup") final String lookup,
+                                              @RequestParam(value = "page", defaultValue = "1") int page,
+                                              @RequestParam(value = "size", defaultValue = "100") int size){
+
+        LOGGER.debug("invoking getData for lookup {} with params: page {} and size {}", lookup, page, size);
 
         final Lookup lookupImpl = lookupMap.get(lookup);
         if(lookupImpl == null){

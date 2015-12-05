@@ -34,8 +34,10 @@ public class MailServiceImpl implements MailService{
 
     @Override
     public void sendMail(final EMail emailDTO, final Template template){
+        LOGGER.info("Sending new e-mail");
+
         if(!emailEnabled){
-            LOGGER.info("Sending e-mails is disabled");
+            LOGGER.warn("Sending e-mails is disabled");
             return;
         }
         Assert.notNull(emailDTO, "Email data is required");
