@@ -35,6 +35,8 @@
 		<security:intercept-url method="GET"  pattern="/api/account" access="isAnonymous()"/>
 		<security:intercept-url pattern="/api/dashboard" access="isAnonymous() or isAuthenticated()"/>
 
+		<security:intercept-url method="GET"  pattern="/api/dictionary/*" access="isAnonymous()"/>
+
 		<security:intercept-url pattern="/api/**" access="isAuthenticated()"/>
 	</security:http>
 

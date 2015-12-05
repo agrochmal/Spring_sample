@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <bean id="categoryLookup" class="pl.demo.web.lookup.CategoryLookup" />
+
+    <bean id="paymentLookup" class="pl.demo.web.lookup.PaymentLookup" />
+
+    <util:map id="lookups" map-class="java.util.HashMap" key-type="java.lang.String" value-type="pl.demo.web.lookup.Lookup" >
+        <entry key="category" value-ref="categoryLookup"/>
+        <entry key="payment"  value-ref="paymentLookup" />
+    </util:map>
+
+</beans>
