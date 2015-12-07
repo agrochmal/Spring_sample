@@ -39,7 +39,7 @@ public class CommentEndpointImpl extends CRUDResourceImpl<Long, Comment> impleme
 
     @Autowired
     @Qualifier("commentService")
-    public void setDomainService(final CRUDService domainService) {
+    public void setDomainService(final CRUDService<Long, Comment> domainService) {
         this.crudService = domainService;
     }
 }

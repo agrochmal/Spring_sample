@@ -9,10 +9,12 @@ import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import pl.demo.core.model.entity.embeddable.Contact;
+import pl.demo.core.model.entity.validation.UsernameUnique;
 import pl.demo.core.model.entity.versioning.VersionableBaseEntity;
 import pl.demo.core.service.registration.AccountStatus;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -26,16 +28,17 @@ import static pl.demo.core.model.entity.ModelConstans.TEXT_LENGTH_80;
 @Table(name = "users")
 public class User extends VersionableBaseEntity {
 
-	@JsonIgnore
 	@Length(max = TEXT_LENGTH_80)
     @Basic
 	@Column(length = TEXT_LENGTH_80, nullable = false)
 	private String password;
 
+	@UsernameUnique(message = "Email should be unique!")
     @Basic
     @Column(nullable = false)
 	private String name;
 
+	@Valid
     @AttributeOverrides({
         @AttributeOverride(name = "email", column = @Column(length = TEXT_LENGTH_100, nullable = false, unique = true))}
     )

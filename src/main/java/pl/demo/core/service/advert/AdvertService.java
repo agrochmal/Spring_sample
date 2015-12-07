@@ -24,7 +24,7 @@ public interface AdvertService extends CRUDService<Long, Advert> {
 	@PreAuthorize("isAuthenticated()")
 	@NotNull
 	@Valid
-	Collection<Advert> findByUserId(@NotNull @Min(1) long id);
+	Collection<Advert> findByUserId(@NotNull @Min(1) Long id);
 
 	@NotNull
 	Page<Advert> findBySearchCriteria(@NotNull SearchCriteria searchCriteriaDTO, @NotNull Pageable pageable);
@@ -37,5 +37,5 @@ public interface AdvertService extends CRUDService<Long, Advert> {
 	void sendMail(@NotNull @Valid EMail eMailDTO);
 
 	@PreAuthorize("isAuthenticated()")
-	void updateActiveStatus(@NotNull @Min(1) long id, @NotNull Boolean status);
+	void updateActiveStatus(@NotNull @Min(1) Long id, @NotNull Boolean status);
 }

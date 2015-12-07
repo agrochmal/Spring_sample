@@ -44,14 +44,13 @@ public class TokenServiceImpl implements TokenService {
         final UserDetails userDetails = AuthenticationContextProvider.getAuthenticatedUser();
 
         final long expires = countExpirationTokenTime();
-        final StringBuilder tokenBuilder = new StringBuilder();
-        tokenBuilder.append(userDetails.getUsername());
-        tokenBuilder.append(":");
-        tokenBuilder.append(expires);
-        tokenBuilder.append(":");
-        tokenBuilder.append(computeSignature(userDetails, expires, retrieveUserSalt(userDetails)));
+        String tokenBuilder = userDetails.getUsername() +
+                ":" +
+                expires +
+                ":" +
+                computeSignature(userDetails, expires, retrieveUserSalt(userDetails));
 
-        return new pl.demo.web.dto.Token(tokenBuilder.toString());
+        return new pl.demo.web.dto.Token(tokenBuilder);
     }
 
     private long countExpirationTokenTime(){
@@ -97,14 +96,12 @@ public class TokenServiceImpl implements TokenService {
         return authToken.split(":")[0];
     }
 
-    private boolean validateToken(final String authToken, final UserDetails userDetails){
+    private boolean validateToken(final String authToken, final UserDetails userDetails) {
         final String[] parts = authToken.split(":");
         final long expires = Long.parseLong(parts[1]);
         final String signature = parts[2];
-        if (expires < System.currentTimeMillis()) {
-            return false;
-        }
-        return signature.equals(computeSignature(userDetails, expires, retrieveUserSalt(userDetails)));
+        return expires >= System.currentTimeMillis()
+                && signature.equals(computeSignature(userDetails, expires, retrieveUserSalt(userDetails)));
     }
 
     private String retrieveUserSalt(final UserDetails userDetails){

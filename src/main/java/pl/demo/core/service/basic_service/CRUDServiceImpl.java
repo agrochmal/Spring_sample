@@ -39,6 +39,7 @@ public abstract class CRUDServiceImpl<PK extends Serializable, E extends BaseEnt
         Assert.notEmpty(repositoryMap, "Basic service needs map of repositories !");
     }
 
+    @SuppressWarnings("unchecked")
     public CRUDServiceImpl() {
         Type genericSuperclass = this.getClass().getGenericSuperclass();
         while(!(genericSuperclass instanceof ParameterizedType)) {

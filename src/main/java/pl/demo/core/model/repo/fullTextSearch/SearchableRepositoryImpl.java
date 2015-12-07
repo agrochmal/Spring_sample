@@ -13,12 +13,10 @@ import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.orm.jpa.EntityManagerProxy;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-import pl.demo.core.model.entity.Advert;
 import pl.demo.core.model.repo.fullTextSearch.queryBuilder.SearchQueryBuilder;
 
 import javax.persistence.EntityManager;
 import java.io.Serializable;
-import java.util.Collections;
 import java.util.Optional;
 
 /**
@@ -26,7 +24,7 @@ import java.util.Optional;
  */
 
 public class SearchableRepositoryImpl<T, I extends Serializable> extends SimpleJpaRepository<T, I>
-        implements SearchableRepository<T> {
+        implements SearchableRepository {
 
     private EntityManagerProxy entityManagerProxy;
     private Class<T> domainClass;
@@ -46,7 +44,7 @@ public class SearchableRepositoryImpl<T, I extends Serializable> extends SimpleJ
 
     @Transactional(readOnly = true)
     @Override
-    public Page<T> search(final SearchQueryBuilder searchQueryBuilder, final Pageable pageable) {
+    public Page search(final SearchQueryBuilder searchQueryBuilder, final Pageable pageable) {
         Assert.notNull(searchQueryBuilder, "searchQueryBuilder is required");
         Assert.notNull(pageable, "pageable is required");
 
@@ -55,12 +53,12 @@ public class SearchableRepositoryImpl<T, I extends Serializable> extends SimpleJ
         final QueryBuilder qb = fullTextEntityManager.getSearchFactory().buildQueryBuilder().forEntity(domainClass).get();
         final Optional<Query> queryOptional = searchQueryBuilder.build(qb);
         if(!queryOptional.isPresent()){
-            return (Page<T>) EMPTY_PAGE;
+            return EMPTY_PAGE;
         }
 
         final FullTextQuery fullTextQuery = fullTextEntityManager.createFullTextQuery(queryOptional.get(), domainClass);
         fullTextQuery.setFirstResult(pageable.getOffset()).setMaxResults(pageable.getPageSize());
-        return new PageImpl(fullTextQuery.getResultList(), pageable, fullTextQuery.getResultSize());
+        return new PageImpl<>(fullTextQuery.getResultList(), pageable, fullTextQuery.getResultSize());
     }
 
     private FullTextEntityManager getFullTextEntityManager() {

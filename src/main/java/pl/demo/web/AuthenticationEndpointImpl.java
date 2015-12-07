@@ -22,7 +22,7 @@ public class AuthenticationEndpointImpl implements AuthenticationEndpoint {
     public ResponseEntity<Token> authenticate(@RequestParam("username") final String username, @RequestParam("password") final String password) {
 
         final Token token = authenticationService.authenticate(username, password);
-        return new ResponseEntity(token, HttpStatus.OK);
+        return new ResponseEntity<>(token, HttpStatus.OK);
     }
 
     @Override

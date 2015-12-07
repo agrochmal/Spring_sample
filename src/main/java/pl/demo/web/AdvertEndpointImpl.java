@@ -51,7 +51,7 @@ public class AdvertEndpointImpl extends CRUDResourceImpl<Long, Advert> implement
 
     @Autowired
     @Qualifier("advertService")
-    public void setDomainService(final CRUDService domainService) {
+    public void setDomainService(final CRUDService<Long, Advert> domainService) {
         this.crudService = domainService;
     }
 }

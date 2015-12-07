@@ -2,6 +2,7 @@ package pl.demo.core.model.repo.fullTextSearch.queryBuilder;
 
 import org.apache.lucene.search.Query;
 import org.hibernate.search.query.dsl.QueryBuilder;
+import pl.demo.core.util.Assert;
 import pl.demo.web.dto.SearchCriteria;
 
 import java.util.Optional;
@@ -31,7 +32,9 @@ public class CommentSearchQueryBuiderImpl implements SearchQueryBuilder{
     }
 
     @Override
-    public Optional<Query> build(QueryBuilder queryBuilder) {
-        return Optional.of(applyKeywordCriteria(queryBuilder));
+    public Optional<Query> build(final QueryBuilder queryBuilder) {
+        Assert.notNull(queryBuilder);
+
+        return Optional.ofNullable(applyKeywordCriteria(queryBuilder));
     }
 }

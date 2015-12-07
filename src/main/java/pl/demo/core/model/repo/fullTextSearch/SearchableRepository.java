@@ -13,7 +13,7 @@ import java.util.Collections;
  */
 public interface SearchableRepository<T> {
 
-    Page<Advert> EMPTY_PAGE = new PageImpl(Collections.emptyList(), null, 0);
+    Page<Advert> EMPTY_PAGE = new PageImpl<>(Collections.emptyList(), null, 0);
 
     Page<T> search(SearchQueryBuilder searchQueryBuilder, Pageable pageable);
 }

@@ -18,11 +18,11 @@ public interface MediaProvider {
 
     @PreAuthorize("isAuthenticated()")
     @NotNull
-    UploadResult uploadSync(@NotNull Object file, Consumer<UploadResult> asyncCallback) throws IOException;
+    UploadResult uploadSync(@NotNull Object file, Consumer<UploadResult> asyncCallback);
 
     @PreAuthorize("isAuthenticated()")
     @NotNull @Async(value="resourceMediaExecutor")
-    UploadResult uploadAsync(@NotNull Object file, Consumer<UploadResult> asyncCallback) throws IOException;
+    UploadResult uploadAsync(@NotNull Object file, Consumer<UploadResult> asyncCallback);
 
     @PreAuthorize("isAuthenticated()")
     void delete(@NotNull Serializable id) throws IOException;

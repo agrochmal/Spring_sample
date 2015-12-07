@@ -29,6 +29,5 @@ public interface AccountEndpoint {
     ResponseEntity<?> deactivateAccount(@PathVariable("id") Long userId);
 
     @RequestMapping(method = RequestMethod.GET)
-    ResponseEntity<Boolean> checkUniqueAccount(String username);
-
+    ResponseEntity<Boolean> checkUniqueAccount(User newUser, BindingResult bindingResult);
 }

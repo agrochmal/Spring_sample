@@ -22,7 +22,6 @@ public class LoggingAspect {
 
     @Around("anyMethod()")
     public Object aspectAction(final ProceedingJoinPoint pjp) throws Throwable {
-        final Object result = pjp.proceed();
-        return result;
+        return pjp.proceed();
     }
 }

@@ -17,7 +17,7 @@ import pl.demo.core.service.validator.BusinessValidator;
 @RestController
 public class ImageEndpointImpl implements ImageEndpoint {
 
-    private CRUDService     domainService;
+    private CRUDService       domainService;
     private BusinessValidator validator;
 
     @Override

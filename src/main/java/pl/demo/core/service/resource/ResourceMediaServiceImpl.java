@@ -34,17 +34,13 @@ public class ResourceMediaServiceImpl extends CRUDServiceImpl<Long, MediaResourc
     @Override
     public Long upload(final MultipartFile file) {
         Assert.notNull(file);
-        MediaResource mediaResource;
-        try {
-            mediaResource = save(createMediaResource(file));
-            httpSessionContext.addResource(mediaResource.getId());
-            this.mediaProvider.uploadSync(Utils.getBytes(file),
-            t-> ((ResourceMediaService)SpringBeanProvider.getBean("resourceMediaService"))
-                    .saveOnCallback(mediaResource.getId(), (String) t.getPublicID()));
-        } catch (final IOException e) {
-            LOGGER.error("", e);
-            throw new ServerException(MsgConst.MEDIA_PROVIDER_ISSUE, e);
-        }
+
+        MediaResource mediaResource = save(createMediaResource(file));
+        httpSessionContext.addResource(mediaResource.getId());
+        this.mediaProvider.uploadSync(Utils.getBytes(file),
+        t-> ((ResourceMediaService)SpringBeanProvider.getBean("resourceMediaService"))
+                .saveOnCallback(mediaResource.getId(), (String) t.getPublicID()));
+
         return mediaResource.getId();
     }
 

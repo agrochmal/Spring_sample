@@ -48,12 +48,12 @@ public class CloudinaryProvider implements MediaProvider{
     }
 
     @Override
-    public UploadResult uploadSync(final Object file, final Consumer<UploadResult> asyncCallback) throws IOException {
+    public UploadResult uploadSync(final Object file, final Consumer<UploadResult> asyncCallback) {
         return upload(file, asyncCallback);
     }
 
     @Override
-    public UploadResult uploadAsync(final Object file, final Consumer<UploadResult> asyncCallback) throws IOException {
+    public UploadResult uploadAsync(final Object file, final Consumer<UploadResult> asyncCallback) {
         return upload(file, asyncCallback);
     }
 

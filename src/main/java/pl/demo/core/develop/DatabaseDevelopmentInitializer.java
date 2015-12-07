@@ -61,7 +61,7 @@ public class DatabaseDevelopmentInitializer {
 
   private void initUsers() {
     User userExists = userRepository.findByUsername("user", AccountStatus.ACTIVE);
-      User adminUser = null;
+      User adminUser;
     if (userExists == null) {
       // 2 examples of roles: user and admin
       RoleName roleNameUser = new RoleName("user");

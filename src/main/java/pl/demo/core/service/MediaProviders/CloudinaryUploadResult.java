@@ -27,7 +27,7 @@ public class CloudinaryUploadResult implements UploadResult{
 
     private final Map<String, String> resultMap;
 
-    public CloudinaryUploadResult(final Map map){
+    public CloudinaryUploadResult(final Map<String, String> map){
         Assert.notNull(map);
         this.resultMap = map;
     }

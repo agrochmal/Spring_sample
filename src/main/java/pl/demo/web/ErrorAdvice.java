@@ -40,8 +40,8 @@ public class ErrorAdvice {
         return ResponseEntity.notFound().build();
     }
 
-    @ExceptionHandler({ServerException.class})
-    public ResponseEntity<?> handleGeneralException(final ServerException ex) {
+    @ExceptionHandler({ServerException.class, Exception.class})
+    public ResponseEntity<?> handleGeneralException(final Exception ex) {
         LOGGER.error("General exception occurs", ex);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).
                 body(new ErrorInfo("Fatal error on server", ex.getMessage()));

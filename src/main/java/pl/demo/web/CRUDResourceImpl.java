@@ -1,5 +1,7 @@
 package pl.demo.web;
 
+import org.owasp.esapi.reference.RandomAccessReferenceMap;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,11 +26,14 @@ public abstract class CRUDResourceImpl<PK extends Serializable, E extends BaseEn
 
     private static final String HEADER_ETAG = "ETag";
 
-    protected CRUDService<PK, E> crudService;
+    protected CRUDService<PK, E>        crudService;
+    @Autowired
+    protected RandomAccessReferenceMap  randomAccessReferenceMap;
 
     @PostConstruct
     public void postConstruct(){
         Assert.notNull(crudService, "Initialization of crud service is mandatory!");
+        Assert.notNull(randomAccessReferenceMap);
     }
 
     @Override

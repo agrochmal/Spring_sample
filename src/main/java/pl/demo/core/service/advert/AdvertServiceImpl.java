@@ -64,7 +64,7 @@ public class AdvertServiceImpl extends CRUDServiceImpl<Long, Advert> implements 
 	@Transactional(readOnly = true)
 	@DetachEntity
 	@Override
-	public Collection<Advert> findByUserId(final long userId){
+	public Collection<Advert> findByUserId(final Long userId){
 		Assert.notNull(userId);
 		return getAdvertRepository().findByUserId(userId);
 	}
@@ -106,7 +106,7 @@ public class AdvertServiceImpl extends CRUDServiceImpl<Long, Advert> implements 
 				if(comments.hasContent()){
 					final List<Advert> advertList = new ArrayList<>();
 					comments.getContent().forEach(c->advertList.add((Advert)EntityUtils.initializeHibernateEntity(c.getAdvert())));
-					adverts = new PageImpl(advertList, pageable, advertList.size());
+					adverts = new PageImpl<>(advertList, pageable, advertList.size());
 				}
 			}
 		}
@@ -116,7 +116,7 @@ public class AdvertServiceImpl extends CRUDServiceImpl<Long, Advert> implements 
 
 	@Transactional
 	@Override
-	public void updateActiveStatus(final long advertId, final Boolean status) {
+	public void updateActiveStatus(final Long advertId, final Boolean status) {
 		Assert.notNull(advertId, "Advert is required");
 		final Advert dbAdvert = getDomainRepository().findOne(advertId);
 		Assert.notResourceFound(dbAdvert);

@@ -35,8 +35,10 @@ public class DetachEntityAspect {
     private void detachAndUnproxyEntity(final Object target){
         List<Object> entities;
         if(target instanceof Page){
+            //noinspection unchecked
             entities = ((Page)target).getContent();
         }else if(target instanceof List){
+            //noinspection unchecked
             entities = (List<Object>) target;
         }else{
             entities = Collections.singletonList(target);

@@ -94,8 +94,7 @@ public final class Dashboard {
         }
 
         public Dashboard build() {
-            Dashboard dashboardDTO = new Dashboard(users, adverts, comments);
-            return dashboardDTO;
+            return new Dashboard(users, adverts, comments);
         }
     }
 }
