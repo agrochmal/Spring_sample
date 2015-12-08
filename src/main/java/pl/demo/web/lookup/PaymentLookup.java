@@ -2,8 +2,8 @@ package pl.demo.web.lookup;
 
 import pl.demo.core.model.dictionary.PaymentType;
 
-import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 /**
  * Created by robertsikora on 04.12.2015.
@@ -11,7 +11,7 @@ import java.util.Collections;
 public class PaymentLookup implements Lookup<PaymentType> {
 
     @Override
-    public Collection<PaymentType> getData() {
+    public List<PaymentType> getData() {
         PaymentType paymentType = new PaymentType();
         paymentType.setType("Gotowka");
         return Collections.singletonList(paymentType);

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import pl.demo.core.model.entity.Advert;
 import pl.demo.core.model.entity.User;
 import pl.demo.core.service.advert.AdvertService;
-import pl.demo.core.service.basic_service.CRUDServiceImpl;
+import pl.demo.core.service.basic_service.CRUDService;
 
 import java.util.Collection;
 
@@ -25,7 +25,7 @@ public class UserEndpointImpl extends CRUDResourceImpl<Long, User> implements Us
 
 	@Autowired
 	@Qualifier("userService")
-	public void setDomainService(final CRUDServiceImpl<Long, User> domainService) {
+	public void setDomainService(final CRUDService domainService) {
 		this.crudService = domainService;
 	}
 
