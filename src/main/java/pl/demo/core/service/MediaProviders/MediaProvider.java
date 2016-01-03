@@ -1,4 +1,4 @@
-package pl.demo.core.service.MediaProviders;
+package pl.demo.core.service.mediaproviders;
 
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.scheduling.annotation.Async;

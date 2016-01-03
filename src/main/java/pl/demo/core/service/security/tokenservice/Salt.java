@@ -1,4 +1,4 @@
-package pl.demo.core.service.security.token_service;
+package pl.demo.core.service.security.tokenservice;
 
 import java.nio.charset.Charset;
 import java.security.NoSuchAlgorithmException;

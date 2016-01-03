@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import pl.demo.core.model.entity.Advert;
 import pl.demo.core.service.advert.AdvertService;
-import pl.demo.core.service.basic_service.CRUDService;
+import pl.demo.core.service.basicservice.CRUDService;
 import pl.demo.core.util.Assert;
 import pl.demo.web.dto.EMail;
 import pl.demo.web.dto.SearchCriteria;

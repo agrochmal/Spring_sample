@@ -5,7 +5,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import pl.demo.core.model.entity.Advert;
-import pl.demo.core.service.basic_service.CRUDService;
+import pl.demo.core.service.basicservice.CRUDService;
 import pl.demo.web.dto.EMail;
 import pl.demo.web.dto.SearchCriteria;
 

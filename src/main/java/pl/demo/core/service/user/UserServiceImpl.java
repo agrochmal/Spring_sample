@@ -2,7 +2,7 @@ package pl.demo.core.service.user;
 
 import org.springframework.transaction.annotation.Transactional;
 import pl.demo.core.model.entity.User;
-import pl.demo.core.service.basic_service.CRUDServiceImpl;
+import pl.demo.core.service.basicservice.CRUDServiceImpl;
 import pl.demo.core.util.Assert;
 
 public class UserServiceImpl extends CRUDServiceImpl<Long, User> implements UserService {

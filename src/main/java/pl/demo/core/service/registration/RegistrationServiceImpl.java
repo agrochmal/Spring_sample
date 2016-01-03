@@ -7,9 +7,9 @@ import pl.demo.core.model.entity.RoleName;
 import pl.demo.core.model.entity.User;
 import pl.demo.core.model.repo.RoleRepository;
 import pl.demo.core.model.repo.UserRepository;
-import pl.demo.core.service.basic_service.CRUDServiceImpl;
+import pl.demo.core.service.basicservice.CRUDServiceImpl;
 import pl.demo.core.service.mail.MailDTOSupplier;
-import pl.demo.core.service.mail.Template;
+import pl.demo.core.service.mail.TemplateType;
 import pl.demo.core.service.mail.event.SendMailEvent;
 
 
@@ -35,7 +35,7 @@ public class RegistrationServiceImpl extends CRUDServiceImpl<Long, User> impleme
         user.setAccountStatus(AccountStatus.ACTIVE);
         User registered = userRepository.save(user);
         publishBusinessEvent(new SendMailEvent(MailDTOSupplier.get(EMAIL_TITLE, EMAIL_CONTENT).get(),
-                Template.REGISTRATION_TEMPLATE));
+                TemplateType.REGISTRATION_TEMPLATE));
         return registered;
     }
 

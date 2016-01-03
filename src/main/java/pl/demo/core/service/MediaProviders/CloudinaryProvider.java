@@ -1,4 +1,4 @@
-package pl.demo.core.service.MediaProviders;
+package pl.demo.core.service.mediaproviders;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.Transformation;

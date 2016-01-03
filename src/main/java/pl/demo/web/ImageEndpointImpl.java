@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import pl.demo.core.service.basic_service.CRUDService;
+import pl.demo.core.service.basicservice.CRUDService;
 import pl.demo.core.service.resource.ResourceMediaService;
 import pl.demo.core.service.validator.BusinessValidator;
 

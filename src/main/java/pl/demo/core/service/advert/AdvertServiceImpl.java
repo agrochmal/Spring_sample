@@ -12,8 +12,8 @@ import pl.demo.core.model.entity.MediaResource;
 import pl.demo.core.model.entity.User;
 import pl.demo.core.model.repo.AdvertRepository;
 import pl.demo.core.model.repo.fullTextSearch.SearchableRepository;
-import pl.demo.core.service.basic_service.CRUDServiceImpl;
-import pl.demo.core.service.mail.Template;
+import pl.demo.core.service.basicservice.CRUDServiceImpl;
+import pl.demo.core.service.mail.TemplateType;
 import pl.demo.core.service.mail.event.SendMailEvent;
 import pl.demo.core.service.resource.ResourceMediaService;
 import pl.demo.core.service.searching.SearchService;
@@ -127,7 +127,7 @@ public class AdvertServiceImpl extends CRUDServiceImpl<Long, Advert> implements 
 	@Override
 	public void sendMail(final EMail eMailDTO) {
 		Assert.notNull(eMailDTO, "Email data is required");
-		publishBusinessEvent(new SendMailEvent(eMailDTO, Template.ADVERT_TEMPLATE));
+		publishBusinessEvent(new SendMailEvent(eMailDTO, TemplateType.ADVERT_TEMPLATE));
 	}
 
 	private AdvertRepository getAdvertRepository(){

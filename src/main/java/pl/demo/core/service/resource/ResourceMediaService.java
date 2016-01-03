@@ -5,7 +5,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.multipart.MultipartFile;
 import pl.demo.core.model.entity.MediaResource;
-import pl.demo.core.service.basic_service.CRUDService;
+import pl.demo.core.service.basicservice.CRUDService;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;

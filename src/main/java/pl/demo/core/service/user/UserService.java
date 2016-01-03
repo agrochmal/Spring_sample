@@ -4,7 +4,7 @@ import org.springframework.security.access.method.P;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import pl.demo.core.model.entity.User;
-import pl.demo.core.service.basic_service.CRUDService;
+import pl.demo.core.service.basicservice.CRUDService;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;

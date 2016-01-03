@@ -7,9 +7,9 @@ import pl.demo.core.model.entity.Advert;
 import pl.demo.core.model.entity.Comment;
 import pl.demo.core.model.repo.AdvertRepository;
 import pl.demo.core.model.repo.CommentRepository;
-import pl.demo.core.service.basic_service.CRUDServiceImpl;
+import pl.demo.core.service.basicservice.CRUDServiceImpl;
 import pl.demo.core.service.mail.MailDTOSupplier;
-import pl.demo.core.service.mail.Template;
+import pl.demo.core.service.mail.TemplateType;
 import pl.demo.core.service.mail.event.SendMailEvent;
 import pl.demo.core.util.Assert;
 import pl.demo.core.util.Utils;
@@ -70,7 +70,7 @@ public class CommentServiceImpl extends CRUDServiceImpl<Long, Comment> implement
         assert comment != null;
 
         publishBusinessEvent(new SendMailEvent(MailDTOSupplier.get("Dodano nowy komentarz",
-                comment.getText()).get(), Template.COMMENT_TEMPLATE));
+                comment.getText()).get(), TemplateType.COMMENT_TEMPLATE));
     }
 
     private CommentRepository getCommentRepository(){

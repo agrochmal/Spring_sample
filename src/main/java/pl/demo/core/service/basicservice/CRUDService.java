@@ -1,4 +1,4 @@
-package pl.demo.core.service.basic_service;
+package pl.demo.core.service.basicservice;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;

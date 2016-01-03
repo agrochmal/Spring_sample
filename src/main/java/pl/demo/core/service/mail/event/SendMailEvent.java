@@ -2,7 +2,7 @@ package pl.demo.core.service.mail.event;
 
 import org.springframework.context.ApplicationEvent;
 import pl.demo.core.events.BusinessEvent;
-import pl.demo.core.service.mail.Template;
+import pl.demo.core.service.mail.TemplateType;
 import pl.demo.web.dto.EMail;
 
 /**
@@ -11,10 +11,10 @@ import pl.demo.web.dto.EMail;
 
 public class SendMailEvent extends ApplicationEvent implements BusinessEvent<EMail> {
 
-    private final Template template;
+    private final TemplateType template;
     private boolean accepted = true;
 
-    public SendMailEvent(final EMail source, final Template template){
+    public SendMailEvent(final EMail source, final TemplateType template){
         super(source);
         this.template = template;
     }
@@ -23,7 +23,7 @@ public class SendMailEvent extends ApplicationEvent implements BusinessEvent<EMa
         return (EMail) super.getSource();
     }
 
-    public Template getTemplate(){
+    public TemplateType getTemplate(){
         return template;
     }
 

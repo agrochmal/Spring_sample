@@ -8,7 +8,7 @@ import pl.demo.core.util.EnumValuable;
  *
  * Created by robertsikora on 05.11.2015.
  */
-public enum Template implements EnumValuable {
+public enum TemplateType implements EnumValuable {
 
     REGISTRATION_TEMPLATE("comment_template.vm"),
     ADVERT_TEMPLATE("email_template.vm"),
@@ -17,7 +17,7 @@ public enum Template implements EnumValuable {
     private final static String FOLDER = "/velocity/";
     private final String value;
 
-    Template(String templateName){
+    TemplateType(String templateName){
         this.value = templateName;
     }
 

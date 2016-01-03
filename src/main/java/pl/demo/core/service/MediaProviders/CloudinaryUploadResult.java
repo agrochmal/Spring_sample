@@ -1,4 +1,4 @@
-package pl.demo.core.service.MediaProviders;
+package pl.demo.core.service.mediaproviders;
 
 import org.springframework.util.Assert;
 

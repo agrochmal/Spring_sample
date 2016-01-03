@@ -1,4 +1,4 @@
-package pl.demo.core.service.security.token_service;
+package pl.demo.core.service.security.tokenservice;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

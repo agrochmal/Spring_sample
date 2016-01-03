@@ -15,5 +15,5 @@ import javax.validation.constraints.NotNull;
 public interface MailService {
 
     @Async(value="mailExecutor")
-    void sendMail(@NotNull @Valid EMail emailDTO, @NotNull Template template);
+    void sendMail(@NotNull @Valid EMail emailDTO, @NotNull TemplateType template);
 }

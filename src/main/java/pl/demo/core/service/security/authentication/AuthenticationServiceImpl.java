@@ -15,7 +15,7 @@ import pl.demo.core.model.repo.UserRepository;
 import pl.demo.core.service.registration.AccountStatus;
 import pl.demo.core.service.security.AuthenticationContextProvider;
 import pl.demo.core.service.security.SecurityUser;
-import pl.demo.core.service.security.token_service.Salt;
+import pl.demo.core.service.security.tokenservice.Salt;
 import pl.demo.core.util.Assert;
 import pl.demo.web.dto.Token;
 

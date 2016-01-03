@@ -33,7 +33,7 @@ public class MailServiceImpl implements MailService{
     private VelocityEngine                    velocityEngine;
 
     @Override
-    public void sendMail(final EMail emailDTO, final Template template){
+    public void sendMail(final EMail emailDTO, final TemplateType template){
         LOGGER.info("Sending new e-mail");
 
         if(!emailEnabled){
